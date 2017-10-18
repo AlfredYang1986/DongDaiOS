@@ -34,6 +34,10 @@
 	int tmpCurrentIndex;
 	AYSpecialDayCellView * handleCell;
 	AYTMDayState handleState;
+	
+	BOOL isSpecialState;
+	NSDictionary *basicTMS;
+	NSDictionary *specialTMS;
 }
 
 @synthesize para = _para;
@@ -54,7 +58,9 @@
 		make.edges.equalTo(self);
 	}];
 	
+	isSpecialState = YES;
 	tmpCurrentIndex = -1;
+	
 	NSArray *weekdays = @[@"日", @"一", @"二", @"三", @"四", @"五", @"六" ];
 	dayBtnArr = [NSMutableArray array];
 	for (int i = 0; i < weekdays.count; ++i) {
@@ -114,7 +120,7 @@
 	[formatter setDateFormat:@"yyyy-MM-dd"];
 	currentDate = [formatter stringFromDate:current];
 	
-	scheduleView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 30, self.frame.size.width, kItemCellWH*5 ) collectionViewLayout:layout];
+	scheduleView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 31, self.frame.size.width, kItemCellWH*5 ) collectionViewLayout:layout];
 	scheduleView.backgroundColor = [UIColor clearColor];
 	[BGView.radiusBGView addSubview:scheduleView];
 	scheduleView.delegate = self;
@@ -170,6 +176,7 @@
 				}];
 			}
 		} completion:^(BOOL finished) {
+			[self resetWeekdayBtnState];
 			((AYWeekDayBtn*)[dayBtnArr objectAtIndex:tmpCurrentIndex]).states = WeekDayBtnStateSelected;
 		}];
 		
@@ -178,20 +185,20 @@
 			scheduleView.alpha = 0;
 			[self layoutIfNeeded];
 		}];
-		
-	} else if(swipe.direction == UISwipeGestureRecognizerDirectionDown) {
+	}
+	else if(swipe.direction == UISwipeGestureRecognizerDirectionDown) {
 		NSLog(@"DOWN");
 		if(self.frame.size.height == kExpendHeight) return;
+		
 		NSNumber *tmp = [NSNumber numberWithFloat:duration];
 		kAYViewSendNotify(self, @"swipeDownExpandSchedule:", &tmp)
+		
+		[scheduleView reloadData];
 		
 		[UIView animateWithDuration:duration animations:^{
 			self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, kExpendHeight);
 			scheduleView.alpha = 1;
 			for (AYWeekDayBtn *btn in dayBtnArr) {
-				if (btn.states == WeekDayBtnStateSelected) {
-					tmpCurrentIndex = (int)btn.tag;
-				}
 				btn.states = WeekDayBtnStateSmall;
 				[btn mas_updateConstraints:^(MASConstraintMaker *make) {
 					make.top.equalTo(self);
@@ -200,6 +207,7 @@
 			[self layoutIfNeeded];
 		} completion:^(BOOL finished) {
 			sepLineView.hidden = NO;
+			handleCell.state = AYTMDayStateSelect;
 		}];
 		
 	}
@@ -218,15 +226,19 @@
 	return animation;
 }
 
-#pragma mark -- notifies
-- (id)setViewInfo:(NSDictionary*)args {
-	
+- (void)resetWeekdayBtnState {
 	for (int i = 0; i < dayBtnArr.count; ++i) {
-		if([[args allKeys] containsObject:[NSString stringWithFormat:@"%d", i]]) {
+		if([[basicTMS objectForKey:[NSString stringWithFormat:@"%d", i]] count] != 0) {
 			AYWeekDayBtn *btn = [dayBtnArr objectAtIndex:i];
 			btn.states = WeekDayBtnStateSeted;
 		}
 	}
+}
+
+#pragma mark -- notifies
+- (id)setViewInfo:(NSDictionary*)args {
+	
+	basicTMS = args;
     return nil;
 }
 
@@ -259,26 +271,33 @@
 	return nil;
 }
 
+- (id)receiveScheduleState:(id)args {
+	
+	isSpecialState = !isSpecialState;
+	
+	specialTMS = args;
+	[scheduleView reloadData];
+	handleCell.state = AYTMDayStateSelect;
+	return nil;
+}
+
 #pragma mark -- actions
 - (void)didDayBtnClick:(AYWeekDayBtn*)btn {
     if (noteBtn == btn || btn.states == WeekDayBtnStateSmall) {
         return;
     }
+	tmpCurrentIndex = (int)btn.tag;
 	
+	//notifies
+	NSNumber *index = [NSNumber numberWithInteger:btn.tag];
 	if (!noteBtn) {
 		//第一次触发weekday btn -> 发送消息：激活添加时间sign
+		kAYViewSendNotify(self, @"firstTimeTouchWeekday:", &index)
 		btn.states = WeekDayBtnStateSelected;
 		noteBtn = btn;
-		kAYViewSendNotify(self, @"firstTimeTouchWeekday", nil)
 	} else {
-		//notifies
-		NSNumber *index = [NSNumber numberWithInteger:btn.tag];
 		kAYViewSendNotify(self, @"changeCurrentIndex:", &index)
 		//此处index返回值是有意义的：是否有值（是否切换）／NSNumber封装int(0/2)（是否已设置TM的标志）
-		
-		if(!index) {
-			return;
-		}
 		
 		btn.states = WeekDayBtnStateSelected;
 		noteBtn.states = index.intValue;
@@ -335,7 +354,23 @@
 		
 		if (todayTimeSpan > cellTimeSpan) {
 			cell.state = AYTMDayStateGone;
+		} else {
+			
+			if (isSpecialState) {
+				if ([[basicTMS objectForKey:[NSString stringWithFormat:@"%d", (int)indexPath.row%7]] count] != 0) {
+					cell.state = AYTMDayStateInServ;
+				}
+				if ([[[specialTMS objectForKey:@"special"] objectForKey:[NSString stringWithFormat:@"%lf", cellTimeSpan]] count] != 0) {
+					cell.state = AYTMDayStateSpecial;
+				}
+				
+			} else {
+				if ([[[specialTMS objectForKey:@"openday"] objectForKey:[NSString stringWithFormat:@"%lf", cellTimeSpan]] count] != 0) {
+					cell.state = AYTMDayStateOpenDay;
+				}
+			}
 		}
+		
 	}
 	return cell;
 }
@@ -375,22 +410,25 @@
 
 #pragma mark -- cell点击
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-	if (handleCell) {
-		handleCell.state = handleState;
-	}
-	
 	AYSpecialDayCellView * cell = (AYSpecialDayCellView *)[collectionView cellForItemAtIndexPath:indexPath];
 	if (cell.state == AYTMDayStateGone) {
 		return ;
 	}
 	
-	handleState = cell.state;
-	cell.state = AYTMDayStateSelect;
-	handleCell = cell;
-	
 	NSTimeInterval time_p = cell.timeSpan;
 	NSNumber *tmp = [NSNumber numberWithDouble:time_p];
 	kAYViewSendNotify(self, @"didSelectItemAtIndexPath:", &tmp)
+	
+	if ([tmp intValue] == AYTMDayStateNull || !tmp) {
+		handleCell.state = handleState;
+	} else {
+		handleCell.state = [tmp intValue];
+	}
+	
+	handleState = cell.state;
+	cell.state = AYTMDayStateSelect;
+	
+	handleCell = cell;
 	
 	currentSign.hidden = NO;
 	NSInteger col = indexPath.row % 7;

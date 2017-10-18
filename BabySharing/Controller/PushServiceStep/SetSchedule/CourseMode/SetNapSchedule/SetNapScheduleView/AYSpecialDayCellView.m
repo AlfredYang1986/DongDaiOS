@@ -86,7 +86,7 @@
 			radiuSignView.hidden = dotSignView.hidden = YES;
 		}
 			break;
-		case AYTMDayStateStateInServ:
+		case AYTMDayStateInServ:
 		{
 			titleLabel.textColor = [Tools themeColor];
 			radiuSignView.hidden = dotSignView.hidden = YES;

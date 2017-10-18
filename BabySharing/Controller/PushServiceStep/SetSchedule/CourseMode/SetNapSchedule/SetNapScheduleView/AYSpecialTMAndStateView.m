@@ -275,12 +275,15 @@ static NSString *const kOpenDayKey = @"openday";
 		}];
 	}
 	
+	id tmp = [TMS copy];
+	kAYViewSendNotify(self, @"sendScheduleState:", &tmp)
 }
 
 #pragma mark -- table delegate database
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	if (tableView == specialTableView) {
-		return [[[TMS objectForKey:kSpecialKey] objectForKey:TMHandle.stringValue] count];
+		NSInteger c = [[[TMS objectForKey:kSpecialKey] objectForKey:TMHandle.stringValue] count];
+		return c;
 	} else
 		return [[[TMS objectForKey:kOpenDayKey] objectForKey:TMHandle.stringValue] count];
 }
@@ -322,6 +325,7 @@ static NSString *const kOpenDayKey = @"openday";
 		if ([[[TMS objectForKey:handleKey] objectForKey:TMHandle.stringValue] count] == 0) {
 			((AYAddTimeSignView*)[addSignViewDic objectForKey:handleKey]).state = AYAddTMSignStateEnable;
 		}
+		[tableView reloadData];
 //		NSNumber *row = [NSNumber numberWithInteger:indexPath.row];
 //		kAYDelegateSendNotify(self, @"cellDeleteFromTable:", &row)
 	}];
@@ -338,6 +342,11 @@ static NSString *const kOpenDayKey = @"openday";
 }
 
 #pragma mark -- notifies
+- (id)callbackTMS:(id)args {
+	id tmp = [TMS mutableCopy];
+	return tmp;
+}
+
 - (id)recodeTMHandle:(id)args {
 	if (!TMHandle) {
 		TMHandle = args;
@@ -345,30 +354,43 @@ static NSString *const kOpenDayKey = @"openday";
 			specialSwitch.on = YES;
 			specialAddSign.state = AYAddTMSignStateEnable;
 			specialTableView.hidden = NO;
-			[[TMS objectForKey:handleKey] setValue:[NSMutableArray array] forKey:TMHandle.stringValue];
 		}
+		[[TMS objectForKey:handleKey] setValue:[NSMutableArray array] forKey:TMHandle.stringValue];
 		return nil;
 	}
 	
-	AYTMDayState state = AYTMDayStateNormal;
+	AYTMDayState state = AYTMDayStateNull;
 	
 	if ([[[TMS objectForKey:handleKey] objectForKey:TMHandle.stringValue] count] != 0) {
-		if ([handleKey isEqualToString:kOpenDayKey]) {
-			state = AYTMDayStateOpenDay;
-			openDaySwitch.on = NO;
-			openDayAddSign.state = AYAddTMSignStateUnable;
-		} else {
+		if ([handleKey isEqualToString:kSpecialKey]) {
 			state = AYTMDayStateSpecial;
+		} else {
+			state = AYTMDayStateOpenDay;
 		}
 	} else {
 		[[TMS objectForKey:handleKey] removeObjectForKey:TMHandle.stringValue];
 	}
 	
-	[[TMS objectForKey:handleKey] setValue:[NSMutableArray array] forKey:[args stringValue]];
-	
-	[(UITableView*)[tableViewDic objectForKey:handleKey] reloadData];
+	if ([[[TMS objectForKey:handleKey] objectForKey:[args stringValue]] count] != 0) {
+		if ([handleKey isEqualToString:kSpecialKey]) {
+			specialAddSign.state = AYAddTMSignStateHead;
+		} else {
+			openDaySwitch.on = YES;
+			openDayAddSign.state = AYAddTMSignStateHead;
+		}
+	} else {
+		[[TMS objectForKey:handleKey] setValue:[NSMutableArray array] forKey:[args stringValue]];
+		if ([handleKey isEqualToString:kSpecialKey]) {
+			specialAddSign.state = AYAddTMSignStateEnable;
+		} else {
+			openDaySwitch.on = NO;
+			openDayAddSign.state = AYAddTMSignStateUnable;
+		}
+	}
 	
 	TMHandle = args;
+	[(UITableView*)[tableViewDic objectForKey:handleKey] reloadData];
+	
 	return [NSNumber numberWithInt:state];
 }
 

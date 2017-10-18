@@ -29,9 +29,10 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 	NSMutableDictionary *push_service_info;
 	
     NSMutableDictionary *basicTMS;
+	NSDictionary *specialTMS;
     
     NSMutableArray *oneWeekDayTMs;
-    NSInteger segCurrentIndex;
+    int segCurrentIndex;
     NSInteger creatOrUpdateNote;
 	
 	AYAddTimeSignView *addBasicTMView;
@@ -60,7 +61,7 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 	basicTMS = [NSMutableDictionary dictionary];
     oneWeekDayTMs = [NSMutableArray array];  //value
 //	[basicTMS setValue:oneWeekDayTMs forKey:@"basic"];
-    segCurrentIndex = 0;
+    segCurrentIndex = -1;
     
 	id<AYDelegateBase> dlg_pick = [self.delegates objectForKey:@"ServiceTimesPick"];
 	id obj = (id)dlg_pick;
@@ -133,14 +134,12 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 
 #pragma mark -- Layout
 - (id)FakeStatusBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
-    view.backgroundColor = [UIColor whiteColor];
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
-    view.backgroundColor = [UIColor whiteColor];
+    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, kNavBarH);
 	
     NSString *title = @"服务时间设置";
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
@@ -180,6 +179,11 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 }
 
 #pragma mark -- actions
+- (void)setScheduleViewTM {
+	NSDictionary *date_info = [basicTMS copy];
+	kAYViewsSendMessage(kAYScheduleWeekDaysView, @"setViewInfo:", &date_info)
+}
+
 - (void)didAddBasicTMViewTap {
 	creatOrUpdateNote = -1;
 	kAYViewsSendMessage(kAYPickerView, kAYPickerShowViewMessage, nil)
@@ -255,7 +259,9 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
     return nil;
 }
 
-- (id)firstTimeTouchWeekday {
+- (id)firstTimeTouchWeekday:(NSNumber *)args {
+	segCurrentIndex = args.intValue;
+	[basicTMS setValue:oneWeekDayTMs forKey:args.stringValue];
 	addBasicTMView.state = AYAddTMSignStateEnable;
 	return nil;
 }
@@ -267,26 +273,29 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
     
     WeekDayBtnState state = WeekDayBtnStateNormal;
 	
+	//1.接收到切换seg的消息后，整理容器内当前的内容
 	if (oneWeekDayTMs.count != 0) {
-		//1.接收到切换seg的消息后，整理容器内当前的内容，规到当前index数据中，然后切换
 		state = WeekDayBtnStateSeted;
+		oneWeekDayTMs = [NSMutableArray array];
+	} else
+		[basicTMS removeObjectForKey:[NSString stringWithFormat:@"%d", segCurrentIndex]];
+	
+	//2.切换 - 判断新index中是否有数据
+	if ([basicTMS objectForKey:[NSString stringWithFormat:@"%d", args.intValue]]) {
+		oneWeekDayTMs = [basicTMS objectForKey:[NSString stringWithFormat:@"%d", args.intValue]];
+		addBasicTMView.state = AYAddTMSignStateHead;
+	}
+	else {
+		addBasicTMView.state = AYAddTMSignStateEnable;
 		[basicTMS setValue:oneWeekDayTMs forKey:args.stringValue];
-		
-		//2.切换 刷新
-		//此index下如果有数据 ？载到容器中 ：重建容器
-		if ([basicTMS objectForKey:[NSString stringWithFormat:@"%ld", segCurrentIndex]]) {
-			oneWeekDayTMs = [basicTMS objectForKey:[NSString stringWithFormat:@"%ld", segCurrentIndex]];
-			
-			NSArray *tmp = [oneWeekDayTMs copy];
-			kAYDelegatesSendMessage(@"ServiceTimesShow", @"changeQueryData:", &tmp)
-			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
-			
-		} else
-			oneWeekDayTMs = [NSMutableArray array];
 	}
 	
+	NSArray *tmp = [oneWeekDayTMs copy];
+	kAYDelegatesSendMessage(@"ServiceTimesShow", @"changeQueryData:", &tmp)
+	kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+	
     //切换index
-    segCurrentIndex = args.integerValue;
+    segCurrentIndex = args.intValue;
     
     //3.如果有数据：返回yes，用于btn作已设置标记
     return [NSNumber numberWithInt:state];
@@ -308,28 +317,44 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)([args floatValue] * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 		UIView* view_table = [self.views objectForKey:kAYTableView];
 		view_table.hidden = addBasicTMView.hidden = maskTableHeadView.hidden = NO;
-		NSDictionary *date_info = [basicTMS copy];
-		kAYViewsSendMessage(kAYScheduleWeekDaysView, @"setViewInfo:", &date_info)
 	});
 	UIView *view_table_div = [self.views objectForKey:kAYSpecialTMAndStateView];
 	view_table_div.hidden = YES;
 	return nil;
 }
 
+#pragma mark -- brige message
 - (id)didSelectItemAtIndexPath:(id)args {
 	id tmp = [args copy];
 	kAYViewsSendMessage(kAYSpecialTMAndStateView, @"recodeTMHandle:", &tmp)
+	return tmp;
+}
+
+- (id)sendScheduleState:(id)args {
+	id tmp = [args copy];
+	kAYViewsSendMessage(kAYScheduleWeekDaysView, @"receiveScheduleState:", &tmp)
 	return nil;
+}
+
+- (id)queryTMS:(id)args {
+	id tmp = [basicTMS copy];
+//	kAYViewsSendMessage(kAYSpecialTMAndStateView, @"callbackTMS:", &tmp)
+//	[(NSMutableDictionary*)tmp setValue:basicTMS forKey:@"basic"];
+	return tmp;
 }
 
 - (id)cellDeleteFromTable:(NSNumber*)args {
     
     [oneWeekDayTMs removeObjectAtIndex:args.integerValue];
+	if (oneWeekDayTMs.count == 0) {
+		addBasicTMView.state = AYAddTMSignStateEnable;
+	}
     NSArray *tmp = [oneWeekDayTMs copy];
     kAYDelegatesSendMessage(@"ServiceTimesShow", @"changeQueryData:", &tmp)
     kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
     
     [self showRightBtn];
+	[self setScheduleViewTM];
     return nil;
 }
 
@@ -401,7 +426,8 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 	NSArray *tmp = [oneWeekDayTMs copy];
 	kAYDelegatesSendMessage(@"ServiceTimesShow", @"changeQueryData:", &tmp)
 	kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
-    
+	
+	[self setScheduleViewTM];
     return nil;
 }
 

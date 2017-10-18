@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 typedef enum : int {
+	AYTMDayStateNull = -9,
 	AYTMDayStateGone = -1,
 	AYTMDayStateNormal = 0,
 	AYTMDayStateNoServ = 1,

@@ -34,7 +34,7 @@
 		titleLabel = [Tools creatUILabelWithText:title andTextColor:[Tools whiteColor] andFontSize:615 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(self).offset(20);
+			make.left.equalTo(self).offset(15);
 			make.centerY.equalTo(self);
 		}];
 		
