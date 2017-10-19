@@ -11,7 +11,6 @@
 #import "AYSpecialDayCellView.h"
 
 
-
 #define btnSpaceW				(SCREEN_WIDTH - 40) / 7
 #define btnWH					30
 #define btnMarginTop			15
@@ -34,6 +33,7 @@
 	int tmpCurrentIndex;
 	AYSpecialDayCellView * handleCell;
 	AYTMDayState handleState;
+	NSNumber *TMHandle;
 	
 	BOOL isSpecialState;
 	NSDictionary *basicTMS;
@@ -207,7 +207,6 @@
 			[self layoutIfNeeded];
 		} completion:^(BOOL finished) {
 			sepLineView.hidden = NO;
-			handleCell.state = AYTMDayStateSelect;
 		}];
 		
 	}
@@ -275,9 +274,9 @@
 	
 	isSpecialState = !isSpecialState;
 	
-	specialTMS = args;
+	specialTMS = [args objectForKey:kAYServiceArgsTimes];
+	TMHandle = [args objectForKey:kAYServiceArgsTPHandle];
 	[scheduleView reloadData];
-	handleCell.state = AYTMDayStateSelect;
 	return nil;
 }
 
@@ -360,14 +359,20 @@
 				if ([[basicTMS objectForKey:[NSString stringWithFormat:@"%d", (int)indexPath.row%7]] count] != 0) {
 					cell.state = AYTMDayStateInServ;
 				}
-				if ([[[specialTMS objectForKey:@"special"] objectForKey:[NSString stringWithFormat:@"%lf", cellTimeSpan]] count] != 0) {
+				if ([[[specialTMS objectForKey:@"special"] objectForKey:[[NSNumber numberWithDouble:cellTimeSpan] stringValue]] count] != 0) {
 					cell.state = AYTMDayStateSpecial;
 				}
 				
 			} else {
-				if ([[[specialTMS objectForKey:@"openday"] objectForKey:[NSString stringWithFormat:@"%lf", cellTimeSpan]] count] != 0) {
+				if ([[[specialTMS objectForKey:@"openday"] objectForKey:[[NSNumber numberWithDouble:cellTimeSpan] stringValue]] count] != 0) {
 					cell.state = AYTMDayStateOpenDay;
 				}
+			}
+			
+			if ([TMHandle isEqualToNumber:[NSNumber numberWithDouble:cellTimeSpan]]) {
+				cell.state = AYTMDayStateSelect;
+				handleCell = cell;
+//				handleState = AYTMDayStateSelect;
 			}
 		}
 		

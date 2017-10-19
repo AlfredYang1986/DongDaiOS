@@ -77,6 +77,9 @@
 			else if ([note_key isEqualToString:@"part_price"]) {
 				priceSubView.isReady = [[back_args objectForKey:kAYServiceArgsPriceArr] count] != 0;
 			}
+			else if ([note_key isEqualToString:@"part_tms"]) {
+				TMsSubView.isReady = YES;
+			}
 			
 			[self isAllArgsReady];
 		}
@@ -207,7 +210,6 @@
 	[self.view addSubview:locationSubView];
 	
 	capacitySubView = [[AYMainServInfoView alloc] initWithFrame:CGRectMake(rightX, subOrigX, sameWidth, rightHeight) andTitle:@"师生设定" andTapBlock:^{
-		
 		[self pushDestControllerWithName:@"SetServiceCapacity"];
 	}];
 	[self.view addSubview:capacitySubView];

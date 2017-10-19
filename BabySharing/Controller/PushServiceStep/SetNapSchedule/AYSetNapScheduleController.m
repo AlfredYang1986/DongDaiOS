@@ -38,7 +38,7 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 	AYAddTimeSignView *addBasicTMView;
 	UIImageView *maskTableHeadView;
 	
-	BOOL isChange;
+	BOOL isAlreadyEnable;
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -189,12 +189,30 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 	kAYViewsSendMessage(kAYPickerView, kAYPickerShowViewMessage, nil)
 }
 
-- (void)showRightBtn {
-	if (!isChange) {
-		UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:316.f andBackgroundColor:nil];
-		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
-		isChange = YES;
+- (void)setNavRightBtnStatus {
+	BOOL isSeted = NO;
+	for (NSArray *tms in [basicTMS allValues]) {
+		if (tms.count != 0) {
+			isSeted = YES;
+			break;
+		}
 	}
+	
+	if (isSeted) {
+		if (!isAlreadyEnable) {
+			UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:616.f andBackgroundColor:nil];
+			kAYViewsSendMessage(@"FakeNavBar", kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
+			isAlreadyEnable = YES;
+		}
+	} else {
+		if (isAlreadyEnable) {
+			UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools garyColor] andFontSize:616.f andBackgroundColor:nil];
+			bar_right_btn.userInteractionEnabled = NO;
+			kAYViewsSendMessage(@"FakeNavBar", kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
+			isAlreadyEnable = NO;
+		}
+	}
+	
 }
 
 - (void)popToRootVCWithTip:(NSString*)tip {
@@ -243,16 +261,18 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 
 - (id)rightBtnSelected {
 	
-	if (basicTMS.count == 0) {
-		NSString *title = @"您还没有设置时间";
-		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-		return nil;
-	}
+	NSMutableDictionary *tmp;
+	kAYViewsSendMessage(kAYSpecialTMAndStateView, @"callbackTMS:", &tmp)
+	[tmp setValue:basicTMS forKey:@"basic"];
 	
 	NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
 	[dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
 	[dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
-//	[dic_pop setValue:[offer_date copy] forKey:kAYControllerChangeArgsKey];
+	
+	NSMutableDictionary *tms = [[NSMutableDictionary alloc] init];
+	[tms setValue:tmp forKey:kAYServiceArgsOfferDate];
+	[tms setValue:@"part_tms" forKey:@"key"];
+	[dic_pop setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd = POP;
 	[cmd performWithResult:&dic_pop];
@@ -320,6 +340,9 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 	});
 	UIView *view_table_div = [self.views objectForKey:kAYSpecialTMAndStateView];
 	view_table_div.hidden = YES;
+	
+	kAYViewsSendMessage(kAYSpecialTMAndStateView, @"resetInitialState", nil)
+	
 	return nil;
 }
 
@@ -353,7 +376,7 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
     kAYDelegatesSendMessage(@"ServiceTimesShow", @"changeQueryData:", &tmp)
     kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
     
-    [self showRightBtn];
+    [self setNavRightBtnStatus];
 	[self setScheduleViewTM];
     return nil;
 }
@@ -413,7 +436,7 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
         return nil;
     }
     
-    [self showRightBtn];
+    [self setNavRightBtnStatus];
 	
 	if (oneWeekDayTMs.count != 0 && addBasicTMView.state == AYAddTMSignStateEnable) {
 		kAYViewsSendMessage(kAYScheduleWeekDaysView, @"havenAddTM", nil)

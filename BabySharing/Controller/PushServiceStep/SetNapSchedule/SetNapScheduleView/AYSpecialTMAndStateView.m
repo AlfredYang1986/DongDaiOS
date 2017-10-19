@@ -36,7 +36,7 @@ static NSString *const kOpenDayKey = @"openday";
 	NSMutableDictionary *TMS;
 	NSString *handleKey;
 	int updateOrAddNote;
-	NSNumber *TMHandle;
+	NSMutableDictionary *TMHandDic;
 }
 
 @synthesize para = _para;
@@ -183,12 +183,8 @@ static NSString *const kOpenDayKey = @"openday";
 	[specialTableView registerClass:NSClassFromString(@"AYServiceTimesCellView") forCellReuseIdentifier:@"AYServiceTimesCellView"];
 	[openDayTableView registerClass:NSClassFromString(@"AYServiceTimesCellView") forCellReuseIdentifier:@"AYServiceTimesCellView"];
 	
-//	specialSwitch.on = YES;
-	specialAddSign.state = AYAddTMSignStateUnable;
-	specialTableView.hidden = YES;
-	
-	openDayAddSign.state = AYAddTMSignStateUnable;
-	openDayTableView.hidden = YES;
+	[self resetInitialState];
+	TMHandDic = [[NSMutableDictionary alloc] init];
 	
 	[specialAddSign addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didAddSignTap:)]];
 	[openDayAddSign addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didAddSignTap:)]];
@@ -221,7 +217,7 @@ static NSString *const kOpenDayKey = @"openday";
 
 - (void)didOpenDaySwitchChanged {
 	if (openDaySwitch.on) {
-		openDayAddSign.state = [[TMS objectForKey:kOpenDayKey] count] == 0 ? AYAddTMSignStateEnable : AYAddTMSignStateHead;
+		openDayAddSign.state = [[[TMS objectForKey:kOpenDayKey] objectForKey:[[TMHandDic objectForKey:handleKey] stringValue]] count] == 0 ? AYAddTMSignStateEnable : AYAddTMSignStateHead;
 		openDayTableView.hidden = NO;
 	} else {
 		openDayAddSign.state = AYAddTMSignStateUnable;
@@ -230,7 +226,7 @@ static NSString *const kOpenDayKey = @"openday";
 }
 - (void)didSpecialSwitchChanged {
 	if (specialSwitch.on) {
-		specialAddSign.state = [[TMS objectForKey:kSpecialKey] count] == 0 ? AYAddTMSignStateEnable : AYAddTMSignStateHead;
+		specialAddSign.state = [[[TMS objectForKey:kSpecialKey] objectForKey:[[TMHandDic objectForKey:handleKey] stringValue]] count] == 0 ? AYAddTMSignStateEnable : AYAddTMSignStateHead;
 		specialTableView.hidden = NO;
 	} else {
 		specialAddSign.state = AYAddTMSignStateUnable;
@@ -250,6 +246,8 @@ static NSString *const kOpenDayKey = @"openday";
 	handleBtn.selected = NO;
 	btn.selected = YES;
 	handleBtn = btn;
+	
+//	[self resetInitialState];
 	
 	if (btn == specialBtn) {
 		handleKey = kSpecialKey;
@@ -275,17 +273,20 @@ static NSString *const kOpenDayKey = @"openday";
 		}];
 	}
 	
-	id tmp = [TMS copy];
-	kAYViewSendNotify(self, @"sendScheduleState:", &tmp)
+//	id tmp = [TMS copy];
+	NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+	[dic setValue:[TMS copy] forKey:kAYServiceArgsTimes];
+	[dic setValue:[TMHandDic objectForKey:handleKey] forKey:kAYServiceArgsTPHandle];
+	kAYViewSendNotify(self, @"sendScheduleState:", &dic)
 }
 
 #pragma mark -- table delegate database
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	if (tableView == specialTableView) {
-		NSInteger c = [[[TMS objectForKey:kSpecialKey] objectForKey:TMHandle.stringValue] count];
+		NSInteger c = [[[TMS objectForKey:kSpecialKey] objectForKey:[[TMHandDic objectForKey:handleKey] stringValue]] count];
 		return c;
 	} else
-		return [[[TMS objectForKey:kOpenDayKey] objectForKey:TMHandle.stringValue] count];
+		return [[[TMS objectForKey:kOpenDayKey] objectForKey:[[TMHandDic objectForKey:handleKey] stringValue]] count];
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -293,9 +294,9 @@ static NSString *const kOpenDayKey = @"openday";
 	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 	id tmp;
 	if (tableView == specialTableView) {
-		tmp = [[[TMS objectForKey:kSpecialKey] objectForKey:TMHandle.stringValue] objectAtIndex:indexPath.row];
+		tmp = [[[TMS objectForKey:kSpecialKey] objectForKey:[[TMHandDic objectForKey:handleKey] stringValue]] objectAtIndex:indexPath.row];
 	} else
-		tmp = [[[TMS objectForKey:kOpenDayKey] objectForKey:TMHandle.stringValue] objectAtIndex:indexPath.row];
+		tmp = [[[TMS objectForKey:kOpenDayKey] objectForKey:[[TMHandDic objectForKey:handleKey] stringValue]] objectAtIndex:indexPath.row];
 	
 	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	
@@ -321,13 +322,11 @@ static NSString *const kOpenDayKey = @"openday";
 	UITableViewRowAction *rowAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"删除时间" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
 //		[tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
 		
-		[[[TMS objectForKey:handleKey] objectForKey:TMHandle.stringValue] removeObjectAtIndex:indexPath.row];
-		if ([[[TMS objectForKey:handleKey] objectForKey:TMHandle.stringValue] count] == 0) {
+		[[[TMS objectForKey:handleKey] objectForKey:[[TMHandDic objectForKey:handleKey] stringValue]] removeObjectAtIndex:indexPath.row];
+		if ([[[TMS objectForKey:handleKey] objectForKey:[[TMHandDic objectForKey:handleKey] stringValue]] count] == 0) {
 			((AYAddTimeSignView*)[addSignViewDic objectForKey:handleKey]).state = AYAddTMSignStateEnable;
 		}
 		[tableView reloadData];
-//		NSNumber *row = [NSNumber numberWithInteger:indexPath.row];
-//		kAYDelegateSendNotify(self, @"cellDeleteFromTable:", &row)
 	}];
 	
 	//    rowAction.backgroundColor = [UIColor colorWithPatternImage:IMGRESOURCE(@"cell_delete")];
@@ -342,33 +341,53 @@ static NSString *const kOpenDayKey = @"openday";
 }
 
 #pragma mark -- notifies
+- (id)resetInitialState {
+	[TMHandDic removeAllObjects];
+	
+	specialSwitch.userInteractionEnabled = NO;
+	openDaySwitch.userInteractionEnabled = NO;
+	specialAddSign.state = AYAddTMSignStateUnable;
+	specialTableView.hidden = YES;
+	
+	openDayAddSign.state = AYAddTMSignStateUnable;
+	openDayTableView.hidden = YES;
+	return nil;
+}
+
 - (id)callbackTMS:(id)args {
 	id tmp = [TMS mutableCopy];
 	return tmp;
 }
 
 - (id)recodeTMHandle:(id)args {
-	if (!TMHandle) {
-		TMHandle = args;
+	if (![[TMHandDic objectForKey:handleKey] stringValue]) {
+		[TMHandDic setValue:args forKey:handleKey];
+		
 		if ([handleKey isEqualToString:kSpecialKey]) {
+			specialSwitch.userInteractionEnabled = YES;
 			specialSwitch.on = YES;
 			specialAddSign.state = AYAddTMSignStateEnable;
 			specialTableView.hidden = NO;
+		} else {
+			openDaySwitch.userInteractionEnabled = YES;
 		}
-		[[TMS objectForKey:handleKey] setValue:[NSMutableArray array] forKey:TMHandle.stringValue];
+		
+		if ([[[TMS objectForKey:handleKey] objectForKey:[[TMHandDic objectForKey:handleKey] stringValue]] count] == 0) {
+			[[TMS objectForKey:handleKey] setValue:[NSMutableArray array] forKey:[[TMHandDic objectForKey:handleKey] stringValue]];
+		}
 		return nil;
 	}
 	
 	AYTMDayState state = AYTMDayStateNull;
 	
-	if ([[[TMS objectForKey:handleKey] objectForKey:TMHandle.stringValue] count] != 0) {
+	if ([[[TMS objectForKey:handleKey] objectForKey:[[TMHandDic objectForKey:handleKey] stringValue]] count] != 0) {
 		if ([handleKey isEqualToString:kSpecialKey]) {
 			state = AYTMDayStateSpecial;
 		} else {
 			state = AYTMDayStateOpenDay;
 		}
 	} else {
-		[[TMS objectForKey:handleKey] removeObjectForKey:TMHandle.stringValue];
+		[[TMS objectForKey:handleKey] removeObjectForKey:[[TMHandDic objectForKey:handleKey] stringValue]];
 	}
 	
 	if ([[[TMS objectForKey:handleKey] objectForKey:[args stringValue]] count] != 0) {
@@ -388,14 +407,14 @@ static NSString *const kOpenDayKey = @"openday";
 		}
 	}
 	
-	TMHandle = args;
+	[TMHandDic setValue:args forKey:handleKey];
 	[(UITableView*)[tableViewDic objectForKey:handleKey] reloadData];
 	
 	return [NSNumber numberWithInt:state];
 }
 
 - (id)pushTMArgs:(id)args {
-	NSMutableArray *timesArr = [[TMS objectForKey:handleKey] objectForKey:TMHandle.stringValue];
+	NSMutableArray *timesArr = [[TMS objectForKey:handleKey] objectForKey:[[TMHandDic objectForKey:handleKey] stringValue]];
 	NSDictionary *argsHolder = nil;
 	if (updateOrAddNote == -1) { //添加
 		[timesArr addObject:args];
@@ -432,7 +451,7 @@ static NSString *const kOpenDayKey = @"openday";
 - (BOOL)isCurrentTimesLegal {
 	//    NSMutableArray *allTimeNotes = [NSMutableArray array];
 	__block BOOL isLegal = YES;
-	NSMutableArray *timesArr = [[TMS objectForKey:handleKey] objectForKey:TMHandle.stringValue];
+	NSMutableArray *timesArr = [[TMS objectForKey:handleKey] objectForKey:[[TMHandDic objectForKey:handleKey] stringValue]];
 	[timesArr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		
 		NSNumber *currentEnd = [obj objectForKey:@"end"];

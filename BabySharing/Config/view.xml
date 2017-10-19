@@ -805,6 +805,7 @@
 		<command type="message"     message="pushTMArgs:" />
 		<command type="message"     message="recodeTMHandle:" />
 		<command type="message"     message="callbackTMS:" />
+		<command type="message"     message="resetInitialState" />
 		<command type="notify"      message="changeCurrentIndex:" />
 		<command type="notify"      message="specialOrOpendayAddTM" />
 		<command type="notify"      message="sendScheduleState:" />
