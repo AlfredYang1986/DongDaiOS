@@ -270,9 +270,9 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 	[dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
 	
 	NSMutableDictionary *tms = [[NSMutableDictionary alloc] init];
-	[tms setValue:tmp forKey:kAYServiceArgsOfferDate];
+	[tms setValue:tmp forKey:kAYTimeManagerArgsTMs];
 	[tms setValue:@"part_tms" forKey:@"key"];
-	[dic_pop setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
+	[dic_pop setValue:[tms copy] forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd = POP;
 	[cmd performWithResult:&dic_pop];

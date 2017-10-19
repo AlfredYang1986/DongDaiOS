@@ -275,6 +275,7 @@
 		make.edges.equalTo(pushBtnBG);
 	}];
 	pushBtn.enabled = NO;
+	[pushBtn addTarget:self action:@selector(didPushBtnClick) forControlEvents:UIControlEventTouchUpInside];
 	
 	pushBtnTitle = [Tools creatUILabelWithText:@"准备发布" andTextColor:[Tools whiteColor] andFontSize:617 andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 	[self.view addSubview:pushBtnTitle];
@@ -337,7 +338,90 @@
 
 
 #pragma mark -- actions
-- (void)didCourseSignLabelTap {
+- (void)didPushBtnClick {
+	
+	NSDictionary *args = [push_service_info objectForKey:kAYServiceArgsTimes];
+	id<AYFacadeBase> facade_tm = DEFAULTFACADE(@"Timemanagement");
+	id<AYCommand> cmd_tm = [facade_tm.commands objectForKey:@"PushServiceTM"];
+	[cmd_tm performWithResult:&args];
+	[push_service_info setValue:(NSArray*)args forKey:kAYServiceArgsTimes];
+	
+	NSArray *napPhotos = [push_service_info objectForKey:kAYServiceArgsImages];
+	NSMutableArray *loc_images = [[push_service_info objectForKey:kAYServiceArgsLocationInfo] objectForKey:kAYServiceArgsYardImages];
+	NSMutableArray *images_arr = [NSMutableArray array];
+	for (NSDictionary *info_img in loc_images) {
+		[images_arr addObject:[info_img objectForKey:kAYServiceArgsPic]];
+	}
+	
+	NSMutableDictionary *dic_upload = [[NSMutableDictionary alloc] init];
+	[dic_upload setValue:napPhotos forKey:kAYServiceArgsImages];
+	[dic_upload setValue:images_arr forKey:kAYServiceArgsYardImages];
+	
+	AYRemoteCallCommand* cmd_upload = MODULE(@"PostPhotos");
+	[cmd_upload performWithResult:[dic_upload copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+
+		if (success) {
+			NSDictionary* user = nil;
+			CURRENUSER(user)
+			
+			NSArray *img_name_arr = [result objectForKey:kAYServiceArgsYardImages];
+			for (int i = 0; i < img_name_arr.count; ++i) {
+				[[loc_images objectAtIndex:i] setValue:[img_name_arr objectAtIndex:i] forKey:kAYServiceArgsPic];
+			}
+//			[[push_service_info objectForKey:kAYServiceArgsLocationInfo] setValue: forKey:kAYServiceArgsYardImages];
+			[push_service_info setValue:[result objectForKey:kAYServiceArgsImages] forKey:kAYServiceArgsImages];
+			
+			NSMutableDictionary *dic_push = [[NSMutableDictionary alloc] init];
+			[dic_push setValue:[user objectForKey:kAYCommArgsToken] forKey:kAYCommArgsToken];
+			
+			NSDictionary *dic_condt = @{kAYCommArgsUserID:[user objectForKey:kAYCommArgsUserID]};
+			[dic_push setValue:dic_condt forKey:kAYCommArgsCondition];
+			
+			[push_service_info setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsOwnerID];
+			[dic_push setValue:push_service_info forKey:kAYServiceArgsSelf];
+			NSLog(@"kidpan/push-%@", dic_push);
+			
+			id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
+			AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"PushServiceInfo"];
+			[cmd_push performWithResult:[dic_push copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+				if (success) {
+					
+					DongDaAppMode mode = [[[NSUserDefaults standardUserDefaults] valueForKey:kAYDongDaAppMode] intValue];
+					if (mode == DongDaAppModeServant) {
+						[super tabBarVCSelectIndex:2];
+					} else {
+						id<AYCommand> des = DEFAULTCONTROLLER(@"TabBarService");
+						[self exchangeWindowsWithDest:des];
+					}
+					
+				} else {
+					
+					NSString *title = @"服务上传失败";
+					AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+				}
+			}];
+		} else {
+			NSString *title = @"图片上传失败,请改善网络环境并重试";
+			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+		}
+	}];
+	
+}
+
+- (void)exchangeWindowsWithDest:(id)dest {
+	AYViewController *des = dest;
+	NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc] init];
+	[dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
+	[dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic_show_module setValue:self.tabBarController forKey:kAYControllerActionSourceControllerKey];
+	
+	NSMutableDictionary *dic_exchange = [[NSMutableDictionary alloc]init];
+	[dic_exchange setValue:[NSNumber numberWithInteger:2] forKey:@"index"];
+	[dic_exchange setValue:[NSNumber numberWithInteger:ModeExchangeTypeUnloginToAllModel] forKey:@"type"];
+	[dic_show_module setValue:dic_exchange forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd_show_module = EXCHANGEWINDOWS;
+	[cmd_show_module performWithResult:&dic_show_module];
 	
 }
 

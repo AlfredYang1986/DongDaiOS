@@ -254,6 +254,9 @@
         <command type="Module" name="ParseServiceTMProtocol" />
 		<command type="Module" name="ParseSTMForDayCourse" />
 		<command type="Module" name="ParseServiceTMNurse" />
+		
+		<command type="Module" name="ParseServiceTM" />
+		<command type="Module" name="PushServiceTM" />
     </facade>
 	
 	<facade type="DefaultFacade" name="TimeManagerRemote" factory="AYDefaultFacadeFactory" >

@@ -7,6 +7,7 @@
 //
 
 #import "AYViewController.h"
+#import "AYRemoteCallCommand.h"
 
 @interface AYPushServiceMainController : AYViewController
 
