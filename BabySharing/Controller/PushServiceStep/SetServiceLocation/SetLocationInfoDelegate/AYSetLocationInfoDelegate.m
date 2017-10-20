@@ -63,13 +63,12 @@
 	
 	NSString* class_name = [[querydata objectForKey:kAYDefineArgsCellNames] objectAtIndex:indexPath.row];
 	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+	cell.controller = self.controller;
 	
 	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] initWithDictionary:[querydata copy]];
 	[tmp setValue:[titleArr objectAtIndex:indexPath.row] forKey:@"title"];
-	
 	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	
-	cell.controller = self.controller;
 	return (UITableViewCell*)cell;
 }
 

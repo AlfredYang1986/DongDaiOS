@@ -13,7 +13,7 @@
 -(NSCalendar *)gregorianCalendar{
     if (!_gregorianCalendar) {
         _gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-        [_gregorianCalendar setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
+        [_gregorianCalendar setTimeZone:[NSTimeZone defaultTimeZone]];
         [_gregorianCalendar setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
         
     }
@@ -24,7 +24,7 @@
 -(NSCalendar *)chineseCalendar{
     if (!_chineseCalendar) {
         _chineseCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierChinese];
-        [_chineseCalendar setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
+        [_chineseCalendar setTimeZone:[NSTimeZone defaultTimeZone]];
         [_chineseCalendar setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
     }
     return _chineseCalendar;
@@ -33,7 +33,7 @@
 -(NSDateFormatter *)formatter{
     if (!_formatter) {
         _formatter = [[NSDateFormatter alloc] init];
-        [_formatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
+        [_formatter setTimeZone:[NSTimeZone defaultTimeZone]];
         [_formatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
     }
     return _formatter;

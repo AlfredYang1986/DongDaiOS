@@ -9,10 +9,6 @@
 #ifndef Readme_h
 #define Readme_h
 
-static NSString* const kSpecial =				@"special";
-static NSString* const kOpenDay =				@"openday";
-static NSString* const kBasic =					@"basic";
-
 /*
 上传服务时间Push-：
 1.1：看顾服务：pattern以Daily（0）为主干（每日重复），以once（3）记录特殊日期，休息日为空（每多一休息日，多一条时间线(截断主线)）
@@ -27,7 +23,12 @@ static NSString* const kBasic =					@"basic";
 
 
 /*--------------------------------update unified mode by:2017-10-19--------------------------------*/
+
 //UnifiedManagement
 /* 上传服务时间Push-／解析服务时间Parse- */
+
+static NSString* const kSpecial =				@"special";
+static NSString* const kOpenDay =				@"openday";
+static NSString* const kBasic =					@"basic";
 
 #endif /* Readme_h */

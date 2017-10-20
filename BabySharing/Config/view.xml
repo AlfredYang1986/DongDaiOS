@@ -745,6 +745,7 @@
 		<command type="notify"      message="beginImagePicker" />
 		<command type="notify"      message="deletedImageWithIndex:" />
 		<command type="notify"      message="editYardImagesTag:" />
+		<command type="notify"     message="checkYardImageTag:" />
 	</view>
 	
     <view type="SetCourseSignCell" name="SetCourseSignCell" factory="AYReuseViewFactory" >

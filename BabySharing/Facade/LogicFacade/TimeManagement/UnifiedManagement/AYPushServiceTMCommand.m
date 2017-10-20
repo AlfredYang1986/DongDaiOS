@@ -15,11 +15,14 @@
 @synthesize para = _para;
 
 - (void)postPerform {
-	calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+	
 }
 
 - (void)performWithResult:(NSObject**)obj {
 	// need to modify
+	calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+	[calendar setTimeZone:[NSTimeZone defaultTimeZone]];
+	
 	NSDictionary* args = (NSDictionary*)*obj;
 	NSMutableArray *TMS = [NSMutableArray array];
 	
@@ -47,17 +50,16 @@
 	for (NSString *tm_key in [tm_special allKeys]) {
 		for (NSDictionary *info_tm in TMS) {
 			long long startdate = [[info_tm objectForKey:kAYTimeManagerArgsStartDate] longLongValue];
+			
 			if ([self isSameWeekday:startdate*0.001 compTimeInterval:tm_key.longLongValue]) {
-				[noteArr addObject:info_tm];	//记录下来 一会删除
-				
-				NSMutableDictionary *info_tm_pre = [[NSMutableDictionary alloc] initWithDictionary:info_tm];
 				NSMutableDictionary *info_tm_next = [[NSMutableDictionary alloc] initWithDictionary:info_tm];
 				
-				[info_tm_pre setValue:[NSNumber numberWithLongLong:(tm_key.longLongValue-OneDayTimeInterval)*1000] forKey:kAYTimeManagerArgsEndDate];
+				[info_tm setValue:[NSNumber numberWithLongLong:(tm_key.longLongValue-OneDayTimeInterval)*1000] forKey:kAYTimeManagerArgsEndDate];
+				
 				[info_tm_next setValue:[NSNumber numberWithLongLong:(tm_key.longLongValue+OneDayTimeInterval)*1000] forKey:kAYTimeManagerArgsStartDate];
 				
-				[TMS addObject:info_tm_pre];
-				[TMS addObject:info_tm_next];
+				[noteArr addObject:info_tm_next];	//记录下来 一会添加
+				
 			}
 		}
 		
@@ -72,9 +74,9 @@
 		}
 	}
 	
-	//删除重复
-	for (id args in noteArr) {
-		[TMS removeObject:args];
+	//加入
+	if (noteArr.count != 0) {
+		[TMS addObjectsFromArray:noteArr];
 	}
 	
 	/*openday*/
@@ -111,12 +113,16 @@
 	
 	NSInteger gap = (day - cur) * 60 * 60 * 24;
 	
-	/*update: now date存在匹配问题 =>转截成以“日”为标准的date*/
+	/* update: now date存在匹配问题 =>转截成以“日”为标准的date */
 	NSDateFormatter *formatter = [Tools creatDateFormatterWithString:@"yyyy-MM-dd"];
 	NSString *dateStr = [formatter stringFromDate:now];
 	NSDate *todayDate = [formatter dateFromString:dateStr];
 	
 	return ([todayDate timeIntervalSince1970] + gap) * 1000;
+	
+	/*⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️
+	 startdate在basic下只要 再转化回来的weekday是对的就行
+	 */
 }
 
 - (long)enddateFromDay:(int)day {

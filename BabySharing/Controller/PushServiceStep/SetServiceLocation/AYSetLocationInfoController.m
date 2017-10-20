@@ -228,6 +228,18 @@ static NSString* const kTableDelegate =					@"SetLocationInfo";
 }
 
 #pragma mark -- notification
+- (id)checkYardImageTag:(id)args {
+	if (![args boolValue]) {
+		if (isAlreadyEnable) {
+			UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools garyColor] andFontSize:616.f andBackgroundColor:nil];
+			bar_right_btn.userInteractionEnabled = NO;
+			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
+			isAlreadyEnable = NO;
+		}
+	}
+	return nil;
+}
+
 - (id)leftBtnSelected {
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	[dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];

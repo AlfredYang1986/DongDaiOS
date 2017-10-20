@@ -300,6 +300,8 @@
 	//设置颜色分割点（范围：0-1）
 	ableGradi.locations = unAbleGradi.locations = @[@(0.1f), @(0.9f)];
 	
+	UIView *loadingView = [self.views objectForKey:kValidatingView];
+	[self.view bringSubviewToFront:loadingView];
 }
 
 - (void)pushDestControllerWithName:(NSString*)dest {
@@ -334,11 +336,20 @@
 	return nil;
 }
 
+- (id)ValidatingLayout:(UIView*)view {
+	NSString *tip = @"服务发布中";
+	kAYViewsSendMessage(kValidatingView, @"setTipContext:", &tip)
+	return nil;
+}
+
 #pragma mark -- UITextDelegate
 
 
 #pragma mark -- actions
 - (void)didPushBtnClick {
+	
+	kAYViewsSendMessage(kValidatingView, @"showValidatingViewWithAnimate", nil);
+//	[NSThread sleepForTimeInterval:1];
 	
 	NSDictionary *args = [push_service_info objectForKey:kAYServiceArgsTimes];
 	id<AYFacadeBase> facade_tm = DEFAULTFACADE(@"Timemanagement");
@@ -352,55 +363,62 @@
 	for (NSDictionary *info_img in loc_images) {
 		[images_arr addObject:[info_img objectForKey:kAYServiceArgsPic]];
 	}
-	
+
 	NSMutableDictionary *dic_upload = [[NSMutableDictionary alloc] init];
 	[dic_upload setValue:napPhotos forKey:kAYServiceArgsImages];
 	[dic_upload setValue:images_arr forKey:kAYServiceArgsYardImages];
-	
+
 	AYRemoteCallCommand* cmd_upload = MODULE(@"PostPhotos");
 	[cmd_upload performWithResult:[dic_upload copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 
 		if (success) {
 			NSDictionary* user = nil;
 			CURRENUSER(user)
-			
+
 			NSArray *img_name_arr = [result objectForKey:kAYServiceArgsYardImages];
 			for (int i = 0; i < img_name_arr.count; ++i) {
 				[[loc_images objectAtIndex:i] setValue:[img_name_arr objectAtIndex:i] forKey:kAYServiceArgsPic];
 			}
 //			[[push_service_info objectForKey:kAYServiceArgsLocationInfo] setValue: forKey:kAYServiceArgsYardImages];
 			[push_service_info setValue:[result objectForKey:kAYServiceArgsImages] forKey:kAYServiceArgsImages];
-			
+
 			NSMutableDictionary *dic_push = [[NSMutableDictionary alloc] init];
 			[dic_push setValue:[user objectForKey:kAYCommArgsToken] forKey:kAYCommArgsToken];
-			
+
 			NSDictionary *dic_condt = @{kAYCommArgsUserID:[user objectForKey:kAYCommArgsUserID]};
 			[dic_push setValue:dic_condt forKey:kAYCommArgsCondition];
-			
+
 			[push_service_info setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsOwnerID];
 			[dic_push setValue:push_service_info forKey:kAYServiceArgsSelf];
 			NSLog(@"kidpan/push-%@", dic_push);
-			
+
 			id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
 			AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"PushServiceInfo"];
 			[cmd_push performWithResult:[dic_push copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 				if (success) {
 					
-					DongDaAppMode mode = [[[NSUserDefaults standardUserDefaults] valueForKey:kAYDongDaAppMode] intValue];
-					if (mode == DongDaAppModeServant) {
-						[super tabBarVCSelectIndex:2];
-					} else {
-						id<AYCommand> des = DEFAULTCONTROLLER(@"TabBarService");
-						[self exchangeWindowsWithDest:des];
-					}
-					
+					NSString *tip = @"服务发布成功";
+					kAYViewsSendMessage(kValidatingView, @"changeStatusWithSuccessTip:", &tip);
+					dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+						
+						DongDaAppMode mode = [[[NSUserDefaults standardUserDefaults] valueForKey:kAYDongDaAppMode] intValue];
+						if (mode == DongDaAppModeServant) {
+							[super tabBarVCSelectIndex:2];
+						} else {
+							id<AYCommand> des = DEFAULTCONTROLLER(@"TabBarService");
+							[self exchangeWindowsWithDest:des];
+						}
+					});
+
 				} else {
-					
+
+					kAYViewsSendMessage(kValidatingView, @"hideValidatingView", nil);
 					NSString *title = @"服务上传失败";
 					AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 				}
 			}];
 		} else {
+			kAYViewsSendMessage(kValidatingView, @"hideValidatingView", nil);
 			NSString *title = @"图片上传失败,请改善网络环境并重试";
 			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 		}
@@ -427,12 +445,21 @@
 
 #pragma mark -- notification
 - (id)leftBtnSelected {
-	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-	[dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
-	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"返回即退出本次发布，请确认放弃本次发布？" preferredStyle:UIAlertControllerStyleAlert];
 	
-	id<AYCommand> cmd = POP;
-	[cmd performWithResult:&dic];
+	UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+	UIAlertAction *certain = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+		
+		NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
+		[dic setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
+		[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+		
+		id<AYCommand> cmd = POPTOROOT;
+		[cmd performWithResult:&dic];
+	}];
+	[alert addAction:cancel];
+	[alert addAction:certain];
+	[self presentViewController:alert animated:YES completion:nil];
 	return nil;
 }
 

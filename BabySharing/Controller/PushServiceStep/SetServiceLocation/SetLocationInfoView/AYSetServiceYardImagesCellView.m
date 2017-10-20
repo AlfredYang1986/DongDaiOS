@@ -161,7 +161,11 @@
 			count ++;
 		}
 	}
-	tipLabel.hidden = count >= imagesData.count;
+	
+	BOOL isFinishTag = count >= imagesData.count;
+	tipLabel.hidden = isFinishTag;
+	id tmp = [NSNumber numberWithBool:isFinishTag];
+	kAYViewSendNotify(self, @"checkYardImageTag:", &tmp)
 	
 	[imagesCollectionView reloadData];
 	return nil;

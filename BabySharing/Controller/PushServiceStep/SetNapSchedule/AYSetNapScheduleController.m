@@ -57,6 +57,7 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.view.backgroundColor = [Tools garyBackgroundColor];
+	self.view.clipsToBounds = YES;
 	
 	basicTMS = [NSMutableDictionary dictionary];
     oneWeekDayTMs = [NSMutableArray array];  //value

@@ -535,10 +535,11 @@
     </controller>
 	
 	<controller type="DefaultController" name="PushServiceMain" factory="AYDefaultControllerFactoy" >
-		<facade type="DefaultFacade" name="KidNapRemote" notification="true" />
+		<facade type="DefaultFacade" name="KidNapRemote"/>
 		
 		<view type="FakeStatusBar"		name="FakeStatusBar" />
 		<view type="FakeNavBar"			name="FakeNavBar" />
+		<view type="Validating"			name="Validating" />
 	</controller>
 	
 	<controller type="DefaultController" name="SetBasicInfo" factory="AYDefaultControllerFactoy" >
