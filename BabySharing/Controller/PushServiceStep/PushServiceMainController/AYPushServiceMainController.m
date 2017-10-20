@@ -346,6 +346,13 @@
 
 
 #pragma mark -- actions
+- (id)startRemoteCall:(id)obj {
+	return nil;
+}
+- (id)endRemoteCall:(id)ob {
+	return nil;
+}
+
 - (void)didPushBtnClick {
 	
 	kAYViewsSendMessage(kValidatingView, @"showValidatingViewWithAnimate", nil);
