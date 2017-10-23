@@ -5050,8 +5050,8 @@
 		703C7DB41D48A7F800292F18 /* Message */ = {
 			isa = PBXGroup;
 			children = (
-				700F04AA1E795EC9008AB01E /* SingleChatController */,
 				700F04A91E79115D008AB01E /* AYGroupListCellDefines.h */,
+				700F04AA1E795EC9008AB01E /* SingleChatController */,
 				70203D8B1E78EB900086FDF1 /* ChatListController */,
 			);
 			path = Message;

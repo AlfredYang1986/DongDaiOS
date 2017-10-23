@@ -314,6 +314,11 @@
 
 #pragma mark -- textfiled delegate
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+	
+	if ([string isEqualToString:kAYStringLineFeed]) {
+		[textField resignFirstResponder];
+		return NO;
+	}
 	[self setNavRightBtnEnableStatus];
 	
 	if (textField == timesCountInput.inputField) {
@@ -391,6 +396,11 @@
 				
 				NSMutableDictionary *dic_price = [[NSMutableDictionary alloc] init];
 				int p = [[inputStr stringByReplacingOccurrencesOfString:@"¥" withString:@""] intValue] * 100;
+				if (p == 0) {
+					NSString *tip = @"价格不能设置为0";
+					AYShowBtmAlertView(tip, BtmAlertViewTypeHideWithTimer)
+					return nil;
+				}
 				[dic_price setValue:[NSNumber numberWithInt:p] forKey:kAYServiceArgsPrice];
 				[dic_price setValue:[NSNumber numberWithInt:i] forKey:kAYServiceArgsPriceType];
 				[priceArr addObject:dic_price];

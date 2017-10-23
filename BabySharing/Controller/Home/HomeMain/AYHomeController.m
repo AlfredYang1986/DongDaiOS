@@ -57,6 +57,7 @@ typedef void(^queryContentFinish)(void);
 	NSTimeInterval timeIntervalAround;
 
 	int currentIndex;
+	UILabel *tipsLabel;
 }
 
 @synthesize manager = _manager;
@@ -142,10 +143,10 @@ typedef void(^queryContentFinish)(void);
 		id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
 		UITableView *tableView = (UITableView*)view_notify;
 		
-		UILabel *tipsLabel = [Tools creatUILabelWithText:@"没有匹配的结果" andTextColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		tipsLabel = [Tools creatUILabelWithText:@"没有匹配的结果" andTextColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[tableView addSubview:tipsLabel];
 		[tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(tableView).offset(400);
+			make.top.equalTo(tableView).offset(420);
 			make.centerX.equalTo(tableView);
 		}];
 		[tableView sendSubviewToBack:tipsLabel];
@@ -558,6 +559,7 @@ typedef void(^queryContentFinish)(void);
 			timeIntervalFound = ((NSNumber*)[[result objectForKey:@"result"] objectForKey:kAYCommArgsRemoteDate]).longValue * 0.001;
 			serviceDataFound = [[[result objectForKey:@"result"] objectForKey:@"services"] mutableCopy];
 			skipCountFound = serviceDataFound.count;			//刷新重置 计数为当前请求service数据个数
+			tipsLabel.hidden = skipCountFound != 0;
 			
 			id tmp = [serviceDataFound copy];
 			kAYDelegatesSendMessage(@"Home", kAYDelegateChangeDataMessage, &tmp)

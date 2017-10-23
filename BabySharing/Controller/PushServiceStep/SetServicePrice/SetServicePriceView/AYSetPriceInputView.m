@@ -22,6 +22,7 @@
 		_inputField.font = [UIFont boldSystemFontOfSize:24.f];
 		_inputField.textAlignment = NSTextAlignmentCenter;
 		_inputField.keyboardType = UIKeyboardTypeNumberPad;
+		_inputField.returnKeyType = UIReturnKeyDone;
 		[self addSubview:_inputField];
 		[_inputField mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.bottom.equalTo(self.mas_centerY).offset(-5);

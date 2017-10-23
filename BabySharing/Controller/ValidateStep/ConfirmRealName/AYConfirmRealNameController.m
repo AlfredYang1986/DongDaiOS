@@ -82,6 +82,7 @@
     coderTextField.font = kAYFontMedium(22.f);
     coderTextField.textColor = [Tools blackColor];
 	coderTextField.delegate = self;
+//	coderTextField.keyboardType = UIKeyboardTypeNumberPad;		// X
     [self.view addSubview:coderTextField];
     [coderTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(socialLabel.mas_bottom);
