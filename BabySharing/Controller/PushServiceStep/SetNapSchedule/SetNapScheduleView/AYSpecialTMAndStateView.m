@@ -14,6 +14,7 @@
 
 static NSString *const kSpecialKey = @"special";
 static NSString *const kOpenDayKey = @"openday";
+static NSString *const kBasicKey = @"basic";
 
 @implementation AYSpecialTMAndStateView {
 	UIView *specialView;
@@ -48,9 +49,6 @@ static NSString *const kOpenDayKey = @"openday";
 - (void)postPerform {
 	CGFloat margin = 20.f;
 	
-	TMS = [[NSMutableDictionary alloc] init];
-	[TMS setValue:[NSMutableDictionary dictionary] forKey:kSpecialKey];
-	[TMS setValue:[NSMutableDictionary dictionary] forKey:kOpenDayKey];
 	handleKey = kSpecialKey;
 	
 	specialBtn = [[AYServicePriceCatBtn alloc] initWithFrame:CGRectMake(margin, 0, (SCREEN_WIDTH-margin*2)*0.5, 38) andTitle:@"可预订日"];
@@ -210,6 +208,51 @@ static NSString *const kOpenDayKey = @"openday";
 }
 
 #pragma mark -- actions
+- (NSCalendar*)calendar {
+	if (!_calendar) {
+		_calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+		[_calendar setTimeZone:[NSTimeZone defaultTimeZone]];
+	}
+	return _calendar;
+}
+
+- (BOOL)isSameWeekday:(NSTimeInterval)timespan compTimeInterval:(NSTimeInterval)comp {
+	
+	NSDate *date = [NSDate dateWithTimeIntervalSince1970:timespan];
+	NSDate *dateComp = [NSDate dateWithTimeIntervalSince1970:comp];
+	
+	NSInteger unitFlags = NSCalendarUnitWeekday;
+	
+	NSDateComponents *comps = [[NSDateComponents alloc] init];
+	comps = [self.calendar components:unitFlags fromDate:date];
+	
+	NSDateComponents *compsComp = [[NSDateComponents alloc] init];
+	compsComp = [self.calendar components:unitFlags fromDate:dateComp];
+	
+	return [comps weekday] == [compsComp weekday];
+}
+
+- (BOOL)isTimestampHasSameWeekday:(NSTimeInterval)timestamp {
+	
+	BOOL isHas = NO;
+	for (NSString *key in [[TMS objectForKey:kBasicKey] allKeys]) {
+		isHas = [self weekdayOfTimestamp: timestamp] == key.intValue;
+		if (isHas) {
+			break;
+		}
+	}
+	return isHas;
+}
+
+- (int)weekdayOfTimestamp:(NSTimeInterval)timestamp {
+	NSDate *date = [NSDate dateWithTimeIntervalSince1970:timestamp];
+	NSInteger unitFlags = NSCalendarUnitWeekday;
+	NSDateComponents *comps = [[NSDateComponents alloc] init];
+	comps = [self.calendar components:unitFlags fromDate:date];
+	
+	return (int)[comps weekday] - 1;
+}
+
 - (void)didAddSignTap:(UITapGestureRecognizer*)tap {
 	updateOrAddNote = -1;
 	kAYViewSendNotify(self, @"specialOrOpendayAddTM", nil)
@@ -222,6 +265,7 @@ static NSString *const kOpenDayKey = @"openday";
 	} else {
 		openDayAddSign.state = AYAddTMSignStateUnable;
 		openDayTableView.hidden = YES;
+		[[[TMS objectForKey:handleKey] objectForKey:[TMHandDic objectForKey:handleKey]] removeAllObjects];
 	}
 }
 - (void)didSpecialSwitchChanged {
@@ -231,6 +275,7 @@ static NSString *const kOpenDayKey = @"openday";
 	} else {
 		specialAddSign.state = AYAddTMSignStateUnable;
 		specialTableView.hidden = YES;
+		[[[TMS objectForKey:handleKey] objectForKey:[TMHandDic objectForKey:handleKey]] removeAllObjects];
 	}
 }
 
@@ -239,15 +284,11 @@ static NSString *const kOpenDayKey = @"openday";
 }
 
 - (void)didOptionClick:(AYServicePriceCatBtn*)btn {
-	if (handleBtn == btn) {
-		return;
-	}
+	if (handleBtn == btn)  return;
 	
 	handleBtn.selected = NO;
 	btn.selected = YES;
 	handleBtn = btn;
-	
-//	[self resetInitialState];
 	
 	if (btn == specialBtn) {
 		handleKey = kSpecialKey;
@@ -341,6 +382,25 @@ static NSString *const kOpenDayKey = @"openday";
 }
 
 #pragma mark -- notifies
+- (id)setBasicTM:(id)args {
+	[TMS setValue:args forKey:kBasicKey];
+	return nil;
+}
+
+- (id)setViewInfo:(id)args {
+	id tmp_special = [args objectForKey:kSpecialKey];
+	id tmp_openday = [args objectForKey:kOpenDayKey];
+	
+	if (!tmp_special) {
+		[args setValue:[NSMutableDictionary dictionary] forKey:kSpecialKey];
+	}
+	if (!tmp_openday) {
+		[args setValue:[NSMutableDictionary dictionary] forKey:kOpenDayKey];
+	}
+	TMS = [args mutableCopy];
+	return nil;
+}
+
 - (id)resetInitialState {
 	[TMHandDic removeAllObjects];
 	
@@ -360,50 +420,84 @@ static NSString *const kOpenDayKey = @"openday";
 }
 
 - (id)recodeTMHandle:(id)args {
-	if (![[TMHandDic objectForKey:handleKey] stringValue]) {
-		[TMHandDic setValue:args forKey:handleKey];
-		
-		if ([handleKey isEqualToString:kSpecialKey]) {
-			specialSwitch.userInteractionEnabled = YES;
-			specialSwitch.on = YES;
-			specialAddSign.state = AYAddTMSignStateEnable;
-			specialTableView.hidden = NO;
-		} else {
-			openDaySwitch.userInteractionEnabled = YES;
-		}
-		
-		if ([[[TMS objectForKey:handleKey] objectForKey:[[TMHandDic objectForKey:handleKey] stringValue]] count] == 0) {
-			[[TMS objectForKey:handleKey] setValue:[NSMutableArray array] forKey:[[TMHandDic objectForKey:handleKey] stringValue]];
-		}
-		return nil;
+	
+	if ([handleKey isEqualToString:kSpecialKey]) {
+		specialSwitch.userInteractionEnabled = YES;
+	} else {
+		openDaySwitch.userInteractionEnabled = YES;
 	}
 	
 	AYTMDayState state = AYTMDayStateNull;
 	
-	if ([[[TMS objectForKey:handleKey] objectForKey:[[TMHandDic objectForKey:handleKey] stringValue]] count] != 0) {
-		if ([handleKey isEqualToString:kSpecialKey]) {
-			state = AYTMDayStateSpecial;
+	NSString *dateKey = [[TMHandDic objectForKey:handleKey] stringValue];
+	NSArray *comp_arr = [[TMS objectForKey:handleKey] objectForKey:dateKey];
+	if (comp_arr) {
+		if ([comp_arr count] != 0) {
+			
+			BOOL isSame = YES;
+			NSArray *weekdayTMs = [[TMS objectForKey:kBasicKey] objectForKey:[NSString stringWithFormat:@"%d", [self weekdayOfTimestamp:[[TMHandDic objectForKey:handleKey] doubleValue]]]];
+			if (weekdayTMs.count == comp_arr.count) {
+				for (int i = 0; i < comp_arr.count; ++i) {
+					if ([[[weekdayTMs objectAtIndex:i] objectForKey:kAYTimeManagerArgsStart] intValue] != [[[comp_arr objectAtIndex:i] objectForKey:kAYTimeManagerArgsStart] intValue] || [[[weekdayTMs objectAtIndex:i] objectForKey:kAYTimeManagerArgsEnd] intValue] != [[[comp_arr objectAtIndex:i] objectForKey:kAYTimeManagerArgsEnd] intValue]) {
+						isSame = NO;
+						break;
+					}
+				}
+			} else {
+				isSame = NO;
+			}
+			
+			if (isSame) {
+				[[TMS objectForKey:handleKey] removeObjectForKey:dateKey];
+//				state = AYTMDayStateNormal;
+			} else {
+				if ([handleKey isEqualToString:kSpecialKey]) {
+					state = AYTMDayStateSpecial;
+				} else {
+					state = AYTMDayStateOpenDay;
+				}
+			}
+			
 		} else {
-			state = AYTMDayStateOpenDay;
+			[[TMS objectForKey:handleKey] removeObjectForKey:dateKey];
+			state = AYTMDayStateNormal;
 		}
-	} else {
-		[[TMS objectForKey:handleKey] removeObjectForKey:[[TMHandDic objectForKey:handleKey] stringValue]];
 	}
 	
+	//1.特殊日／开放日等单一日上是否有时间段 2.是否在基础时间上
 	if ([[[TMS objectForKey:handleKey] objectForKey:[args stringValue]] count] != 0) {
 		if ([handleKey isEqualToString:kSpecialKey]) {
+			specialSwitch.on = YES;
 			specialAddSign.state = AYAddTMSignStateHead;
+			specialTableView.hidden = NO;
 		} else {
 			openDaySwitch.on = YES;
 			openDayAddSign.state = AYAddTMSignStateHead;
 		}
-	} else {
+	}
+	else if ([self isTimestampHasSameWeekday:[args doubleValue]]) {
+		NSMutableArray *oneweekdayTMs = [NSMutableArray arrayWithArray:[[TMS objectForKey:kBasicKey] objectForKey:[NSString stringWithFormat:@"%d",[self weekdayOfTimestamp:[args doubleValue]] ]] ];
+		[[TMS objectForKey:handleKey] setValue:oneweekdayTMs forKey:[args stringValue]];
+		if ([handleKey isEqualToString:kSpecialKey]) {
+			specialSwitch.on = YES;
+			specialAddSign.state = AYAddTMSignStateHead;
+			specialTableView.hidden = NO;
+		} else {
+			openDaySwitch.on = YES;
+			openDayAddSign.state = AYAddTMSignStateHead;
+			specialTableView.hidden = NO;
+		}
+	}
+	else {
 		[[TMS objectForKey:handleKey] setValue:[NSMutableArray array] forKey:[args stringValue]];
 		if ([handleKey isEqualToString:kSpecialKey]) {
-			specialAddSign.state = AYAddTMSignStateEnable;
+			specialSwitch.on = NO;
+			specialAddSign.state = AYAddTMSignStateUnable;
+			specialTableView.hidden = YES;
 		} else {
 			openDaySwitch.on = NO;
 			openDayAddSign.state = AYAddTMSignStateUnable;
+			specialTableView.hidden = YES;
 		}
 	}
 	

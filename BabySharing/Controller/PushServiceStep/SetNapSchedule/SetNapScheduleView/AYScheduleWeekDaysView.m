@@ -177,7 +177,9 @@
 			}
 		} completion:^(BOOL finished) {
 			[self resetWeekdayBtnState];
-			((AYWeekDayBtn*)[dayBtnArr objectAtIndex:tmpCurrentIndex]).states = WeekDayBtnStateSelected;
+			if (tmpCurrentIndex!= -1) {
+				((AYWeekDayBtn*)[dayBtnArr objectAtIndex:tmpCurrentIndex]).states = WeekDayBtnStateSelected;
+			}
 		}];
 		
 		[UIView animateWithDuration:duration animations:^{
@@ -236,9 +238,14 @@
 
 #pragma mark -- notifies
 - (id)setViewInfo:(NSDictionary*)args {
-	
 	basicTMS = args;
     return nil;
+}
+
+- (id)setViewState {
+	[self resetWeekdayBtnState];
+	[self havenAddTM];
+	return nil;
 }
 
 - (id)havenAddTM {
@@ -424,14 +431,17 @@
 	NSNumber *tmp = [NSNumber numberWithDouble:time_p];
 	kAYViewSendNotify(self, @"didSelectItemAtIndexPath:", &tmp)
 	
-	if ([tmp intValue] == AYTMDayStateNull || !tmp) {
-		handleCell.state = handleState;
-	} else {
-		handleCell.state = [tmp intValue];
+	if (handleCell) {
+		
+		if ([tmp intValue] == AYTMDayStateNull || !tmp) {
+			handleCell.state = handleState;
+		} else {
+			handleCell.state = [tmp intValue];
+		}
+		
+		handleState = cell.state;
+		cell.state = AYTMDayStateSelect;
 	}
-	
-	handleState = cell.state;
-	cell.state = AYTMDayStateSelect;
 	
 	handleCell = cell;
 	

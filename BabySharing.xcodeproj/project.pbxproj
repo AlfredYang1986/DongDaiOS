@@ -1349,7 +1349,6 @@
 		702BE9021EC1E4C400F20E41 /* AYRemoteBackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYRemoteBackView.m; sourceTree = "<group>"; };
 		702C044F1EB1CD5600BE1518 /* AYParseSTMForDayCourseCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYParseSTMForDayCourseCommand.h; sourceTree = "<group>"; };
 		702C04501EB1CD5600BE1518 /* AYParseSTMForDayCourseCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYParseSTMForDayCourseCommand.m; sourceTree = "<group>"; };
-		702C04521EB1D19000BE1518 /* Readme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Readme.h; sourceTree = "<group>"; };
 		702C20DD1F298FFF00E0CD25 /* AYAssortmentSKUItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAssortmentSKUItem.h; sourceTree = "<group>"; };
 		702C20DE1F298FFF00E0CD25 /* AYAssortmentSKUItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAssortmentSKUItem.m; sourceTree = "<group>"; };
 		702C20E01F29CCA400E0CD25 /* AYHomeAroundNoDataCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYHomeAroundNoDataCell.h; sourceTree = "<group>"; };
@@ -1960,6 +1959,7 @@
 		70837E381DB8A94100033CC7 /* AYSearchFiltServiceCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSearchFiltServiceCommand.m; sourceTree = "<group>"; };
 		70882D241E07CD3D00513AA2 /* AYInsetLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYInsetLabel.h; sourceTree = "<group>"; };
 		70882D251E07CD3D00513AA2 /* AYInsetLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYInsetLabel.m; sourceTree = "<group>"; };
+		708B9CAE1F9F0CAC0064FE50 /* AYTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYTMDefines.h; sourceTree = "<group>"; };
 		709768AC1D2262E7005554DB /* AYEMQueryGroupMemberLstCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYEMQueryGroupMemberLstCommand.h; sourceTree = "<group>"; };
 		709768AD1D2262E7005554DB /* AYEMQueryGroupMemberLstCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYEMQueryGroupMemberLstCommand.m; sourceTree = "<group>"; };
 		709768AF1D226FA4005554DB /* Targets+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Targets+CoreDataProperties.h"; sourceTree = "<group>"; };
@@ -8556,7 +8556,7 @@
 				80198C3B1E54762200149F97 /* pushServiceTMProtocol */,
 				80198C381E5470FA00149F97 /* AYTimemanagementFacade.h */,
 				80198C391E5470FA00149F97 /* AYTimemanagementFacade.m */,
-				702C04521EB1D19000BE1518 /* Readme.h */,
+				708B9CAE1F9F0CAC0064FE50 /* AYTMDefines.h */,
 			);
 			path = TimeManagement;
 			sourceTree = "<group>";

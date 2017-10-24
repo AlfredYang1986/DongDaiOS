@@ -8,6 +8,7 @@
 
 #import "AYViewController.h"
 #import "AYWeekDayBtn.h"
+#import "AYTMDefines.h"
 
 @interface AYSetNapScheduleController : AYViewController
 

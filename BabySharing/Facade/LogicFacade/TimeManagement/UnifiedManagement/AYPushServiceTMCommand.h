@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "AYCommand.h"
-#import "Readme.h"
+#import "AYTMDefines.h"
 
 @interface AYPushServiceTMCommand : NSObject<AYCommand>
 

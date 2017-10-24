@@ -14,4 +14,6 @@
 
 @interface AYSpecialTMAndStateView : UIView <AYViewBase, UITableViewDelegate, UITableViewDataSource>
 
+@property (nonatomic, strong) NSCalendar *calendar;
+
 @end

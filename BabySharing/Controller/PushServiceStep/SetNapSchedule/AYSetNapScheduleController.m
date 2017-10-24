@@ -28,8 +28,8 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 	
 	NSMutableDictionary *push_service_info;
 	
+	NSMutableDictionary *push_tms;
     NSMutableDictionary *basicTMS;
-	NSDictionary *specialTMS;
     
     NSMutableArray *oneWeekDayTMs;
     int segCurrentIndex;
@@ -59,9 +59,22 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 	self.view.backgroundColor = [Tools garyBackgroundColor];
 	self.view.clipsToBounds = YES;
 	
-	basicTMS = [NSMutableDictionary dictionary];
+	id tmp_tms = [push_service_info objectForKey:kAYServiceArgsTimes];
+	if (tmp_tms) {
+		push_tms = [[NSMutableDictionary alloc] initWithDictionary:tmp_tms];
+		basicTMS = [push_tms objectForKey:kBasic];
+		[self setScheduleViewTM];
+		kAYViewsSendMessage(kAYScheduleWeekDaysView, @"setViewState", nil)
+		
+	} else {
+		push_tms = [NSMutableDictionary dictionary];
+		basicTMS = [NSMutableDictionary dictionary];
+		[push_tms setValue:basicTMS forKey:kBasic];
+	}
+	id tmp = [push_tms mutableCopy];
+	kAYViewsSendMessage(kAYSpecialTMAndStateView, @"setViewInfo:", &tmp)
+	
     oneWeekDayTMs = [NSMutableArray array];  //value
-//	[basicTMS setValue:oneWeekDayTMs forKey:@"basic"];
     segCurrentIndex = -1;
     
 	id<AYDelegateBase> dlg_pick = [self.delegates objectForKey:@"ServiceTimesPick"];
@@ -79,8 +92,8 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
     NSString* cell_name = @"AYServiceTimesCellView";
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &cell_name)
 	
-	NSArray *tmp = [oneWeekDayTMs copy];
-	kAYDelegatesSendMessage(@"ServiceTimesShow", @"changeQueryData:", &tmp)
+	NSArray *tms_oneweekday = [oneWeekDayTMs copy];
+	kAYDelegatesSendMessage(@"ServiceTimesShow", @"changeQueryData:", &tms_oneweekday)
     
     //提升view层级
     UIView *weekdaysView = [self.views objectForKey:kAYScheduleWeekDaysView];
@@ -169,7 +182,6 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 }
 
 - (id)SpecialTMAndStateLayout:(UIView*)view {
-	
 	view.frame = CGRectMake(0, 370, SCREEN_WIDTH, SCREEN_HEIGHT - 370);
 	return nil;
 }
@@ -282,8 +294,23 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 
 - (id)firstTimeTouchWeekday:(NSNumber *)args {
 	segCurrentIndex = args.intValue;
-	[basicTMS setValue:oneWeekDayTMs forKey:args.stringValue];
-	addBasicTMView.state = AYAddTMSignStateEnable;
+	
+	if ([[basicTMS objectForKey:args.stringValue] count] != 0) {
+		oneWeekDayTMs = [basicTMS objectForKey:args.stringValue];
+		addBasicTMView.state = AYAddTMSignStateHead;
+		
+		UIView* view_table = [self.views objectForKey:kAYTableView];
+		view_table.hidden = addBasicTMView.hidden = maskTableHeadView.hidden = NO;
+		
+		NSArray *tmp = [oneWeekDayTMs copy];
+		kAYDelegatesSendMessage(@"ServiceTimesShow", @"changeQueryData:", &tmp)
+		kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+	} else {
+		
+		[basicTMS setValue:oneWeekDayTMs forKey:args.stringValue];
+		addBasicTMView.state = AYAddTMSignStateEnable;
+	}
+	
 	return nil;
 }
 
@@ -330,6 +357,9 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 		UIView *view_table_div = [self.views objectForKey:kAYSpecialTMAndStateView];
 		view_table_div.hidden = NO;
 	});
+	
+	id tmp = [basicTMS copy];
+	kAYViewsSendMessage(kAYSpecialTMAndStateView, @"setBasicTM:", &tmp)
 	return nil;
 }
 
@@ -362,8 +392,6 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 
 - (id)queryTMS:(id)args {
 	id tmp = [basicTMS copy];
-//	kAYViewsSendMessage(kAYSpecialTMAndStateView, @"callbackTMS:", &tmp)
-//	[(NSMutableDictionary*)tmp setValue:basicTMS forKey:@"basic"];
 	return tmp;
 }
 

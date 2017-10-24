@@ -792,6 +792,7 @@
     
     <view type="ScheduleWeekDays" name="ScheduleWeekDays" factory="AYDefaultViewFactory" >
         <command type="message"     message="setViewInfo:" />
+		<command type="message"     message="setViewState" />
 		<command type="message"     message="havenAddTM" />
 		<command type="message"     message="receiveScheduleState:" />
         <command type="notify"      message="changeCurrentIndex:" />
@@ -803,6 +804,7 @@
     </view>
 	<view type="SpecialTMAndState" name="SpecialTMAndState" factory="AYDefaultViewFactory" >
 		<command type="message"     message="setViewInfo:" />
+		<command type="message"     message="setBasicTM:" />
 		<command type="message"     message="pushTMArgs:" />
 		<command type="message"     message="recodeTMHandle:" />
 		<command type="message"     message="callbackTMS:" />
