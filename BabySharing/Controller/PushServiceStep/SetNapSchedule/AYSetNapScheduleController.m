@@ -282,6 +282,49 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 	[dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
 	[dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
 	
+	//去重
+	NSDictionary *tms_basic = [[tmp objectForKey:kBasic] copy];
+	NSDictionary *tms_special = [[tmp objectForKey:kSpecial] copy];
+	NSMutableArray *noteKeyArr = [NSMutableArray array];
+	
+	NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+	[calendar setTimeZone:[NSTimeZone defaultTimeZone]];
+	NSInteger unitFlags = NSCalendarUnitWeekday;
+	
+	for (NSString *key in [tms_special allKeys]) {
+		NSArray *comp_arr = [tms_special objectForKey:key];
+		
+		for (NSString *weekdayKey in [tms_basic allKeys]) {
+			
+			NSDate *date = [NSDate dateWithTimeIntervalSince1970:[key doubleValue]];
+			NSDateComponents *comps = [[NSDateComponents alloc] init];
+			comps = [calendar components:unitFlags fromDate:date];
+			
+			if (([comps weekday]-1) == [weekdayKey intValue]) {
+				
+				BOOL isSame = YES;
+				NSArray *weekdayTMs = [tms_basic objectForKey:weekdayKey];
+				if (weekdayTMs.count == comp_arr.count) {
+					for (int i = 0; i < comp_arr.count; ++i) {
+						if ([[[weekdayTMs objectAtIndex:i] objectForKey:kAYTimeManagerArgsStart] intValue] != [[[comp_arr objectAtIndex:i] objectForKey:kAYTimeManagerArgsStart] intValue] || [[[weekdayTMs objectAtIndex:i] objectForKey:kAYTimeManagerArgsEnd] intValue] != [[[comp_arr objectAtIndex:i] objectForKey:kAYTimeManagerArgsEnd] intValue]) {
+							isSame = NO;
+							break;
+						}
+					}
+				} else {
+					isSame = NO;
+				}
+				
+				if (isSame) {
+					[noteKeyArr addObject:key];
+				}
+			}
+		}
+	}
+	for (NSString *key in noteKeyArr) {
+		[[tmp objectForKey:kSpecial] removeObjectForKey:key];
+	}
+	
 	NSMutableDictionary *tms = [[NSMutableDictionary alloc] init];
 	[tms setValue:tmp forKey:kAYTimeManagerArgsTMs];
 	[tms setValue:@"part_tms" forKey:@"key"];

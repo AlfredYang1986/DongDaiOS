@@ -367,8 +367,13 @@
 				if ([[basicTMS objectForKey:[NSString stringWithFormat:@"%d", (int)indexPath.row%7]] count] != 0) {
 					cell.state = AYTMDayStateInServ;
 				}
-				if ([[[specialTMS objectForKey:@"special"] objectForKey:[[NSNumber numberWithDouble:cellTimeSpan] stringValue]] count] != 0) {
+				NSArray *ones_tms = [[specialTMS objectForKey:@"special"] objectForKey:[[NSNumber numberWithDouble:cellTimeSpan] stringValue]];
+				if (ones_tms) {
 					cell.state = AYTMDayStateSpecial;
+//					if ([ones_tms count] != 0) {
+//					} else {
+//						cell.state = AYTMDayStateSpecial;
+//					}
 				}
 				
 			} else {

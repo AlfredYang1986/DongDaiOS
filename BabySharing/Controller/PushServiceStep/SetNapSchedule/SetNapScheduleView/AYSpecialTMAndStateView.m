@@ -259,19 +259,22 @@ static NSString *const kBasicKey = @"basic";
 }
 
 - (void)didOpenDaySwitchChanged {
+	NSString *tmpHandTP = [[TMHandDic objectForKey:handleKey] stringValue];
 	if (openDaySwitch.on) {
-		openDayAddSign.state = [[[TMS objectForKey:kOpenDayKey] objectForKey:[[TMHandDic objectForKey:handleKey] stringValue]] count] == 0 ? AYAddTMSignStateEnable : AYAddTMSignStateHead;
+		[[TMS objectForKey:handleKey] setValue:[NSMutableArray array] forKey:tmpHandTP];
+		openDayAddSign.state = AYAddTMSignStateEnable;
 		openDayTableView.hidden = NO;
 	} else {
 		openDayAddSign.state = AYAddTMSignStateUnable;
 		openDayTableView.hidden = YES;
-		[[[TMS objectForKey:handleKey] objectForKey:[TMHandDic objectForKey:handleKey]] removeAllObjects];
+		[[[TMS objectForKey:handleKey] objectForKey:tmpHandTP] removeAllObjects];
 	}
 }
 - (void)didSpecialSwitchChanged {
 	NSString *tmpHandTP = [[TMHandDic objectForKey:handleKey] stringValue];
 	if (specialSwitch.on) {
-		specialAddSign.state = [[[TMS objectForKey:kSpecialKey] objectForKey:tmpHandTP] count] == 0 ? AYAddTMSignStateEnable : AYAddTMSignStateHead;
+		[[TMS objectForKey:handleKey] setValue:[NSMutableArray array] forKey:tmpHandTP];
+		specialAddSign.state = AYAddTMSignStateEnable;
 		specialTableView.hidden = NO;
 	} else {
 		specialAddSign.state = AYAddTMSignStateUnable;
@@ -472,21 +475,21 @@ static NSString *const kBasicKey = @"basic";
 	if (containsArr) {
 		if ([containsArr count] != 0) {
 			if ([handleKey isEqualToString:kSpecialKey]) {
-				specialSwitch.on = YES;
+				[specialSwitch setOn:YES animated:YES];
 				specialAddSign.state = AYAddTMSignStateHead;
 				specialTableView.hidden = NO;
 			} else {
-				openDaySwitch.on = YES;
+				[openDaySwitch setOn:YES animated:YES];
 				openDayAddSign.state = AYAddTMSignStateHead;
 				openDayTableView.hidden = NO;
 			}
 		} else {
 			if ([handleKey isEqualToString:kSpecialKey]) {
-				specialSwitch.on = NO;
+				[specialSwitch setOn:NO animated:YES];
 				specialAddSign.state = AYAddTMSignStateUnable;
 				specialTableView.hidden = YES;
 			} else {
-				openDaySwitch.on = NO;
+				[openDaySwitch setOn:NO animated:YES];
 				openDayAddSign.state = AYAddTMSignStateUnable;
 				openDayTableView.hidden = YES;
 			}
@@ -494,53 +497,28 @@ static NSString *const kBasicKey = @"basic";
 	}
 	else {
 		if ([handleKey isEqualToString:kSpecialKey]) {
-			specialSwitch.on = NO;
+			[specialSwitch setOn:NO animated:YES];
 			specialAddSign.state = AYAddTMSignStateUnable;
 			specialTableView.hidden = YES;
 			
 			if ([self isTimestampHasSameWeekday:[args doubleValue]]) {
 				NSMutableArray *oneweekdayTMs = [NSMutableArray arrayWithArray:[[TMS objectForKey:kBasicKey] objectForKey:[NSString stringWithFormat:@"%d",[self weekdayOfTimestamp:[args doubleValue]] ]] ];
 				[[TMS objectForKey:handleKey] setValue:oneweekdayTMs forKey:[args stringValue]];
-				specialSwitch.on = YES;
+				[specialSwitch setOn:YES animated:YES];
 				specialAddSign.state = AYAddTMSignStateHead;
 				specialTableView.hidden = NO;
 				
 			} else {
-				[[TMS objectForKey:handleKey] setValue:[NSMutableArray array] forKey:[args stringValue]];
+//				[[TMS objectForKey:handleKey] setValue:[NSMutableArray array] forKey:[args stringValue]];
 			}
 			
 		} else {
-			[[TMS objectForKey:handleKey] setValue:[NSMutableArray array] forKey:[args stringValue]];
-			openDaySwitch.on = NO;
+//			[[TMS objectForKey:handleKey] setValue:[NSMutableArray array] forKey:[args stringValue]];
+			[openDaySwitch setOn:NO animated:YES];
 			openDayAddSign.state = AYAddTMSignStateUnable;
 			openDayTableView.hidden = YES;
 		}
 		
-//		if ([self isTimestampHasSameWeekday:[args doubleValue]]) {
-//			NSMutableArray *oneweekdayTMs = [NSMutableArray arrayWithArray:[[TMS objectForKey:kBasicKey] objectForKey:[NSString stringWithFormat:@"%d",[self weekdayOfTimestamp:[args doubleValue]] ]] ];
-//
-//			[[TMS objectForKey:handleKey] setValue:oneweekdayTMs forKey:[args stringValue]];
-//			if ([handleKey isEqualToString:kSpecialKey]) {
-//				specialSwitch.on = YES;
-//				specialAddSign.state = AYAddTMSignStateHead;
-//				specialTableView.hidden = NO;
-//			} else {
-//				openDaySwitch.on = YES;
-//				openDayAddSign.state = AYAddTMSignStateHead;
-//				openDayTableView.hidden = NO;
-//			}
-//		} else {
-//			[[TMS objectForKey:handleKey] setValue:[NSMutableArray array] forKey:[args stringValue]];
-//			if ([handleKey isEqualToString:kSpecialKey]) {
-//				specialSwitch.on = NO;
-//				specialAddSign.state = AYAddTMSignStateUnable;
-//				specialTableView.hidden = YES;
-//			} else {
-//				openDaySwitch.on = NO;
-//				openDayAddSign.state = AYAddTMSignStateUnable;
-//				openDayTableView.hidden = YES;
-//			}
-//		}
 	}
 	
 	[TMHandDic setValue:args forKey:handleKey];
