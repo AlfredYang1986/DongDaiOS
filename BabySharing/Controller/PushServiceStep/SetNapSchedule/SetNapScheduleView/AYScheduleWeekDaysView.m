@@ -238,7 +238,8 @@
 
 #pragma mark -- notifies
 - (id)setViewInfo:(NSDictionary*)args {
-	basicTMS = args;
+	specialTMS = [args copy];
+	basicTMS = [[args objectForKey:@"basic"] copy];
     return nil;
 }
 
@@ -438,11 +439,10 @@
 		} else {
 			handleCell.state = [tmp intValue];
 		}
-		
-		handleState = cell.state;
-		cell.state = AYTMDayStateSelect;
 	}
 	
+	handleState = cell.state;
+	cell.state = AYTMDayStateSelect;
 	handleCell = cell;
 	
 	currentSign.hidden = NO;

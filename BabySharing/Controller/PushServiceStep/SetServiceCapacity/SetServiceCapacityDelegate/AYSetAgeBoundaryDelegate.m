@@ -41,7 +41,11 @@ typedef enum : int {
 	NSMutableArray *tmpArr_age = [[NSMutableArray alloc] init];
 	NSMutableArray *tmpArr_kid = [[NSMutableArray alloc] init];
 	NSMutableArray *tmpArr_serv = [[NSMutableArray alloc] init];
-	for (int i = 2; i < 12; ++i) {
+	for (int i = 0; i < 6; ++i) {
+		[tmpArr_age addObject:[NSString stringWithFormat:@"%d", i]];
+		[tmpArr_age addObject:[NSString stringWithFormat:@"%.1f", i+0.5]];
+	}
+	for (int i = 6; i < 13; ++i) {
 		[tmpArr_age addObject:[NSString stringWithFormat:@"%d", i]];
 	}
 	ageLimit = [tmpArr_age copy];
@@ -149,13 +153,13 @@ typedef enum : int {
 		
 		NSString *lslStr = [ageLimit objectAtIndex:[pickerView selectedRowInComponent: 0]];
 		NSString *uslStr = [ageLimit objectAtIndex:[pickerView selectedRowInComponent: 2]];
-		if (lslStr.intValue > uslStr.intValue) {
+		if (lslStr.floatValue > uslStr.floatValue) {
 			return nil;
 		}
 		
 		NSMutableDictionary *dic_age = [[NSMutableDictionary alloc]initWithCapacity:2];
-		[dic_age setValue:[NSNumber numberWithInt:lslStr.intValue] forKey:kAYServiceArgsAgeBoundaryLow];
-		[dic_age setValue:[NSNumber numberWithInt:uslStr.intValue] forKey:kAYServiceArgsAgeBoundaryUp];
+		[dic_age setValue:[NSNumber numberWithFloat:lslStr.floatValue] forKey:kAYServiceArgsAgeBoundaryLow];
+		[dic_age setValue:[NSNumber numberWithFloat:uslStr.floatValue] forKey:kAYServiceArgsAgeBoundaryUp];
 		
 		NSMutableDictionary *dic_boundary = [[NSMutableDictionary alloc] init];
 		[dic_boundary setValue:dic_age forKey:kAYServiceArgsAgeBoundary];

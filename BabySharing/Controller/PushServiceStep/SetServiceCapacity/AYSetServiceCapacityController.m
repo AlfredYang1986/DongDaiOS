@@ -56,7 +56,7 @@
 	CGFloat topMargin = SCREEN_HEIGHT * 300/667;
 	
 	NSArray *titles = @[@"孩子年龄范围", @"接待孩子数量", @"服务者数量"];
-	NSArray *subTitles = @[@"2-11", @"8", @"8"];
+	NSArray *subTitles = @[@"0-12", @"8", @"8"];
 	NSArray *andtions = @[@"岁", @"个", @"个"];
 	optViewArr = [NSMutableArray array];
 	for (int i = 0; i < titles.count; ++i) {

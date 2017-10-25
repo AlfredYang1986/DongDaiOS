@@ -193,7 +193,7 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 
 #pragma mark -- actions
 - (void)setScheduleViewTM {
-	NSDictionary *date_info = [basicTMS copy];
+	NSDictionary *date_info = [push_tms copy];
 	kAYViewsSendMessage(kAYScheduleWeekDaysView, @"setViewInfo:", &date_info)
 }
 

@@ -239,7 +239,7 @@
 	[Tools creatCALayerWithFrame:CGRectMake(margin, 0, SCREEN_WIDTH - margin*2, 0.5) andColor:[Tools garyLineColor] inSuperView:partBtmView];
 	
 	CGFloat priceViewWidth = (SCREEN_WIDTH - 40 - kBETWEENMARGIN) * 0.5;
-	priceSubView = [[AYMainServInfoView alloc] initWithFrame:CGRectMake(margin, kBETWEENMARGIN, priceViewWidth, 49) andTitle:@"Price" andTapBlock:^{
+	priceSubView = [[AYMainServInfoView alloc] initWithFrame:CGRectMake(margin, kBETWEENMARGIN, priceViewWidth, 49) andTitle:@"价格" andTapBlock:^{
 		
 		[self pushDestControllerWithName:@"SetServicePrice"];
 //		pushBtn.enabled = YES;
