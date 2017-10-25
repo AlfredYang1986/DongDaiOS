@@ -268,6 +268,8 @@ static NSString *const kBasicKey = @"basic";
 		openDayAddSign.state = AYAddTMSignStateUnable;
 		openDayTableView.hidden = YES;
 		[[[TMS objectForKey:handleKey] objectForKey:tmpHandTP] removeAllObjects];
+		[self doChangeAction];
+		[openDayTableView reloadData];
 	}
 }
 - (void)didSpecialSwitchChanged {
@@ -280,6 +282,8 @@ static NSString *const kBasicKey = @"basic";
 		specialAddSign.state = AYAddTMSignStateUnable;
 		specialTableView.hidden = YES;
 		[[[TMS objectForKey:handleKey] objectForKey:tmpHandTP] removeAllObjects];
+		[self doChangeAction];
+		[specialTableView reloadData];
 	}
 }
 
@@ -323,6 +327,10 @@ static NSString *const kBasicKey = @"basic";
 	[dic setValue:[TMS copy] forKey:kAYServiceArgsTimes];
 	[dic setValue:[TMHandDic objectForKey:handleKey] forKey:kAYServiceArgsTPHandle];
 	kAYViewSendNotify(self, @"sendScheduleState:", &dic)
+}
+
+- (void)doChangeAction {
+	kAYViewSendNotify(self, @"didSomeTMSChanged", nil)
 }
 
 #pragma mark -- table delegate database
@@ -371,6 +379,7 @@ static NSString *const kBasicKey = @"basic";
 		if ([[[TMS objectForKey:handleKey] objectForKey:[[TMHandDic objectForKey:handleKey] stringValue]] count] == 0) {
 			((AYAddTimeSignView*)[addSignViewDic objectForKey:handleKey]).state = AYAddTMSignStateEnable;
 		}
+		[self doChangeAction];
 		[tableView reloadData];
 	}];
 	
@@ -558,6 +567,7 @@ static NSString *const kBasicKey = @"basic";
 		((AYAddTimeSignView*)[addSignViewDic objectForKey:handleKey]).state = AYAddTMSignStateHead;
 		((UIView*)[tableViewDic objectForKey:handleKey]).hidden = NO;
 	}
+	[self doChangeAction];
 	[(UITableView*)[tableViewDic objectForKey:handleKey] reloadData];
 	return nil;
 }

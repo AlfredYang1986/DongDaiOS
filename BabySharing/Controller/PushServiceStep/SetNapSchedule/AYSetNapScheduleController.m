@@ -420,6 +420,11 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 	return nil;
 }
 
+- (id)didSomeTMSChanged {
+	[self setNavRightBtnStatus];
+	return nil;
+}
+
 #pragma mark -- brige message
 - (id)didSelectItemAtIndexPath:(id)args {
 	id tmp = [args copy];

@@ -367,13 +367,25 @@
 				if ([[basicTMS objectForKey:[NSString stringWithFormat:@"%d", (int)indexPath.row%7]] count] != 0) {
 					cell.state = AYTMDayStateInServ;
 				}
+				
 				NSArray *ones_tms = [[specialTMS objectForKey:@"special"] objectForKey:[[NSNumber numberWithDouble:cellTimeSpan] stringValue]];
 				if (ones_tms) {
-					cell.state = AYTMDayStateSpecial;
-//					if ([ones_tms count] != 0) {
-//					} else {
-//						cell.state = AYTMDayStateSpecial;
-//					}
+					if ([ones_tms count] != 0) {
+						NSArray *weekdayTMs = [basicTMS objectForKey:[NSString stringWithFormat:@"%d", (int)indexPath.row%7]];
+						if (weekdayTMs.count == ones_tms.count) {
+							for (int i = 0; i < ones_tms.count; ++i) {
+								if ([[[weekdayTMs objectAtIndex:i] objectForKey:kAYTimeManagerArgsStart] intValue] != [[[ones_tms objectAtIndex:i] objectForKey:kAYTimeManagerArgsStart] intValue] || [[[weekdayTMs objectAtIndex:i] objectForKey:kAYTimeManagerArgsEnd] intValue] != [[[ones_tms objectAtIndex:i] objectForKey:kAYTimeManagerArgsEnd] intValue]) {
+									cell.state = AYTMDayStateSpecial;
+									break;
+								}
+							}
+						} else {
+							cell.state = AYTMDayStateSpecial;
+						}
+						
+					} else {
+						cell.state = AYTMDayStateNormal;
+					}
 				}
 				
 			} else {

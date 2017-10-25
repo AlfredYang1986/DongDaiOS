@@ -812,6 +812,7 @@
 		<command type="notify"      message="changeCurrentIndex:" />
 		<command type="notify"      message="specialOrOpendayAddTM" />
 		<command type="notify"      message="sendScheduleState:" />
+		<command type="notify"      message="didSomeTMSChanged" />
 	</view>
 	
     
