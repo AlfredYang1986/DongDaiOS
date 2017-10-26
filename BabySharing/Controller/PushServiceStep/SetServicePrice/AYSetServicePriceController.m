@@ -14,10 +14,14 @@
 #import "AYSetPriceInputView.h"
 
 #define kInputGroupHeight			80
+#define kScreenMarginBottom			45
+#define kTitleMarginBottom			95
 
 @implementation AYSetServicePriceController {
 	
 	NSMutableDictionary *push_service_info;
+	
+	UILabel *titleLabel;
 	
 	AYServicePriceCatBtn *handleBtn;
 	NSMutableArray *priceCatBtnArr;
@@ -51,7 +55,7 @@
 	self.view.clipsToBounds = YES;
 	
 	CGFloat marginScreen = 40.f;
-	UILabel *titleLabel = [Tools creatUILabelWithText:@"价格设定" andTextColor:[Tools blackColor] andFontSize:630.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	titleLabel = [Tools creatUILabelWithText:@"价格设定" andTextColor:[Tools blackColor] andFontSize:630.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	titleLabel.numberOfLines = 0;
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -417,6 +421,56 @@
 	id<AYCommand> cmd = POP;
 	[cmd performWithResult:&dic];
 	return nil;
+}
+
+#pragma mark -- Keyboard facade
+- (id)KeyboardShowKeyboard:(id)args {
+
+    NSNumber* step = [(NSDictionary*)args objectForKey:kAYNotifyKeyboardArgsHeightKey];
+	
+	NSString *catStr = [[push_service_info objectForKey:kAYServiceArgsCategoryInfo] objectForKey:kAYServiceArgsCat];
+	if ([catStr isEqualToString:kAYStringCourse]) {
+		
+		if ([timesCountInput.inputField isFirstResponder]) {
+//			UIView *referView = [radiusViewArr objectAtIndex:0];
+			CGFloat toBtm = (timesCountInput.superview.bounds.size.height - timesCountInput.bounds.size.height)*0.5+kScreenMarginBottom;
+			[UIView animateWithDuration:0.25 animations:^{
+				[(UIView*)[radiusViewArr objectAtIndex:1] mas_updateConstraints:^(MASConstraintMaker *make) {
+					make.top.equalTo(titleLabel.mas_bottom).offset(kTitleMarginBottom-(step.floatValue-toBtm)-10);
+					make.bottom.equalTo(self.view).offset(-kScreenMarginBottom-(step.floatValue-toBtm)-10);
+//					make.centerY.equalTo(referView).offset(-(step.floatValue-toBtm)-10);
+				}];
+				[self.view layoutIfNeeded];
+			}];
+		}
+	} else if ([catStr isEqualToString:kAYStringNursery]) {
+		
+	}
+    return nil;
+}
+
+- (id)KeyboardHideKeyboard:(id)args {
+
+	NSString *catStr = [[push_service_info objectForKey:kAYServiceArgsCategoryInfo] objectForKey:kAYServiceArgsCat];
+	if ([catStr isEqualToString:kAYStringCourse]) {
+		
+		if ([timesCountInput.inputField isFirstResponder]) {
+			[UIView animateWithDuration:0.25 animations:^{
+				[(UIView*)[radiusViewArr objectAtIndex:0] mas_updateConstraints:^(MASConstraintMaker *make) {
+					make.top.equalTo(titleLabel.mas_bottom).offset(kTitleMarginBottom);
+					make.bottom.equalTo(self.view).offset(-kScreenMarginBottom);
+				}];
+				[(UIView*)[radiusViewArr objectAtIndex:1] mas_updateConstraints:^(MASConstraintMaker *make) {
+					make.top.equalTo(titleLabel.mas_bottom).offset(kTitleMarginBottom);
+					make.bottom.equalTo(self.view).offset(-kScreenMarginBottom);
+				}];
+				[self.view layoutIfNeeded];
+			}];
+		}
+	} else if ([catStr isEqualToString:kAYStringNursery]) {
+		
+	}
+    return nil;
 }
 
 @end

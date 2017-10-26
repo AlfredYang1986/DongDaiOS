@@ -691,6 +691,8 @@
     </controller>
 	
 	<controller type="DefaultController" name="SetServicePrice" factory="AYDefaultControllerFactoy" >
+		<facade type="DefaultFacade" name="Keyboard" notification="true" />
+		
 		<view type="FakeStatusBar"  name="FakeStatusBar" />
 		<view type="FakeNavBar"     name="FakeNavBar" />
 	</controller>

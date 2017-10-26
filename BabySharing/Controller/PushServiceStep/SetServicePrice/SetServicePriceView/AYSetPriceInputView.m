@@ -17,7 +17,18 @@
 	if (self = [super init]) {
 		
 		_inputField = [[UITextField alloc] init];
-		_inputField.placeholder = @"请输入";
+//		_inputField.placeholder =  @"请输入";
+		NSString *holderText =  @"请输入";
+		NSMutableAttributedString *placeholder = [[NSMutableAttributedString alloc] initWithString:holderText];
+		[placeholder addAttribute:NSForegroundColorAttributeName
+							value:[Tools garyColor]
+							range:NSMakeRange(0, holderText.length)];
+		[placeholder addAttribute:NSFontAttributeName
+							value:kAYFontMedium(17)
+							range:NSMakeRange(0, holderText.length)];
+		_inputField.attributedPlaceholder = placeholder;
+		
+		
 		_inputField.textColor = [Tools themeColor];
 		_inputField.font = [UIFont boldSystemFontOfSize:24.f];
 		_inputField.textAlignment = NSTextAlignmentCenter;

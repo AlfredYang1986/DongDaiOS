@@ -60,7 +60,7 @@
 			make.top.equalTo(radiusBGView).offset(12);
 		}];
 		
-		tipLabel = [Tools creatUILabelWithText:@"您有图片还未设置标签" andTextColor:[Tools whiteColor] andFontSize:313 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		tipLabel = [Tools creatUILabelWithText:@"您还有图片需要设置标签" andTextColor:[Tools whiteColor] andFontSize:313 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:tipLabel];
 		[tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel.mas_right).offset(20);
@@ -76,14 +76,15 @@
 		[tipBGView setTintColor:[Tools themeColor]];
 		[self addSubview:tipBGView];
 		[tipBGView mas_makeConstraints:^(MASConstraintMaker *make) {
-//			make.edges.equalTo(tipLabel).insets(UIEdgeInsetsMake(-3, -15, -3, -5));
+//			make.edges.equalTo(tipLabel).insets(UIEdgeInsetsMake(-4, -15, -4, -8));
 			make.height.mas_equalTo(26);
-			make.left.equalTo(tipLabel).offset(-15);
-			make.right.equalTo(tipLabel).offset(8);
-			make.centerY.equalTo(tipLabel);
+			make.width.mas_equalTo(tipLabel.bounds.size.width+23);
+			make.left.equalTo(titleLabel.mas_right).offset(5);
+//			make.right.equalTo(tipLabel).offset(8);
+			make.centerY.equalTo(titleLabel);
 		}];
 		tipLabel.hidden = tipBGView.hidden = YES;
-		[self sendSubviewToBack:tipBGView];
+		[self bringSubviewToFront:tipLabel];
 		
 		UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
 		layout.scrollDirection = UICollectionViewScrollDirectionVertical;
@@ -173,15 +174,25 @@
 	imagesData = [args objectForKey:kAYServiceArgsYardImages];
 	
 	int count = 0;
-	for (NSDictionary *info in imagesData) {
-		if ([info objectForKey:kAYServiceArgsTag]) {
-			count ++;
+	int tagState = 0;
+	if (imagesData.count != 0) {
+		for (NSDictionary *info in imagesData) {
+			if ([info objectForKey:kAYServiceArgsTag]) {
+				count ++;
+			}
+		}
+		
+		if (count >= imagesData.count) {
+			tagState = 1;
+		} else {
+			tagState = 2;
 		}
 	}
 	
 	BOOL isFinishTag = count >= imagesData.count;
 	tipLabel.hidden = tipBGView.hidden = isFinishTag;
-	id tmp = [NSNumber numberWithBool:isFinishTag];
+	
+	id tmp = [NSNumber numberWithInt:tagState];
 	kAYViewSendNotify(self, @"checkYardImageTag:", &tmp)
 	
 	[imagesCollectionView reloadData];

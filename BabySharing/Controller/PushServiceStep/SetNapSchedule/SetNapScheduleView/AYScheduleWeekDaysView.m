@@ -224,7 +224,7 @@
 	animation.repeatCount = count;
 //	animation.removedOnCompletion = YES;
 	animation.fillMode = kCAFillModeForwards;
-	animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];//没有的话是均匀的动画。
+	animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];//没有的话是均匀的动画。
 	return animation;
 }
 
@@ -266,8 +266,8 @@
 	} completion:^(BOOL finished) {
 		animatView.hidden = NO;
 		animatView.backgroundColor = [Tools themeLightColor];
-		[animatView.layer addAnimation:[self opacityForever_Animation:1.0 andRepeat:2] forKey:nil];
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		[animatView.layer addAnimation:[self opacityForever_Animation:0.5 andRepeat:3] forKey:nil];
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			animatView.backgroundColor = [Tools whiteColor];
 		});
 	}];

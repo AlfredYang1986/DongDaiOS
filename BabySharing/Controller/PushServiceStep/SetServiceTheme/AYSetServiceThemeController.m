@@ -62,7 +62,7 @@
 				} else
 					opt.subArgs = nil;
 			}
-			UIButton *btn_right = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools themeColor] andFontSize:316 andBackgroundColor:nil];
+			UIButton *btn_right = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools themeColor] andFontSize:616 andBackgroundColor:nil];
 			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &btn_right)
 			
 		} else {

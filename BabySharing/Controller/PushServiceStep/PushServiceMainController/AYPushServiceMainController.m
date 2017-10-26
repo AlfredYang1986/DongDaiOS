@@ -63,6 +63,10 @@
 			NSString *note_key = [back_args objectForKey:@"key"];
 			if ([note_key isEqualToString:@"part_basic"]) {
 				basicSubView.isReady = [[back_args objectForKey:kAYServiceArgsImages] count] != 0 && [[back_args objectForKey:kAYServiceArgsDescription] length] != 0 && [[back_args objectForKey:kAYServiceArgsCharact] count] != 0;
+				
+				UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"预览" andTitleColor:[Tools themeColor] andFontSize:616.f andBackgroundColor:nil];
+				kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
+				
 			}
 			else if ([note_key isEqualToString:@"part_capacity"]) {
 				capacitySubView.isReady = [back_args objectForKey:kAYServiceArgsAgeBoundary] && [back_args objectForKey:kAYServiceArgsCapacity] && [back_args objectForKey:kAYServiceArgsServantNumb];
@@ -329,8 +333,9 @@
 	UIImage* left = IMGRESOURCE(@"bar_left_black");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
 	
-	UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"预览" andTitleColor:[Tools garyColor] andFontSize:616.f andBackgroundColor:nil];
-	bar_right_btn.userInteractionEnabled = NO;
+	UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"预览" andTitleColor:[Tools themeColor] andFontSize:616.f andBackgroundColor:nil];
+//	UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"预览" andTitleColor:[Tools garyColor] andFontSize:616.f andBackgroundColor:nil];
+//	bar_right_btn.userInteractionEnabled = NO;
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
 //	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
 	return nil;
@@ -472,18 +477,22 @@
 
 - (id)rightBtnSelected {
 	
-//	[push_service_info setValue:inputTitleTextView.text forKey:kAYServiceArgsTitle];
-	
 	id<AYCommand> des = DEFAULTCONTROLLER(@"ServicePage");
-	NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
-	[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-	[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-	[dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+	NSMutableDictionary* dic_args = [[NSMutableDictionary alloc]init];
+	[dic_args setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic_args setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic_args setValue:self forKey:kAYControllerActionSourceControllerKey];
 	
-	[dic_push setValue:push_service_info forKey:kAYControllerChangeArgsKey];
+	NSMutableDictionary *tmp;
+	if (push_service_info) {
+		tmp = [[NSMutableDictionary alloc] initWithDictionary:push_service_info];
+	}
 	
-	id<AYCommand> cmd = PUSH;
-	[cmd performWithResult:&dic_push];
+	[tmp setValue:[NSNumber numberWithInt:1] forKey:@"perview_mode"];
+	[dic_args setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd_show_module = PUSH;
+	[cmd_show_module performWithResult:&dic_args];
 	
 	return nil;
 }

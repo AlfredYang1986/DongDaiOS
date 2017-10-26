@@ -25,6 +25,7 @@ static NSString* const kTableDelegate =					@"SetLocationInfo";
 	NSMutableArray *selectImageArr;
 	
 	BOOL isAlreadyEnable;
+	int tagState;
 }
 
 #pragma mark --  commands
@@ -51,6 +52,7 @@ static NSString* const kTableDelegate =					@"SetLocationInfo";
 #pragma mark -- life cycle
 - (void)viewDidLoad {
 	[super viewDidLoad];
+	tagState = 0;
 	
 	UILabel *titleLabel = [Tools creatUILabelWithText:@"场地信息" andTextColor:[Tools blackColor] andFontSize:630 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
@@ -211,10 +213,25 @@ static NSString* const kTableDelegate =					@"SetLocationInfo";
 #pragma mark -- actions
 - (void)setNavRightBtnEnableStatus {
 	
-	if (!isAlreadyEnable) {
-		UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:616.f andBackgroundColor:nil];
-		kAYViewsSendMessage(@"FakeNavBar", kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
-		isAlreadyEnable = YES;
+	if (tagState == 1) {
+		if (!isAlreadyEnable) {
+			UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:616.f andBackgroundColor:nil];
+			kAYViewsSendMessage(@"FakeNavBar", kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
+			isAlreadyEnable = YES;
+		}
+	} else if(tagState == 2) {
+		if (isAlreadyEnable) {
+			UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools garyColor] andFontSize:616.f andBackgroundColor:nil];
+			bar_right_btn.userInteractionEnabled = NO;
+			kAYViewsSendMessage(@"FakeNavBar", kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
+			isAlreadyEnable = NO;
+		}
+	} else if(tagState == 0) {
+		if (!isAlreadyEnable) {
+			UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:616.f andBackgroundColor:nil];
+			kAYViewsSendMessage(@"FakeNavBar", kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
+			isAlreadyEnable = YES;
+		}
 	}
 }
 
@@ -229,13 +246,9 @@ static NSString* const kTableDelegate =					@"SetLocationInfo";
 
 #pragma mark -- notification
 - (id)checkYardImageTag:(id)args {
-	if (![args boolValue]) {
-		if (isAlreadyEnable) {
-			UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools garyColor] andFontSize:616.f andBackgroundColor:nil];
-			bar_right_btn.userInteractionEnabled = NO;
-			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
-			isAlreadyEnable = NO;
-		}
+	tagState = [args intValue];
+	if (tagState != 0) {
+		[self setNavRightBtnEnableStatus];
 	}
 	return nil;
 }
