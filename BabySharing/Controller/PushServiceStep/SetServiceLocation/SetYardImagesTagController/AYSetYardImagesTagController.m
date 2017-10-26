@@ -13,7 +13,7 @@
 
 @implementation AYSetYardImagesTagController {
 	NSArray *imagesData;
-	NSInteger pageIndex;
+	int pageIndex;
 	
 	AYOnceTipView *tipView;
 	
@@ -22,6 +22,7 @@
 	AYCourseSignView *tmpTagView;
 	
 	NewPagedFlowView *pageFlowView;
+	UILabel *pageCountLabel;
 }
 
 #pragma mark --  commands
@@ -30,7 +31,7 @@
 	NSDictionary* dic = (NSDictionary*)*obj;
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
 		imagesData = [[dic objectForKey:kAYControllerChangeArgsKey] objectForKey:kAYServiceArgsYardImages];
-		pageIndex = [[[dic objectForKey:kAYControllerChangeArgsKey] objectForKey:@"index"] integerValue];
+		pageIndex = [[[dic objectForKey:kAYControllerChangeArgsKey] objectForKey:@"index"] intValue];
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
@@ -75,11 +76,20 @@
 	pageControl.pageIndicatorTintColor = [UIColor colorWithWhite:0.5 alpha:0.5f];
 	pageControl.currentPageIndicatorTintColor = [Tools themeColor];
 	pageFlowView.pageControl = pageControl;
+	pageFlowView.pageControl.hidden = YES;
 	[pageFlowView addSubview:pageControl];
 	[pageFlowView reloadData];
 	
 	[self.view addSubview:pageFlowView];
 	[pageFlowView scrollToPage:pageIndex];
+	
+	pageCountLabel = [Tools creatUILabelWithText:@"0/0" andTextColor:[Tools garyColor] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	[self.view addSubview:pageCountLabel];
+	[pageCountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(pageFlowView.mas_bottom).offset(15);
+		make.centerX.equalTo(self.view);
+	}];
+	pageCountLabel.text = [NSString stringWithFormat:@"%d/%d", pageIndex+1, (int)imagesData.count];
 	
 	tagViewArr = [NSMutableArray array];
 	tagArr = kAY_service_options_yard_images_tag;
@@ -124,7 +134,7 @@
 	NSString *key = tapView.sign;
 	NSInteger currentIndex= [pageFlowView currentPageIndex];
 	[imagesData[currentIndex] setValue:key forKey:kAYServiceArgsTag];
-	[imagesData[currentIndex] setValue:[NSNumber numberWithInt:tapView.tag] forKey:@"tag_index"];
+	[imagesData[currentIndex] setValue:[NSNumber numberWithInt:(int)tapView.tag] forKey:@"tag_index"];
 	
 	[tapView setSelectStatus];
 	[tmpTagView setUnselectStatus];
@@ -176,13 +186,14 @@
 }
 
 - (void)didSelectCell:(UIView *)subView withSubViewIndex:(NSInteger)subIndex {
-	NSLog(@"点击了第%ld张图",(long)subIndex);
+	NSLog(@"点击了第%d张图",(int)subIndex);
 	
 }
 
 - (void)didScrollToPage:(NSInteger)pageNumber inFlowView:(NewPagedFlowView *)flowView {
-	NSLog(@"ViewController 滚动到了第%d页", (int)pageNumber);
+	NSLog(@"滚动到了第%d页", (int)pageNumber);
 	NSString *tag = [imagesData[pageNumber] objectForKey:kAYServiceArgsTag];
+	pageCountLabel.text = [NSString stringWithFormat:@"%d/%d", (int)pageNumber+1, (int)imagesData.count];
 	
 	[tmpTagView setUnselectStatus];
 	if (tag.length != 0) {

@@ -329,7 +329,7 @@
 	UIImage* left = IMGRESOURCE(@"bar_left_black");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
 	
-	UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"预览" andTitleColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil];
+	UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"预览" andTitleColor:[Tools garyColor] andFontSize:616.f andBackgroundColor:nil];
 	bar_right_btn.userInteractionEnabled = NO;
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
 //	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)

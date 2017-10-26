@@ -55,7 +55,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:@"服务守则" andTextColor:[Tools themeColor] andFontSize:630.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatUILabelWithText:@"服务守则" andTextColor:[Tools blackColor] andFontSize:630.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(80);

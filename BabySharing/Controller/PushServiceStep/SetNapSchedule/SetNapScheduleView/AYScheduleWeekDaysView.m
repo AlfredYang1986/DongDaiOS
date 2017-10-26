@@ -107,7 +107,7 @@
 		make.center.equalTo(animatView);
 		make.size.mas_equalTo(CGSizeMake(35, 5));
 	}];
-	[Tools setViewBorder:swipeSignView withRadius:2.5 andBorderWidth:0 andBorderColor:nil andBackground:[Tools garyColor]];
+	[Tools setViewBorder:swipeSignView withRadius:2.5 andBorderWidth:0 andBorderColor:nil andBackground:[Tools colorWithRED:213 GREEN:228 BLUE:238 ALPHA:1]];
 	animatView.hidden = YES;
 	
 	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
@@ -216,14 +216,15 @@
 #pragma mark === 闪烁动画
 - (CABasicAnimation *)opacityForever_Animation:(float)time andRepeat:(int)count {
 	CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"opacity"];//必须写opacity才行。
-	animation.fromValue = [NSNumber numberWithFloat:0.2f];
+	animation.fromValue = [NSNumber numberWithFloat:0.25f];
 	animation.toValue = [NSNumber numberWithFloat:1.f];//这是透明度。
-	animation.autoreverses = YES;
+	animation.autoreverses = NO;
 	animation.duration = time;
+//	animation.repeatDuration = time;
 	animation.repeatCount = count;
-	animation.removedOnCompletion = YES;
+//	animation.removedOnCompletion = YES;
 	animation.fillMode = kCAFillModeForwards;
-	animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];///没有的话是均匀的动画。
+	animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];//没有的话是均匀的动画。
 	return animation;
 }
 
@@ -245,7 +246,13 @@
 
 - (id)setViewState {
 	[self resetWeekdayBtnState];
-	[self havenAddTM];
+	
+	[UIView animateWithDuration:0.25 animations:^{
+		self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, kEnableHeight);
+		[self layoutIfNeeded];
+	} completion:^(BOOL finished) {
+		animatView.hidden = NO;
+	}];
 	return nil;
 }
 
@@ -259,8 +266,8 @@
 	} completion:^(BOOL finished) {
 		animatView.hidden = NO;
 		animatView.backgroundColor = [Tools themeLightColor];
-		[animatView.layer addAnimation:[self opacityForever_Animation:0.5 andRepeat:3] forKey:nil];
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		[animatView.layer addAnimation:[self opacityForever_Animation:1.0 andRepeat:2] forKey:nil];
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			animatView.backgroundColor = [Tools whiteColor];
 		});
 	}];
@@ -361,7 +368,11 @@
 		
 		if (todayTimeSpan > cellTimeSpan) {
 			cell.state = AYTMDayStateGone;
-		} else {
+		}
+		else {
+			if (todayTimeSpan == cellTimeSpan) {
+				[cell isToday];
+			}
 			
 			if (isSpecialState) {
 				if ([[basicTMS objectForKey:[NSString stringWithFormat:@"%d", (int)indexPath.row%7]] count] != 0) {
@@ -438,7 +449,6 @@
 	return (CGSize){width, width / 7};
 }
 
-#pragma mark -- cell点击
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	AYSpecialDayCellView * cell = (AYSpecialDayCellView *)[collectionView cellForItemAtIndexPath:indexPath];
 	if (cell.state == AYTMDayStateGone) {
@@ -448,6 +458,8 @@
 	NSTimeInterval time_p = cell.timeSpan;
 	NSNumber *tmp = [NSNumber numberWithDouble:time_p];
 	kAYViewSendNotify(self, @"didSelectItemAtIndexPath:", &tmp)
+	
+	[collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:YES];
 	
 	if (handleCell) {
 		

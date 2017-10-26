@@ -61,6 +61,10 @@
 	radiuSignView.hidden = dotSignView.hidden = YES;
 }
 
+- (void)isToday {
+	titleLabel.text = @"今";
+}
+
 - (void)setDay:(NSInteger)day {
 	titleLabel.text = [NSString stringWithFormat:@"%d", (int)day];
 }

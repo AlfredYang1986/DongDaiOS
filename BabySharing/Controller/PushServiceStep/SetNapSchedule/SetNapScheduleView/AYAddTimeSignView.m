@@ -39,7 +39,7 @@
 		}];
 		
 		addSignView = [[UIImageView alloc] init];
-		addSignView.image = [UIImage imageNamed:@"add_icon_circle_white"];
+		addSignView.image = [UIImage imageNamed:@"icon_addtime_white"];
 		[self addSubview:addSignView];
 		[addSignView mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.right.equalTo(self).offset(-20);

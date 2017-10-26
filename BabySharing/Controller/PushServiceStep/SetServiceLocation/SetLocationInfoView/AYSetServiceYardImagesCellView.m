@@ -19,6 +19,7 @@
 @implementation AYSetServiceYardImagesCellView {
 	UILabel *titleLabel;
 	UILabel *tipLabel;
+	UIImageView *tipBGView;
 	
 	UICollectionView *imagesCollectionView;
 	NSArray *imagesData;
@@ -52,21 +53,37 @@
 		}];
 		[Tools setViewBorder:radiusBGView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools whiteColor]];
 		
-		titleLabel = [Tools creatUILabelWithText:nil andTextColor:[Tools blackColor] andFontSize:317 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		titleLabel = [Tools creatUILabelWithText:nil andTextColor:[Tools blackColor] andFontSize:617 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(radiusBGView).offset(15);
 			make.top.equalTo(radiusBGView).offset(12);
 		}];
 		
-		tipLabel = [Tools creatUILabelWithText:@"🏷️您有图片还未设置标签" andTextColor:[Tools themeColor] andFontSize:315 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		tipLabel = [Tools creatUILabelWithText:@"您有图片还未设置标签" andTextColor:[Tools whiteColor] andFontSize:313 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:tipLabel];
 		[tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//			make.left.equalTo(radiusBGView).offset(15);
+			make.left.equalTo(titleLabel.mas_right).offset(20);
 			make.centerY.equalTo(titleLabel);
-			make.right.equalTo(radiusBGView.mas_right).offset(-10);
+//			make.right.equalTo(radiusBGView.mas_right).offset(-10);
 		}];
-		tipLabel.hidden = YES;
+		[tipLabel sizeToFit];
+		
+		tipBGView = [[UIImageView alloc] init];
+		UIImage *bgImage = [UIImage imageNamed:@"arrow_sign_left_triangle"];
+		bgImage = [bgImage resizableImageWithCapInsets:UIEdgeInsetsMake(0, 7, 0, 2) resizingMode:UIImageResizingModeTile];
+		tipBGView.image = [bgImage imageWithRenderingMode:(UIImageRenderingModeAlwaysTemplate)];
+		[tipBGView setTintColor:[Tools themeColor]];
+		[self addSubview:tipBGView];
+		[tipBGView mas_makeConstraints:^(MASConstraintMaker *make) {
+//			make.edges.equalTo(tipLabel).insets(UIEdgeInsetsMake(-3, -15, -3, -5));
+			make.height.mas_equalTo(26);
+			make.left.equalTo(tipLabel).offset(-15);
+			make.right.equalTo(tipLabel).offset(8);
+			make.centerY.equalTo(tipLabel);
+		}];
+		tipLabel.hidden = tipBGView.hidden = YES;
+		[self sendSubviewToBack:tipBGView];
 		
 		UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
 		layout.scrollDirection = UICollectionViewScrollDirectionVertical;
@@ -163,7 +180,7 @@
 	}
 	
 	BOOL isFinishTag = count >= imagesData.count;
-	tipLabel.hidden = isFinishTag;
+	tipLabel.hidden = tipBGView.hidden = isFinishTag;
 	id tmp = [NSNumber numberWithBool:isFinishTag];
 	kAYViewSendNotify(self, @"checkYardImageTag:", &tmp)
 	

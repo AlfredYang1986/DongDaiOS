@@ -25,4 +25,6 @@ typedef enum : int {
 @property (nonatomic, assign) NSTimeInterval timeSpan;
 @property (nonatomic, assign) AYTMDayState state;
 
+- (void)isToday;
+
 @end

@@ -116,7 +116,7 @@
 	
 	NSMutableDictionary *dic_query = [Tools getBaseRemoteData];
 	[[dic_query objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsOwnerID];
-	[[dic_query objectForKey:kAYCommArgsCondition] setValue:[NSNumber numberWithDouble:([NSDate date].timeIntervalSince1970 * 1000)] forKey:@"date"];
+	[[dic_query objectForKey:kAYCommArgsCondition] setValue:[NSNumber numberWithLongLong:([NSDate date].timeIntervalSince1970 * 1000)] forKey:@"date"];
 	
 	[dic_query setValue:[NSNumber numberWithInteger:skipCount] forKey:kAYCommArgsRemoteDataSkip];
 	[dic_query setValue:[NSNumber numberWithInt:20] forKey:@"take"];
