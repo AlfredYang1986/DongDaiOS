@@ -47,7 +47,6 @@ static NSString* const kAYEMDongdaCommonPassword = @"PassW0rd";
                 [((AYFacade*)EMCLIENT) performWithResult:&notify];
             });
         } failure:^(EMError *aError) {
-            NSLog(@"环信: 登陆失败");
             if (aError.code == EMErrorUserAlreadyLogin) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [[EMClient sharedClient].options setIsAutoLogin:YES];
@@ -63,7 +62,8 @@ static NSString* const kAYEMDongdaCommonPassword = @"PassW0rd";
                     [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
                     [((AYFacade*)EMCLIENT) performWithResult:&notify];
                 });
-            }
+            } else
+				NSLog(@"环信: 登陆失败");
         }];
     });
 }

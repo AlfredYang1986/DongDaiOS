@@ -253,6 +253,12 @@
     return nil;
 }
 
+- (id)setRightBtnEnabled {
+	UIButton *btn_right = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools themeColor] andFontSize:616.f andBackgroundColor:nil];
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &btn_right)
+	return nil;
+}
+
 #pragma mark -- actions
 - (id)requeryForCode {
     

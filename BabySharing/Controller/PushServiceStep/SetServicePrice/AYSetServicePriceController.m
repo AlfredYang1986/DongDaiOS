@@ -22,6 +22,7 @@
 	NSMutableDictionary *push_service_info;
 	
 	UILabel *titleLabel;
+	UIView *shadowView;
 	
 	AYServicePriceCatBtn *handleBtn;
 	NSMutableArray *priceCatBtnArr;
@@ -55,6 +56,9 @@
 	self.view.clipsToBounds = YES;
 	
 	CGFloat marginScreen = 40.f;
+	CGFloat segY = SCREEN_HEIGHT*155/667;
+	CGFloat itemBtnHeight = 40;
+	
 	titleLabel = [Tools creatUILabelWithText:@"价格设定" andTextColor:[Tools blackColor] andFontSize:630.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	titleLabel.numberOfLines = 0;
 	[self.view addSubview:titleLabel];
@@ -81,7 +85,7 @@
 		
 		for (int i = 0; i < itemCount; ++i) {
 			
-			AYServicePriceCatBtn *btn = [[AYServicePriceCatBtn alloc] initWithFrame:CGRectMake(marginScreen+itemBtnWith*i, SCREEN_HEIGHT*155/667, itemBtnWith, 40) andTitle:[itemTitles objectAtIndex:i]];
+			AYServicePriceCatBtn *btn = [[AYServicePriceCatBtn alloc] initWithFrame:CGRectMake(marginScreen+itemBtnWith*i, segY, itemBtnWith, itemBtnHeight) andTitle:[itemTitles objectAtIndex:i]];
 			btn.tag = i;
 			[self.view addSubview:btn];
 			btn.selected = i == 0;
@@ -173,7 +177,7 @@
 		
 		for (int i = 0; i < itemCount; ++i) {
 			
-			AYServicePriceCatBtn *btn = [[AYServicePriceCatBtn alloc] initWithFrame:CGRectMake(marginScreen+itemBtnWith*i, SCREEN_HEIGHT*155/667, itemBtnWith, 40) andTitle:[itemTitles objectAtIndex:i]];
+			AYServicePriceCatBtn *btn = [[AYServicePriceCatBtn alloc] initWithFrame:CGRectMake(marginScreen+itemBtnWith*i, segY, itemBtnWith, itemBtnHeight) andTitle:[itemTitles objectAtIndex:i]];
 			btn.tag = i;
 			[self.view addSubview:btn];
 			btn.selected = i == 0;
@@ -215,6 +219,20 @@
 	}
 	[[priceCatBtnArr objectAtIndex:0] setSelected:YES];
 	handleBtn = [priceCatBtnArr objectAtIndex:0];
+	
+	shadowView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, segY+itemBtnHeight)];
+	shadowView.backgroundColor = [Tools whiteColor];
+	[self.view addSubview:shadowView];
+	shadowView.layer.shadowColor = [Tools garyColor].CGColor;
+	shadowView.layer.shadowRadius = 5.f;
+	shadowView.layer.shadowOpacity = 0.5f;
+	shadowView.layer.shadowOffset = CGSizeMake(0, 2);
+	shadowView.hidden = YES;
+	
+	[self.view bringSubviewToFront:titleLabel];
+	for (AYServicePriceCatBtn *btn in priceCatBtnArr) {
+		[self.view bringSubviewToFront:btn];
+	}
 	
 	self.view.userInteractionEnabled = YES;
 	[self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapElse)]];
@@ -277,8 +295,23 @@
 		return;
 	}
 	
+	CGFloat duration = 0;
 	NSInteger currentIndex = handleBtn.tag;
-	[[[inputViewArr objectAtIndex:currentIndex] inputField] resignFirstResponder];
+	for (AYSetPriceInputView *inView in inputViewArr) {
+		if ([inView.inputField isFirstResponder]) {
+			duration = 0.25;
+			[inView.inputField resignFirstResponder];
+			break;
+		}
+	}
+	if ([timesPriceInput.inputField isFirstResponder] || [stagePriceInput.inputField isFirstResponder] || [timesCountInput.inputField isFirstResponder]) {
+		duration = 0.25;
+		[timesPriceInput.inputField resignFirstResponder];
+		[stagePriceInput.inputField resignFirstResponder];
+		[timesCountInput.inputField resignFirstResponder];
+	}
+//	[[[inputViewArr objectAtIndex:currentIndex] inputField] resignFirstResponder];
+	
 	handleBtn.selected = NO;
 	btn.selected = !btn.selected;
 	NSInteger changeIndex = btn.tag;
@@ -287,33 +320,37 @@
 	AYShadowRadiusView *currentView = [radiusViewArr objectAtIndex:currentIndex];
 	AYShadowRadiusView *changeView = [radiusViewArr objectAtIndex:changeIndex];
 	
-	NSInteger comp = changeIndex - currentIndex;
-	if (comp > 0) {
-		[UIView animateWithDuration:0.25 animations:^{
-//			currentView.center = CGPointMake(self.view.center.x - SCREEN_WIDTH, currentView.center.y);
-//			changeView.center = CGPointMake(self.view.center.x, currentView.center.y);
-			[currentView mas_updateConstraints:^(MASConstraintMaker *make) {
-				make.centerX.equalTo(self.view).offset(-SCREEN_WIDTH);
-			}];
-			[changeView mas_updateConstraints:^(MASConstraintMaker *make) {
-				make.centerX.equalTo(self.view).offset(0);
-			}];
-			[self.view layoutIfNeeded];
-		}];
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(duration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 		
-	} else if (comp < 0) {
-		[UIView animateWithDuration:0.25 animations:^{
-//			currentView.center = CGPointMake(self.view.center.x + SCREEN_WIDTH, currentView.center.y);
-//			changeView.center = CGPointMake(self.view.center.x, currentView.center.y);
-			[currentView mas_updateConstraints:^(MASConstraintMaker *make) {
-				make.centerX.equalTo(self.view).offset(SCREEN_WIDTH);
+		NSInteger comp = changeIndex - currentIndex;
+		if (comp > 0) {
+			[UIView animateWithDuration:0.25 animations:^{
+				//			currentView.center = CGPointMake(self.view.center.x - SCREEN_WIDTH, currentView.center.y);
+				//			changeView.center = CGPointMake(self.view.center.x, currentView.center.y);
+				[currentView mas_updateConstraints:^(MASConstraintMaker *make) {
+					make.centerX.equalTo(self.view).offset(-SCREEN_WIDTH);
+				}];
+				[changeView mas_updateConstraints:^(MASConstraintMaker *make) {
+					make.centerX.equalTo(self.view).offset(0);
+				}];
+				[self.view layoutIfNeeded];
 			}];
-			[changeView mas_updateConstraints:^(MASConstraintMaker *make) {
-				make.centerX.equalTo(self.view).offset(0);
+			
+		} else if (comp < 0) {
+			[UIView animateWithDuration:0.25 animations:^{
+				//			currentView.center = CGPointMake(self.view.center.x + SCREEN_WIDTH, currentView.center.y);
+				//			changeView.center = CGPointMake(self.view.center.x, currentView.center.y);
+				[currentView mas_updateConstraints:^(MASConstraintMaker *make) {
+					make.centerX.equalTo(self.view).offset(SCREEN_WIDTH);
+				}];
+				[changeView mas_updateConstraints:^(MASConstraintMaker *make) {
+					make.centerX.equalTo(self.view).offset(0);
+				}];
+				[self.view layoutIfNeeded];
 			}];
-			[self.view layoutIfNeeded];
-		}];
-	}
+		}
+	});
+	
 }
 
 #pragma mark -- textfiled delegate
@@ -434,10 +471,11 @@
 		if ([timesCountInput.inputField isFirstResponder]) {
 //			UIView *referView = [radiusViewArr objectAtIndex:0];
 			CGFloat toBtm = (timesCountInput.superview.bounds.size.height - timesCountInput.bounds.size.height)*0.5+kScreenMarginBottom;
+			shadowView.hidden = NO;
 			[UIView animateWithDuration:0.25 animations:^{
 				[(UIView*)[radiusViewArr objectAtIndex:1] mas_updateConstraints:^(MASConstraintMaker *make) {
-					make.top.equalTo(titleLabel.mas_bottom).offset(kTitleMarginBottom-(step.floatValue-toBtm)-10);
-					make.bottom.equalTo(self.view).offset(-kScreenMarginBottom-(step.floatValue-toBtm)-10);
+					make.top.equalTo(titleLabel.mas_bottom).offset(kTitleMarginBottom-(step.floatValue-toBtm));
+					make.bottom.equalTo(self.view).offset(-kScreenMarginBottom-(step.floatValue-toBtm));
 //					make.centerY.equalTo(referView).offset(-(step.floatValue-toBtm)-10);
 				}];
 				[self.view layoutIfNeeded];
@@ -465,6 +503,8 @@
 					make.bottom.equalTo(self.view).offset(-kScreenMarginBottom);
 				}];
 				[self.view layoutIfNeeded];
+			} completion:^(BOOL finished) {
+				shadowView.hidden = YES;
 			}];
 		}
 	} else if ([catStr isEqualToString:kAYStringNursery]) {

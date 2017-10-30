@@ -39,7 +39,9 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     UIButton *phoneNoLogin;
     UIButton *weChatLogin;
     BOOL isWXInstall;
-    
+	
+	BOOL isPhoneLogin;
+	
     dispatch_semaphore_t wait_for_qq_api;
     dispatch_semaphore_t wait_for_weibo_api;
     dispatch_semaphore_t wait_for_wechat_api;
@@ -216,6 +218,10 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
+	
+	if (isPhoneLogin) {
+		self.landing_status = RemoteControllerStatusLoading;
+	}
 }
 
 
@@ -225,14 +231,6 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     view.frame = CGRectMake(0, SCREEN_HEIGHT - 108 - 36 - 46, SCREEN_WIDTH, view.frame.size.height);
     return nil;
 }
-
-- (id)LoadingLayout:(UIView*)view {
-    NSLog(@"Landing Loading View view layout");
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    return nil;
-}
-
-#pragma mark -- move views
 
 #pragma mark -- actions
 -(void)pri_btnDidClick {
@@ -403,18 +401,13 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 }
 
 - (id)LoginSuccess {
-    NSLog(@"Login Success");
-    NSLog(@"to do login with EM server");
-    
-    self.landing_status = RemoteControllerStatusLoading;
-    
+    NSLog(@"Login Success  ->  to do login with EM server");
+	
     AYFacade* f = LOGINMODEL;
     id<AYCommand> cmd = [f.commands objectForKey:@"QueryCurrentLoginUser"];
     id obj = nil;
     [cmd performWithResult:&obj];
-    
-    NSLog(@"current login user is %@", obj);
-    
+	
     AYFacade* xmpp = [self.facades objectForKey:@"EM"];
     id<AYCommand> cmd_login_xmpp = [xmpp.commands objectForKey:@"LoginEM"];
     NSDictionary* dic = (NSDictionary*)obj;
@@ -552,8 +545,9 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
                 break;
         }
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-        NSString* method_name = [dic objectForKey:kAYControllerChangeArgsKey];
-        
+		isPhoneLogin = YES;
+		
+		NSString* method_name = [dic objectForKey:kAYControllerChangeArgsKey];
         SEL sel = NSSelectorFromString(method_name);
         Method m = class_getInstanceMethod([self class], sel);
         if (m) {
@@ -572,6 +566,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 - (id)CurrentLoginUserChanged:(id)args {
 	UIViewController* cv = [Tools activityViewController];
 	if (cv == self) {
+		self.landing_status = RemoteControllerStatusLoading;
 		[self LoginSuccess];
 	}
     return nil;

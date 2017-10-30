@@ -45,15 +45,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
 }
 
 #pragma mark -- views layouts
@@ -207,13 +198,12 @@
 
 - (id)CurrentLoginUserChanged:(id)args {
     NSLog(@"Notify args: %@", args);
-    //    NSLog(@"TODO: 进入咚哒");
 	
     UIViewController* cv = [Tools activityViewController];
     if (cv == self) {
         NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
         [dic_pop setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
-        [dic_pop setValue:[Tools activityViewController] forKey:kAYControllerActionSourceControllerKey];
+        [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
         
         NSString* message_name = @"LoginSuccess";
         [dic_pop setValue:message_name forKey:kAYControllerChangeArgsKey];

@@ -32,6 +32,10 @@ static NSString* const kAYDongDaAppMode =				@"dongda_app_mode";
 #define kStatusAndNavBarH								64
 #define kTabBarH										49
 #define kBotButtonH										49
+#define kNavBarRightBtnFontSize							616
+
+#define OneDayTimeInterval						86400
+#define HOMECOMMONCELLHEIGHT					363
 
 //PayWayOption
 typedef enum : int {
@@ -117,8 +121,6 @@ typedef enum : int {
 #define kAYFontLight(FONTSIZE)					[UIFont fontWithName:@"STHeitiSC-Light" size:FONTSIZE]
 #define kAYFontMedium(FONTSIZE)					[UIFont fontWithName:@"STHeitiSC-Medium" size:FONTSIZE]
 
-#define OneDayTimeInterval						86400
-#define HOMECOMMONCELLHEIGHT					363
 
 
 

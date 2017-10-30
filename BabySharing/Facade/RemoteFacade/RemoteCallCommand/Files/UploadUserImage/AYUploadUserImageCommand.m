@@ -51,25 +51,5 @@
     });
 }
 
-- (void)beforeAsyncCall {
-    NSString* name = [NSString stringWithUTF8String:object_getClassName(self)];
-    UIViewController* cur = [Tools activityViewController];
-    SEL sel = NSSelectorFromString(kAYRemoteCallStartFuncName);
-    Method m = class_getInstanceMethod([((UIViewController*)cur) class], sel);
-    if (m) {
-        id (*func)(id, SEL, id) = (id (*)(id, SEL, id))method_getImplementation(m);
-        func(cur, sel, name);
-    }
-}
 
-- (void)endAsyncCall {
-    NSString* name = [NSString stringWithUTF8String:object_getClassName(self)];
-    UIViewController* cur = [Tools activityViewController];
-    SEL sel = NSSelectorFromString(kAYRemoteCallEndFuncName);
-    Method m = class_getInstanceMethod([((UIViewController*)cur) class], sel);
-    if (m) {
-        id (*func)(id, SEL, id) = (id (*)(id, SEL, id))method_getImplementation(m);
-        func(cur, sel, name);
-    }
-}
 @end

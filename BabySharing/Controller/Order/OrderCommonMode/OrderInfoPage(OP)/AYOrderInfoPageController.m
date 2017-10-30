@@ -77,15 +77,15 @@
 	AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryOrderDetail"];
 	[cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		if (success) {
-			id info_result = [result objectForKey:kAYOrderArgsSelf];
-			if (remindDateStart) {
-				NSMutableDictionary *dic_transfrom = [[NSMutableDictionary alloc] initWithDictionary:info_result];
-				[dic_transfrom setValue:@{kAYTimeManagerArgsStart:remindDateStart, kAYTimeManagerArgsEnd:remindDateEnd} forKey:kAYOrderArgsDate];
-				order_info = [dic_transfrom copy];
-			} else {
-				order_info = info_result;
-			}
-			
+//			id info_result = [result objectForKey:kAYOrderArgsSelf];
+//			if (remindDateStart) {
+//				NSMutableDictionary *dic_transfrom = [[NSMutableDictionary alloc] initWithDictionary:info_result];
+//				[dic_transfrom setValue:@{kAYTimeManagerArgsStart:remindDateStart, kAYTimeManagerArgsEnd:remindDateEnd} forKey:kAYOrderArgsDate];
+//				order_info = [dic_transfrom copy];
+//			} else {
+//				order_info = info_result;
+//			}
+			order_info = [result objectForKey:kAYOrderArgsSelf];
 			id tmp = [order_info copy];
 			kAYDelegatesSendMessage(@"OrderInfoPage", @"changeQueryData:", &tmp)
 			
@@ -126,7 +126,7 @@
 					
 					BTMView.frame = CGRectMake(0, SCREEN_HEIGHT - kTabBarH, SCREEN_WIDTH, kTabBarH);
 					
-					NSString *resonStr = [NSString stringWithFormat:@"RESON:%@", [order_info objectForKey:kAYOrderArgsFurtherMessage]];
+					NSString *resonStr = [NSString stringWithFormat:@"拒绝原因:%@", [order_info objectForKey:kAYOrderArgsFurtherMessage]];
 					UILabel *tipsLabel = [Tools creatUILabelWithText:resonStr andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 					[BTMView addSubview:tipsLabel];
 					[tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {

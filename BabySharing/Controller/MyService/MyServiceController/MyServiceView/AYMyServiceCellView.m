@@ -147,7 +147,7 @@
 			make.size.mas_equalTo(CGSizeMake(100, 40));
 		}];
 		[manageTMBtn addTarget:self action:@selector(didManageBtnClick) forControlEvents:UIControlEventTouchUpInside];
-		
+		manageTMBtn.hidden = YES;
 		if (reuseIdentifier != nil) {
 			[self setUpReuseCell];
 		}

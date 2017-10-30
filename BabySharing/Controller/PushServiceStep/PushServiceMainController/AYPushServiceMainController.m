@@ -462,12 +462,13 @@
 	UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
 	UIAlertAction *certain = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 		
-		NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
-		[dic setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
-		[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-		
-		id<AYCommand> cmd = POPTOROOT;
-		[cmd performWithResult:&dic];
+//		NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
+//		[dic setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
+//		[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+//
+//		id<AYCommand> cmd = POPTOROOT;
+//		[cmd performWithResult:&dic];
+		[self.navigationController popToRootViewControllerAnimated:NO];
 	}];
 	[alert addAction:cancel];
 	[alert addAction:certain];
