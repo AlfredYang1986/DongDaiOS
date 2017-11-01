@@ -53,11 +53,8 @@
 }
 
 - (void)viewDidLoad {
-    NSLog(@"command are : %@", self.commands);
-    NSLog(@"facade are : %@", self.facades);
-    NSLog(@"view are : %@", self.views);
-    NSLog(@"delegates are : %@", self.delegates);
-    
+	[super viewDidLoad];
+	
     self.view.backgroundColor = [Tools whiteColor];
 	self.automaticallyAdjustsScrollViewInsets = NO;
 	

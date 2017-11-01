@@ -18,25 +18,16 @@
 #import "AYThumbsAndPushDefines.h"
 #import "AYModelFacade.h"
 
+#import "AYDongDaSegDefines.h"
+#import "UICollectionViewLeftAlignedLayout.h"
 
-typedef void(^queryContentFinish)(void);
-
-#define HEADER_MARGIN_TO_SCREEN         10.5
-#define CONTENT_START_POINT             71
-#define PAN_HANDLE_CHECK_POINT          10
-#define BACK_TO_TOP_TIME    3.0
-#define SHADOW_WIDTH 4
-#define TableContentInsetTop     120
-#define kFilterCollectionViewHeight 			90
 #define kDongDaSegHeight				44
 
 //#define kTABLEMARGINTOP			108.f
-#define kTABLEMARGINTOP			64.f
+#define kTABLEMARGINTOP			kStatusAndNavBarH
 #define kCollectionViewHeight				164
-// 减速度
-#define DECELERATION 400.0
 
-#import "UICollectionViewLeftAlignedLayout.h"
+typedef void(^queryContentFinish)(void);
 
 @implementation AYHomeController {
 	
@@ -239,13 +230,13 @@ typedef void(^queryContentFinish)(void);
 
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
 	view.backgroundColor = [Tools whiteColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+	view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
 	view.backgroundColor = [Tools whiteColor];
 	
 	addressLabel = [Tools creatUILabelWithText:@"北京市" andTextColor:[Tools garyColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
@@ -277,10 +268,9 @@ typedef void(^queryContentFinish)(void);
 	return nil;
 }
 
-#import "AYDongDaSegDefines.h"
 - (id)DongDaSegLayout:(UIView*)view {
 	
-	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, kDongDaSegHeight);		//重新加入了self.view 的子view   0,0,w,h
+	view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kDongDaSegHeight);		//重新加入了self.view 的子view   0,0,w,h
 	view.backgroundColor = [UIColor whiteColor];
 	
 	id<AYViewBase> seg = (id<AYViewBase>)view;
@@ -324,7 +314,7 @@ typedef void(^queryContentFinish)(void);
 	return nil;
 }
 - (id)CollectionLayout:(UIView*)view {
-	view.frame = CGRectMake(-SCREEN_WIDTH, SCREEN_HEIGHT - kCollectionViewHeight - 20, SCREEN_WIDTH, kCollectionViewHeight);
+	view.frame = CGRectMake(-SCREEN_WIDTH, SCREEN_HEIGHT - kCollectionViewHeight - kStatusBarH, SCREEN_WIDTH, kCollectionViewHeight);
 	view.backgroundColor = [UIColor clearColor];
 	
 	((UICollectionView*)view).pagingEnabled = YES;
@@ -404,12 +394,6 @@ typedef void(^queryContentFinish)(void);
 }
 
 - (void)loadNewAroundData {
-//	UITableView *view_table = [self.views objectForKey:@"Table2"];
-	
-//	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
-//	[tmp setValue:loc forKey:@"location"];
-//	[tmp setValue:[NSNumber numberWithBool:isLocationAuth] forKey:@"is_auth"];
-//	kAYDelegatesSendMessage(@"HomeAround", @"changeLocationAuthData:", &tmp)
 	
 	if (!isLocationAuth) {
 		NSString *tip = @"查看附近服务需要您授权使用定位功能";
@@ -433,7 +417,7 @@ typedef void(^queryContentFinish)(void);
 	AYRemoteCallCommand* cmd_search = [f_search.commands objectForKey:@"SearchFiltService"];
 	[cmd_search performWithResult:dic_search andFinishBlack:^(BOOL success, NSDictionary * result) {
 		if (success) {
-			timeIntervalAround = ((NSNumber*)[[result objectForKey:@"result"] objectForKey:kAYCommArgsRemoteDate]).longValue * 0.001;
+			timeIntervalAround = [[[result objectForKey:@"result"] objectForKey:kAYCommArgsRemoteDate] longValue] * 0.001;
 			serviceDataAround = [[[result objectForKey:@"result"] objectForKey:@"services"] mutableCopy];
 			skipCountAround = serviceDataAround.count;			//刷新 重置计数为此次请求service数据个数
 			
@@ -448,6 +432,9 @@ typedef void(^queryContentFinish)(void);
 				NSString *tip = @"附近暂时没有可用服务";
 				AYShowBtmAlertView(tip, BtmAlertViewTypeHideWithTimer)
 			} else {
+				args = [[NSMutableDictionary alloc]init];
+				[args setValue:loc forKey:@"location"];
+				[args setValue:[serviceDataAround copy] forKey:@"result_data"];
 				tmp = [args copy];
 				kAYDelegatesSendMessage(@"MapMatch", @"changeQueryData:", &tmp)
 				kAYViewsSendMessage(kAYCollectionView, kAYTableRefreshMessage, nil)
@@ -670,7 +657,7 @@ typedef void(^queryContentFinish)(void);
 	UITableView *view_table = [self.views objectForKey:kAYTableView];
 	UITableViewCell *cell = [view_table cellForRowAtIndexPath:indexPath];
 	
-	CGFloat cellImageMinY = (SCREEN_HEIGHT - 64 - 44 - 49 - cell.bounds.size.height) * 0.5 + 64 + 44 - 10;
+	CGFloat cellImageMinY = (SCREEN_HEIGHT - kStatusAndNavBarH - 49 - cell.bounds.size.height) * 0.5 + kStatusAndNavBarH - 10;
 	
 	id<AYCommand> des = DEFAULTCONTROLLER(@"ServicePage");
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];

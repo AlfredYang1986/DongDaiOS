@@ -24,8 +24,6 @@
 #define kLIMITEDSHOWNAVBAR			(-70.5)
 #define kFlexibleHeight				300
 #define kBtmViewHeight				56
-#define kChatBtnWidth				69
-#define kBookBtnWidth				152
 #define kBookBtnTitleNormal			@"查看可预订时间"
 #define kBookBtnTitleSeted			@"申请预订"
 
@@ -261,12 +259,12 @@
 
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
 	return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+    view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
 	
     UIImage* left = IMGRESOURCE(@"bar_left_white");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)

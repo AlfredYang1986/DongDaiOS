@@ -64,13 +64,13 @@
 
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
 	view.backgroundColor = [UIColor clearColor];
 	return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+	view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
 	view.backgroundColor = [UIColor clearColor];
 //		NSString *title = @"历史记录";
 //		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)

@@ -19,8 +19,6 @@
 #import "AYRemoteCallDefines.h"
 #import "AYModelFacade.h"
 
-#define STATUS_BAR_HEIGHT       20
-#define FAKE_BAR_HEIGHT        44
 
 #define QUERY_VIEW_MARGIN_LEFT      10.5
 #define QUERY_VIEW_MARGIN_RIGHT     QUERY_VIEW_MARGIN_LEFT
@@ -124,19 +122,19 @@
 
 #pragma mark -- layout
 - (id)FakeStatusBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
     view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 
 - (id)TableLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64);
+    view.frame = CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH);
     ((UITableView*)view).contentInset = UIEdgeInsetsMake(userPhotoInitHeight, 0, 0, 0);
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
+    view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
     view.backgroundColor = [UIColor whiteColor];
     
     NSString *title = @"看护妈妈";

@@ -308,12 +308,12 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 
 #pragma mark -- layout
 - (id)FakeStatusBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view{
-    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
+    view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
     
     NSString *title = @"修改服务";
     kAYViewsSendMessage(@"FakeNavBar", @"setTitleText:", &title)

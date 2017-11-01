@@ -103,13 +103,13 @@
 
 #pragma mark -- layout
 - (id)FakeStatusBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
     view.backgroundColor = [UIColor clearColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
+    view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
     view.backgroundColor = [UIColor clearColor];
 	
 	UIImage* left = IMGRESOURCE(@"content_close");

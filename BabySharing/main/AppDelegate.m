@@ -38,7 +38,6 @@ static NSString* const kAYEMAppKey = @"blackmirror#dongda";
     
     // Override point for customization after application launch.
     NSLog(@"项目路径 ======= %@", [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject]);
-
     [NSThread sleepForTimeInterval:2.5f];
     
     EMOptions *options = [EMOptions optionsWithAppkey:kAYEMAppKey];

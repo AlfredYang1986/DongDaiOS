@@ -34,13 +34,11 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     CGRect keyBoardFrame;
     CGFloat modify;
     CGFloat diff;
-    BOOL isUpAnimation;
+	
     UIButton* pri_btn;
     UIButton *phoneNoLogin;
     UIButton *weChatLogin;
     BOOL isWXInstall;
-	
-	BOOL isPhoneLogin;
 	
     dispatch_semaphore_t wait_for_qq_api;
     dispatch_semaphore_t wait_for_weibo_api;
@@ -106,13 +104,19 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     return self;
 }
 
-#pragma mark -- life cycle
+#pragma mark - life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
 //    self.view.layer.contents = (id)IMGRESOURCE(@"launchscreen").CGImage;
     self.view.backgroundColor = [Tools themeColor];
-    isUpAnimation = NO;
-    
+	
+	
+	// 状态栏(statusbar)
+	CGRect StatusRect = [[UIApplication sharedApplication] statusBarFrame];
+	//标题栏
+	CGRect NavRect = self.navigationController.navigationBar.frame;
+	NSLog(@"status.h-%f/nav.h-%f", StatusRect.size.height, NavRect.size.height);
+	
     UIImageView *logo = [[UIImageView alloc]init];
     logo.image = IMGRESOURCE(@"login_logo");
     [self.view addSubview:logo];
@@ -218,21 +222,16 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
-	
-	if (isPhoneLogin) {
-		self.landing_status = RemoteControllerStatusLoading;
-	}
 }
 
-
-#pragma mark -- Layouts
+#pragma mark - Layouts
 - (id)LandingSNSLayout:(UIView*)view {
     NSLog(@"Landing SNS View view layout");
     view.frame = CGRectMake(0, SCREEN_HEIGHT - 108 - 36 - 46, SCREEN_WIDTH, view.frame.size.height);
     return nil;
 }
 
-#pragma mark -- actions
+#pragma mark - actions
 -(void)pri_btnDidClick {
     NSLog(@"push to suer privacy");
     id<AYCommand> UserAgree = DEFAULTCONTROLLER(@"UserAgree");
@@ -342,9 +341,13 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     return nil;
 }
 
-/**
- * 环信
- */
+#pragma mark - 环信
+- (id)WillStartLoginEM:(id)args {
+	
+	self.landing_status = RemoteControllerStatusLoading;
+	return nil;
+}
+
 - (id)LoginEMSuccess:(id)args {
     AYFacade* f = LOGINMODEL;
     id<AYCommand> cmd = [f.commands objectForKey:@"QueryCurrentLoginUser"];
@@ -398,6 +401,16 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     }
     
     return nil;
+}
+
+- (id)LoginEMFaild:(id)args {
+	self.landing_status = RemoteControllerStatusReady;
+	
+	AYFacade* f_login = LOGINMODEL;
+	id<AYCommand> cmd_sign_out_local = [f_login.commands objectForKey:@"SignOutLocal"];
+	[cmd_sign_out_local performWithResult:nil];
+	
+	return nil;
 }
 
 - (id)LoginSuccess {
@@ -545,7 +558,6 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
                 break;
         }
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-		isPhoneLogin = YES;
 		
 		NSString* method_name = [dic objectForKey:kAYControllerChangeArgsKey];
         SEL sel = NSSelectorFromString(method_name);
@@ -555,18 +567,13 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
             id (*func)(id, SEL, ...) = imp;
             func(self, sel);
         }
-        //
-    }
-}
 
-- (void)ResetStatusReady {
-    self.landing_status = RemoteControllerStatusReady;
+    }
 }
 
 - (id)CurrentLoginUserChanged:(id)args {
 	UIViewController* cv = [Tools activityViewController];
 	if (cv == self) {
-		self.landing_status = RemoteControllerStatusLoading;
 		[self LoginSuccess];
 	}
     return nil;

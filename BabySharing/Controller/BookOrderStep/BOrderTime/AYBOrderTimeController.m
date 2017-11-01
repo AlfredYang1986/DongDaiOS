@@ -202,13 +202,13 @@
 
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
 	view.backgroundColor = [Tools themeColor];
 	return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+	view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
 	view.backgroundColor = [Tools themeColor];
 	
 	UIImage *left = IMGRESOURCE(@"bar_left_white");
@@ -308,7 +308,6 @@
 		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 		return;
 	}
-	
 	
 	NSNumber *leastNode;
 	NSArray *order_times = [self transDicWithOTMDictionary:nil];

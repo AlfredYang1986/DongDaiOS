@@ -70,12 +70,12 @@
 
 #pragma mark -- layout
 - (id)FakeStatusBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view{
-    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+    view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
 	
 	NSString *title = @"场地友好性和安全设施";
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)

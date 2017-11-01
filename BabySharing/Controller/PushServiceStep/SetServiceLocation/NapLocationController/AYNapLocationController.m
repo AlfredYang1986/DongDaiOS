@@ -130,7 +130,7 @@
 }
 
 - (id)SearchBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+    view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
     
     id<AYCommand> cmd = [((id<AYViewBase>)view).commands objectForKey:@"registerDelegate:"];
     id del = self;

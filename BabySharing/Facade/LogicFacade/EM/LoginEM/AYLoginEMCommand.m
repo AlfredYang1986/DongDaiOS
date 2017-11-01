@@ -30,6 +30,16 @@ static NSString* const kAYEMDongdaCommonPassword = @"PassW0rd";
     NSString* current_user_id = (NSString*)*obj;
 	
     dispatch_async(dispatch_get_main_queue(), ^{
+		NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+		[notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+		[notify setValue:kAYNotifyWillStartLoginEM forKey:kAYNotifyFunctionKey];
+		
+		NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+		[args setValue:current_user_id forKey:@"user_id"];
+		
+		[notify setValue:[args copy] forKey:kAYNotifyArgsKey];
+		[((AYFacade*)EMCLIENT) performWithResult:&notify];
+		
         [[EMClient sharedClient] asyncLoginWithUsername:current_user_id password:kAYEMDongdaCommonPassword success:^{
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSLog(@"环信: 登陆成功");
@@ -62,8 +72,18 @@ static NSString* const kAYEMDongdaCommonPassword = @"PassW0rd";
                     [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
                     [((AYFacade*)EMCLIENT) performWithResult:&notify];
                 });
-            } else
+			} else {
 				NSLog(@"环信: 登陆失败");
+				NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+				[notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+				[notify setValue:kAYNotifyLoginEMFaild forKey:kAYNotifyFunctionKey];
+				
+				NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+				[args setValue:current_user_id forKey:@"user_id"];
+				
+				[notify setValue:[args copy] forKey:kAYNotifyArgsKey];
+				[((AYFacade*)EMCLIENT) performWithResult:&notify];
+			}
         }];
     });
 }
