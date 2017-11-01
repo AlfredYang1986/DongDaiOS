@@ -130,58 +130,64 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    if (isExchangeModel != ModeExchangeTypeDissVC) {
-        UIView *cover = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
-        [self.view addSubview:cover];
-        
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setValue:[NSNumber numberWithInt:DongDaAppModeServant] forKey:@"dongda_app_mode"];
-        [defaults synchronize];
-        
-        self.selectedIndex = expectIndex;
-        DongDaTabBarItem* btn = (DongDaTabBarItem*)[_dongda_tabbar viewWithTag:expectIndex];
-        [_dongda_tabbar itemSelected:btn];
-        
-        if (isExchangeModel == ModeExchangeTypeCommonToServant || isExchangeModel == ModeExchangeTypeCommonToNapFamily) {
-            
-            NSString *tipString ;
-            if (isExchangeModel == ModeExchangeTypeCommonToServant) {
-                tipString = @"切换为服务者";
-            } else if (isExchangeModel == ModeExchangeTypeCommonToNapFamily) {
-                tipString = @"切换为看护家庭";
-            }
-            
-            cover.backgroundColor = [Tools darkBackgroundColor];
-            UILabel *tipsLabel = [Tools creatUILabelWithText:tipString andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:1];
-            [cover addSubview:tipsLabel];
-            [tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.centerY.equalTo(cover).offset(-60);
-                make.centerX.equalTo(cover);
-            }];
-            
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [UIView animateWithDuration:0.5 animations:^{
-                    cover.alpha = 0;
-                } completion:^(BOOL finished) {
-                    [cover removeFromSuperview];
-                }];
-            });
-        } else if(isExchangeModel == ModeExchangeTypeUnloginToAllModel){
-            cover.backgroundColor = [UIColor whiteColor];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [UIView animateWithDuration:1.25 animations:^{
-                    cover.alpha = 0;
-                } completion:^(BOOL finished) {
-                    [cover removeFromSuperview];
-                }];
-            });
-        } else {
-            [cover removeFromSuperview];
-        }
-        
-        isExchangeModel = ModeExchangeTypeDissVC;
-    }
+	
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	
+	if (isExchangeModel != ModeExchangeTypeDissVC) {
+		UIView *cover = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+//		[self.view addSubview:cover];
+        [[UIApplication sharedApplication].keyWindow addSubview:cover];
+		
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		[defaults setValue:[NSNumber numberWithInt:DongDaAppModeServant] forKey:@"dongda_app_mode"];
+		[defaults synchronize];
+		
+		self.selectedIndex = expectIndex;
+		DongDaTabBarItem* btn = (DongDaTabBarItem*)[_dongda_tabbar viewWithTag:expectIndex];
+		[_dongda_tabbar itemSelected:btn];
+		
+		if (isExchangeModel == ModeExchangeTypeCommonToServant || isExchangeModel == ModeExchangeTypeCommonToNapFamily) {
+			
+			NSString *tipString ;
+			if (isExchangeModel == ModeExchangeTypeCommonToServant) {
+				tipString = @"切换为服务者";
+			} else if (isExchangeModel == ModeExchangeTypeCommonToNapFamily) {
+				tipString = @"切换为看护家庭";
+			}
+			
+			cover.backgroundColor = [Tools darkBackgroundColor];
+			UILabel *tipsLabel = [Tools creatUILabelWithText:tipString andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:1];
+			[cover addSubview:tipsLabel];
+			[tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+				make.centerY.equalTo(cover).offset(-60);
+				make.centerX.equalTo(cover);
+			}];
+			
+			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+				[UIView animateWithDuration:0.5 animations:^{
+					cover.alpha = 0;
+				} completion:^(BOOL finished) {
+					[cover removeFromSuperview];
+				}];
+			});
+		} else if(isExchangeModel == ModeExchangeTypeUnloginToAllModel){
+			cover.backgroundColor = [UIColor whiteColor];
+			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+				[UIView animateWithDuration:1.25 animations:^{
+					cover.alpha = 0;
+				} completion:^(BOOL finished) {
+					[cover removeFromSuperview];
+				}];
+			});
+		} else {
+			[cover removeFromSuperview];
+		}
+		
+		isExchangeModel = ModeExchangeTypeDissVC;
+	}
 }
 
 #pragma mark -- tabbar delegate

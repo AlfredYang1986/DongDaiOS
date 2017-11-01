@@ -27,6 +27,7 @@
 	NSMutableArray *dayBtnArr;
 	
 	UIView *animatView;
+	CALayer *flickerLayer;
 	
 	UICollectionView *scheduleView;
 	NSString *currentDate;
@@ -85,6 +86,10 @@
 		make.width.equalTo(BGView);
 		make.height.equalTo(@20);
 	}];
+	flickerLayer = [CALayer layer];
+	flickerLayer.frame = CGRectMake(0, 0, SCREEN_WIDTH - margin*2, 20);
+	flickerLayer.backgroundColor = [Tools themeColor].CGColor;
+	[animatView.layer addSublayer:flickerLayer];
 	
 	sepLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 31, self.frame.size.width, 1)];
 	[self addSubview:sepLineView];
@@ -215,14 +220,14 @@
 }
 #pragma mark === 闪烁动画
 - (CABasicAnimation *)opacityForever_Animation:(float)time andRepeat:(int)count {
-	CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"opacity"];//必须写opacity才行。
+	CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"opacity"];
 	animation.fromValue = [NSNumber numberWithFloat:0.25f];
-	animation.toValue = [NSNumber numberWithFloat:1.f];//这是透明度。
+	animation.toValue = [NSNumber numberWithFloat:1.f];
 	animation.autoreverses = NO;
 	animation.duration = time;
 //	animation.repeatDuration = time;
 	animation.repeatCount = count;
-//	animation.removedOnCompletion = YES;
+	animation.removedOnCompletion = YES;
 	animation.fillMode = kCAFillModeForwards;
 	animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];//没有的话是均匀的动画。
 	return animation;
@@ -265,10 +270,11 @@
 		[self layoutIfNeeded];
 	} completion:^(BOOL finished) {
 		animatView.hidden = NO;
-		animatView.backgroundColor = [Tools themeLightColor];
-		[animatView.layer addAnimation:[self opacityForever_Animation:0.5 andRepeat:3] forKey:nil];
+//		animatView.backgroundColor = [Tools themeLightColor];
+		[flickerLayer addAnimation:[self opacityForever_Animation:0.75 andRepeat:2] forKey:nil];
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-			animatView.backgroundColor = [Tools whiteColor];
+//			animatView.backgroundColor = [Tools whiteColor];
+			flickerLayer.backgroundColor = [Tools whiteColor].CGColor;
 		});
 	}];
 	return nil;

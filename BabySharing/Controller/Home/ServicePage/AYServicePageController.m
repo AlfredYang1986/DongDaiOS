@@ -173,7 +173,8 @@
 	
 	cellMinY = [receiveData objectForKey:@"cell_min_y"];		//首页跳转动画关键值
 	NSNumber *per_mode = [receiveData objectForKey:@"perview_mode"];
-	if (per_mode) {
+	NSString *service_id = [receiveData objectForKey:kAYServiceArgsID];
+	if (per_mode ) {
 		bar_like_btn.hidden = YES;
 		
 		service_info = [receiveData mutableCopy];
@@ -189,7 +190,6 @@
 		[btmView.bookBtn addTarget:self action:@selector(didBookBtnClick) forControlEvents:UIControlEventTouchUpInside];
 		[btmView.chatBtn addTarget:self action:@selector(didChatBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 		
-		NSString *service_id = [receiveData objectForKey:kAYServiceArgsID];
 		NSDictionary *user;
 		CURRENUSER(user);
 		NSMutableDictionary *dic_detail = [user mutableCopy];
