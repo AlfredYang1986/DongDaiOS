@@ -62,7 +62,7 @@
     UIView* view = [self.views objectForKey:@"ServiceConsumerFace"];
     view.backgroundColor = [UIColor clearColor];
     [view mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_top).offset(64);
+        make.top.equalTo(self.view.mas_top).offset(kStatusAndNavBarH);
         make.left.equalTo(self.view).offset(20);
         make.right.equalTo(self.view).offset(-20);
         make.height.mas_equalTo(200);

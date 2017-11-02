@@ -57,7 +57,7 @@ static NSString* const kTableDelegate =					@"SetLocationInfo";
 	UILabel *titleLabel = [Tools creatUILabelWithText:@"场地信息" andTextColor:[Tools blackColor] andFontSize:630 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(self.view).offset(80);
+		make.top.equalTo(self.view).offset(kStatusAndNavBarH+20);
 		make.left.equalTo(self.view).offset(20);
 	}];
 	
@@ -135,7 +135,7 @@ static NSString* const kTableDelegate =					@"SetLocationInfo";
 - (id)TableLayout:(UIView*)view {
 //	((UITableView*)view).estimatedRowHeight = 100;
 //	((UITableView*)view).rowHeight = UITableViewAutomaticDimension;
-	view.frame = CGRectMake(0, 130, SCREEN_WIDTH, SCREEN_HEIGHT - 130);
+	view.frame = CGRectMake(0, kStatusAndNavBarH+66, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH-66);
 	return nil;
 }
 	

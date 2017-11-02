@@ -50,7 +50,7 @@
 
 #pragma mark -- views layouts
 - (id)FakeNavBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 64);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusAndNavBarH);
 	
 	UIImage* left = IMGRESOURCE(@"bar_left_theme");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
@@ -62,7 +62,7 @@
 
 - (id)LandingInputNameLayout:(UIView*)view {
     CGFloat margin = 20.f;
-    view.frame = CGRectMake(margin, 83, SCREEN_WIDTH - margin*2, 320);
+    view.frame = CGRectMake(margin, kStatusAndNavBarH+20, SCREEN_WIDTH - margin*2, 320);
     return nil;
 }
 

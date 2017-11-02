@@ -48,12 +48,12 @@
 	[contentView addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(contentView).offset(40);
-		make.top.equalTo(contentView).offset(SCREEN_HEIGHT * 168/667);
+		make.top.equalTo(contentView).offset(SCREEN_HEIGHT * (kStatusAndNavBarH+104)/667);
 	}];
 	
 	CGFloat unitHeight = 56.f;
 	CGFloat betMargin = 16.f;
-	CGFloat topMargin = SCREEN_HEIGHT * 300/667;
+	CGFloat topMargin = SCREEN_HEIGHT * (kStatusAndNavBarH+236)/667;
 	
 	NSArray *titles = @[@"孩子年龄范围", @"接待孩子数量", @"服务者数量"];
 	NSArray *subTitles = @[@"0-12", @"8", @"8"];
@@ -144,7 +144,7 @@
 }
 
 - (id)TableLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49);
+    view.frame = CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH - 49);
 	view.clipsToBounds = YES;
     return nil;
 }

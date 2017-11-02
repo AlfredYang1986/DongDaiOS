@@ -18,8 +18,6 @@
 #import "AYAlbumDefines.h"
 #import "AYRemoteCallDefines.h"
 
-#define STATUS_BAR_HEIGHT           20
-#define FAKE_BAR_HEIGHT             44
 #define LIMITNUMB                   88
 
 @implementation AYPersonalDescController {
@@ -60,7 +58,7 @@
     inputTitleTextView.textColor = [Tools blackColor];
     inputTitleTextView.delegate = self;
     [inputTitleTextView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(84);
+        make.top.equalTo(self.view).offset(kStatusAndNavBarH+20);
         make.centerX.equalTo(self.view);
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 200));
     }];
@@ -87,7 +85,8 @@
 }
 
 - (id)FakeNavBarLayout:(UIView*)view{
-    view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
+    view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
+	view.backgroundColor = [UIColor whiteColor];
     
     NSString *title = @"关于我";
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)

@@ -18,7 +18,7 @@
 #import "AYServiceArgsDefines.h"
 
 #define LIMITNUMB                   228
-#define kTableFrameY                218
+#define kTableFrameY                (kStatusAndNavBarH+154)
 
 @implementation AYSetServiceNoticeController {
 	
@@ -58,7 +58,7 @@
 	UILabel *titleLabel = [Tools creatUILabelWithText:@"服务守则" andTextColor:[Tools blackColor] andFontSize:630.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(self.view).offset(80);
+		make.top.equalTo(self.view).offset(kStatusAndNavBarH+20);
 		make.left.equalTo(self.view).offset(20);
 	}];
 	

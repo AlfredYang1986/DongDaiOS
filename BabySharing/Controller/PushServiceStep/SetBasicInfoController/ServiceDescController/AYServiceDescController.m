@@ -55,11 +55,20 @@
 	UILabel *titleLabel = [Tools creatUILabelWithText:@"服务描述" andTextColor:[Tools blackColor] andFontSize:622 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(self.view).offset(80);
+		make.top.equalTo(self.view).offset(kStatusAndNavBarH+20);
 		make.left.equalTo(self.view).offset(20);
 	}];
 	
-	[Tools creatCALayerWithFrame:CGRectMake(20, 115, SCREEN_WIDTH - 20 * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self.view];
+//	[Tools creatCALayerWithFrame:CGRectMake(20, 115, SCREEN_WIDTH - 20 * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self.view];
+	
+	UIView *line = [[UIView alloc] init];
+	line.backgroundColor = [Tools garyLineColor];
+	[self.view addSubview:line];
+	[line mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(self.view);
+		make.top.equalTo(titleLabel).offset(35);
+		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 0.5));
+	}];
 	
     descTextView = [[UITextView alloc]init];
     [self.view addSubview:descTextView];

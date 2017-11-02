@@ -56,7 +56,7 @@
 	self.view.clipsToBounds = YES;
 	
 	CGFloat marginScreen = 40.f;
-	CGFloat segY = SCREEN_HEIGHT*155/667;
+	CGFloat segY = SCREEN_HEIGHT*(kStatusAndNavBarH+90)/667;
 	CGFloat itemBtnHeight = 40;
 	
 	titleLabel = [Tools creatUILabelWithText:@"价格设定" andTextColor:[Tools blackColor] andFontSize:630.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
@@ -64,7 +64,7 @@
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(self.view).offset(marginScreen);
-		make.top.equalTo(self.view).offset(80);
+		make.top.equalTo(self.view).offset(kStatusAndNavBarH+20);
 	}];
 	
 	priceCatBtnArr = [NSMutableArray array];

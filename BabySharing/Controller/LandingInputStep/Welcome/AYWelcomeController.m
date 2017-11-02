@@ -91,18 +91,13 @@
 //    [self setNeedsStatusBarAppearanceUpdate];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-//    [self setNeedsStatusBarAppearanceUpdate];
-}
-
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 }
 
 #pragma mark -- views layouts
 - (id)FakeNavBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 64);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusAndNavBarH);
 	
 	UIImage* left = IMGRESOURCE(@"bar_left_theme");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)

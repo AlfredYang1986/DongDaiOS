@@ -93,7 +93,7 @@
 
 - (id)TableLayout:(UIView*)view {
     CGFloat margin = 0;
-    view.frame = CGRectMake(margin, 64, SCREEN_WIDTH - margin * 2, SCREEN_HEIGHT - 64);
+    view.frame = CGRectMake(margin, kStatusAndNavBarH, SCREEN_WIDTH - margin * 2, SCREEN_HEIGHT - kStatusAndNavBarH);
     return nil;
 }
 

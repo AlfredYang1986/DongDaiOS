@@ -153,7 +153,7 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, kNavBarH);
+    view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
 	
     NSString *title = @"服务时间设置";
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
@@ -170,19 +170,19 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 
 - (id)ScheduleWeekDaysLayout:(UIView*)view {
 	
-    view.frame = CGRectMake(view.frame.origin.x, 70, view.frame.size.width, view.frame.size.height);
+    view.frame = CGRectMake(view.frame.origin.x, kStatusAndNavBarH+6, view.frame.size.width, view.frame.size.height);
     view.backgroundColor = [Tools whiteColor];
     return nil;
 }
 
 - (id)TableLayout:(UIView*)view {
 //	((UITableView*)view).contentInset = UIEdgeInsetsMake(17, 0, 0, 0);
-    view.frame = CGRectMake(0, 64 + weekdaysViewHeight, SCREEN_WIDTH, SCREEN_HEIGHT - weekdaysViewHeight - 64 );
+    view.frame = CGRectMake(0, kStatusAndNavBarH + weekdaysViewHeight, SCREEN_WIDTH, SCREEN_HEIGHT - weekdaysViewHeight - kStatusAndNavBarH );
     return nil;
 }
 
 - (id)SpecialTMAndStateLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 370, SCREEN_WIDTH, SCREEN_HEIGHT - 370);
+	view.frame = CGRectMake(0,kStatusAndNavBarH+306, SCREEN_WIDTH, SCREEN_HEIGHT - (kStatusAndNavBarH+306));
 	return nil;
 }
 

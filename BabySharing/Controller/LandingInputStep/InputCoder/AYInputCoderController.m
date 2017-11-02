@@ -49,7 +49,7 @@
 
 #pragma mark -- views layouts
 - (id)FakeNavBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 64);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusAndNavBarH);
 //    view.backgroundColor = [Tools themeColor];
 //	NSString *title = @"确认信息";
 //	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
@@ -65,7 +65,7 @@
 
 - (id)LandingInputCoderLayout:(UIView*)view {
     CGFloat margin = 25.f;
-    view.frame = CGRectMake(margin, 83, SCREEN_WIDTH - margin*2, 320);
+    view.frame = CGRectMake(margin, kStatusAndNavBarH+20, SCREEN_WIDTH - margin*2, 320);
     return nil;
 }
 

@@ -54,7 +54,7 @@
     UILabel *title = [Tools creatUILabelWithText:@"手机号码验证" andTextColor:[Tools blackColor] andFontSize:622.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
     [self.view addSubview:title];
     [title mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(100);
+        make.top.equalTo(self.view).offset(kStatusAndNavBarH+28);
         make.left.equalTo(self.view).offset(20);
     }];
    

@@ -66,7 +66,7 @@ static NSString* const descInitStr =			@"描述一下自己的经历";
     mainView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:mainView];
     [mainView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(64);
+        make.top.equalTo(self.view).offset(kStatusAndNavBarH);
         make.centerX.equalTo(self.view);
         make.width.mas_equalTo(SCREEN_WIDTH);
         make.bottom.equalTo(self.view);

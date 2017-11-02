@@ -77,7 +77,7 @@
     self.navigationItem.titleView = titleSearch;
     self.navigationItem.hidesBackButton = YES;
     
-    UIView* headView = [[UIView alloc]initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, 10)];
+    UIView* headView = [[UIView alloc]initWithFrame:CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, 10)];
     headView.backgroundColor = [UIColor colorWithWhite:0.94 alpha:1.f];
     [self.view addSubview:headView];
     
@@ -107,8 +107,8 @@
 
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    view.frame = CGRectMake(0, 0, width, 20);
+    
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
     view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
@@ -119,7 +119,7 @@
 }
 
 - (id)TableLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 10+64, SCREEN_WIDTH, SCREEN_HEIGHT - 74);
+    view.frame = CGRectMake(0, 10+kStatusAndNavBarH, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH - 10);
     view.backgroundColor = [UIColor whiteColor];
     
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
