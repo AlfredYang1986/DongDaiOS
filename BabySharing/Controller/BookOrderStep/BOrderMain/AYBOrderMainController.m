@@ -92,7 +92,7 @@
     UIButton *applyBtn = [Tools creatUIButtonWithTitle:@"提交" andTitleColor:[Tools whiteColor] andFontSize:316.f andBackgroundColor:[Tools themeColor]];
     [self.view addSubview:applyBtn];
     [applyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view);
+        make.bottom.equalTo(self.view).offset( - HOME_IND_HEIGHT);
         make.centerX.equalTo(self.view);
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 49));
     }];
@@ -130,7 +130,7 @@
 }
 
 - (id)TableLayout:(UIView*)view {
-    view.frame = CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH - kTabBarH);
+    view.frame = CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH - kTabBarH - HOME_IND_HEIGHT);
     return nil;
 }
 

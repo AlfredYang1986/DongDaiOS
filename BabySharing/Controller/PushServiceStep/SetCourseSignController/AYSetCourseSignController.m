@@ -132,7 +132,7 @@
 }
 
 - (id)TableLayout:(UIView*)view {
-	CGFloat marginTop = 64+45+10;
+	CGFloat marginTop = kStatusAndNavBarH+45+10;
     view.frame = CGRectMake(0, marginTop, SCREEN_WIDTH, SCREEN_HEIGHT - marginTop);
     view.backgroundColor = [Tools whiteColor];
     return nil;

@@ -74,6 +74,7 @@
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(marginLeft+15);
 			make.centerY.equalTo(pointSignView);
+			make.right.equalTo(self).offset(-45-40-5);
 		}];
 		
 		CGFloat photoImageWidth = 45.f;
@@ -190,7 +191,8 @@
 	NSString *userName = [[order_info objectForKey:@"owner"] objectForKey:kAYProfileArgsScreenName];
 	titleLabel.text = [NSString stringWithFormat:@"%@的%@", userName, compName];
 	
-	NSString *addrStr = [order_info objectForKey:@"address"];
+	NSDictionary *info_location = [order_info objectForKey:kAYServiceArgsLocationInfo];
+	NSString *addrStr = [info_location objectForKey:kAYServiceArgsAddress];
 	if (addrStr && ![addrStr isEqualToString:@""]) {
 		positionLabel.text = addrStr;
 	}
@@ -325,7 +327,7 @@
 		make.centerX.equalTo(pointSignView);
 		make.size.mas_equalTo(CGSizeMake(15, 15));
 	}];
-	remindLabel.text = @"服务时间错乱，请重新核实";
+	remindLabel.text = @"服务时间出现未知错误，请重新核实";
 	
 	[startTimeIcon mas_remakeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(remindOlockIcon.mas_bottom).offset(15);

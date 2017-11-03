@@ -15,7 +15,8 @@
 
 #define kInputGroupHeight			80
 #define kScreenMarginBottom			45
-#define kTitleMarginBottom			95
+#define SEG_MIN_Y					SCREEN_HEIGHT*(kStatusAndNavBarH+90)/667
+#define SEG_CONT_MARGIN_TOP			(SEG_MIN_Y+40+15)
 
 @implementation AYSetServicePriceController {
 	
@@ -56,7 +57,6 @@
 	self.view.clipsToBounds = YES;
 	
 	CGFloat marginScreen = 40.f;
-	CGFloat segY = SCREEN_HEIGHT*(kStatusAndNavBarH+90)/667;
 	CGFloat itemBtnHeight = 40;
 	
 	titleLabel = [Tools creatUILabelWithText:@"价格设定" andTextColor:[Tools blackColor] andFontSize:630.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
@@ -85,7 +85,7 @@
 		
 		for (int i = 0; i < itemCount; ++i) {
 			
-			AYServicePriceCatBtn *btn = [[AYServicePriceCatBtn alloc] initWithFrame:CGRectMake(marginScreen+itemBtnWith*i, segY, itemBtnWith, itemBtnHeight) andTitle:[itemTitles objectAtIndex:i]];
+			AYServicePriceCatBtn *btn = [[AYServicePriceCatBtn alloc] initWithFrame:CGRectMake(marginScreen+itemBtnWith*i, SEG_MIN_Y, itemBtnWith, itemBtnHeight) andTitle:[itemTitles objectAtIndex:i]];
 			btn.tag = i;
 			[self.view addSubview:btn];
 			btn.selected = i == 0;
@@ -97,7 +97,7 @@
 			[radiusBG mas_makeConstraints:^(MASConstraintMaker *make) {
 				make.centerX.equalTo(self.view).offset(i==0?0:SCREEN_WIDTH);
 				make.width.mas_equalTo(segWidth);
-				make.top.equalTo(titleLabel.mas_bottom).offset(95);
+				make.top.equalTo(self.view).offset(SEG_MIN_Y+itemBtnHeight+15);
 				make.bottom.equalTo(self.view).offset(-45);
 			}];
 			[radiusViewArr addObject:radiusBG];
@@ -177,7 +177,7 @@
 		
 		for (int i = 0; i < itemCount; ++i) {
 			
-			AYServicePriceCatBtn *btn = [[AYServicePriceCatBtn alloc] initWithFrame:CGRectMake(marginScreen+itemBtnWith*i, segY, itemBtnWith, itemBtnHeight) andTitle:[itemTitles objectAtIndex:i]];
+			AYServicePriceCatBtn *btn = [[AYServicePriceCatBtn alloc] initWithFrame:CGRectMake(marginScreen+itemBtnWith*i, SEG_MIN_Y, itemBtnWith, itemBtnHeight) andTitle:[itemTitles objectAtIndex:i]];
 			btn.tag = i;
 			[self.view addSubview:btn];
 			btn.selected = i == 0;
@@ -189,7 +189,7 @@
 			[radiusView mas_makeConstraints:^(MASConstraintMaker *make) {
 				make.centerX.equalTo(self.view).offset(i==0?0:SCREEN_WIDTH);
 				make.width.mas_equalTo(segWidth);
-				make.top.equalTo(titleLabel.mas_bottom).offset(95);
+				make.top.equalTo(self.view).offset(SEG_MIN_Y+itemBtnHeight+15);
 				make.bottom.equalTo(self.view).offset(-45);
 			}];
 			[radiusViewArr addObject:radiusView];
@@ -220,7 +220,7 @@
 	[[priceCatBtnArr objectAtIndex:0] setSelected:YES];
 	handleBtn = [priceCatBtnArr objectAtIndex:0];
 	
-	shadowView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, segY+itemBtnHeight)];
+	shadowView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SEG_MIN_Y+itemBtnHeight)];
 	shadowView.backgroundColor = [Tools whiteColor];
 	[self.view addSubview:shadowView];
 	shadowView.layer.shadowColor = [Tools garyColor].CGColor;
@@ -474,7 +474,7 @@
 			shadowView.hidden = NO;
 			[UIView animateWithDuration:0.25 animations:^{
 				[(UIView*)[radiusViewArr objectAtIndex:1] mas_updateConstraints:^(MASConstraintMaker *make) {
-					make.top.equalTo(titleLabel.mas_bottom).offset(kTitleMarginBottom-(step.floatValue-toBtm));
+					make.top.equalTo(self.view).offset(SEG_CONT_MARGIN_TOP-(step.floatValue-toBtm));
 					make.bottom.equalTo(self.view).offset(-kScreenMarginBottom-(step.floatValue-toBtm));
 //					make.centerY.equalTo(referView).offset(-(step.floatValue-toBtm)-10);
 				}];
@@ -495,11 +495,11 @@
 		if ([timesCountInput.inputField isFirstResponder]) {
 			[UIView animateWithDuration:0.25 animations:^{
 				[(UIView*)[radiusViewArr objectAtIndex:0] mas_updateConstraints:^(MASConstraintMaker *make) {
-					make.top.equalTo(titleLabel.mas_bottom).offset(kTitleMarginBottom);
+					make.top.equalTo(self.view).offset(SEG_CONT_MARGIN_TOP);
 					make.bottom.equalTo(self.view).offset(-kScreenMarginBottom);
 				}];
 				[(UIView*)[radiusViewArr objectAtIndex:1] mas_updateConstraints:^(MASConstraintMaker *make) {
-					make.top.equalTo(titleLabel.mas_bottom).offset(kTitleMarginBottom);
+					make.top.equalTo(self.view).offset(SEG_CONT_MARGIN_TOP);
 					make.bottom.equalTo(self.view).offset(-kScreenMarginBottom);
 				}];
 				[self.view layoutIfNeeded];

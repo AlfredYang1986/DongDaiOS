@@ -44,7 +44,7 @@
 	UIImageView *checkIcon = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"checked_icon")];
 	[self.view addSubview:checkIcon];
 	[checkIcon mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerY.equalTo(self.view.mas_top).offset(104);
+		make.centerY.equalTo(self.view.mas_top).offset(kStatusAndNavBarH+40);
 		make.left.equalTo(self.view).offset(90);
 		make.size.mas_equalTo(CGSizeMake(20,20));
 	}];
@@ -72,9 +72,9 @@
 	UIButton *ConfirmPayBtn = [Tools creatUIButtonWithTitle:@"提交" andTitleColor:[Tools whiteColor] andFontSize:314.f andBackgroundColor:[Tools themeColor]];
 	[self.view addSubview:ConfirmPayBtn];
 	[ConfirmPayBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.bottom.equalTo(self.view);
+		make.bottom.equalTo(self.view).offset(-HOME_IND_HEIGHT);
 		make.centerX.equalTo(self.view);
-		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kTabBarH));
+		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, BOTTOM_HEIGHT));
 	}];
 	[ConfirmPayBtn addTarget:self action:@selector(didConfirmPayBtnClick) forControlEvents:UIControlEventTouchUpInside];
 	
@@ -88,6 +88,7 @@
 
 - (id)FakeNavBarLayout:(UIView*)view {
 	view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
+	
 	NSString *title = @"取消原因";
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
 	

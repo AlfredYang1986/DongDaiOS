@@ -168,7 +168,6 @@
 //		}];
 	}
 	
-	
 	cellMinY = [receiveData objectForKey:@"cell_min_y"];		//首页跳转动画关键值
 	NSNumber *per_mode = [receiveData objectForKey:@"perview_mode"];
 	NSString *service_id = [receiveData objectForKey:kAYServiceArgsID];
@@ -182,7 +181,7 @@
 		
 	} else {
 		
-		AYServicePageBtmView *btmView = [[AYServicePageBtmView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-kBtmViewHeight, SCREEN_WIDTH, kBtmViewHeight)];
+		AYServicePageBtmView *btmView = [[AYServicePageBtmView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-kBtmViewHeight-HOME_IND_HEIGHT, SCREEN_WIDTH, kBtmViewHeight)];
 		[self.view addSubview:btmView];
 		[self.view bringSubviewToFront:btmView];
 		[btmView.bookBtn addTarget:self action:@selector(didBookBtnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -288,7 +287,7 @@
 
 - (id)TableLayout:(UIView*)view {
 	NSNumber *per_mode = [receiveData objectForKey:@"perview_mode"];
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - (per_mode ? 0 : kBtmViewHeight));
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - (per_mode ? 0 : kBtmViewHeight) - HOME_IND_HEIGHT);
     
     ((UITableView*)view).contentInset = UIEdgeInsetsMake(kFlexibleHeight, 0, 0, 0);
     ((UITableView*)view).estimatedRowHeight = 300;
@@ -472,7 +471,7 @@
 		return NO;
 }
 
-- (void)didChatBtnClick:(UIButton*)btn{
+- (void)didChatBtnClick:(UIButton*)btn {
 	if ([self isOwnerUserSelf]) {
 		return;
 	}

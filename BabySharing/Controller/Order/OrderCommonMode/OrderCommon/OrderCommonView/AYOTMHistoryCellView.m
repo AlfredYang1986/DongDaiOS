@@ -94,6 +94,7 @@
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(self).offset(15);
 			make.left.equalTo(bgView).offset(20);
+			make.right.equalTo(photoIcon.mas_left).offset(-5);
 		}];
 		
 		UIImageView *olockIcon = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"otm_history_time")];
@@ -201,12 +202,13 @@
 	[photoIcon sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name]]
 				 placeholderImage:IMGRESOURCE(@"default_user")];
 	
-	NSString *compName = [Tools serviceCompleteNameFromSKUWith:order_info];
+	NSString *compName = [order_info objectForKey:kAYOrderArgsTitle];
 	NSString *userName = [[order_info objectForKey:@"owner"] objectForKey:kAYProfileArgsScreenName];
 	titleLabel.text = [NSString stringWithFormat:@"%@的%@", userName, compName];
 	
-	NSString *addrStr = [order_info objectForKey:@"address"];
-	if (addrStr && ![addrStr isEqualToString:@""]) {
+	NSDictionary *info_location = [order_info objectForKey:kAYServiceArgsLocationInfo];
+	NSString *addrStr = [info_location objectForKey:kAYServiceArgsAddress];
+	if (addrStr.length != 0) {
 		positionLabel.text = addrStr;
 	}
 	

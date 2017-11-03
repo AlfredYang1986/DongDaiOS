@@ -50,7 +50,7 @@
     [self.view addSubview:state];
     [state mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
-        make.bottom.equalTo(self.view).offset(4);
+        make.bottom.equalTo(self.view).offset(4 - HOME_IND_HEIGHT);
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 48));
     }];
 }
@@ -81,7 +81,7 @@
 
 - (id)WebLayout:(UIView*)view {
     
-    view.frame = CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, SCREEN_HEIGHT - 40 - kStatusAndNavBarH);
+    view.frame = CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, SCREEN_HEIGHT - 40 - kStatusAndNavBarH - HOME_IND_HEIGHT);
     
     NSString *path = [[NSBundle mainBundle] pathForResource:@"privacy" ofType:@"html"];
     NSData *data = [NSData dataWithContentsOfFile:path];

@@ -101,7 +101,7 @@
 				if (status == OrderStatusPosted) {
 					
 					CGFloat btmView_height = 64.f;
-					BTMView.frame = CGRectMake(0, SCREEN_HEIGHT - btmView_height, SCREEN_WIDTH, btmView_height);
+					BTMView.frame = CGRectMake(0, SCREEN_HEIGHT - btmView_height - HOME_IND_HEIGHT, SCREEN_WIDTH, btmView_height);
 					
 					UIButton *rejectBtn  = [Tools creatUIButtonWithTitle:@"拒绝" andTitleColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil];
 					[Tools setViewBorder:rejectBtn withRadius:0 andBorderWidth:1.f andBorderColor:[Tools themeColor] andBackground:nil];
@@ -124,7 +124,7 @@
 				}
 				else if (status == OrderStatusCancel) {
 					
-					BTMView.frame = CGRectMake(0, SCREEN_HEIGHT - kTabBarH, SCREEN_WIDTH, kTabBarH);
+					BTMView.frame = CGRectMake(0, SCREEN_HEIGHT - BOTTOM_HEIGHT - HOME_IND_HEIGHT, SCREEN_WIDTH, BOTTOM_HEIGHT);
 					
 					NSString *resonStr = [NSString stringWithFormat:@"拒绝原因:%@", [order_info objectForKey:kAYOrderArgsFurtherMessage]];
 					UILabel *tipsLabel = [Tools creatUILabelWithText:resonStr andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
@@ -141,31 +141,26 @@
 			} else {	//用户方
 				
 				if (status == OrderStatusAccepted) {
-					CGFloat btmView_height = 49.f;
-					BTMView.frame = CGRectMake(0, SCREEN_HEIGHT - btmView_height, SCREEN_WIDTH, btmView_height);
+					BTMView.frame = CGRectMake(0, SCREEN_HEIGHT - BOTTOM_HEIGHT - HOME_IND_HEIGHT, SCREEN_WIDTH, BOTTOM_HEIGHT);
 					
 					UIButton *gotoPayBtn = [Tools creatUIButtonWithTitle:@"去支付" andTitleColor:[Tools whiteColor] andFontSize:314.f andBackgroundColor:[Tools themeColor]];
 					[BTMView addSubview:gotoPayBtn];
 					[gotoPayBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-						make.bottom.equalTo(BTMView);
-						make.centerX.equalTo(BTMView);
-						make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kTabBarH));
+						make.edges.equalTo(BTMView);
 					}];
 					[gotoPayBtn addTarget:self action:@selector(didGoPayBtnClick) forControlEvents:UIControlEventTouchUpInside];
 					
 					UIButton *cancelBtn = [Tools creatUIButtonWithTitle:@"取消预订申请" andTitleColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
 					[BTMView addSubview:cancelBtn];
 					[cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-						make.bottom.equalTo(gotoPayBtn.mas_top);
-						make.centerX.equalTo(BTMView);
-						make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kTabBarH));
+						make.edges.equalTo(BTMView);
 					}];
 					[cancelBtn addTarget:self action:@selector(didCancelBtnClick) forControlEvents:UIControlEventTouchUpInside];
 					cancelBtn.hidden = YES;
 				}
 				else if (status == OrderStatusCancel) {
 					
-					BTMView.frame = CGRectMake(0, SCREEN_HEIGHT - kTabBarH, SCREEN_WIDTH, kTabBarH);
+					BTMView.frame = CGRectMake(0, SCREEN_HEIGHT - BOTTOM_HEIGHT - HOME_IND_HEIGHT, SCREEN_WIDTH, BOTTOM_HEIGHT);
 					
 					NSString *resonStr = [NSString stringWithFormat:@"取消原因:%@", [order_info objectForKey:kAYOrderArgsFurtherMessage]];
 					UILabel *tipsLabel = [Tools creatUILabelWithText:resonStr andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
@@ -181,7 +176,7 @@
 			}
 			
 			//最后添线
-			[Tools creatCALayerWithFrame:CGRectMake(0,  0, SCREEN_WIDTH, 0.5) andColor:[Tools garyLineColor] inSuperView:BTMView];
+			[Tools creatCALayerWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.5) andColor:[Tools garyLineColor] inSuperView:BTMView];
 			
 			UITableView *view_table = [self.views objectForKey:kAYTableView];
 			[view_table mas_remakeConstraints:^(MASConstraintMaker *make) {

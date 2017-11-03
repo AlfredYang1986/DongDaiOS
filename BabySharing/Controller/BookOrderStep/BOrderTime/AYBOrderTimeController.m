@@ -190,9 +190,9 @@
 	certainBtn = [Tools creatUIButtonWithTitle:@"申请预订" andTitleColor:[Tools whiteColor] andFontSize:318.f andBackgroundColor:[Tools disableBackgroundColor]];
 	[self.view addSubview:certainBtn];
 	[certainBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.bottom.equalTo(self.view);
+		make.bottom.equalTo(self.view).offset( -HOME_IND_HEIGHT);
 		make.centerX.equalTo(self.view);
-		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kBotButtonH));
+		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, BOTTOM_HEIGHT));
 	}];
 	[certainBtn addTarget:self action:@selector(didCertainBtnnClick) forControlEvents:UIControlEventTouchUpInside];
 	
@@ -226,7 +226,7 @@
 }
 
 - (id)CollectionVerLayout:(UIView*)view {
-	view.frame = CGRectMake(0, kStatusAndNavBarH + 40 + 40, SCREEN_WIDTH - screenPadding * 2, SCREEN_HEIGHT - kStatusAndNavBarH - 40 - 40 - kBotButtonH);
+	view.frame = CGRectMake(0, kStatusAndNavBarH + 40 + 40, SCREEN_WIDTH - screenPadding * 2, SCREEN_HEIGHT - kStatusAndNavBarH - 40 - 40 - BOTTOM_HEIGHT - HOME_IND_HEIGHT);
 	view.backgroundColor = [UIColor clearColor];
 	((UICollectionView*)view).allowsMultipleSelection = YES;
 	return nil;
@@ -234,7 +234,7 @@
 
 - (id)TableLayout:(UIView*)view {
 	view.backgroundColor = [Tools garyBackgroundColor];
-	view.frame = CGRectMake(0, SCREEN_HEIGHT - kBotButtonH, SCREEN_WIDTH, 0);
+	view.frame = CGRectMake(0, SCREEN_HEIGHT - BOTTOM_HEIGHT - HOME_IND_HEIGHT, SCREEN_WIDTH, 0);
 		
 	if ([serviceCat isEqualToString:kAYStringCourse]) {
 		UIView *libgView = [[UIView alloc] initWithFrame:CGRectMake(26.5, 0, 1.f, 736)];
@@ -533,7 +533,7 @@
 	 */
 	[UIView animateWithDuration:0.25 animations:^{
 		view_collection.frame = CGRectMake(0, kStatusAndNavBarH + 40 + 40, SCREEN_WIDTH - screenPadding * 2, transHeight);
-		view_table.frame = CGRectMake(0, kStatusAndNavBarH + 40 + 40 + transHeight, SCREEN_WIDTH, SCREEN_HEIGHT - (kStatusAndNavBarH + 40 + 40 + transHeight + kBotButtonH));
+		view_table.frame = CGRectMake(0, kStatusAndNavBarH + 40 + 40 + transHeight, SCREEN_WIDTH, SCREEN_HEIGHT - (kStatusAndNavBarH + 40 + 40 + transHeight + BOTTOM_HEIGHT - HOME_IND_HEIGHT));
 	} completion:^(BOOL finished) {
 		isAnimateCompletion = YES;
 	}];
@@ -548,8 +548,8 @@
 		UITableView *view_table = [self.views objectForKey:kAYTableView];
 		UICollectionView *view_collection = [self.views objectForKey:@"CollectionVer"];
 		[UIView animateWithDuration:0.25 animations:^{
-			view_collection.frame = CGRectMake(0, kStatusAndNavBarH + 40 + 40, SCREEN_WIDTH - screenPadding * 2, SCREEN_HEIGHT - kStatusAndNavBarH - 40 - 40 - kBotButtonH);
-			view_table.frame = CGRectMake(0, SCREEN_HEIGHT - kBotButtonH, SCREEN_WIDTH, 0);
+			view_collection.frame = CGRectMake(0, kStatusAndNavBarH + 40 + 40, SCREEN_WIDTH - screenPadding * 2, SCREEN_HEIGHT - kStatusAndNavBarH - 40 - 40 - BOTTOM_HEIGHT - HOME_IND_HEIGHT);
+			view_table.frame = CGRectMake(0, SCREEN_HEIGHT - BOTTOM_HEIGHT - HOME_IND_HEIGHT, SCREEN_WIDTH, 0);
 		}];
 	}
 	return nil;

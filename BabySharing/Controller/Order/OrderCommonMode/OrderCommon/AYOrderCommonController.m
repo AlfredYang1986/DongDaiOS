@@ -20,7 +20,6 @@
 #import <objc/runtime.h>
 
 #define TOPHEIGHT		0
-//165
 
 @implementation AYOrderCommonController {
 	
@@ -28,7 +27,6 @@
 	
 	NSArray *result_status_fb;
 	NSArray *OrderOfAll;
-	NSTimeInterval queryTimespan;
 	NSInteger skipCount;
 	
 	dispatch_semaphore_t semaphore;
@@ -59,11 +57,7 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	skipCount = 0;
-	queryTimespan = [NSDate date].timeIntervalSince1970;
 	
-	/****************************************/
-	UITableView *tableView = [self.views objectForKey:kAYTableView];
-	[self.view bringSubviewToFront:tableView];
 	/****************************************/
 	
 	id<AYDelegateBase> delegate = [self.delegates objectForKey:@"OrderCommon"];
@@ -73,6 +67,7 @@
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
 	
 	/****************************************/
+	UITableView *tableView = [self.views objectForKey:kAYTableView];
 	tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
 	[self loadNewData];
 	
@@ -82,6 +77,8 @@
 	class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OTMHistoryCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
 	
+	UITableView *view_status = [self.views objectForKey:kAYFakeStatusBarView];
+	[self.view bringSubviewToFront:view_status];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
