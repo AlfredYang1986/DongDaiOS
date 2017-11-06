@@ -510,7 +510,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     return nil;
 }
 
-#pragma mark -- perform to other controller
+#pragma mark - perform to other controller
 - (void)performWithResult:(NSObject *__autoreleasing *)obj {
     NSDictionary* dic = (NSDictionary*)*obj;
     
@@ -558,6 +558,8 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
                 break;
         }
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
+		
+		self.landing_status = RemoteControllerStatusLoading;
 		
 		NSString* method_name = [dic objectForKey:kAYControllerChangeArgsKey];
         SEL sel = NSSelectorFromString(method_name);

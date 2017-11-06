@@ -19,7 +19,8 @@
 #import "AYModelFacade.h"
 
 #import "AYAssortmentItemView.h"
-#define kCOLLECTIONVIEWTOP 205.f
+
+#define kCOLLECTIONVIEWTOP			(kStatusAndNavBarH + 141)
 
 @implementation AYAssortmentController {
 	UIStatusBarStyle statusStyle;
@@ -114,7 +115,7 @@
 	[bannerView addSubview:bannerTitle];
 	[bannerTitle mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(bannerView);
-		make.top.equalTo(bannerView).offset(75);
+		make.centerY.equalTo(bannerView).offset(-10);
 	}];
 	
 	NSShadow *sdw = [[NSShadow alloc] init];
