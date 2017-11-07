@@ -194,6 +194,7 @@
 		make.centerX.equalTo(self.view);
 		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, BOTTOM_HEIGHT));
 	}];
+	certainBtn.enabled = NO;
 	[certainBtn addTarget:self action:@selector(didCertainBtnnClick) forControlEvents:UIControlEventTouchUpInside];
 	
 	UIView* picker = [self.views objectForKey:@"Picker"];
