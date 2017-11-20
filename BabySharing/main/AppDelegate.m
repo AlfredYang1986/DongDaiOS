@@ -48,19 +48,11 @@ static NSString* const kAYEMAppKey = @"blackmirror#dongda";
         @throw [[NSException alloc]initWithName:@"error" reason:@"register EM Error" userInfo:nil];
     }
 	
-	/**
-	 * create dongda model
-	 */
 	id<AYCommand> model = MODEL;
 	[model postPerform];
 	
-	/**
-	 * apn notification factory
-	 */
 	id<AYCommand> apn = COMMAND(kAYFactoryManagerCommandTypeAPN, kAYFactoryManagerCommandTypeAPN);
 	[apn performWithResult:nil];
-    
-	CGRect screenBounds = [[UIScreen mainScreen] bounds];
 	
 	NSDictionary *infoDic=[[NSBundle mainBundle] infoDictionary];
 	NSString *app_Version = [infoDic objectForKey:@"CFBundleShortVersionString"];
@@ -68,6 +60,7 @@ static NSString* const kAYEMAppKey = @"blackmirror#dongda";
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	NSString *note_version = [defaults objectForKey:@"dongda_app_version"];
 	
+	CGRect screenBounds = [[UIScreen mainScreen] bounds];
 	if (![app_Version isEqualToString:note_version]) {
 		NSLog(@"%@", app_Version);
 		AYViewController* rootVC = DEFAULTCONTROLLER(@"NewVersionNav");
@@ -76,19 +69,12 @@ static NSString* const kAYEMAppKey = @"blackmirror#dongda";
 		[self.window makeKeyAndVisible];
 		self.window.rootViewController = rootVC;
 		
-	}
-	else {
+	} else {
 		
-		/**
-		 * create controller factory
-		 */
 		id<AYCommand> cmd = COMMAND(kAYFactoryManagerCommandTypeInit, kAYFactoryManagerCommandTypeInit);
 		AYViewController* controller = nil;
 		[cmd performWithResult:&controller];
 		
-		/**
-		 * Navigation Controller
-		 */
 		AYNavigationController * rootContorller = CONTROLLER(@"DefaultController", @"Navigation");
 		[rootContorller pushViewController:controller animated:NO];
 		
