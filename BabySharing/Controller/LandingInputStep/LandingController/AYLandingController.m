@@ -361,38 +361,50 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
         if ([[((NSDictionary*)args) objectForKey:@"user_id"] isEqualToString:[((NSDictionary*)obj) objectForKey:@"user_id"]]) {
             NSLog(@"finally login over success");
             
-			AYViewController* des;
-            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-            NSNumber *model = [defaults objectForKey:@"dongda_app_mode"];
-            switch (model.intValue) {
-                case DongDaAppModeUnLogin:
-                case DongDaAppModeCommon:
-                {
-                    des = DEFAULTCONTROLLER(@"TabBar");
-                }
-                    break;
-                case DongDaAppModeServant:
-                {
-                    des = DEFAULTCONTROLLER(@"TabBarService");
-                }
-                    break;
-                default:
-                    break;
-            }
-            
-            NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
-            [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
-            [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
-            [dic_show_module setValue:self forKey:kAYControllerActionSourceControllerKey];
-            
-            NSMutableDictionary *dic_exchange = [[NSMutableDictionary alloc]init];
-            [dic_exchange setValue:[NSNumber numberWithInteger:0] forKey:@"index"];
-            [dic_exchange setValue:[NSNumber numberWithInteger:ModeExchangeTypeUnloginToAllModel] forKey:@"type"];
-            [dic_show_module setValue:dic_exchange forKey:kAYControllerChangeArgsKey];
-            
-            id<AYCommand> cmd_exchange = EXCHANGEWINDOWS;
-            [cmd_exchange performWithResult:&dic_show_module];
-            
+//			AYViewController* des;
+//            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//            NSNumber *model = [defaults objectForKey:@"dongda_app_mode"];
+//            switch (model.intValue) {
+//                case DongDaAppModeUnLogin:
+//                case DongDaAppModeCommon:
+//                {
+//                    des = DEFAULTCONTROLLER(@"TabBar");
+//                }
+//                    break;
+//                case DongDaAppModeServant:
+//                {
+//                    des = DEFAULTCONTROLLER(@"TabBarService");
+//                }
+//                    break;
+//                default:
+//                    break;
+//            }
+//
+//            NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
+//            [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
+//            [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
+//            [dic_show_module setValue:self forKey:kAYControllerActionSourceControllerKey];
+//
+//            NSMutableDictionary *dic_exchange = [[NSMutableDictionary alloc]init];
+//            [dic_exchange setValue:[NSNumber numberWithInteger:0] forKey:@"index"];
+//            [dic_exchange setValue:[NSNumber numberWithInteger:ModeExchangeTypeUnloginToAllModel] forKey:@"type"];
+//            [dic_show_module setValue:dic_exchange forKey:kAYControllerChangeArgsKey];
+//
+//            id<AYCommand> cmd_exchange = EXCHANGEWINDOWS;
+//            [cmd_exchange performWithResult:&dic_show_module];
+			
+			id<AYCommand> cmd_home_init = [self.commands objectForKey:@"HomeInit"];
+			AYViewController* des = nil;
+			[cmd_home_init performWithResult:&des];
+			
+			NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
+			[dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
+			[dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
+			[dic_show_module setValue:self forKey:kAYControllerActionSourceControllerKey];
+			
+			id<AYCommand> cmd_exchange = EXCHANGEWINDOWS;
+			[cmd_exchange performWithResult:&dic_show_module];
+			
         } else {
             NSLog(@"something wrong with login process");
             @throw [[NSException alloc]initWithName:@"error" reason:@"something wrong with login process" userInfo:nil];

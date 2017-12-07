@@ -18,6 +18,8 @@
 #import "AYCommandsCommand.h"
 #import "AYServiceArgsDefines.h"
 
+#import "UIView+RunTimeCmd.h"
+
 static NSString* const kAMapApiKey =					@"7d5d988618fd8a707018941f8cd52931";
 static NSString* const kAYEMIDDongDaMaster =			@"dongda_master";
 static NSString* const kAYNetworkSlowTip =				@"请改善网络环境并重试";

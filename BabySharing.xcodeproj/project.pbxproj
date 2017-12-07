@@ -258,6 +258,10 @@
 		702B78411EC02774003E8104 /* AYQueryRemindCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702B78401EC02774003E8104 /* AYQueryRemindCommand.m */; };
 		702B7A481DAF286700D8715B /* AYShowAlertCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702B7A471DAF286700D8715B /* AYShowAlertCommand.m */; };
 		702B7A4C1DAF2ABF00D8715B /* AYHideAlertCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702B7A4B1DAF2ABF00D8715B /* AYHideAlertCommand.m */; };
+		702BB9F81FD9287A0083E123 /* AYHomeCourseCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 702BB9F71FD9287A0083E123 /* AYHomeCourseCellView.m */; };
+		702BB9FB1FD9288A0083E123 /* AYHomeLookAfterCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 702BB9FA1FD9288A0083E123 /* AYHomeLookAfterCellView.m */; };
+		702BB9FE1FD931AA0083E123 /* AYHomeServPerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 702BB9FD1FD931AA0083E123 /* AYHomeServPerItem.m */; };
+		702BBA071FD942AF0083E123 /* UIView+RunTimeCmd.m in Sources */ = {isa = PBXBuildFile; fileRef = 702BBA061FD942AF0083E123 /* UIView+RunTimeCmd.m */; };
 		702BD33D1CF55FAF0010F2BA /* AYKeyboardFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 702BD33C1CF55FAF0010F2BA /* AYKeyboardFacade.m */; };
 		702BE9031EC1E4C400F20E41 /* AYRemoteBackController.m in Sources */ = {isa = PBXBuildFile; fileRef = 702BE8FF1EC1E4C400F20E41 /* AYRemoteBackController.m */; };
 		702BE9041EC1E4C400F20E41 /* AYRemoteBackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 702BE9021EC1E4C400F20E41 /* AYRemoteBackView.m */; };
@@ -1341,6 +1345,14 @@
 		702B7A471DAF286700D8715B /* AYShowAlertCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYShowAlertCommand.m; sourceTree = "<group>"; };
 		702B7A4A1DAF2ABF00D8715B /* AYHideAlertCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYHideAlertCommand.h; sourceTree = "<group>"; };
 		702B7A4B1DAF2ABF00D8715B /* AYHideAlertCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYHideAlertCommand.m; sourceTree = "<group>"; };
+		702BB9F61FD9287A0083E123 /* AYHomeCourseCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYHomeCourseCellView.h; sourceTree = "<group>"; };
+		702BB9F71FD9287A0083E123 /* AYHomeCourseCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AYHomeCourseCellView.m; sourceTree = "<group>"; };
+		702BB9F91FD9288A0083E123 /* AYHomeLookAfterCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYHomeLookAfterCellView.h; sourceTree = "<group>"; };
+		702BB9FA1FD9288A0083E123 /* AYHomeLookAfterCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AYHomeLookAfterCellView.m; sourceTree = "<group>"; };
+		702BB9FC1FD931AA0083E123 /* AYHomeServPerItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYHomeServPerItem.h; sourceTree = "<group>"; };
+		702BB9FD1FD931AA0083E123 /* AYHomeServPerItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AYHomeServPerItem.m; sourceTree = "<group>"; };
+		702BBA051FD942AF0083E123 /* UIView+RunTimeCmd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+RunTimeCmd.h"; sourceTree = "<group>"; };
+		702BBA061FD942AF0083E123 /* UIView+RunTimeCmd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+RunTimeCmd.m"; sourceTree = "<group>"; };
 		702BD33B1CF55FAF0010F2BA /* AYKeyboardFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYKeyboardFacade.h; sourceTree = "<group>"; };
 		702BD33C1CF55FAF0010F2BA /* AYKeyboardFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYKeyboardFacade.m; sourceTree = "<group>"; };
 		702BE8FE1EC1E4C400F20E41 /* AYRemoteBackController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYRemoteBackController.h; sourceTree = "<group>"; };
@@ -4460,6 +4472,43 @@
 			path = HideAlert;
 			sourceTree = "<group>";
 		};
+		702BB9F41FD928450083E123 /* LookAfterCell */ = {
+			isa = PBXGroup;
+			children = (
+				702BB9F91FD9288A0083E123 /* AYHomeLookAfterCellView.h */,
+				702BB9FA1FD9288A0083E123 /* AYHomeLookAfterCellView.m */,
+				702BB9FC1FD931AA0083E123 /* AYHomeServPerItem.h */,
+				702BB9FD1FD931AA0083E123 /* AYHomeServPerItem.m */,
+			);
+			path = LookAfterCell;
+			sourceTree = "<group>";
+		};
+		702BB9F51FD928450083E123 /* CourseCell */ = {
+			isa = PBXGroup;
+			children = (
+				702BB9F61FD9287A0083E123 /* AYHomeCourseCellView.h */,
+				702BB9F71FD9287A0083E123 /* AYHomeCourseCellView.m */,
+			);
+			path = CourseCell;
+			sourceTree = "<group>";
+		};
+		702BB9FF1FD940DD0083E123 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				702BBA001FD940DD0083E123 /* UIView */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		702BBA001FD940DD0083E123 /* UIView */ = {
+			isa = PBXGroup;
+			children = (
+				702BBA051FD942AF0083E123 /* UIView+RunTimeCmd.h */,
+				702BBA061FD942AF0083E123 /* UIView+RunTimeCmd.m */,
+			);
+			path = UIView;
+			sourceTree = "<group>";
+		};
 		702BD33A1CF55F700010F2BA /* Keyboard */ = {
 			isa = PBXGroup;
 			children = (
@@ -5263,6 +5312,7 @@
 		70490DA51CA2339D0093D5DA /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				702BB9FF1FD940DD0083E123 /* Extension */,
 				701C731E1F9063B800165163 /* WXSTransition */,
 				80F058D31E5C2FD7002B105F /* libAlipaySDK */,
 				70F57E5C1D8693CC003D493E /* MBProgressHUD */,
@@ -5621,6 +5671,8 @@
 		7056B9051F1F29F900386E3A /* AYHomeCellView */ = {
 			isa = PBXGroup;
 			children = (
+				702BB9F51FD928450083E123 /* CourseCell */,
+				702BB9F41FD928450083E123 /* LookAfterCell */,
 				705D66D71F21D73C0069BF42 /* Sort */,
 				705D66D31F21A9260069BF42 /* Around */,
 				7048AEA11F209E7000C7BE8D /* Assortment */,
@@ -9430,6 +9482,7 @@
 				7060BDB11CB60EEF001E4111 /* AYQueryCurrentLoginUserCommand.m in Sources */,
 				704697D01CE047F200DACD8A /* NSData+ImageContentType.m in Sources */,
 				702510A01CC0F5AB00DADF2B /* Notifications+CoreDataProperties.m in Sources */,
+				702BBA071FD942AF0083E123 /* UIView+RunTimeCmd.m in Sources */,
 				70DCA6961D6E949700D417FE /* AYAlertView.m in Sources */,
 				701CA4341F694E7300C2112D /* AYValidatingView.m in Sources */,
 				7000CD1A1D7E8A5200DA98F2 /* MJRefreshBackFooter.m in Sources */,
@@ -9453,6 +9506,7 @@
 				70B3C3121F721C3C00805151 /* AYServiceDescController.m in Sources */,
 				70F967831E28F8EE00B3805B /* AYCalendarCellView.m in Sources */,
 				703CCDC41CC9D96F00CF4563 /* AYRemoveNotificationCommand.m in Sources */,
+				702BB9FB1FD9288A0083E123 /* AYHomeLookAfterCellView.m in Sources */,
 				702787CD1F6FAE3400AD57F6 /* AYSetBasicInfoController.m in Sources */,
 				700BE5EB1CBA6E5800A09B3A /* AYLandingReqConfirmCodeCommand.m in Sources */,
 				7045EFEF1E08F3E800341E14 /* AYFilterLocationController.m in Sources */,
@@ -9634,6 +9688,7 @@
 				703B4C4E1DCC292200B1088C /* AYQueryCommentCommand.m in Sources */,
 				80C829D91CDD8CF7007B1077 /* AYThumbsNormalBtnView.m in Sources */,
 				7048AEA71F20A51000C7BE8D /* AYHomeAssortmentCellItem.m in Sources */,
+				702BB9FE1FD931AA0083E123 /* AYHomeServPerItem.m in Sources */,
 				70E77CE31D8E812B00C882DD /* AYUpdateOrderInfoCommand.m in Sources */,
 				700B8C651D58749100DD1D06 /* AYCreateEMChatCommand.m in Sources */,
 				80F0593F1E5C3F4C002B105F /* NSDataEx.m in Sources */,
@@ -9696,6 +9751,7 @@
 				700BE5A71CBA496800A09B3A /* AYFactoryParaNode.m in Sources */,
 				7056B9F21F1F2BF400386E3A /* AYOrderPriceCellView.m in Sources */,
 				70C41EDF1DBA122500C77B10 /* TZAssetModel.m in Sources */,
+				702BB9F81FD9287A0083E123 /* AYHomeCourseCellView.m in Sources */,
 				705B4A3C1D644AD3006273E7 /* AYAllCollectServiceCommand.m in Sources */,
 				7048AE9C1F208A0300C7BE8D /* AYHomeBannerItemCellView.m in Sources */,
 				7056B9E21F1F2BF400386E3A /* AYPastOrderDelegate.m in Sources */,
