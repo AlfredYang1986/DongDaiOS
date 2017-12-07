@@ -361,9 +361,9 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
         if ([[((NSDictionary*)args) objectForKey:@"user_id"] isEqualToString:[((NSDictionary*)obj) objectForKey:@"user_id"]]) {
             NSLog(@"finally login over success");
             
+			AYViewController* des;
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             NSNumber *model = [defaults objectForKey:@"dongda_app_mode"];
-            AYViewController* des;
             switch (model.intValue) {
                 case DongDaAppModeUnLogin:
                 case DongDaAppModeCommon:
@@ -384,7 +384,6 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
             [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
             [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
             [dic_show_module setValue:self forKey:kAYControllerActionSourceControllerKey];
-//            [dic_show_module setValue:[NSNumber numberWithInt:ModeExchangeTypeUnloginToAllModel] forKey:kAYControllerChangeArgsKey];
             
             NSMutableDictionary *dic_exchange = [[NSMutableDictionary alloc]init];
             [dic_exchange setValue:[NSNumber numberWithInteger:0] forKey:@"index"];
@@ -462,17 +461,13 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 
 #pragma mark -- remote notification
 - (id)LandingReqConfirmCodeRemoteResult:(BOOL)success RemoteArgs:(NSDictionary*)result {
-    /**
-     * update local database
-     */
+	
     NSLog(@"remote req confirm code notify");
     AYModel* m = MODEL;
     AYFacade* f = [m.facades objectForKey:@"LoginModel"];
     id<AYCommand> cmd = [f.commands objectForKey:@"ChangeTmpUser"];
     [cmd performWithResult:&result];
-    /**
-     * refresh timer
-     */   
+
     id<AYViewBase> view = [self.views objectForKey:@"LandingInput"];
     id<AYCommand> cmd_view = [view.commands objectForKey:@"startConfirmCodeTimer"];
     [cmd_view performWithResult:nil];
