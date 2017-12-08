@@ -43,20 +43,20 @@
 
 - (void)initialize {
 	
-	self.layer.shadowColor = [Tools garyColor].CGColor;
+	self.layer.shadowColor = [UIColor gary].CGColor;
 	self.layer.shadowOffset = CGSizeMake(0, 0);
 	self.layer.shadowRadius = 3.f;
 	self.layer.shadowOpacity = 0.5f;
 	self.layer.cornerRadius = 4.f;
 	
 	UIView *radiusView = [[UIView alloc] init];
-	[Tools setViewBorder:radiusView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools whiteColor]];
+	[Tools setViewBorder:radiusView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[UIColor white]];
 	[self addSubview:radiusView];
 	[radiusView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.edges.equalTo(self);
 	}];
 	
-	coverImage = [[UIImageView alloc]init];
+	coverImage = [[UIImageView alloc] init];
 	coverImage.image = IMGRESOURCE(@"default_image");
 	coverImage.contentMode = UIViewContentModeScaleAspectFill;
 	coverImage.clipsToBounds = YES;
@@ -69,7 +69,7 @@
 	}];
 	
 	
-	titleLabel = [Tools creatUILabelWithText:@"Service Belong to Servant" andTextColor:[Tools blackColor] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	titleLabel = [Tools creatUILabelWithText:@"Service Belong to Servant" andTextColor:[UIColor black] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	titleLabel.numberOfLines = 2;
 	[radiusView addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -87,7 +87,7 @@
 		make.size.mas_equalTo(CGSizeMake(8, 10));
 	}];
 	
-	addressLabel = [Tools creatUILabelWithText:@"Address Info" andTextColor:[Tools RGB153GaryColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	addressLabel = [Tools creatUILabelWithText:@"Address Info" andTextColor:[UIColor RGB153Gary] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[radiusView addSubview:addressLabel];
 	[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(positionSignView);
@@ -96,7 +96,7 @@
 	}];
 	
 	
-	priceLabel = [Tools creatUILabelWithText:@"¥Price/Unit" andTextColor:[Tools themeColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	priceLabel = [Tools creatUILabelWithText:@"¥Price/Unit" andTextColor:[UIColor theme] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[radiusView addSubview:priceLabel];
 	[priceLabel sizeToFit];
 	[priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -104,8 +104,8 @@
 		make.top.equalTo(positionSignView.mas_bottom).offset(8);
 	}];
 	
-	ageBoundaryLabel = [Tools creatUILabelWithText:@"0-0 old" andTextColor:[Tools themeColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-	[Tools setViewBorder:ageBoundaryLabel withRadius:4.f andBorderWidth:1.f andBorderColor:[Tools themeColor] andBackground:nil];
+	ageBoundaryLabel = [Tools creatUILabelWithText:@"0-0 old" andTextColor:[UIColor theme] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	[Tools setViewBorder:ageBoundaryLabel withRadius:4.f andBorderWidth:1.f andBorderColor:[UIColor theme] andBackground:nil];
 	[radiusView addSubview:ageBoundaryLabel];
 	[ageBoundaryLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.right.equalTo(titleLabel);
@@ -113,8 +113,8 @@
 		make.size.mas_equalTo(CGSizeMake(48, 20));
 	}];
 	
-	themeLabel = [Tools creatUILabelWithText:@"Theme" andTextColor:[Tools themeColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-	[Tools setViewBorder:themeLabel withRadius:4.f andBorderWidth:1.f andBorderColor:[Tools themeColor] andBackground:nil];
+	themeLabel = [Tools creatUILabelWithText:@"Theme" andTextColor:[UIColor theme] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	[Tools setViewBorder:themeLabel withRadius:4.f andBorderWidth:1.f andBorderColor:[UIColor theme] andBackground:nil];
 	[radiusView addSubview:themeLabel];
 	[themeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.right.equalTo(ageBoundaryLabel.mas_left).offset(-8);
@@ -123,16 +123,21 @@
 	}];
 	
 	
-	//	likeBtn  = [[UIButton alloc] init];
-	//	[likeBtn setImage:IMGRESOURCE(@"home_icon_love_normal") forState:UIControlStateNormal];
-	//	[likeBtn setImage:IMGRESOURCE(@"home_icon_love_select") forState:UIControlStateSelected];
-	//	[self addSubview:likeBtn];
-	//	[likeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-	//		make.right.equalTo(coverImage).offset(-10);
-	//		make.top.top.equalTo(coverImage).offset(10);
-	//		make.size.mas_equalTo(CGSizeMake(40, 40));
-	//	}];
-	//	[likeBtn addTarget:self action:@selector(didLikeBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+	likeBtn  = [[UIButton alloc] init];
+	[likeBtn setImage:IMGRESOURCE(@"home_icon_love_normal") forState:UIControlStateNormal];
+	[likeBtn setImage:IMGRESOURCE(@"home_icon_love_select") forState:UIControlStateSelected];
+	[self addSubview:likeBtn];
+	[likeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.right.equalTo(coverImage).offset(-10);
+		make.top.top.equalTo(coverImage).offset(10);
+		make.size.mas_equalTo(CGSizeMake(40, 40));
+	}];
+	[likeBtn addTarget:self action:@selector(didLikeBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+	
+}
+
+#pragma mark - actions
+- (void)didLikeBtnClick:(UIButton*)btn {
 	
 }
 

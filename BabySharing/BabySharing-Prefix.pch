@@ -19,6 +19,7 @@
 #import "AYServiceArgsDefines.h"
 
 #import "UIView+RunTimeCmd.h"
+#import "UIColor+Custom.h"
 
 static NSString* const kAMapApiKey =					@"7d5d988618fd8a707018941f8cd52931";
 static NSString* const kAYEMIDDongDaMaster =			@"dongda_master";

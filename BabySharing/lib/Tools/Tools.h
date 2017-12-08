@@ -16,7 +16,6 @@
 + (NSInteger)bityWithStr:(NSString *)str;
 + (UIImage*) OriginImage:(UIImage *)image scaleToSize:(CGSize)size;
 + (NSArray *)sortWithArr:(NSArray *)arr headStr:(NSString *)headStr;
-+ (UIColor *)colorWithRED:(CGFloat)RED GREEN:(CGFloat)GREEN BLUE:(CGFloat)BLUE ALPHA:(CGFloat)ALPHA;
 + (UIImage *)addPortraitToImage:(UIImage *)image userHead:(UIImage *)userhead userName:(NSString *)userName;
 + (NSString *)stringFromDate:(NSDate *)date;
 + (NSString *)compareCurrentTime:(NSDate*) compareDate;
@@ -52,6 +51,7 @@
 + (UIColor *)disableBackgroundColor;
 
 + (UIColor *)borderAlphaColor;
++ (UIColor *)colorWithRED:(CGFloat)RED GREEN:(CGFloat)GREEN BLUE:(CGFloat)BLUE ALPHA:(CGFloat)ALPHA;
 
 #pragma mark -- UIView
 + (UILabel*)creatUILabelWithText:(NSString*)text andTextColor:(UIColor*)color andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor andTextAlignment:(NSTextAlignment)align;

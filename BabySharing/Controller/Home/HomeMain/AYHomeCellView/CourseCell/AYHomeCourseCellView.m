@@ -29,18 +29,25 @@
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
 		
-		UILabel *titleLabel = [Tools creatUILabelWithText:@"热门分类" andTextColor:[Tools blackColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		UILabel *titleLabel = [Tools creatUILabelWithText:@"#分类#" andTextColor:[Tools blackColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(20);
 			make.top.equalTo(self).offset(10);
 		}];
 		
-		UIButton *moreBtn = [Tools creatUIButtonWithTitle:@"查看全部" andTitleColor:[Tools RGB153GaryColor] andFontSize:313.f andBackgroundColor:nil];
+		UILabel *subTitleLabel = [Tools creatUILabelWithText:@"#分类一句描述的话#" andTextColor:[Tools blackColor] andFontSize:613.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		[self addSubview:subTitleLabel];
+		[subTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(self).offset(20);
+			make.top.equalTo(titleLabel.mas_bottom).offset(5);
+		}];
+		
+		UIButton *moreBtn = [Tools creatUIButtonWithTitle:@"188个服务" andTitleColor:[Tools RGB153GaryColor] andFontSize:313.f andBackgroundColor:[Tools themeColor]];
 		[self addSubview:moreBtn];
 		[moreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.right.equalTo(self).offset(-15);
-			make.centerY.equalTo(titleLabel);
+			make.bottom.equalTo(subTitleLabel);
 			make.size.mas_equalTo(CGSizeMake(60, 20));
 		}];
 		[moreBtn addTarget:self action:@selector(didMoreBtnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -51,12 +58,12 @@
 		flowLayout.minimumInteritemSpacing = 10;
 		flowLayout.minimumLineSpacing = 8;
 		
-		collectionView = [[UICollectionView  alloc]initWithFrame:CGRectMake(0, 50, SCREEN_WIDTH, 160) collectionViewLayout:flowLayout];
+		collectionView = [[UICollectionView  alloc]initWithFrame:CGRectMake(0, 50, SCREEN_WIDTH, 170) collectionViewLayout:flowLayout];
 		collectionView.delegate = self;
 		collectionView.dataSource = self;
 		collectionView.showsVerticalScrollIndicator = NO;
 		collectionView.showsHorizontalScrollIndicator = NO;
-		collectionView.contentInset = UIEdgeInsetsMake(0, 20, 0, 0);
+		collectionView.contentInset = UIEdgeInsetsMake(5, 20, 0, 0);
 		[collectionView setBackgroundColor:[UIColor clearColor]];
 		[collectionView registerClass:NSClassFromString(@"AYHomeServPerItem") forCellWithReuseIdentifier:@"AYHomeServPerItem"];
 		[self addSubview:collectionView];
