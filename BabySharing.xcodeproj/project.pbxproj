@@ -566,6 +566,8 @@
 		7082F1E71D1D4E0D00E64496 /* AYEMEnterFrontCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7082F1E61D1D4E0D00E64496 /* AYEMEnterFrontCommand.m */; };
 		70837E391DB8A94100033CC7 /* AYSearchFiltServiceCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70837E381DB8A94100033CC7 /* AYSearchFiltServiceCommand.m */; };
 		70882D261E07CD3D00513AA2 /* AYInsetLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 70882D251E07CD3D00513AA2 /* AYInsetLabel.m */; };
+		708DE24F1FDEA53E00171357 /* AYPushAnimateCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 708DE24E1FDEA53E00171357 /* AYPushAnimateCommand.m */; };
+		708DE2521FDEA55100171357 /* AYPopAnimateCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 708DE2511FDEA55100171357 /* AYPopAnimateCommand.m */; };
 		709768AE1D2262E7005554DB /* AYEMQueryGroupMemberLstCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 709768AD1D2262E7005554DB /* AYEMQueryGroupMemberLstCommand.m */; };
 		709768B11D226FA4005554DB /* Targets+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 709768B01D226FA4005554DB /* Targets+CoreDataProperties.m */; };
 		709949B01CC2A31600078A5B /* AYFakeStatusBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 709949AF1CC2A31600078A5B /* AYFakeStatusBarView.m */; };
@@ -1981,6 +1983,10 @@
 		70882D241E07CD3D00513AA2 /* AYInsetLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYInsetLabel.h; sourceTree = "<group>"; };
 		70882D251E07CD3D00513AA2 /* AYInsetLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYInsetLabel.m; sourceTree = "<group>"; };
 		708B9CAE1F9F0CAC0064FE50 /* AYTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYTMDefines.h; sourceTree = "<group>"; };
+		708DE24D1FDEA53E00171357 /* AYPushAnimateCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYPushAnimateCommand.h; sourceTree = "<group>"; };
+		708DE24E1FDEA53E00171357 /* AYPushAnimateCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AYPushAnimateCommand.m; sourceTree = "<group>"; };
+		708DE2501FDEA55100171357 /* AYPopAnimateCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYPopAnimateCommand.h; sourceTree = "<group>"; };
+		708DE2511FDEA55100171357 /* AYPopAnimateCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AYPopAnimateCommand.m; sourceTree = "<group>"; };
 		709768AC1D2262E7005554DB /* AYEMQueryGroupMemberLstCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYEMQueryGroupMemberLstCommand.h; sourceTree = "<group>"; };
 		709768AD1D2262E7005554DB /* AYEMQueryGroupMemberLstCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYEMQueryGroupMemberLstCommand.m; sourceTree = "<group>"; };
 		709768AF1D226FA4005554DB /* Targets+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Targets+CoreDataProperties.h"; sourceTree = "<group>"; };
@@ -6318,6 +6324,7 @@
 		705C451D1CA8FEB100921799 /* ControllerExchangeCommand */ = {
 			isa = PBXGroup;
 			children = (
+				708DE24C1FDEA4EB00171357 /* ServicePagePushPop */,
 				705C451E1CA8FEBE00921799 /* AYPushCommand.h */,
 				705C451F1CA8FEBE00921799 /* AYPushCommand.m */,
 				702459DF1CAA282400CC51D0 /* AYPopCommand.h */,
@@ -7006,6 +7013,17 @@
 				70882D251E07CD3D00513AA2 /* AYInsetLabel.m */,
 			);
 			path = InsetLabel;
+			sourceTree = "<group>";
+		};
+		708DE24C1FDEA4EB00171357 /* ServicePagePushPop */ = {
+			isa = PBXGroup;
+			children = (
+				708DE24D1FDEA53E00171357 /* AYPushAnimateCommand.h */,
+				708DE24E1FDEA53E00171357 /* AYPushAnimateCommand.m */,
+				708DE2501FDEA55100171357 /* AYPopAnimateCommand.h */,
+				708DE2511FDEA55100171357 /* AYPopAnimateCommand.m */,
+			);
+			path = ServicePagePushPop;
 			sourceTree = "<group>";
 		};
 		709768AB1D2262C5005554DB /* EMQueryGroupMemberLst */ = {
@@ -9644,6 +9662,7 @@
 				70C41E281DBA091F00C77B10 /* AYOrderServantInitCommand.m in Sources */,
 				702E7AD01CA184A70097867E /* AYAppInitCommand.m in Sources */,
 				7024EB951F73621700FFE20F /* AYSetYardImagesTagController.m in Sources */,
+				708DE24F1FDEA53E00171357 /* AYPushAnimateCommand.m in Sources */,
 				70F428791CC7B18F00A69977 /* MASConstraintMaker.m in Sources */,
 				708236031CA2A9A100658531 /* AYDefaultFacadeFactory.m in Sources */,
 				70A1A5651D1D4A860063FC7F /* AYSendEMMessageCommand.m in Sources */,
@@ -9749,6 +9768,7 @@
 				7069A31E1D52F87C007821D4 /* AYOrderRemoteFacade.m in Sources */,
 				7045B61B1E60391B00A0ED30 /* AYAdvanceOptView.m in Sources */,
 				704697DE1CE047F200DACD8A /* UIView+WebCacheOperation.m in Sources */,
+				708DE2521FDEA55100171357 /* AYPopAnimateCommand.m in Sources */,
 				704D48DB1DAE18AE00A69AF4 /* AYAboutDDController.m in Sources */,
 				70397FD51F1F4AB30055F75F /* AYHomeAroundDelegate.m in Sources */,
 				80BB1ECA1D793BA600B1E17A /* AYPushSplitAnimationCommand.m in Sources */,

@@ -14,7 +14,7 @@
 #import "AYProfileOrigCellView.h"
 #import "AYProfileServCellView.h"
 
-#define kLAYOUTCELLCOUNT 3
+#define kLAYOUTCELLCOUNT 		3
 
 @interface HomeTopTipCell : UITableViewCell
 
