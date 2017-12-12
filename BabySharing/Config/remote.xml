@@ -4,6 +4,7 @@
 	
 	<sandbox host="http://altlys.com:9000/" />
 <!--    <sandbox host="http://altlys.com:9999/" />-->
+
 <!--	<sandbox host="http://192.168.100.174:9000/" />-->
 <!--	<sandbox host="http://192.168.100.12:9000/" />-->
 </RemoteCalls>

@@ -17,15 +17,8 @@
 #import "AYModelFacade.h"
 #import "AYViewController.h"
 
-@implementation AYHomeTopicsCellView {
-	UIImageView *imageView00;
-	UIImageView *imageView01;
-	
-	UILabel *topicTitle00;
-	UILabel *topicTitle01;
-	
-	UILabel *topicCount00;
-	UILabel *topicCount01;
+@implementation AYHomeTopicsCellView  {
+	UICollectionView *collectionView;
 }
 
 @synthesize para = _para;
@@ -37,82 +30,55 @@
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
 		
-		UILabel *titleLabel = [Tools creatUILabelWithText:@"Least Topics" andTextColor:[Tools blackColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		UILabel *titleLabel = [Tools creatUILabelWithText:@"热门分类" andTextColor:[Tools blackColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(20);
 			make.top.equalTo(self).offset(10);
 		}];
 		
-		UIButton *moreBtn = [Tools creatUIButtonWithTitle:@"查看更多" andTitleColor:[Tools RGB153GaryColor] andFontSize:313.f andBackgroundColor:nil];
-		[moreBtn addTarget:self action:@selector(didTopicsMoreBtnClick) forControlEvents:UIControlEventTouchUpInside];
-		[self addSubview:moreBtn];
-		[moreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.right.equalTo(self).offset(-15);
-			make.centerY.equalTo(titleLabel);
-			make.size.mas_equalTo(CGSizeMake(60, 20));
-		}];
 		
-		imageView00 = [[UIImageView alloc]init];
-		imageView00.backgroundColor = [UIColor orangeColor];
-		[Tools setViewBorder:imageView00 withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
-		[self addSubview: imageView00];
-		[imageView00 mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(titleLabel.mas_bottom).offset(20);
-			make.centerX.equalTo(self);
-			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 85));
-		}];
+		UICollectionViewFlowLayout *flowLayout = [UICollectionViewFlowLayout new];
+		flowLayout.itemSize  = CGSizeMake(140, 90);
+		flowLayout.scrollDirection  = UICollectionViewScrollDirectionHorizontal;
+		flowLayout.minimumInteritemSpacing = 10;
+		flowLayout.minimumLineSpacing = 8;
 		
-		topicTitle00 = [Tools creatUILabelWithText:@"#Topics' title#" andTextColor:[Tools whiteColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		[self addSubview:topicTitle00];
-		[topicTitle00 mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(imageView00).offset(10);
-			make.centerX.equalTo(self);
-		}];
+		collectionView = [[UICollectionView  alloc]initWithFrame:CGRectMake(0, 50, SCREEN_WIDTH, 90) collectionViewLayout:flowLayout];
+		collectionView.delegate = self;
+		collectionView.dataSource = self;
+		collectionView.showsVerticalScrollIndicator = NO;
+		collectionView.showsHorizontalScrollIndicator = NO;
+		collectionView.contentInset = UIEdgeInsetsMake(0, 20, 0, 0);
+		[collectionView setBackgroundColor:[UIColor clearColor]];
+		[collectionView registerClass:NSClassFromString(@"AYHomeServPerItem") forCellWithReuseIdentifier:@"AYHomeServPerItem"];
+		[self addSubview:collectionView];
 		
-		topicCount00 = [Tools creatUILabelWithText:@"Topics' count" andTextColor:[Tools RGB127GaryColor] andFontSize:11.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		[Tools setViewBorder:topicCount00 withRadius:10.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools borderAlphaColor]];
-		[self addSubview:topicCount00];
-		[topicCount00 sizeToFit];
-		[topicCount00 mas_remakeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(topicTitle00.mas_bottom).offset(10);
-			make.centerX.equalTo(self);
-			make.size.mas_equalTo(CGSizeMake(topicCount00.bounds.size.width + 20, 20));
-		}];
-		
-		
-		imageView01 = [[UIImageView alloc]init];
-		imageView01.backgroundColor = [UIColor orangeColor];
-		[Tools setViewBorder:imageView01 withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
-		[self addSubview: imageView01];
-		[imageView01 mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(imageView00.mas_bottom).offset(10);
-			make.centerX.equalTo(self);
-			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 85));
-		}];
-		
-		topicTitle01 = [Tools creatUILabelWithText:@"Topics' title" andTextColor:[Tools whiteColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		[self addSubview:topicTitle01];
-		[topicTitle01 mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(imageView01).offset(10);
-			make.centerX.equalTo(self);
-		}];
-		
-		topicCount01 = [Tools creatUILabelWithText:@"Topics' count" andTextColor:[Tools RGB127GaryColor] andFontSize:11.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		[Tools setViewBorder:topicCount01 withRadius:10.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools borderAlphaColor]];
-		[self addSubview:topicCount01];
-		[topicCount01 sizeToFit];
-		[topicCount01 mas_remakeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(topicTitle01.mas_bottom).offset(10);
-			make.centerX.equalTo(self);
-			make.size.mas_equalTo(CGSizeMake(topicCount00.bounds.size.width + 20, 20));
-		}];
-		
-		if (reuseIdentifier != nil) {
-			[self setUpReuseCell];
-		}
+		//		if (reuseIdentifier != nil) {
+		//			[self setUpReuseCell];
+		//		}
 	}
 	return self;
+}
+
+-(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+	return 6;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+	AYHomeServPerItem *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AYHomeServPerItem" forIndexPath:indexPath];
+	
+	//	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
+	//	[tmp setValue:[assortmentArr objectAtIndex:indexPath.row] forKey:@"title"];
+	//	//	[tmp setValue:[NSNumber numberWithInteger:100] forKey:@"count_skiped"];
+	//	[tmp setValue:[NSString stringWithFormat:@"topsort_home_%ld", indexPath.row] forKey:@"assortment_img"];
+	//	[cell setItemInfo:[tmp copy]];
+	return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+	//	NSString *sort = [assortmentArr objectAtIndex:indexPath.row];
+	//	kAYViewSendNotify(self, @"didSelectAssortmentAtIndex:", &sort)
 }
 
 #pragma mark -- life cycle
