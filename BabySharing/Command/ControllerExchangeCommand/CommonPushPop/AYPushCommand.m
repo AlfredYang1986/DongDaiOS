@@ -23,10 +23,6 @@
     NSLog(@"push command perfrom");
   
     NSDictionary* dic = (NSDictionary*)*obj;
-    
-    if (![[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
-        @throw [[NSException alloc]initWithName:@"error" reason:@"push command 只能出来push 操作" userInfo:nil];
-    }
 
     AYViewController* source = [dic objectForKey:kAYControllerActionSourceControllerKey];
     AYViewController* des = [dic objectForKey:kAYControllerActionDestinationControllerKey];

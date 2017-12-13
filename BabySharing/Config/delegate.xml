@@ -70,6 +70,7 @@
 		<command type="notify"  message="didSelectedRow:" />
 		<command type="notify"  message="scrollViewWillBeginDrag" />
 		<command type="notify"  message="scrollViewWillEndDrag" />
+		<command type="notify"  message="willOpenMapMatch" />
     </delegate>
 	
 	<delegate type="TableViewDelegateAndDatasource" name="SearchSKU" factory="AYDefaultDelegateFactory" >
@@ -98,8 +99,9 @@
 	<delegate type="TableViewDelegateAndDatasource" name="Assortment" factory="AYDefaultDelegateFactory" >
 		<command type="message" message="changeQueryData:" />
 	</delegate>
-	<delegate type="TableViewDelegateAndDatasource" name="TopicsList" factory="AYDefaultDelegateFactory" >
+	<delegate type="TableViewDelegateAndDatasource" name="TopicContent" factory="AYDefaultDelegateFactory" >
 		<command type="message" message="changeQueryData:" />
+		<command type="notify"  message="scrollViewDidScroll:" />
 	</delegate>
 	
 	<delegate type="TableViewDelegateAndDatasource" name="SortServiceList" factory="AYDefaultDelegateFactory" >

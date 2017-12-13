@@ -188,17 +188,9 @@
 	   
         <view type="FakeStatusBar"		name="FakeStatusBar" />
 <!--        <view type="FakeNavBar"			name="FakeNavBar" />-->
-		<view type="DongDaSeg"			name="DongDaSeg" />
 		<view type="Table"				name="Table" />
-<!--		<view type="Table2"          name="Table2" />-->
-		<view type="MapView"			name="MapView" />
-		<view type="Collection"			name="Collection" />
-		<view type="Table3"				name="Table3" />
 		
         <delegate type="TableViewDelegateAndDatasource" name="Home" />
-<!--		<delegate type="TableViewDelegateAndDatasource" name="HomeAround" />-->
-		<delegate type="TableViewDelegateAndDatasource" name="HomeSort" />
-		<delegate type="CollectionViewDelegateAndDatasource" name="MapMatch" />
     </controller>
 	
 	<controller type="DefaultController" name="ChoiceContent" factory="AYDefaultControllerFactoy" >
@@ -230,12 +222,14 @@
 		<delegate type="TableViewDelegateAndDatasource" name="SearchSKU" />
 	</controller>
 	
-	<controller type="DefaultController" name="TopicsList" factory="AYDefaultControllerFactoy" >
+	<controller type="DefaultController" name="TopicContent" factory="AYDefaultControllerFactoy" >
+		<facade type="DefaultFacade" name="ChoiceRemote" />
+		
 		<view type="FakeStatusBar"  name="FakeStatusBar" />
 		<view type="FakeNavBar"     name="FakeNavBar" />
 		<view type="Table"          name="Table" />
 		
-		<delegate type="TableViewDelegateAndDatasource" name="TopicsList" />
+		<delegate type="TableViewDelegateAndDatasource" name="TopicContent" />
 	</controller>
 	
 	<controller type="DefaultController" name="AssortmentList" factory="AYDefaultControllerFactoy" >
@@ -251,7 +245,7 @@
 		<view type="FakeStatusBar"  name="FakeStatusBar" />
 		<view type="FakeNavBar"     name="FakeNavBar" />
 <!--		<view type="Table"          name="Table" />-->
-		
+<!--		-->
 <!--		<delegate type="TableViewDelegateAndDatasource" name="Assortment" />-->
 	</controller>
 	

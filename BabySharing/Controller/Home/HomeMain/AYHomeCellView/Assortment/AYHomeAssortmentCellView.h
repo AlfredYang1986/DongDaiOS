@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "AYViewBase.h"
+#import "AYHomeMoreItem.h"
 
 @interface AYHomeAssortmentCellView : UITableViewCell <AYViewBase, UICollectionViewDelegate,UICollectionViewDataSource>
 

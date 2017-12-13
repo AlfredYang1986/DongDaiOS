@@ -21,11 +21,9 @@
 #import "AYDongDaSegDefines.h"
 #import "UICollectionViewLeftAlignedLayout.h"
 
-#define kDongDaSegHeight				44
 
-//#define kTABLEMARGINTOP			108.f
-#define kTABLEMARGINTOP			kStatusAndNavBarH
-#define kCollectionViewHeight				164
+#define kTABLEMARGINTOP					(kStatusBarH+80)
+#define kCollectionViewHeight			164
 
 typedef void(^queryContentFinish)(void);
 
@@ -36,26 +34,19 @@ typedef void(^queryContentFinish)(void);
 	NSTimeInterval timeIntervalFound;
 	
 	UILabel *addressLabel;
-	CGFloat dynamicOffsetY;
 	BOOL isDargging;
 	
 	CLLocation *loc;
 	NSDictionary *search_pin;
 	
-	NSMutableArray *serviceDataAround;
 	BOOL isLocationAuth;
-	NSInteger skipCountAround;
-	NSTimeInterval timeIntervalAround;
-
-	int currentIndex;
-	UILabel *tipsLabel;
 }
 
 @synthesize manager = _manager;
 
 - (CLLocationManager *)manager {
 	if (!_manager) {
-		_manager = [[CLLocationManager alloc]init];
+		_manager = [[CLLocationManager alloc] init];
 	}
 	return _manager;
 }
@@ -108,39 +99,32 @@ typedef void(^queryContentFinish)(void);
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	currentIndex = 1;
-	dynamicOffsetY = 0.f;
-	
 	serviceDataFound = [[NSMutableArray alloc] init];
-	timeIntervalFound = [NSDate date].timeIntervalSince1970;
 	
-	/**********层级调整*******/
-	UIView *view_status = [self.views objectForKey:@"FakeStatusBar"];
-	UIView *view_nav = [self.views objectForKey:kAYFakeNavBarView];
-	UIView *view_seg = [self.views objectForKey:kAYDongDaSegVerView];
-	[self.view bringSubviewToFront:view_nav];
-	[self.view bringSubviewToFront:view_status];
-	[self.view bringSubviewToFront:view_seg];
+	UIView *HomeHeadView = [[UIView alloc] initWithFrame:CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kTABLEMARGINTOP)];
+	[self.view addSubview:HomeHeadView];
 
+	UIImageView *PhotoView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 40, 40)];
+	[HomeHeadView addSubview:PhotoView];
+	[PhotoView sd_setImageWithURL:[NSURL URLWithString:[kAYDongDaDownloadURL stringByAppendingString:@""] ] placeholderImage:IMGRESOURCE(@"default_user")];
 	
 	UILabel *locationLabel = [Tools creatUILabelWithText:@"北京市" andTextColor:[Tools garyColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-	[self.view addSubview:locationLabel];
+	[HomeHeadView addSubview:locationLabel];
 	[locationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(view_seg).offset(10);
-		make.centerY.equalTo(view_seg);
+		make.left.equalTo(PhotoView.mas_right).offset(10);
+		make.bottom.equalTo(PhotoView).offset(-5);
+	}];
+	
+	UIButton *collesBtn = [UIButton creatButtonWithTitle:@"My Colles" titleColor:[UIColor gary] fontSize:614 backgroundColor:nil];
+	[HomeHeadView addSubview:collesBtn];
+	[collesBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(HomeHeadView);
+		make.right.equalTo(HomeHeadView).offset(-15);
+		make.size.mas_equalTo(CGSizeMake(80, 40));
 	}];
 	
 	{
-		id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
-		UITableView *tableView = (UITableView*)view_notify;
-		
-		tipsLabel = [Tools creatUILabelWithText:@"没有匹配的结果" andTextColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		[tableView addSubview:tipsLabel];
-		[tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(tableView).offset(420);
-			make.centerX.equalTo(tableView);
-		}];
-		[tableView sendSubviewToBack:tipsLabel];
+		UITableView *tableView = [self.views objectForKey:kAYTableView];
 		
 		id<AYDelegateBase> delegate_found = [self.delegates objectForKey:@"Home"];
 		id obj = (id)delegate_found;
@@ -148,73 +132,15 @@ typedef void(^queryContentFinish)(void);
 		obj = (id)delegate_found;
 		kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
 		
-		NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeServPerCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-		kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
-		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeBannerCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-		kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
-		class_name = @"AYHomeTopicsCellView";
-		kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
-		class_name = @"AYHomeAssortmentCellView";
-		kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
-		class_name = @"AYHomeMoreTitleCellView";
-		kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
-		class_name = @"AYHomeCourseCellView";
-		kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
+		NSArray *arr_cell_name = @[@"AYHomeTopicsCellView", @"AYHomeAroundCellView", @"AYHomeAssortmentCellView"];
+		for (NSString *cell_name in arr_cell_name) {
+			id class_name = [cell_name copy];
+			kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name);
+		}
 		
-		//	tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+		tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
 		tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
 	}
-	{
-		id<AYDelegateBase> deleg = [self.delegates objectForKey:@"MapMatch"];
-		id obj = (id)deleg;
-		kAYViewsSendMessage(@"Collection", kAYTableRegisterDatasourceMessage, &obj)
-		obj = (id)deleg;
-		kAYViewsSendMessage(@"Collection", kAYTableRegisterDelegateMessage, &obj)
-		
-		id<AYViewBase> view_notify = [self.views objectForKey:@"Collection"];
-		id<AYCommand> cmd_cell = [view_notify.commands objectForKey:@"registerCellWithClass:"];
-		NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"MapMatchCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-		[cmd_cell performWithResult:&class_name];
-	}
-	{
-//		id<AYDelegateBase> delegate_around = [self.delegates objectForKey:@"HomeAround"];
-//		id obj = (id)delegate_around;
-//		kAYViewsSendMessage(@"Table2", kAYTableRegisterDatasourceMessage, &obj)
-//		obj = (id)delegate_around;
-//		kAYViewsSendMessage(@"Table2", kAYTableRegisterDelegateMessage, &obj)
-//		
-//		NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeAroundCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-//		kAYViewsSendMessage(@"Table2", kAYTableRegisterCellWithClassMessage, &class_name)
-//		
-//		UITableView *view_table_around = [self.views objectForKey:@"Table2"];
-//		UIButton *mapBtn = [[UIButton alloc] init];
-//		[mapBtn setImage:IMGRESOURCE(@"home_icon_map") forState:UIControlStateNormal];
-//		[mapBtn addTarget:self action:@selector(rightBtnSelected) forControlEvents:UIControlEventTouchUpInside];
-//		[self.view addSubview:mapBtn];
-//		[self.view bringSubviewToFront:mapBtn];
-//		[mapBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//			make.size.mas_equalTo(CGSizeMake(123, 70));	//123 70
-//			make.right.equalTo(view_table_around).offset(-10);
-//			make.bottom.equalTo(self.view).offset(-48);
-//		}];
-//		
-//		view_table_around.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewAroundData)];
-//		view_table_around.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreAroundData)];
-	}
-	
-	{
-		id<AYDelegateBase> delegate_sort = [self.delegates objectForKey:@"HomeSort"];
-		id obj = (id)delegate_sort;
-		kAYViewsSendMessage(@"Table3", kAYTableRegisterDatasourceMessage, &obj)
-		obj = (id)delegate_sort;
-		kAYViewsSendMessage(@"Table3", kAYTableRegisterDelegateMessage, &obj)
-		
-		NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeSortNurseryCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-		kAYViewsSendMessage(@"Table3", kAYTableRegisterCellWithClassMessage, &class_name)
-		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeSortCourseCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-		kAYViewsSendMessage(@"Table3", kAYTableRegisterCellWithClassMessage, &class_name)
-	}
-	
 	
 	[self loadNewData];
 	[self startLocation];
@@ -223,7 +149,6 @@ typedef void(^queryContentFinish)(void);
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
-	self.tabBarController.tabBar.hidden = currentIndex == 0;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -256,7 +181,7 @@ typedef void(^queryContentFinish)(void);
 	[searchBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(view);
 		make.centerX.equalTo(view.mas_right).offset(-30);
-		make.size.mas_equalTo(CGSizeMake(kDongDaSegHeight, kDongDaSegHeight));
+		make.size.mas_equalTo(CGSizeMake(44, 44));
 	}];
 	[searchBtn addTarget:self action:@selector(didSearchBtnClick) forControlEvents:UIControlEventTouchUpInside];
 	
@@ -270,69 +195,8 @@ typedef void(^queryContentFinish)(void);
 	return nil;
 }
 
-- (id)DongDaSegLayout:(UIView*)view {
-	
-	view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kDongDaSegHeight);		//重新加入了self.view 的子view   0,0,w,h
-	view.backgroundColor = [UIColor whiteColor];
-	
-	id<AYViewBase> seg = (id<AYViewBase>)view;
-	id<AYCommand> cmd_add_item = [seg.commands objectForKey:@"addItem:"];
-	
-	NSMutableDictionary* dic_add_item_0 = [[NSMutableDictionary alloc]init];
-	[dic_add_item_0 setValue:[NSNumber numberWithInt:AYSegViewItemTypeTitle] forKey:kAYSegViewItemTypeKey];
-	[dic_add_item_0 setValue:@"附近" forKey:kAYSegViewTitleKey];
-	[cmd_add_item performWithResult:&dic_add_item_0];
-	
-	NSMutableDictionary* dic_add_item_1 = [[NSMutableDictionary alloc]init];
-	[dic_add_item_1 setValue:[NSNumber numberWithInt:AYSegViewItemTypeTitle] forKey:kAYSegViewItemTypeKey];
-	[dic_add_item_1 setValue:@"发现" forKey:kAYSegViewTitleKey];
-	[cmd_add_item performWithResult:&dic_add_item_1];
-	
-	NSMutableDictionary* dic_add_item_2 = [[NSMutableDictionary alloc]init];
-	[dic_add_item_2 setValue:[NSNumber numberWithInt:AYSegViewItemTypeTitle] forKey:kAYSegViewItemTypeKey];
-	[dic_add_item_2 setValue:@"分类" forKey:kAYSegViewTitleKey];
-	[cmd_add_item performWithResult:&dic_add_item_2];
-	
-	NSMutableDictionary* dic_user_info = [[NSMutableDictionary alloc]init];
-	[dic_user_info setValue:[NSNumber numberWithInt:1] forKey:kAYSegViewCurrentSelectKey];
-	[dic_user_info setValue:[NSNumber numberWithFloat:0] forKey:kAYSegViewMarginBetweenKey];
-	
-	id<AYCommand> cmd_info = [seg.commands objectForKey:@"setSegInfo:"];
-	[cmd_info performWithResult:&dic_user_info];
-	
-	view.layer.shadowColor = [Tools garyColor].CGColor;
-	view.layer.shadowOffset = CGSizeMake(0, 3.5);
-	view.layer.shadowOpacity = 0.25f;
-	
-	return nil;
-}
-
 - (id)TableLayout:(UIView*)view {
-	view.frame = CGRectMake(0, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
-	return nil;
-}
-- (id)MapViewLayout:(UIView*)view {
-	view.frame = CGRectMake(-SCREEN_WIDTH, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
-	return nil;
-}
-- (id)CollectionLayout:(UIView*)view {
-	view.frame = CGRectMake(-SCREEN_WIDTH, SCREEN_HEIGHT - kCollectionViewHeight - kStatusBarH, SCREEN_WIDTH, kCollectionViewHeight);
-	view.backgroundColor = [UIColor clearColor];
-	
-	((UICollectionView*)view).pagingEnabled = YES;
-	return nil;
-}
-//- (id)Table2Layout:(UIView*)view {
-//	view.frame = CGRectMake(-SCREEN_WIDTH, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
-////		((UITableView*)view).contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
-//	view.backgroundColor = [Tools garyBackgroundColor];
-//	return nil;
-//}
-- (id)Table3Layout:(UIView*)view {
-	view.frame = CGRectMake(SCREEN_WIDTH, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
-	view.backgroundColor = [Tools whiteColor];
-//	((UITableView*)view).contentOffset = CGPointMake(0, -20);
-//	((UITableView*)view).contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
+	view.frame = CGRectMake(0, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP);
 	return nil;
 }
 
@@ -372,113 +236,9 @@ typedef void(^queryContentFinish)(void);
 		return nil;
 	}
 	
-	NSDictionary* user = nil;
-	CURRENUSER(user);
-	
 	NSMutableDictionary *dic_search = [[NSMutableDictionary alloc] init];
-	[dic_search setValue:[user objectForKey:kAYCommArgsToken] forKey:kAYCommArgsToken];
-	[dic_search setValue:[NSNumber numberWithInteger:skiped] forKey:kAYCommArgsRemoteDataSkip];
-	/*condition*/
-	NSMutableDictionary *dic_condt = [[NSMutableDictionary alloc] init];
-	if (skiped == 0) {
-		[dic_condt setValue:[NSNumber numberWithLong:([NSDate date].timeIntervalSince1970)*1000] forKey:kAYCommArgsRemoteDate];
-	} else
-		[dic_condt setValue:[NSNumber numberWithLong:timeIntervalAround*1000] forKey:kAYCommArgsRemoteDate];
-	[dic_condt setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
-	
-	NSMutableDictionary *dic_location = [[NSMutableDictionary alloc] init];
-	[dic_location setValue:[search_pin copy] forKey:kAYServiceArgsPin];
-	[dic_condt setValue:[dic_location copy] forKey:kAYServiceArgsLocationInfo];
-	
-	[dic_search setValue:dic_condt forKey:kAYCommArgsCondition];
 	
 	return [dic_search copy];
-}
-
-- (void)loadNewAroundData {
-	
-	if (!isLocationAuth) {
-		NSString *tip = @"查看附近服务需要您授权使用定位功能";
-		AYShowBtmAlertView(tip, BtmAlertViewTypeHideWithTimer)
-//		kAYViewsSendMessage(@"Table2", kAYTableRefreshMessage, nil)
-//		[view_table.mj_header endRefreshing];
-		return;
-	}
-	
-	NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
-	[args setValue:loc forKey:@"location"];
-	[args setValue:[serviceDataAround copy] forKey:@"result_data"];
-	kAYViewsSendMessage(kAYMapViewView, @"changeResultData:", &args)
-	
-	NSDictionary *dic_search = [self sortDataForSearchAroundWithSkiped:0];
-	if (!dic_search) {
-		return;
-	}
-	
-	id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
-	AYRemoteCallCommand* cmd_search = [f_search.commands objectForKey:@"SearchFiltService"];
-	[cmd_search performWithResult:dic_search andFinishBlack:^(BOOL success, NSDictionary * result) {
-		if (success) {
-			timeIntervalAround = [[[result objectForKey:@"result"] objectForKey:kAYCommArgsRemoteDate] longValue] * 0.001;
-			serviceDataAround = [[[result objectForKey:@"result"] objectForKey:@"services"] mutableCopy];
-			skipCountAround = serviceDataAround.count;			//刷新 重置计数为此次请求service数据个数
-			
-			NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
-			[args setValue:loc forKey:@"location"];
-			[args setValue:[serviceDataAround copy] forKey:@"result_data"];
-			
-			id tmp = [args copy];
-			kAYViewsSendMessage(kAYMapViewView, @"changeResultData:", &args)
-			
-			if (serviceDataAround.count == 0) {
-				NSString *tip = @"附近暂时没有可用服务";
-				AYShowBtmAlertView(tip, BtmAlertViewTypeHideWithTimer)
-			} else {
-				args = [[NSMutableDictionary alloc]init];
-				[args setValue:loc forKey:@"location"];
-				[args setValue:[serviceDataAround copy] forKey:@"result_data"];
-				tmp = [args copy];
-				kAYDelegatesSendMessage(@"MapMatch", @"changeQueryData:", &tmp)
-				kAYViewsSendMessage(kAYCollectionView, kAYTableRefreshMessage, nil)
-			}
-			
-		} else {
-			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
-		}
-//		kAYViewsSendMessage(@"Table2", kAYTableRefreshMessage, nil)
-//		[view_table.mj_header endRefreshing];
-	}];
-}
-
-- (void)loadMoreAroundData {
-	
-	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
-	[tmp setValue:loc forKey:@"location"];
-	[tmp setValue:[NSNumber numberWithBool:isLocationAuth] forKey:@"is_auth"];
-	kAYDelegatesSendMessage(@"HomeAround", @"changeLocationAuthData:", &tmp)
-	UITableView *view_table = [self.views objectForKey:@"Table2"];
-	if (!isLocationAuth) {
-		kAYViewsSendMessage(@"Table2", kAYTableRefreshMessage, nil)
-		[view_table.mj_footer endRefreshing];
-		return;
-	}
-	
-	id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
-	AYRemoteCallCommand* cmd_search = [f_search.commands objectForKey:@"SearchFiltService"];
-	[cmd_search performWithResult:[self sortDataForSearchAroundWithSkiped:skipCountAround] andFinishBlack:^(BOOL success, NSDictionary * result) {
-		if (success) {
-			timeIntervalAround = ((NSNumber*)[[result objectForKey:@"result"] objectForKey:kAYCommArgsRemoteDate]).longValue * 0.001;
-			NSArray *remoteArr = [[result objectForKey:@"result"] objectForKey:@"services"];
-			[serviceDataAround addObjectsFromArray:remoteArr];
-			skipCountAround = serviceDataAround.count;			//加载 累加计数
-			id tmp = [serviceDataAround copy];
-			kAYDelegatesSendMessage(@"HomeAround", kAYDelegateChangeDataMessage, &tmp)
-		} else {
-			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
-		}
-		kAYViewsSendMessage(@"Table2", kAYTableRefreshMessage, nil)
-		[view_table.mj_footer endRefreshing];
-	}];
 }
 
 - (void)loadMoreData {
@@ -534,7 +294,7 @@ typedef void(^queryContentFinish)(void);
 	[dic_search setValue:[user objectForKey:kAYCommArgsToken] forKey:kAYCommArgsToken];
 	/*condition*/
 	NSMutableDictionary *dic_condt = [[NSMutableDictionary alloc] init];
-//	[dic_condt setValue:[NSNumber numberWithLong:timeIntervalFound*1000] forKey:kAYCommArgsRemoteDate];
+	[dic_condt setValue:[NSNumber numberWithLongLong:[NSDate date].timeIntervalSince1970*1000] forKey:kAYCommArgsRemoteDate];
 	[dic_condt setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
 	[dic_search setValue:dic_condt forKey:kAYCommArgsCondition];
 	
@@ -548,7 +308,6 @@ typedef void(^queryContentFinish)(void);
 			timeIntervalFound = ((NSNumber*)[[result objectForKey:@"result"] objectForKey:kAYCommArgsRemoteDate]).longValue * 0.001;
 			serviceDataFound = [[[result objectForKey:@"result"] objectForKey:@"services"] mutableCopy];
 			skipCountFound = serviceDataFound.count;			//刷新重置 计数为当前请求service数据个数
-			tipsLabel.hidden = skipCountFound != 0;
 			
 			id tmp = [serviceDataFound copy];
 			kAYDelegatesSendMessage(@"Home", kAYDelegateChangeDataMessage, &tmp)
@@ -620,27 +379,6 @@ typedef void(^queryContentFinish)(void);
 }
 
 - (id)scrollToShowHideTop:(NSNumber*)args {	//
-//	if (isDargging) {
-//		
-//		UITableView *view_table = [self.views objectForKey:kAYTableView];
-//		if (view_table.contentOffset.y > view_table.contentSize.height - view_table.frame.size.height || view_table.contentOffset.y < 0 ) {		//bouns
-//			return nil;
-//		}
-//		
-//		UIView *view_nav = [self.views objectForKey:kAYFakeNavBarView];
-//		UIView *view_seg = [self.views objectForKey:kAYDongDaSegVerView];
-//		
-//		dynamicOffsetY = dynamicOffsetY + args.floatValue;
-//		NSLog(@"%f", dynamicOffsetY);
-//		if (dynamicOffsetY > 0) {
-//			dynamicOffsetY = 0.f;
-//		} else if (dynamicOffsetY < - 44) {
-//			dynamicOffsetY = -44.f;
-//		}
-//		view_table.frame = CGRectMake(0, 108 + dynamicOffsetY, SCREEN_WIDTH, SCREEN_HEIGHT - 108 - 49 - dynamicOffsetY);
-//		view_nav.frame = CGRectMake(0, 20 + dynamicOffsetY, SCREEN_WIDTH, 44);
-//		view_seg.frame = CGRectMake(0, 64 + dynamicOffsetY, SCREEN_WIDTH, 44);
-//	}
 	return nil;
 }
 
@@ -706,7 +444,7 @@ typedef void(^queryContentFinish)(void);
 	
 	NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
 	[args setValue:loc forKey:@"location"];
-	[args setValue:[serviceDataAround copy] forKey:@"result_data"];
+	[args setValue:[serviceDataFound copy] forKey:@"result_data"];
 	
 	[dic_show_module setValue:[args copy] forKey:kAYControllerChangeArgsKey];
 	
@@ -716,84 +454,34 @@ typedef void(^queryContentFinish)(void);
 	return nil;
 }
 
-- (id)segValueChanged:(id)obj {
-	id<AYViewBase> seg = (id<AYViewBase>)obj;
-	id<AYCommand> cmd = [seg.commands objectForKey:@"queryCurrentSelectedIndex"];
-	NSNumber* index = nil;
-	[cmd performWithResult:&index];
-	NSLog(@"current index %@", index);
-	
-	int changeIndex = index.intValue;
-	if(changeIndex == currentIndex)
+- (id)willOpenMapMatch {
+	if (!loc) {
+		NSString *title;
+		if (isLocationAuth) {
+			title = @"正在定位，请稍等...";
+		} else {
+			title = @"查看地图需要您授权使用定位功能";
+		}
+		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 		return nil;
-	
-//	UIView *table_around = [self.views objectForKey:@"Table2"];
-	UIView *view_map = [self.views objectForKey:kAYMapViewView];
-	UIView *view_collect = [self.views objectForKey:kAYCollectionView];
-	UIView *table_found = [self.views objectForKey:kAYTableView];
-	UIView *table_sort = [self.views objectForKey:@"Table3"];
-	
-	CGFloat table_found_y = table_found.frame.origin.y;
-	CGFloat table_found_height = table_found.bounds.size.height;
-	
-	if(changeIndex == 0) {
-		
-		if (!serviceDataAround) {
-			[self loadNewAroundData];
-		}
-		self.tabBarController.tabBar.hidden = YES;
-		[UIView animateWithDuration:0.25 animations:^{
-//				table_around.frame = CGRectMake(0, table_found_y, SCREEN_WIDTH, table_found_height);
-			view_map.frame = CGRectMake(0, table_found_y, SCREEN_WIDTH, table_found_height+kTabBarH);
-			view_collect.frame = CGRectMake(0, view_collect.frame.origin.y, SCREEN_WIDTH, kCollectionViewHeight);
-		}];
-		if (currentIndex == 1) {
-			[UIView animateWithDuration:0.25 animations:^{
-				table_found.frame = CGRectMake(SCREEN_WIDTH, table_found_y, SCREEN_WIDTH, table_found_height);
-			}];
-		} else {
-			[UIView animateWithDuration:0.25 animations:^{
-				table_sort.frame = CGRectMake(SCREEN_WIDTH, table_found_y, SCREEN_WIDTH, table_found_height);
-			}];
-		}
-		
-	} else if (changeIndex == 1) {
-		
-		self.tabBarController.tabBar.hidden = NO;
-		[UIView animateWithDuration:0.25 animations:^{
-			table_found.frame = CGRectMake(0, table_found_y, SCREEN_WIDTH, table_found_height);
-		}];
-		if (currentIndex == 0) {
-			[UIView animateWithDuration:0.25 animations:^{
-//				table_around.frame = CGRectMake(-SCREEN_WIDTH, table_found_y, SCREEN_WIDTH, table_found_height);
-				view_map.frame = CGRectMake(-SCREEN_WIDTH, table_found_y, SCREEN_WIDTH, table_found_height);
-				view_collect.frame = CGRectMake(-SCREEN_WIDTH, view_collect.frame.origin.y, SCREEN_WIDTH, kCollectionViewHeight);
-			}];
-		} else {
-			[UIView animateWithDuration:0.25 animations:^{
-				table_sort.frame = CGRectMake(SCREEN_WIDTH, table_found_y, SCREEN_WIDTH, table_found_height);
-			}];
-		}
-	} else {//change 2
-		
-		self.tabBarController.tabBar.hidden = NO;
-		[UIView animateWithDuration:0.25 animations:^{
-			table_sort.frame = CGRectMake(0, table_found_y, SCREEN_WIDTH, table_found_height);
-		}];
-		if (currentIndex == 0) {
-			[UIView animateWithDuration:0.25 animations:^{
-//				table_around.frame = CGRectMake(-SCREEN_WIDTH, table_found_y, SCREEN_WIDTH, table_found_height);
-				view_map.frame = CGRectMake(-SCREEN_WIDTH, table_found_y, SCREEN_WIDTH, table_found_height);
-				view_collect.frame = CGRectMake(-SCREEN_WIDTH, view_collect.frame.origin.y, SCREEN_WIDTH, kCollectionViewHeight);
-			}];
-		} else {
-			[UIView animateWithDuration:0.25 animations:^{
-				table_found.frame = CGRectMake(-SCREEN_WIDTH, table_found_y, SCREEN_WIDTH, table_found_height);
-			}];
-		}
 	}
 	
-	currentIndex = changeIndex;
+	id<AYCommand> des = DEFAULTCONTROLLER(@"MapMatch");
+	
+	NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
+	[dic_show_module setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic_show_module setValue:self forKey:kAYControllerActionSourceControllerKey];
+	
+	NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
+	[args setValue:loc forKey:@"location"];
+	[args setValue:[serviceDataFound copy] forKey:@"result_data"];
+	
+	[dic_show_module setValue:[args copy] forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd_push = PUSH;
+	[cmd_push performWithResult:&dic_show_module];
+	
 	return nil;
 }
 
@@ -810,20 +498,24 @@ typedef void(^queryContentFinish)(void);
 	return nil;
 }
 
-- (id)didTopicsMoreBtnClick {
-	id<AYCommand> des = DEFAULTCONTROLLER(@"TopicsList");
-	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-//	[dic setValue:args forKey:kAYControllerChangeArgsKey];
+- (id)didOneTopicClick:(id)args {
+	id<AYCommand> des = DEFAULTCONTROLLER(@"TopicContent");
 	
-	id<AYCommand> cmd_show_module = PUSH;
-	[cmd_show_module performWithResult:&dic];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		
+		NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+		[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+		[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+		[dic setValue:args forKey:kAYControllerChangeArgsKey];
+		
+		id<AYCommand> cmd_show_module = PUSH;
+		[cmd_show_module performWithResult:&dic];
+	});
 	return nil;
 }
+
 - (id)didAssortmentMoreBtnClick {
-	id<AYCommand> des = DEFAULTCONTROLLER(@"AssortmentList");
+	id<AYCommand> des = DEFAULTCONTROLLER(@"Assortment");
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];

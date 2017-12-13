@@ -13,4 +13,7 @@
 
 @interface AYHomeController : AYViewController <CLLocationManagerDelegate>
 @property (nonatomic, strong) CLLocationManager  *manager;
+
+@property (nonatomic, strong) UIView *snapAnimateView;
+
 @end

@@ -19,7 +19,9 @@
 
 @implementation AYHomeAssortmentCellView {
 	
-	UICollectionView *assortmentCollectionView;
+	UILabel *subTitleLabel;
+	
+	UICollectionView *CollectionView;
 	NSArray *assortmentArr;
 }
 
@@ -32,13 +34,22 @@
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
 		
+		self.selectionStyle = UITableViewCellSelectionStyleNone;
+		
 		assortmentArr = kAY_top_assortment_titles;
 		
-		UILabel *titleLabel = [Tools creatUILabelWithText:@"热门分类" andTextColor:[Tools blackColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		UILabel *titleLabel = [Tools creatUILabelWithText:@"分类01" andTextColor:[Tools blackColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(self).offset(20);
+			make.left.equalTo(self).offset(15);
 			make.top.equalTo(self).offset(10);
+		}];
+		
+		subTitleLabel = [UILabel creatLabelWithText:@"一句话简单描述" textColor:[UIColor gary] fontSize:313 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		[self addSubview:subTitleLabel];
+		[subTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(self).offset(15);
+			make.top.equalTo(titleLabel.mas_bottom).offset(8);
 		}];
 		
 		UIButton *moreBtn = [Tools creatUIButtonWithTitle:@"查看全部" andTitleColor:[Tools RGB153GaryColor] andFontSize:313.f andBackgroundColor:nil];
@@ -51,75 +62,63 @@
 		[moreBtn addTarget:self action:@selector(didAssortmentMoreBtnClick) forControlEvents:UIControlEventTouchUpInside];
 		
 		UICollectionViewFlowLayout *flowLayout = [UICollectionViewFlowLayout new];
-		flowLayout.itemSize  = CGSizeMake(140, 90);
-		flowLayout.scrollDirection  = UICollectionViewScrollDirectionHorizontal;
+		flowLayout.itemSize = CGSizeMake(140, 180);
+		flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
 		flowLayout.minimumInteritemSpacing = 10;
 		flowLayout.minimumLineSpacing = 8;
 		
-		assortmentCollectionView = [[UICollectionView  alloc]initWithFrame:CGRectMake(0, 50, SCREEN_WIDTH, 90) collectionViewLayout:flowLayout];
-		assortmentCollectionView.delegate = self;
-		assortmentCollectionView.dataSource = self;
-		assortmentCollectionView.showsVerticalScrollIndicator = NO;
-		assortmentCollectionView.showsHorizontalScrollIndicator = NO;
-		assortmentCollectionView.contentInset = UIEdgeInsetsMake(0, 20, 0, 0);
-		[assortmentCollectionView setBackgroundColor:[UIColor clearColor]];
-		[assortmentCollectionView registerClass:NSClassFromString(@"AYHomeAssortmentCellItem") forCellWithReuseIdentifier:@"AYHomeAssortmentCellItem"];
-		[self addSubview:assortmentCollectionView];
+		CollectionView = [[UICollectionView  alloc]initWithFrame:CGRectMake(0, 80, SCREEN_WIDTH, 180) collectionViewLayout:flowLayout];
+		CollectionView.delegate = self;
+		CollectionView.dataSource = self;
+		CollectionView.showsVerticalScrollIndicator = NO;
+		CollectionView.showsHorizontalScrollIndicator = NO;
+		CollectionView.contentInset = UIEdgeInsetsMake(0, 15, 0, 0);
+		[CollectionView setBackgroundColor:[UIColor clearColor]];
+		[CollectionView registerClass:NSClassFromString(@"AYHomeAssortmentCellItem") forCellWithReuseIdentifier:@"AYHomeAssortmentCellItem"];
+		[CollectionView registerClass:NSClassFromString(@"AYHomeMoreItem") forCellWithReuseIdentifier:@"AYHomeMoreItem"];
+		[self addSubview:CollectionView];
 		
-		if (reuseIdentifier != nil) {
-			[self setUpReuseCell];
-		}
+//		if (reuseIdentifier != nil) {
+//			[self setUpReuseCell];
+//		}
 	}
 	return self;
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-	return assortmentArr.count ;
+//	return assortmentArr.count;
+	return 6 + 1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-	AYHomeAssortmentCellItem *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AYHomeAssortmentCellItem" forIndexPath:indexPath];
 	
-	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
-	[tmp setValue:[assortmentArr objectAtIndex:indexPath.row] forKey:@"title"];
-//	[tmp setValue:[NSNumber numberWithInteger:100] forKey:@"count_skiped"];
-	[tmp setValue:[NSString stringWithFormat:@"topsort_home_%ld", indexPath.row] forKey:@"assortment_img"];
-	[cell setItemInfo:[tmp copy]];
-	return cell;
+	if (indexPath.row == 6) {
+		AYHomeMoreItem *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AYHomeMoreItem" forIndexPath:indexPath];
+		
+		//	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
+		//	[tmp setValue:[NSString stringWithFormat:@"topsort_home_%ld", indexPath.row] forKey:@"assortment_img"];
+		//	[cell setItemInfo:[tmp copy]];
+		return cell;
+	} else {
+		
+		AYHomeAssortmentCellItem *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AYHomeAssortmentCellItem" forIndexPath:indexPath];
+		
+		//	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
+		//	[tmp setValue:[assortmentArr objectAtIndex:indexPath.row] forKey:@"title"];
+		////	[tmp setValue:[NSNumber numberWithInteger:100] forKey:@"count_skiped"];
+		//	[tmp setValue:[NSString stringWithFormat:@"topsort_home_%ld", indexPath.row] forKey:@"assortment_img"];
+		//	[cell setItemInfo:[tmp copy]];
+		return cell;
+	}
+	
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-//	NSNumber *index = [NSNumber numberWithInteger:indexPath.row];
-	NSString *sort = [assortmentArr objectAtIndex:indexPath.row];
-	kAYViewSendNotify(self, @"didSelectAssortmentAtIndex:", &sort)
+//	NSString *sort = [assortmentArr objectAtIndex:indexPath.row];
+//	kAYViewSendNotify(self, @"didSelectAssortmentAtIndex:", &sort)
 }
 
 #pragma mark -- life cycle
-- (void)setUpReuseCell {
-	id<AYViewBase> cell = VIEW(@"HomeAssortmentCell", @"HomeAssortmentCell");
-	
-	NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
-	for (NSString* name in cell.commands.allKeys) {
-		AYViewCommand* cmd = [cell.commands objectForKey:name];
-		AYViewCommand* c = [[AYViewCommand alloc]init];
-		c.view = self;
-		c.method_name = cmd.method_name;
-		c.need_args = cmd.need_args;
-		[arr_commands setValue:c forKey:name];
-	}
-	self.commands = [arr_commands copy];
-	
-	NSMutableDictionary* arr_notifies = [[NSMutableDictionary alloc]initWithCapacity:cell.notifies.count];
-	for (NSString* name in cell.notifies.allKeys) {
-		AYViewNotifyCommand* cmd = [cell.notifies objectForKey:name];
-		AYViewNotifyCommand* c = [[AYViewNotifyCommand alloc]init];
-		c.view = self;
-		c.method_name = cmd.method_name;
-		c.need_args = cmd.need_args;
-		[arr_notifies setValue:c forKey:name];
-	}
-	self.notifies = [arr_notifies copy];
-}
 
 #pragma mark -- commands
 - (void)postPerform {
@@ -144,7 +143,8 @@
 
 #pragma mark -- actions
 - (void)didAssortmentMoreBtnClick {
-	kAYViewSendNotify(self, @"didAssortmentMoreBtnClick", nil)
+//	kAYViewSendNotify(self, @"didAssortmentMoreBtnClick", nil)
+	[(AYViewController*)self.controller performSel:@"didAssortmentMoreBtnClick" withResult:nil];
 }
 
 #pragma mark -- messages

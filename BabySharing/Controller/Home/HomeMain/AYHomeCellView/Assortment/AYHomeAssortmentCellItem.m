@@ -10,9 +10,10 @@
 #import "AYCommandDefines.h"
 
 @implementation AYHomeAssortmentCellItem {
-	UIImageView *imageView;
+	
 	UILabel *titleLabel;
-	UILabel *skipCountLabel;
+	UILabel *addrlabel;
+	UILabel *tagLabel;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -34,32 +35,42 @@
 - (void)initialize {
 	
 //	self.backgroundColor = [Tools randomColor];
-	self.clipsToBounds = YES;
-	[Tools setViewBorder:self withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
+//	self.clipsToBounds = YES;
+//	[Tools setViewBorder:self withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
 	
-	imageView = [[UIImageView alloc] init];
-	imageView.contentMode = UIViewContentModeScaleAspectFill;
-//	imageView.image = IMGRESOURCE(@"default_image");
-	[Tools setViewBorder:imageView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
-	[self addSubview:imageView];
-	[imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.edges.equalTo(self);
+	_coverImage = [[UIImageView alloc] init];
+	_coverImage.contentMode = UIViewContentModeScaleAspectFill;
+	_coverImage.image = IMGRESOURCE(@"default_image");
+	[Tools setViewBorder:_coverImage withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
+	[self addSubview:_coverImage];
+	[_coverImage mas_makeConstraints:^(MASConstraintMaker *make) {
+//		make.edges.equalTo(self);
+		make.left.equalTo(self).offset(0);
+		make.right.equalTo(self);
+		make.top.equalTo(self);
+		make.height.mas_equalTo(90);
 	}];
 	
-	titleLabel = [Tools creatUILabelWithText:@"Assortment Title" andTextColor:[Tools whiteColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	titleLabel = [UILabel creatLabelWithText:@"Service title" textColor:[UIColor black] fontSize:615.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	[self addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.bottom.equalTo(self.mas_centerY).offset(10);
-		make.centerX.equalTo(self);
+		make.top.equalTo(_coverImage.mas_bottom).offset(10);
+		make.left.equalTo(_coverImage);
 	}];
 	
-	skipCountLabel = [Tools creatUILabelWithText:@"skiped' count" andTextColor:[Tools whiteColor] andFontSize:11.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-	[self addSubview:skipCountLabel];
-	[skipCountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(self.mas_centerY).offset(15);
-		make.centerX.equalTo(self);
+	addrlabel = [UILabel creatLabelWithText:@"Address s" textColor:[UIColor gary] fontSize:11.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+	[self addSubview:addrlabel];
+	[addrlabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(titleLabel.mas_bottom).offset(10);
+		make.left.equalTo(_coverImage);
 	}];
-	skipCountLabel.hidden = YES;
+	
+	tagLabel = [UILabel creatLabelWithText:@"*TAG" textColor:[UIColor random] fontSize:313 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	[self addSubview:tagLabel];
+	[tagLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(addrlabel.mas_right).offset(5);
+		make.centerY.equalTo(addrlabel);
+	}];
 	
 }
 
@@ -69,7 +80,7 @@
 	titleLabel.text = titleStr;
 	
 	NSString *img_name = [itemInfo objectForKey:@"assortment_img"];
-	imageView.image = IMGRESOURCE(img_name);
+	_coverImage.image = IMGRESOURCE(img_name);
 	
 //	NSNumber *skipedCount = [itemInfo objectForKey:@"count_skiped"];
 //	if (skipedCount) {

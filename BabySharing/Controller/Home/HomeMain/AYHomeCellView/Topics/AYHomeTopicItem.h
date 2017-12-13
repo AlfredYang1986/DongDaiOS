@@ -10,5 +10,7 @@
 
 @interface AYHomeTopicItem : UICollectionViewCell
 
+@property (nonatomic, strong) UIImageView *coverImage;
+
 - (void)setItemInfo:(NSDictionary*)itemInfo;
 @end

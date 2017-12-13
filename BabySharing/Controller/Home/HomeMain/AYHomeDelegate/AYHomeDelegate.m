@@ -66,7 +66,7 @@
 
 @end
 
-@implementation AYHomeDelegate{
+@implementation AYHomeDelegate {
     NSArray *servicesData;
 	
 	NSIndexPath *autoIndexPath;
@@ -79,7 +79,7 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-//	autoIndexPath = [[NSIndexPath alloc]init];
+	
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -113,105 +113,99 @@
 	
 	id<AYViewBase> cell ;
 	if (indexPath.row == 0) {
-		NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeBannerCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-		cell = [tableView dequeueReusableCellWithIdentifier:class_name];
+		NSString* class_name = @"AYHomeTopicsCellView";
+		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 	}
 	else if (indexPath.row == 1) {
-		NSString* class_name = @"AYHomeAssortmentCellView";
-		cell = [tableView dequeueReusableCellWithIdentifier:class_name];
+		NSString* class_name = @"AYHomeAroundCellView";
+		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 	}
-//	else if (indexPath.row == 2) {
-//		NSString* class_name = @"AYHomeMoreTitleCellView";
-//		cell = [tableView dequeueReusableCellWithIdentifier:class_name];
-//	}
 	else {
+		NSString* class_name = @"AYHomeAssortmentCellView";
+		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 
-		NSString* class_name = @"AYHomeCourseCellView";
-		cell = [tableView dequeueReusableCellWithIdentifier:class_name];
-
-		id tmp = [servicesData objectAtIndex:indexPath.row - kLAYOUTCELLCOUNT];
-		kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+//		id tmp = [servicesData objectAtIndex:indexPath.row - kLAYOUTCELLCOUNT];
+//		kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	}
-//	NSString* class_name = @"AYHomeCourseCellView";
-//	cell = [tableView dequeueReusableCellWithIdentifier:class_name];
+	
 	cell.controller = self.controller;
-	((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
 	return (UITableViewCell*)cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    if (indexPath.row == 0) {
-//		return 160;
-//	}
-//	else if (indexPath.row == 1) {
-//		return 160.f;
-//	}
-//	else if (indexPath.row == 2) {
-//		return 50.f;
-//	}
-//	else
-//		return HOMECOMMONCELLHEIGHT;
-	return 240.f;
+    if (indexPath.row == 0) {
+		return 110;
+	}
+	else if (indexPath.row == 1) {
+		return 110;
+	}
+	else
+		return 260;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.row < kLAYOUTCELLCOUNT) {
-		return;
+	
+	if (indexPath.row == 1) {
+		kAYDelegateSendNotify(self, @"willOpenMapMatch", nil)
 	}
 	
-	UIView *divView = [tableView superview];
-	CGRect rectInTableView = [tableView rectForRowAtIndexPath:indexPath];
-	CGRect rect = [tableView convertRect:rectInTableView toView:divView];
-	NSLog(@"\ncy :%f\ny  :%f\nh  :%f\ny+h/2:%f",divView.center.y, rect.origin.y, rect.size.height, rect.origin.y+rect.size.height*0.5);
-	
-	autoIndexPath = indexPath;
-	if ( abs((int)divView.center.y - (int)(rect.origin.y+rect.size.height*0.5)) <= 30) {
-		[self scrollViewDidEndScrollingAnimation:tableView];
-		NSLog(@"\nhand");
-	} else {
-		NSLog(@"\nauto");
-		[tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
-	}
+//	if (indexPath.row < kLAYOUTCELLCOUNT) {
+//		return;
+//	}
+//
+//	UIView *divView = [tableView superview];
+//	CGRect rectInTableView = [tableView rectForRowAtIndexPath:indexPath];
+//	CGRect rect = [tableView convertRect:rectInTableView toView:divView];
+//	NSLog(@"\ncy :%f\ny  :%f\nh  :%f\ny+h/2:%f",divView.center.y, rect.origin.y, rect.size.height, rect.origin.y+rect.size.height*0.5);
+//
+//	autoIndexPath = indexPath;
+//	if ( abs((int)divView.center.y - (int)(rect.origin.y+rect.size.height*0.5)) <= 30) {
+//		[self scrollViewDidEndScrollingAnimation:tableView];
+//		NSLog(@"\nhand");
+//	} else {
+//		NSLog(@"\nauto");
+//		[tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+//	}
 	
 }
 
-- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
-	
-	if (autoIndexPath) {
-		NSDictionary *service_info = [servicesData objectAtIndex:autoIndexPath.row - kLAYOUTCELLCOUNT];
-		NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
-		[tmp setValue:[autoIndexPath copy] forKey:@"indexpath"];
-		[tmp setValue:service_info forKey:@"service_info"];
-		autoIndexPath = nil;
-		kAYDelegateSendNotify(self, @"didSelectedRow:", &tmp)
-	}
-}
+//- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+//
+//	if (autoIndexPath) {
+//		NSDictionary *service_info = [servicesData objectAtIndex:autoIndexPath.row - kLAYOUTCELLCOUNT];
+//		NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
+//		[tmp setValue:[autoIndexPath copy] forKey:@"indexpath"];
+//		[tmp setValue:service_info forKey:@"service_info"];
+//		autoIndexPath = nil;
+//		kAYDelegateSendNotify(self, @"didSelectedRow:", &tmp)
+//	}
+//}
 
 #pragma mark -- UIScrollViewDelegate
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-	
-	static CGFloat offset_origin_y = 0;
-	CGFloat offset_now_y = scrollView.contentOffset.y;
-	CGFloat offset_t = offset_origin_y - offset_now_y;
-//	NSLog(@"%f", offset_t);
-	NSNumber *tmp = [NSNumber numberWithFloat:offset_t];
-	kAYDelegateSendNotify(self, @"scrollToShowHideTop:", &tmp)
-//	if (offset_t  > 0.1) {		//下滑往上滚
-//		kAYDelegateSendNotify(self, @"scrollToShowTop:", &tmp)
-//	}
-//	else if(offset_t < - 0.1) {		//上滑往下滚
-//		kAYDelegateSendNotify(self, @"scrollToHideTop:", &tmp)
-//	}
-	offset_origin_y = offset_now_y;
-}
-
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-	kAYDelegateSendNotify(self, @"scrollViewWillBeginDrag", nil)
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-	kAYDelegateSendNotify(self, @"scrollViewWillEndDrag", nil)
-}
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//
+//	static CGFloat offset_origin_y = 0;
+//	CGFloat offset_now_y = scrollView.contentOffset.y;
+//	CGFloat offset_t = offset_origin_y - offset_now_y;
+////	NSLog(@"%f", offset_t);
+//	NSNumber *tmp = [NSNumber numberWithFloat:offset_t];
+//	kAYDelegateSendNotify(self, @"scrollToShowHideTop:", &tmp)
+////	if (offset_t  > 0.1) {		//下滑往上滚
+////		kAYDelegateSendNotify(self, @"scrollToShowTop:", &tmp)
+////	}
+////	else if(offset_t < - 0.1) {		//上滑往下滚
+////		kAYDelegateSendNotify(self, @"scrollToHideTop:", &tmp)
+////	}
+//	offset_origin_y = offset_now_y;
+//}
+//
+//- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+//	kAYDelegateSendNotify(self, @"scrollViewWillBeginDrag", nil)
+//}
+//
+//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+//	kAYDelegateSendNotify(self, @"scrollViewWillEndDrag", nil)
+//}
 
 #pragma mark -- actions
 

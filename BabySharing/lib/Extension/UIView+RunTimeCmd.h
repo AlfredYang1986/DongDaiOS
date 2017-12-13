@@ -12,7 +12,9 @@
 
 @interface UIView (RunTimeCmd)
 
-- (void)performNotify:(NSString*)selector withResult:(NSObject**)obj;
+- (void)controller:(id)vc performSeletor:(NSString*)selector withResult:(NSObject**)obj;
 - (void)performMessage:(NSString*)selector withResult:(NSObject**)obj;
 
+
+- (void)setRadius:(CGFloat)radius borderWidth:(CGFloat)width borderColor:(UIColor*)color background:(UIColor*)backColor;
 @end

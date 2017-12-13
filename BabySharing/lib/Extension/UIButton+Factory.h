@@ -13,6 +13,6 @@
 /**
  *  PS: fontSize.正常数值为细体/300+为正常/600+为粗体
  */
-+ (UIButton*)creatButtonWithTitle:(NSString*)title andTitleColor:(UIColor*)TitleColor andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor;
++ (UIButton*)creatButtonWithTitle:(NSString*)title titleColor:(UIColor*)titleColor fontSize:(CGFloat)font backgroundColor:(UIColor*)backgroundColor;
 
 @end

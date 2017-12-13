@@ -10,7 +10,6 @@
 
 @implementation AYHomeTopicItem {
 	
-	UIImageView *coverImage;
 	UILabel *themeLabel;
 	
 	UILabel *titleLabel;
@@ -36,49 +35,46 @@
 
 - (void)initialize {
 	
-	self.layer.shadowColor = [UIColor gary].CGColor;
-	self.layer.shadowOffset = CGSizeMake(0, 0);
-	self.layer.shadowRadius = 3.f;
-	self.layer.shadowOpacity = 0.5f;
-	self.layer.cornerRadius = 4.f;
+//	self.layer.shadowColor = [UIColor gary].CGColor;
+//	self.layer.shadowOffset = CGSizeMake(0, 0);
+//	self.layer.shadowRadius = 3.f;
+//	self.layer.shadowOpacity = 0.5f;
+//	self.layer.cornerRadius = 4.f;
 	
-	UIView *radiusView = [[UIView alloc] init];
-	[Tools setViewBorder:radiusView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[UIColor white]];
-	[self addSubview:radiusView];
-	[radiusView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.edges.equalTo(self);
-	}];
+//	UIView *radiusView = [[UIView alloc] init];
+//	[Tools setViewBorder:radiusView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[UIColor white]];
+//	[self addSubview:radiusView];
+//	[radiusView mas_makeConstraints:^(MASConstraintMaker *make) {
+//		make.edges.equalTo(self);
+//	}];
 	
-	coverImage = [[UIImageView alloc] init];
-	coverImage.image = IMGRESOURCE(@"default_image");
-	coverImage.contentMode = UIViewContentModeScaleAspectFill;
-	coverImage.clipsToBounds = YES;
-	[radiusView addSubview:coverImage];
-	[coverImage mas_makeConstraints:^(MASConstraintMaker *make) {
+	_coverImage = [[UIImageView alloc] init];
+	_coverImage.image = IMGRESOURCE(@"default_image");
+	_coverImage.contentMode = UIViewContentModeScaleAspectFill;
+	_coverImage.clipsToBounds = YES;
+	[self addSubview:_coverImage];
+	[_coverImage mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self);
 		make.left.equalTo(self);
 		make.width.equalTo(self);
 		make.height.mas_equalTo(116);
 	}];
 	
-	
-	titleLabel = [Tools creatUILabelWithText:@"Service Belong to Servant" andTextColor:[UIColor black] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	titleLabel = [Tools creatUILabelWithText:@"Service" andTextColor:[UIColor white] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 	titleLabel.numberOfLines = 2;
-	[radiusView addSubview:titleLabel];
+	[self addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(self).offset(10);
-		make.right.equalTo(self).offset(-10);
-		make.top.equalTo(coverImage.mas_bottom).offset(5);
+		make.centerX.equalTo(self);
+		make.top.equalTo(self).offset(0);
+		make.height.mas_equalTo(40);
 	}];
 	
-	
 	themeLabel = [Tools creatUILabelWithText:@"Theme" andTextColor:[UIColor theme] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-	[Tools setViewBorder:themeLabel withRadius:4.f andBorderWidth:1.f andBorderColor:[UIColor theme] andBackground:nil];
-	[radiusView addSubview:themeLabel];
+//	[Tools setViewBorder:themeLabel withRadius:4.f andBorderWidth:1.f andBorderColor:[UIColor theme] andBackground:nil];
+	[self addSubview:themeLabel];
 	[themeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.right.equalTo(titleLabel.mas_left).offset(-8);
-		make.centerY.equalTo(titleLabel);
-		make.size.mas_equalTo(CGSizeMake(56, 20));
+		make.centerX.equalTo(self);
+		make.bottom.equalTo(self).offset(-15);
 	}];
 	
 }
@@ -90,8 +86,10 @@
 
 - (void)setItemInfo:(NSDictionary*)itemInfo {
 	
-	service_info = itemInfo;
-	
+	NSString *title = [itemInfo objectForKey:@"title"];
+	if (title.length != 0) {
+		titleLabel.text = title;
+	}
 }
 
 

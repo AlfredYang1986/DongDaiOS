@@ -19,6 +19,8 @@
 
 @implementation AYHomeTopicsCellView  {
 	UICollectionView *collectionView;
+	
+	NSArray *topicsArr;
 }
 
 @synthesize para = _para;
@@ -30,13 +32,8 @@
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
 		
-		UILabel *titleLabel = [Tools creatUILabelWithText:@"热门分类" andTextColor:[Tools blackColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		[self addSubview:titleLabel];
-		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(self).offset(20);
-			make.top.equalTo(self).offset(10);
-		}];
-		
+		self.selectionStyle = UITableViewCellSelectionStyleNone;
+		topicsArr = kAY_top_assortment_titles;
 		
 		UICollectionViewFlowLayout *flowLayout = [UICollectionViewFlowLayout new];
 		flowLayout.itemSize  = CGSizeMake(140, 90);
@@ -44,68 +41,41 @@
 		flowLayout.minimumInteritemSpacing = 10;
 		flowLayout.minimumLineSpacing = 8;
 		
-		collectionView = [[UICollectionView  alloc]initWithFrame:CGRectMake(0, 50, SCREEN_WIDTH, 90) collectionViewLayout:flowLayout];
+		collectionView = [[UICollectionView  alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 90) collectionViewLayout:flowLayout];
 		collectionView.delegate = self;
 		collectionView.dataSource = self;
 		collectionView.showsVerticalScrollIndicator = NO;
 		collectionView.showsHorizontalScrollIndicator = NO;
-		collectionView.contentInset = UIEdgeInsetsMake(0, 20, 0, 0);
+		collectionView.contentInset = UIEdgeInsetsMake(0, 15, 0, 0);
 		[collectionView setBackgroundColor:[UIColor clearColor]];
-		[collectionView registerClass:NSClassFromString(@"AYHomeServPerItem") forCellWithReuseIdentifier:@"AYHomeServPerItem"];
+		[collectionView registerClass:NSClassFromString(@"AYHomeTopicItem") forCellWithReuseIdentifier:@"AYHomeTopicItem"];
 		[self addSubview:collectionView];
 		
-		//		if (reuseIdentifier != nil) {
-		//			[self setUpReuseCell];
-		//		}
 	}
 	return self;
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-	return 6;
+	return topicsArr.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-	AYHomeServPerItem *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AYHomeServPerItem" forIndexPath:indexPath];
+	AYHomeTopicItem *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AYHomeTopicItem" forIndexPath:indexPath];
 	
-	//	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
-	//	[tmp setValue:[assortmentArr objectAtIndex:indexPath.row] forKey:@"title"];
-	//	//	[tmp setValue:[NSNumber numberWithInteger:100] forKey:@"count_skiped"];
-	//	[tmp setValue:[NSString stringWithFormat:@"topsort_home_%ld", indexPath.row] forKey:@"assortment_img"];
-	//	[cell setItemInfo:[tmp copy]];
+	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
+	[tmp setValue:[topicsArr objectAtIndex:indexPath.row] forKey:@"title"];
+	//	[tmp setValue:[NSNumber numberWithInteger:100] forKey:@"count_skiped"];
+//	[tmp setValue:[NSString stringWithFormat:@"topsort_home_%ld", indexPath.row] forKey:@"assortment_img"];
+	[cell setItemInfo:[tmp copy]];
 	return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-	//	NSString *sort = [assortmentArr objectAtIndex:indexPath.row];
+	NSString *sort = [topicsArr objectAtIndex:indexPath.row];
 	//	kAYViewSendNotify(self, @"didSelectAssortmentAtIndex:", &sort)
-}
-
-#pragma mark -- life cycle
-- (void)setUpReuseCell {
-	id<AYViewBase> cell = VIEW(@"HomeTopicsCell", @"HomeTopicsCell");
-	
-	NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
-	for (NSString* name in cell.commands.allKeys) {
-		AYViewCommand* cmd = [cell.commands objectForKey:name];
-		AYViewCommand* c = [[AYViewCommand alloc]init];
-		c.view = self;
-		c.method_name = cmd.method_name;
-		c.need_args = cmd.need_args;
-		[arr_commands setValue:c forKey:name];
-	}
-	self.commands = [arr_commands copy];
-	
-	NSMutableDictionary* arr_notifies = [[NSMutableDictionary alloc]initWithCapacity:cell.notifies.count];
-	for (NSString* name in cell.notifies.allKeys) {
-		AYViewNotifyCommand* cmd = [cell.notifies objectForKey:name];
-		AYViewNotifyCommand* c = [[AYViewNotifyCommand alloc]init];
-		c.view = self;
-		c.method_name = cmd.method_name;
-		c.need_args = cmd.need_args;
-		[arr_notifies setValue:c forKey:name];
-	}
-	self.notifies = [arr_notifies copy];
+//	[self performNotify:@"didOneTopicClick:" withResult:&sort];
+//	[self controller:self.controller performSeletor:@"didOneTopicClick:" withResult:&sort];
+	[(AYViewController*)self.controller performSel:@"didOneTopicClick:" withResult:&sort];
 }
 
 #pragma mark -- commands

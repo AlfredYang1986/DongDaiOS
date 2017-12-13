@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "AYViewBase.h"
-#import "AYHomeServPerItem.h"
+#import "AYHomeTopicItem.h"
 
 @interface AYHomeTopicsCellView : UITableViewCell <AYViewBase, UICollectionViewDelegate,UICollectionViewDataSource>
 
