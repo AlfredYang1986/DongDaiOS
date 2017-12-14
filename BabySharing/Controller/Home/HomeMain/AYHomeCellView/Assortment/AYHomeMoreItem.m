@@ -31,13 +31,13 @@
 - (void)initialize {
 	
 	UIImageView *bg = [[UIImageView alloc] init];
-	bg.image = IMGRESOURCE(@"default_image");
+	bg.image = IMGRESOURCE(@"tag_text");
 	[bg setRadius:4 borderWidth:0 borderColor:nil background:nil];
 	[self addSubview:bg];
 	[bg mas_makeConstraints:^(MASConstraintMaker *make) {
 //		make.edges.equalTo(self).insets(UIEdgeInsetsMake(0, 0, 0, 15));
 		make.left.equalTo(self).offset(0);
-		make.right.equalTo(self);
+		make.right.equalTo(self).offset(-15);
 		make.top.equalTo(self);
 		make.height.mas_equalTo(90);
 	}];

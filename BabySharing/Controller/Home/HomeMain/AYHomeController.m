@@ -122,6 +122,7 @@ typedef void(^queryContentFinish)(void);
 		make.right.equalTo(HomeHeadView).offset(-15);
 		make.size.mas_equalTo(CGSizeMake(80, 40));
 	}];
+	[collesBtn addTarget:self action:@selector(didCollectBtnClick) forControlEvents:UIControlEventTouchUpInside];
 	
 	{
 		UITableView *tableView = [self.views objectForKey:kAYTableView];
@@ -166,32 +167,11 @@ typedef void(^queryContentFinish)(void);
 	view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
 	view.backgroundColor = [Tools whiteColor];
 	
-	addressLabel = [Tools creatUILabelWithText:@"北京市" andTextColor:[Tools garyColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-	[view addSubview:addressLabel];
-	[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(view).offset(20);
-		make.centerY.equalTo(view);
-	}];
-//	addressLabel.userInteractionEnabled = YES;
-//	[addressLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didAddressLabelTap)]];
-	
-	UIButton *searchBtn = [[UIButton alloc]init];
-	[searchBtn setImage:IMGRESOURCE(@"icon_search") forState:UIControlStateNormal];
-	[view addSubview:searchBtn];
-	[searchBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerY.equalTo(view);
-		make.centerX.equalTo(view.mas_right).offset(-30);
-		make.size.mas_equalTo(CGSizeMake(44, 44));
-	}];
-	[searchBtn addTarget:self action:@selector(didSearchBtnClick) forControlEvents:UIControlEventTouchUpInside];
-	
 	NSNumber *is_hidden = [NSNumber numberWithBool:YES];
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnVisibilityMessage, &is_hidden)
 	is_hidden = [NSNumber numberWithBool:YES];
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &is_hidden)
 //	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
-	
-//	[Tools addBtmLineWithMargin:0 andAlignment:NSTextAlignmentCenter andColor:[Tools garyLineColor] inSuperView:view];
 	return nil;
 }
 
@@ -215,16 +195,15 @@ typedef void(^queryContentFinish)(void);
 }
 
 #pragma mark -- actions
-- (void)didSearchBtnClick {
+- (void)didCollectBtnClick {
 	
-	id<AYCommand> des = DEFAULTCONTROLLER(@"SearchSKU");
-	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	AYViewController* des = DEFAULTCONTROLLER(@"CollectServ");
+	NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+	[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
 	
-	id<AYCommand> cmd_show_module = PUSH;
-	[cmd_show_module performWithResult:&dic];
+	id<AYCommand> cmd = PUSH;
+	[cmd performWithResult:&dic_push];
 	
 }
 
@@ -528,15 +507,17 @@ typedef void(^queryContentFinish)(void);
 }
 
 - (id)didSelectAssortmentAtIndex:(id)args {
-	id<AYCommand> des = DEFAULTCONTROLLER(@"Assortment");
-	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-	[dic setValue:args forKey:kAYControllerChangeArgsKey];
 	
-	id<AYCommand> cmd_show_module = PUSH;
-	[cmd_show_module performWithResult:&dic];
+	id<AYCommand> des = DEFAULTCONTROLLER(@"ServicePage");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	
+	[dic setObject:[args objectForKey:@"cover"] forKey:kAYControllerImgForFrameKey];
+	[dic setValue:[args objectForKey:kAYServiceArgsSelf] forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd_push_animate = PUSHANIMATE;
+	[cmd_push_animate performWithResult:&dic];
 	return nil;
 }
 

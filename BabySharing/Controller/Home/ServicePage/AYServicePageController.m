@@ -297,15 +297,14 @@
 
 #pragma mark -- notifies
 - (id)leftBtnSelected {
-	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-	[dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 	if (isChangeCollect) {
 		NSDictionary *back_args = @{@"args":service_info, @"key":@"is_change_collect"};
 		[dic setValue:back_args forKey:kAYControllerChangeArgsKey];
 	}
 	
-	id<AYCommand> cmd = POP;
+	id<AYCommand> cmd = POPANIMATE;
 	[cmd performWithResult:&dic];
     return nil;
 }

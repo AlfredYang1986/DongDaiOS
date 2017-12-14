@@ -22,7 +22,7 @@
 	UILabel *subTitleLabel;
 	
 	UICollectionView *CollectionView;
-	NSArray *assortmentArr;
+	NSArray *serviceData;
 }
 
 @synthesize para = _para;
@@ -36,27 +36,25 @@
 		
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		
-		assortmentArr = kAY_top_assortment_titles;
-		
 		UILabel *titleLabel = [Tools creatUILabelWithText:@"分类01" andTextColor:[Tools blackColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(15);
-			make.top.equalTo(self).offset(10);
+			make.top.equalTo(self).offset(15);
 		}];
 		
 		subTitleLabel = [UILabel creatLabelWithText:@"一句话简单描述" textColor:[UIColor gary] fontSize:313 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:subTitleLabel];
 		[subTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(self).offset(15);
-			make.top.equalTo(titleLabel.mas_bottom).offset(8);
+			make.left.equalTo(titleLabel);
+			make.top.equalTo(titleLabel.mas_bottom).offset(2);
 		}];
 		
 		UIButton *moreBtn = [Tools creatUIButtonWithTitle:@"查看全部" andTitleColor:[Tools RGB153GaryColor] andFontSize:313.f andBackgroundColor:nil];
 		[self addSubview:moreBtn];
 		[moreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.right.equalTo(self).offset(-15);
-			make.centerY.equalTo(titleLabel);
+			make.bottom.equalTo(titleLabel);
 			make.size.mas_equalTo(CGSizeMake(60, 20));
 		}];
 		[moreBtn addTarget:self action:@selector(didAssortmentMoreBtnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -86,7 +84,7 @@
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-//	return assortmentArr.count;
+//	return serviceData.count;
 	return 6 + 1;
 }
 
@@ -104,7 +102,7 @@
 		AYHomeAssortmentCellItem *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AYHomeAssortmentCellItem" forIndexPath:indexPath];
 		
 		//	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
-		//	[tmp setValue:[assortmentArr objectAtIndex:indexPath.row] forKey:@"title"];
+		//	[tmp setValue:[serviceData objectAtIndex:indexPath.row] forKey:@"title"];
 		////	[tmp setValue:[NSNumber numberWithInteger:100] forKey:@"count_skiped"];
 		//	[tmp setValue:[NSString stringWithFormat:@"topsort_home_%ld", indexPath.row] forKey:@"assortment_img"];
 		//	[cell setItemInfo:[tmp copy]];
@@ -114,8 +112,22 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-//	NSString *sort = [assortmentArr objectAtIndex:indexPath.row];
-//	kAYViewSendNotify(self, @"didSelectAssortmentAtIndex:", &sort)
+	
+	NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+	
+	if (indexPath.row == 6) {
+		
+		[(AYViewController*)self.controller performSel:@"didAssortmentMoreBtnClick" withResult:nil];
+	} else {
+		
+		AYHomeAssortmentCellItem *item = (AYHomeAssortmentCellItem*)[collectionView cellForItemAtIndexPath:indexPath];
+		UIImageView *cover = item.coverImage;
+		[dic setValue:cover forKey:@"cover"];
+		[dic setValue:[serviceData objectAtIndex:indexPath.row] forKey:kAYServiceArgsSelf];
+	}
+	
+	id tmp = [dic copy];
+	[(AYViewController*)self.controller performSel:@"didSelectAssortmentAtIndex:" withResult:&tmp];
 }
 
 #pragma mark -- life cycle
@@ -149,6 +161,7 @@
 
 #pragma mark -- messages
 - (id)setCellInfo:(id)args {
+	serviceData = args;
 	
 	return nil;
 }

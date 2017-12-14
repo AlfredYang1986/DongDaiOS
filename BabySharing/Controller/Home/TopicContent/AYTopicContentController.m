@@ -181,9 +181,11 @@
 		
 		UITableView *tableView = [self.views objectForKey:kAYTableView];
 		if (success) {
-			NSArray* tmp = [result objectForKey:@"services"];
-			remoteDataArr = [tmp mutableCopy];
+			remoteDataArr = [[result objectForKey:@"services"] mutableCopy];
 			skipedCount = remoteDataArr.count;
+			
+			id tmp = [remoteDataArr copy];
+			kAYDelegatesSendMessage(@"TopicContent", kAYDelegateChangeDataMessage, &tmp)
 			[tableView reloadData];
 		} else {
 			NSString *title = @"请改善网络环境并重试";
@@ -214,6 +216,8 @@
 				[remoteDataArr addObjectsFromArray:reArr];
 				skipedCount = remoteDataArr.count;
 				
+				id tmp = [remoteDataArr copy];
+				kAYDelegatesSendMessage(@"TopicContent", kAYDelegateChangeDataMessage, &tmp)
 				[tableView reloadData];
 			} else {
 				NSString *title = @"没有更多服务了";

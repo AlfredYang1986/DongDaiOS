@@ -18,6 +18,8 @@
 @interface AYViewController : UIViewController <AYControllerBase>
 @property (nonatomic, weak) id<AYViewBase> loading;
 
+@property (nonatomic, strong) UIView *snapAnimateView;
+
 - (void)clearController;
 - (void)BtmAlertOtherBtnClick;
 - (void)tabBarVCSelectIndex:(NSInteger)index;

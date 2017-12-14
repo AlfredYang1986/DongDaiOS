@@ -74,21 +74,15 @@
 	
 }
 
-- (void)setItemInfo:(NSDictionary*)itemInfo {
+- (void)setItemInfo:(NSDictionary *)itemInfo {
+	_itemInfo = itemInfo;
 	
 	NSString *titleStr = [itemInfo objectForKey:@"title"];
 	titleLabel.text = titleStr;
 	
 	NSString *img_name = [itemInfo objectForKey:@"assortment_img"];
 	_coverImage.image = IMGRESOURCE(img_name);
-	
-//	NSNumber *skipedCount = [itemInfo objectForKey:@"count_skiped"];
-//	if (skipedCount) {
-//		skipCountLabel.hidden = NO;
-//		skipCountLabel.text = [NSString stringWithFormat:@"%@人浏览过", skipedCount];
-//	} else {
-//		skipCountLabel.hidden  =YES;
-//	}
 }
+
 
 @end

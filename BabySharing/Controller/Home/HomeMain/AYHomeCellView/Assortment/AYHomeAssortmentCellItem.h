@@ -11,6 +11,6 @@
 @interface AYHomeAssortmentCellItem : UICollectionViewCell
 
 @property (nonatomic, strong) UIImageView *coverImage;
-- (void)setItemInfo:(NSDictionary*)itemInfo;
+@property (nonatomic, strong) NSDictionary *itemInfo;
 
 @end

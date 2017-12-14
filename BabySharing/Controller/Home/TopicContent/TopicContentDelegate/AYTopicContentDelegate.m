@@ -46,8 +46,8 @@
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//	return queryData.count;
-	return 6;
+	return queryData.count;
+//	return 6;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

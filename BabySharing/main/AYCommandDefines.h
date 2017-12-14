@@ -56,11 +56,11 @@ static NSString* const kAYFactoryManagerCommandTypePopFromBot = @"PopFromBot";
 #define MODULE(NAME)            COMMAND(kAYFactoryManagerCommandTypeModule, NAME)
 #define REMOTE(NAME)            COMMAND(kAYFactoryManagerCommandTypeRemote, NAME)
 #define PUSH                    COMMAND(kAYFactoryManagerCommandTypePush, kAYFactoryManagerCommandTypePush)
-#define HOMEPUSH			COMMAND(kAYFactoryManagerCommandTypeHomePush, kAYFactoryManagerCommandTypeHomePush)
+#define HOMEPUSH				COMMAND(kAYFactoryManagerCommandTypeHomePush, kAYFactoryManagerCommandTypeHomePush)
 #define PUSHFROMBOT             COMMAND(kAYFactoryManagerCommandTypePushFromBot, kAYFactoryManagerCommandTypePushFromBot)
 #define POPFROMBOT              COMMAND(kAYFactoryManagerCommandTypePopFromBot, kAYFactoryManagerCommandTypePopFromBot)
 #define POP                     COMMAND(kAYFactoryManagerCommandTypePop, kAYFactoryManagerCommandTypePop)
-#define POPTODEST                     COMMAND(kAYFactoryManagerCommandTypePopToDest, kAYFactoryManagerCommandTypePopToDest)
+#define POPTODEST				COMMAND(kAYFactoryManagerCommandTypePopToDest, kAYFactoryManagerCommandTypePopToDest)
 #define POPTOROOT               COMMAND(kAYFactoryManagerCommandTypePopToRoot, kAYFactoryManagerCommandTypePopToRoot)
 #define SHOWMODULE              COMMAND(kAYFactoryManagerCommandTypeShowModule, kAYFactoryManagerCommandTypeShowModule)
 #define SHOWMODULEUP            COMMAND(kAYFactoryManagerCommandTypeShowModuleUp, kAYFactoryManagerCommandTypeShowModuleUp)
@@ -68,9 +68,13 @@ static NSString* const kAYFactoryManagerCommandTypePopFromBot = @"PopFromBot";
 #define PUSHSPLIT               COMMAND(kAYFactoryManagerCommandTypePushSplit, kAYFactoryManagerCommandTypePushSplit)
 #define POPSPLIT                COMMAND(kAYFactoryManagerCommandTypePopSplit, kAYFactoryManagerCommandTypePopSplit)
 #define EXCHANGEWINDOWS         COMMAND(kAYFactoryManagerCommandWindowChange, kAYFactoryManagerCommandWindowChange)
-#define OpenCamera                COMMAND(@"OpenUIImagePickerCamera", @"OpenUIImagePickerCamera")
-#define OpenImagePickerVC                COMMAND(@"OpenUIImagePickerPicRoll", @"OpenUIImagePickerPicRoll")
-#define LocationAuth                COMMAND(@"LocationAuth", @"LocationAuth")
+
+#define PUSHANIMATE				COMMAND(@"PushAnimate", @"PushAnimate")
+#define POPANIMATE				COMMAND(@"PopAnimate", @"PopAnimate")
+
+#define OpenCamera				COMMAND(@"OpenUIImagePickerCamera", @"OpenUIImagePickerCamera")
+#define OpenImagePickerVC		COMMAND(@"OpenUIImagePickerPicRoll", @"OpenUIImagePickerPicRoll")
+#define LocationAuth			COMMAND(@"LocationAuth", @"LocationAuth")
 
 #define CONTROLLER(TYPE, NAME)  [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryController type:TYPE name:NAME]
 #define DEFAULTCONTROLLER(NAME) [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryController type:kAYFactoryManagerCommandTypeDefaultController name:NAME]
