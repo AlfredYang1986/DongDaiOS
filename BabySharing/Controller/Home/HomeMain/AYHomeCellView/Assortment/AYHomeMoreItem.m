@@ -39,7 +39,7 @@
 		make.left.equalTo(self).offset(0);
 		make.right.equalTo(self).offset(-15);
 		make.top.equalTo(self);
-		make.height.mas_equalTo(90);
+		make.bottom.equalTo(self).offset(-80);
 	}];
 	
 	UILabel *allLabel = [UILabel creatLabelWithText:@"Brows All" textColor:[UIColor white] fontSize:614 backgroundColor:nil textAlignment:NSTextAlignmentCenter];

@@ -67,6 +67,18 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
+	AYHomeServPerCellView *cell = (AYHomeServPerCellView*)[tableView cellForRowAtIndexPath:indexPath];
+	
+	id<AYCommand> des = DEFAULTCONTROLLER(@"ServicePage");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
+	[dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	
+	[dic setObject:cell.coverImage forKey:kAYControllerImgForFrameKey];
+	[dic setValue:[queryData objectAtIndex:indexPath.row] forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd_push_animate = PUSHANIMATE;
+	[cmd_push_animate performWithResult:&dic];
 }
 
 

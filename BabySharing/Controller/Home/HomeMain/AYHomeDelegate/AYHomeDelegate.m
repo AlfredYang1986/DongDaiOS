@@ -123,9 +123,11 @@
 	else {
 		NSString* class_name = @"AYHomeAssortmentCellView";
 		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-
-//		id tmp = [servicesData objectAtIndex:indexPath.row - kLAYOUTCELLCOUNT];
-//		kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+		
+		NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
+		[tmp setValue:[servicesData copy] forKey:@"services"];
+		[tmp setValue:[NSNumber numberWithInteger:indexPath.row - 2] forKey:@"index"];
+		[(UITableViewCell*)cell performMethod:@"setCellInfo:" withResult:&tmp];
 	}
 	
 	cell.controller = self.controller;
@@ -138,6 +140,9 @@
 	}
 	else if (indexPath.row == 1) {
 		return 110;
+	}
+	else if (indexPath.row == 2) {
+		return 300;
 	}
 	else
 		return 260;

@@ -36,12 +36,12 @@
 		topicsArr = kAY_top_assortment_titles;
 		
 		UICollectionViewFlowLayout *flowLayout = [UICollectionViewFlowLayout new];
-		flowLayout.itemSize  = CGSizeMake(140, 90);
+		flowLayout.itemSize  = CGSizeMake(100, 90);
 		flowLayout.scrollDirection  = UICollectionViewScrollDirectionHorizontal;
 		flowLayout.minimumInteritemSpacing = 10;
 		flowLayout.minimumLineSpacing = 8;
 		
-		collectionView = [[UICollectionView  alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 90) collectionViewLayout:flowLayout];
+		collectionView = [[UICollectionView  alloc]initWithFrame:CGRectMake(0, 10, SCREEN_WIDTH, 90) collectionViewLayout:flowLayout];
 		collectionView.delegate = self;
 		collectionView.dataSource = self;
 		collectionView.showsVerticalScrollIndicator = NO;

@@ -65,7 +65,7 @@
 
 	[UIView animateWithDuration:0.5 animations:^{
 		snapShotView.frame = retFrame;
-		snapShotView.alpha = 0.2;
+		snapShotView.alpha = 0;
 	} completion:^(BOOL finished) {
 		[snapShotView removeFromSuperview];
 //		des.showImg.hidden = NO;

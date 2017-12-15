@@ -15,14 +15,18 @@
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
 #import "AYModelFacade.h"
-#import "AYHomeAssortmentCellItem.h"
+#import "AYHomeAssortmentItem.h"
 
 @implementation AYHomeAssortmentCellView {
-	
+	UILabel *titleLabel;
 	UILabel *subTitleLabel;
 	
 	UICollectionView *CollectionView;
 	NSArray *serviceData;
+	
+	CGSize itemSizeData;
+	
+	NSArray *titleArr;
 }
 
 @synthesize para = _para;
@@ -33,10 +37,11 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
-		
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		
-		UILabel *titleLabel = [Tools creatUILabelWithText:@"分类01" andTextColor:[Tools blackColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		titleArr = @[@"看顾", @"运动", @"艺术", @"科学"];
+		
+		titleLabel = [Tools creatUILabelWithText:@"Assortment01" andTextColor:[Tools blackColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(15);
@@ -60,7 +65,7 @@
 		[moreBtn addTarget:self action:@selector(didAssortmentMoreBtnClick) forControlEvents:UIControlEventTouchUpInside];
 		
 		UICollectionViewFlowLayout *flowLayout = [UICollectionViewFlowLayout new];
-		flowLayout.itemSize = CGSizeMake(140, 180);
+//		flowLayout.itemSize = CGSizeMake(160, 200);
 		flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
 		flowLayout.minimumInteritemSpacing = 10;
 		flowLayout.minimumLineSpacing = 8;
@@ -72,9 +77,15 @@
 		CollectionView.showsHorizontalScrollIndicator = NO;
 		CollectionView.contentInset = UIEdgeInsetsMake(0, 15, 0, 0);
 		[CollectionView setBackgroundColor:[UIColor clearColor]];
-		[CollectionView registerClass:NSClassFromString(@"AYHomeAssortmentCellItem") forCellWithReuseIdentifier:@"AYHomeAssortmentCellItem"];
+		[CollectionView registerClass:NSClassFromString(@"AYHomeAssortmentItem") forCellWithReuseIdentifier:@"AYHomeAssortmentItem"];
 		[CollectionView registerClass:NSClassFromString(@"AYHomeMoreItem") forCellWithReuseIdentifier:@"AYHomeMoreItem"];
 		[self addSubview:CollectionView];
+		[CollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(self).offset(80);
+			make.left.equalTo(self);
+			make.right.equalTo(self);
+			make.bottom.equalTo(self);
+		}];
 		
 //		if (reuseIdentifier != nil) {
 //			[self setUpReuseCell];
@@ -92,20 +103,14 @@
 	
 	if (indexPath.row == 6) {
 		AYHomeMoreItem *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AYHomeMoreItem" forIndexPath:indexPath];
-		
-		//	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
-		//	[tmp setValue:[NSString stringWithFormat:@"topsort_home_%ld", indexPath.row] forKey:@"assortment_img"];
-		//	[cell setItemInfo:[tmp copy]];
 		return cell;
 	} else {
 		
-		AYHomeAssortmentCellItem *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AYHomeAssortmentCellItem" forIndexPath:indexPath];
+		AYHomeAssortmentItem *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AYHomeAssortmentItem" forIndexPath:indexPath];
 		
-		//	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
-		//	[tmp setValue:[serviceData objectAtIndex:indexPath.row] forKey:@"title"];
-		////	[tmp setValue:[NSNumber numberWithInteger:100] forKey:@"count_skiped"];
-		//	[tmp setValue:[NSString stringWithFormat:@"topsort_home_%ld", indexPath.row] forKey:@"assortment_img"];
-		//	[cell setItemInfo:[tmp copy]];
+		NSMutableDictionary *tmp = [[serviceData objectAtIndex:indexPath.row] copy];
+//		[tmp setValue:[serviceData objectAtIndex:indexPath.row] forKey:kAYServiceArgsSelf];
+		cell.itemInfo = [tmp copy];
 		return cell;
 	}
 	
@@ -120,7 +125,7 @@
 		[(AYViewController*)self.controller performSel:@"didAssortmentMoreBtnClick" withResult:nil];
 	} else {
 		
-		AYHomeAssortmentCellItem *item = (AYHomeAssortmentCellItem*)[collectionView cellForItemAtIndexPath:indexPath];
+		AYHomeAssortmentItem *item = (AYHomeAssortmentItem*)[collectionView cellForItemAtIndexPath:indexPath];
 		UIImageView *cover = item.coverImage;
 		[dic setValue:cover forKey:@"cover"];
 		[dic setValue:[serviceData objectAtIndex:indexPath.row] forKey:kAYServiceArgsSelf];
@@ -128,6 +133,11 @@
 	
 	id tmp = [dic copy];
 	[(AYViewController*)self.controller performSel:@"didSelectAssortmentAtIndex:" withResult:&tmp];
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+	
+	return itemSizeData;
 }
 
 #pragma mark -- life cycle
@@ -161,7 +171,17 @@
 
 #pragma mark -- messages
 - (id)setCellInfo:(id)args {
-	serviceData = args;
+	
+	serviceData = [args objectForKey:@"services"];
+	
+	if ([[args objectForKey:@"index"] intValue] == 0) {
+		itemSizeData = CGSizeMake(220, 220);
+	} else
+		itemSizeData = CGSizeMake(140, 180);
+	
+	titleLabel.text = [titleArr objectAtIndex:[[args objectForKey:@"index"] intValue]];
+	
+	[CollectionView reloadData];
 	
 	return nil;
 }

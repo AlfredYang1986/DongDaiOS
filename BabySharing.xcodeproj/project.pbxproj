@@ -343,7 +343,7 @@
 		7048AE9C1F208A0300C7BE8D /* AYHomeBannerItemCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7048AE991F208A0300C7BE8D /* AYHomeBannerItemCellView.m */; };
 		7048AEA01F208C8600C7BE8D /* AYHomeTopicsCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7048AE9F1F208C8600C7BE8D /* AYHomeTopicsCellView.m */; };
 		7048AEA41F209E9500C7BE8D /* AYHomeAssortmentCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7048AEA31F209E9500C7BE8D /* AYHomeAssortmentCellView.m */; };
-		7048AEA71F20A51000C7BE8D /* AYHomeAssortmentCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7048AEA61F20A51000C7BE8D /* AYHomeAssortmentCellItem.m */; };
+		7048AEA71F20A51000C7BE8D /* AYHomeAssortmentItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7048AEA61F20A51000C7BE8D /* AYHomeAssortmentItem.m */; };
 		70490DA01CA2225F0093D5DA /* AYAPNNotificationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70490D9F1CA2225F0093D5DA /* AYAPNNotificationCommand.m */; };
 		70490DA41CA222990093D5DA /* AYAPNNotificationCommandFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 70490DA31CA222990093D5DA /* AYAPNNotificationCommandFactory.m */; };
 		70490DBD1CA2339D0093D5DA /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70490DA71CA2339D0093D5DA /* TencentOpenAPI.framework */; };
@@ -1542,8 +1542,8 @@
 		7048AE9F1F208C8600C7BE8D /* AYHomeTopicsCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYHomeTopicsCellView.m; sourceTree = "<group>"; };
 		7048AEA21F209E9500C7BE8D /* AYHomeAssortmentCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYHomeAssortmentCellView.h; sourceTree = "<group>"; };
 		7048AEA31F209E9500C7BE8D /* AYHomeAssortmentCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYHomeAssortmentCellView.m; sourceTree = "<group>"; };
-		7048AEA51F20A51000C7BE8D /* AYHomeAssortmentCellItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYHomeAssortmentCellItem.h; sourceTree = "<group>"; };
-		7048AEA61F20A51000C7BE8D /* AYHomeAssortmentCellItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYHomeAssortmentCellItem.m; sourceTree = "<group>"; };
+		7048AEA51F20A51000C7BE8D /* AYHomeAssortmentItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYHomeAssortmentItem.h; sourceTree = "<group>"; };
+		7048AEA61F20A51000C7BE8D /* AYHomeAssortmentItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYHomeAssortmentItem.m; sourceTree = "<group>"; };
 		70490D9E1CA2225F0093D5DA /* AYAPNNotificationCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAPNNotificationCommand.h; sourceTree = "<group>"; };
 		70490D9F1CA2225F0093D5DA /* AYAPNNotificationCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAPNNotificationCommand.m; sourceTree = "<group>"; };
 		70490DA21CA222990093D5DA /* AYAPNNotificationCommandFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAPNNotificationCommandFactory.h; sourceTree = "<group>"; };
@@ -5274,8 +5274,8 @@
 			children = (
 				7048AEA21F209E9500C7BE8D /* AYHomeAssortmentCellView.h */,
 				7048AEA31F209E9500C7BE8D /* AYHomeAssortmentCellView.m */,
-				7048AEA51F20A51000C7BE8D /* AYHomeAssortmentCellItem.h */,
-				7048AEA61F20A51000C7BE8D /* AYHomeAssortmentCellItem.m */,
+				7048AEA51F20A51000C7BE8D /* AYHomeAssortmentItem.h */,
+				7048AEA61F20A51000C7BE8D /* AYHomeAssortmentItem.m */,
 				703971F51FE0FCCD00049184 /* AYHomeMoreItem.h */,
 				703971F61FE0FCCD00049184 /* AYHomeMoreItem.m */,
 			);
@@ -9682,7 +9682,7 @@
 				70228D5C1F25C3EF0099B028 /* AYAssortmentDelegate.m in Sources */,
 				703B4C4E1DCC292200B1088C /* AYQueryCommentCommand.m in Sources */,
 				80C829D91CDD8CF7007B1077 /* AYThumbsNormalBtnView.m in Sources */,
-				7048AEA71F20A51000C7BE8D /* AYHomeAssortmentCellItem.m in Sources */,
+				7048AEA71F20A51000C7BE8D /* AYHomeAssortmentItem.m in Sources */,
 				70E77CE31D8E812B00C882DD /* AYUpdateOrderInfoCommand.m in Sources */,
 				700B8C651D58749100DD1D06 /* AYCreateEMChatCommand.m in Sources */,
 				80F0593F1E5C3F4C002B105F /* NSDataEx.m in Sources */,

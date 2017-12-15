@@ -12,8 +12,7 @@
 
 @interface UIView (RunTimeCmd)
 
-- (void)controller:(id)vc performSeletor:(NSString*)selector withResult:(NSObject**)obj;
-- (void)performMessage:(NSString*)selector withResult:(NSObject**)obj;
+- (void)performMethod:(NSString*)selector withResult:(NSObject**)obj;
 
 
 - (void)setRadius:(CGFloat)radius borderWidth:(CGFloat)width borderColor:(UIColor*)color background:(UIColor*)backColor;

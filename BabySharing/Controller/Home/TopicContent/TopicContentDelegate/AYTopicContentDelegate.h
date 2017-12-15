@@ -11,6 +11,7 @@
 #import "AYViewBase.h"
 #import <UIKit/UIKit.h>
 #import "AYViewController.h"
+#import "AYHomeServPerCellView.h"
 
 @interface AYTopicContentDelegate : NSObject <AYDelegateBase, UITableViewDelegate, UITableViewDataSource>
 

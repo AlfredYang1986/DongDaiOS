@@ -55,18 +55,21 @@
 }
 
 #pragma mark -- commands
+- (void)postPerform {
+	[super postPerform];
+	statusStyle = UIStatusBarStyleLightContent;
+}
+
 - (void)performWithResult:(NSObject**)obj {
 	
 	NSDictionary* dic = (NSDictionary*)*obj;
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
 		sortCateg = [dic objectForKey:kAYControllerChangeArgsKey];
-		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
 		
 	}
-	
 }
 
 - (void)viewDidLoad {

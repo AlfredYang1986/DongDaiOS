@@ -18,8 +18,6 @@
 #import "AYThumbsAndPushDefines.h"
 #import "AYModelFacade.h"
 
-#import "AYAssortmentItemView.h"
-
 #define kCOLLECTIONVIEWTOP			(kStatusAndNavBarH + 141)
 
 @implementation AYAssortmentController {
@@ -38,23 +36,36 @@
 }
 
 - (UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-	AYAssortmentItemView *item = [collectionView dequeueReusableCellWithReuseIdentifier:@"AYAssortmentItemView" forIndexPath:indexPath];
+	AYHomeAssortmentItem *item = [collectionView dequeueReusableCellWithReuseIdentifier:@"AYHomeAssortmentItem" forIndexPath:indexPath];
 	id tmp = [remoteDataArr objectAtIndex:indexPath.row];
 	[item setItemInfo:tmp];
 	return item;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-	id<AYCommand> des = DEFAULTCONTROLLER(@"ServicePage");
-	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 	
+//	id<AYCommand> des = DEFAULTCONTROLLER(@"ServicePage");
+//	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+//	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+//	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+//
+//	[dic setValue:[remoteDataArr objectAtIndex:indexPath.row] forKey:kAYControllerChangeArgsKey];
+//
+//	id<AYCommand> cmd_push = PUSHANIMATE;
+//	[cmd_push performWithResult:&dic];
+	
+	AYHomeAssortmentItem *item = (AYHomeAssortmentItem*)[collectionView cellForItemAtIndexPath:indexPath];
+	
+	id<AYCommand> des = DEFAULTCONTROLLER(@"ServicePage");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	
+	[dic setObject:item.coverImage forKey:kAYControllerImgForFrameKey];
 	[dic setValue:[remoteDataArr objectAtIndex:indexPath.row] forKey:kAYControllerChangeArgsKey];
 	
-	id<AYCommand> cmd_show_module = PUSH;
-	[cmd_show_module performWithResult:&dic];
+	id<AYCommand> cmd_push_animate = PUSHANIMATE;
+	[cmd_push_animate performWithResult:&dic];
 }
 
 #pragma mark -- commands
@@ -97,7 +108,7 @@
 	
 	servCollectionView.contentInset = UIEdgeInsetsMake(10, 15, 0, 15);
 	[self.view addSubview:servCollectionView];
-	[servCollectionView registerClass:NSClassFromString(@"AYAssortmentItemView") forCellWithReuseIdentifier:@"AYAssortmentItemView"];
+	[servCollectionView registerClass:NSClassFromString(@"AYHomeAssortmentItem") forCellWithReuseIdentifier:@"AYHomeAssortmentItem"];
 	
 	servCollectionView.mj_header = [MJRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
 	servCollectionView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];

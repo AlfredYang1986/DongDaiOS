@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AYHomeAssortmentCellItem : UICollectionViewCell
+@interface AYHomeAssortmentItem : UICollectionViewCell
 
 @property (nonatomic, strong) UIImageView *coverImage;
 @property (nonatomic, strong) NSDictionary *itemInfo;

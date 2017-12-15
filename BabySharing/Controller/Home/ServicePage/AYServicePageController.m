@@ -37,7 +37,8 @@
     CGFloat offset_y;
 	BOOL isBlackLeftBtn;
 	BOOL isStatusHide;
-	NSNumber *cellMinY;
+	
+//	NSNumber *cellMinY;
 	
     UIButton *bar_like_btn;
     UIView *flexibleView;
@@ -129,22 +130,14 @@
 	/*********************************************/
 	
 	{
-		id<AYViewBase> view_table = [self.views objectForKey:kAYTableView];
-		UITableView *tableView = (UITableView*)view_table;
+		UITableView *tableView = [self.views objectForKey:kAYTableView];
 		flexibleView = [[UIView alloc]init];
 		[tableView addSubview:flexibleView];
-		
-		if (cellMinY) {
-			flexibleView.clipsToBounds = YES;
-			flexibleView.frame = CGRectMake(20, -kFlexibleHeight + cellMinY.floatValue, SCREEN_WIDTH - 40, kFlexibleHeight);
-		}
-		else {
-			[flexibleView mas_makeConstraints:^(MASConstraintMaker *make) {
-				make.top.equalTo(tableView).offset(-kFlexibleHeight);
-				make.centerX.equalTo(tableView);
-				make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kFlexibleHeight));
-			}];
-		}
+		[flexibleView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(tableView).offset(-kFlexibleHeight);
+			make.centerX.equalTo(tableView);
+			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kFlexibleHeight));
+		}];
 		
 		UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
 		layout.minimumLineSpacing = 0.f;
@@ -161,14 +154,8 @@
 		CarouselView.bounces = NO;
 		[CarouselView registerClass:NSClassFromString(@"AYServiceImagesCell") forCellWithReuseIdentifier:@"AYServiceImagesCell"];
 		[flexibleView addSubview:CarouselView];
-//		[CarouselView mas_makeConstraints:^(MASConstraintMaker *make) {
-//			make.center.equalTo(flexibleView);
-//			make.width.mas_equalTo(SCREEN_WIDTH);
-//			make.height.equalTo(flexibleView);
-//		}];
 	}
 	
-	cellMinY = [receiveData objectForKey:@"cell_min_y"];		//首页跳转动画关键值
 	NSNumber *per_mode = [receiveData objectForKey:@"perview_mode"];
 	NSString *service_id = [receiveData objectForKey:kAYServiceArgsID];
 	if (per_mode ) {
@@ -181,11 +168,11 @@
 		
 	} else {
 		
-		AYServicePageBtmView *btmView = [[AYServicePageBtmView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-kBtmViewHeight-HOME_IND_HEIGHT, SCREEN_WIDTH, kBtmViewHeight)];
-		[self.view addSubview:btmView];
-		[self.view bringSubviewToFront:btmView];
-		[btmView.bookBtn addTarget:self action:@selector(didBookBtnClick) forControlEvents:UIControlEventTouchUpInside];
-		[btmView.chatBtn addTarget:self action:@selector(didChatBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+//		AYServicePageBtmView *btmView = [[AYServicePageBtmView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-kBtmViewHeight-HOME_IND_HEIGHT, SCREEN_WIDTH, kBtmViewHeight)];
+//		[self.view addSubview:btmView];
+//		[self.view bringSubviewToFront:btmView];
+//		[btmView.bookBtn addTarget:self action:@selector(didBookBtnClick) forControlEvents:UIControlEventTouchUpInside];
+//		[btmView.chatBtn addTarget:self action:@selector(didChatBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 		
 		NSDictionary *user;
 		CURRENUSER(user);
@@ -218,7 +205,7 @@
 				[tmp_args setValue:[args copy] forKey:kAYServiceArgsOfferDate];
 				service_info = tmp_args;
 				
-				[btmView setViewWithData:service_info];
+//				[btmView setViewWithData:service_info];
 				[self layoutServicePageBannerImages];
 				
 				NSDictionary *tmp = [service_info copy];
@@ -247,13 +234,6 @@
 
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
-	if (cellMinY) {
-		[UIView animateWithDuration:0.45 animations:^{
-			flexibleView.frame = CGRectMake(0, -kFlexibleHeight, SCREEN_WIDTH, kFlexibleHeight);
-		}completion:^(BOOL finished) {
-			flexibleView.clipsToBounds = NO;
-		}];
-	}
 }
 
 #pragma mark -- layouts
@@ -286,8 +266,8 @@
 }
 
 - (id)TableLayout:(UIView*)view {
-	NSNumber *per_mode = [receiveData objectForKey:@"perview_mode"];
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - (per_mode ? 0 : kBtmViewHeight) - HOME_IND_HEIGHT);
+//	NSNumber *per_mode = [receiveData objectForKey:@"perview_mode"];
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT /*- (per_mode ? 0 : kBtmViewHeight) - HOME_IND_HEIGHT*/);
     
     ((UITableView*)view).contentInset = UIEdgeInsetsMake(kFlexibleHeight, 0, 0, 0);
     ((UITableView*)view).estimatedRowHeight = 300;

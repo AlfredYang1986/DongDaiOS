@@ -27,8 +27,8 @@
 	AYViewController* source = [dic objectForKey:kAYControllerActionSourceControllerKey];
 	
 	UINavigationController * nav = source.navigationController;
-	[nav popViewControllerAnimated:NO];
-	AYViewController* des = nav.viewControllers.lastObject;
+	
+	AYViewController* des = [nav.viewControllers objectAtIndex:nav.viewControllers.count-2];
 	
 	id tmp = [dic objectForKey:kAYControllerChangeArgsKey];
 	if (tmp != nil) {
@@ -36,6 +36,25 @@
 		[dic_init setValue:kAYControllerActionPopBackValue forKey:kAYControllerActionKey];
 		[dic_init setValue:[dic objectForKey:kAYControllerChangeArgsKey] forKey:kAYControllerChangeArgsKey];
 		[des performWithResult:&dic_init];
+	}
+	
+	if (des.snapAnimateView) {
+		
+		[nav popViewControllerAnimated:NO];
+		des.snapAnimateView.alpha = 1;
+		[des.view addSubview: des.snapAnimateView];
+		
+		[UIView animateWithDuration:0.5 animations:^{
+			des.snapAnimateView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);;
+			des.snapAnimateView.alpha = 0;
+		} completion:^(BOOL finished) {
+			[des.snapAnimateView removeFromSuperview];
+			des.snapAnimateView = nil;
+		}];
+		
+	} else {
+		
+		[nav popViewControllerAnimated:YES];
 	}
 	
 //	SEL sel = NSSelectorFromString(@"respondPopAnimat");
@@ -46,16 +65,6 @@
 //		func(recev, sel);
 //	}
 	
-	des.snapAnimateView.alpha = 1;
-	[des.view addSubview: des.snapAnimateView];
-	
-	[UIView animateWithDuration:0.5 animations:^{
-		des.snapAnimateView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);;
-		des.snapAnimateView.alpha = 0.2;
-	} completion:^(BOOL finished) {
-		[des.snapAnimateView removeFromSuperview];
-		des.snapAnimateView = nil;
-	}];
 	
 }
 

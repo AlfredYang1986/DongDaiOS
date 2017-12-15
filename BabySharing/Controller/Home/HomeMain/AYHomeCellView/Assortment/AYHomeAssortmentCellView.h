@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "AYViewBase.h"
 #import "AYHomeMoreItem.h"
-#import "AYHomeAssortmentCellItem.h"
+#import "AYHomeAssortmentItem.h"
 
-@interface AYHomeAssortmentCellView : UITableViewCell <AYViewBase, UICollectionViewDelegate,UICollectionViewDataSource>
+@interface AYHomeAssortmentCellView : UITableViewCell <AYViewBase, UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @end

@@ -19,7 +19,7 @@
 
 @implementation AYHomeServPerCellView {
 	
-	UIImageView *coverImage;
+//	UIImageView *coverImage;
 	UILabel *themeLabel;
 	UILabel *ageBoundaryLabel;
 	
@@ -59,13 +59,13 @@
 //			make.edges.equalTo(coverImage);
 //		}];
 		
-		coverImage = [[UIImageView alloc]init];
-		coverImage.image = IMGRESOURCE(@"default_image");
-		coverImage.contentMode = UIViewContentModeScaleAspectFill;
-		coverImage.layer.cornerRadius = 4.f;
-		coverImage.clipsToBounds = YES;
-		[self addSubview:coverImage];
-		[coverImage mas_makeConstraints:^(MASConstraintMaker *make) {
+		_coverImage = [[UIImageView alloc]init];
+		_coverImage.image = IMGRESOURCE(@"default_image");
+		_coverImage.contentMode = UIViewContentModeScaleAspectFill;
+		_coverImage.layer.cornerRadius = 4.f;
+		_coverImage.clipsToBounds = YES;
+		[self addSubview:_coverImage];
+		[_coverImage mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(self).offset(10);
 			make.left.equalTo(self).offset(20);
 			make.right.equalTo(self).offset(-20);
@@ -75,16 +75,16 @@
 		choiceSignView = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"service_icon_choice")];
 		[self addSubview:choiceSignView];
 		[choiceSignView mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(coverImage);
-			make.left.equalTo(coverImage).offset(20);
+			make.top.equalTo(_coverImage);
+			make.left.equalTo(_coverImage).offset(20);
 			make.size.mas_equalTo(CGSizeMake(26, 40));
 		}];
 		
 		hotSignView = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"service_icon_hot")];
 		[self addSubview:hotSignView];
 		[hotSignView mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(coverImage).offset(20);
-			make.left.equalTo(coverImage);
+			make.top.equalTo(_coverImage).offset(20);
+			make.left.equalTo(_coverImage);
 			make.size.mas_equalTo(CGSizeMake(45, 26));
 		}];
 		
@@ -92,8 +92,8 @@
 		[Tools setViewBorder:themeLabel withRadius:4.f andBorderWidth:1.f andBorderColor:[Tools themeColor] andBackground:nil];
 		[self addSubview:themeLabel];
 		[themeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(coverImage);
-			make.top.equalTo(coverImage.mas_bottom).offset(15);
+			make.left.equalTo(_coverImage);
+			make.top.equalTo(_coverImage.mas_bottom).offset(15);
 			make.size.mas_equalTo(CGSizeMake(72, 26));
 		}];
 		
@@ -110,8 +110,8 @@
 		titleLabel.numberOfLines = 1;
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(coverImage);
-			make.right.equalTo(coverImage);
+			make.left.equalTo(_coverImage);
+			make.right.equalTo(_coverImage);
 			make.top.equalTo(themeLabel.mas_bottom).offset(10);
 		}];
 		
@@ -145,8 +145,8 @@
 		[likeBtn setImage:IMGRESOURCE(@"home_icon_love_select") forState:UIControlStateSelected];
 		[self addSubview:likeBtn];
 		[likeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.right.equalTo(coverImage).offset(-10);
-			make.top.top.equalTo(coverImage).offset(10);
+			make.right.equalTo(_coverImage).offset(-10);
+			make.top.top.equalTo(_coverImage).offset(10);
 			make.size.mas_equalTo(CGSizeMake(40, 40));
 		}];
 		[likeBtn addTarget:self action:@selector(didLikeBtnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -238,7 +238,10 @@
 	
 	NSString* photo_name = [service_info objectForKey:kAYServiceArgsImages];
 	NSString *urlStr = [NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name];
-	[coverImage sd_setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:IMGRESOURCE(@"default_image") /*options:SDWebImageRefreshCached*/];
+	if (photo_name) {
+		
+		[_coverImage sd_setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:IMGRESOURCE(@"default_image") /*options:SDWebImageRefreshCached*/];
+	}
 	
 	NSDictionary *info_cat = [service_info objectForKey:kAYServiceArgsCategoryInfo];
 	NSString *service_cat = [info_cat objectForKey:kAYServiceArgsCat];
@@ -293,7 +296,7 @@
 	priceLabel.attributedText = attributedText;
 	[priceLabel sizeToFit];
 	[priceLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-		make.right.equalTo(coverImage);
+		make.right.equalTo(_coverImage);
 		make.centerY.equalTo(positionSignView);
 		make.width.mas_equalTo(priceLabel.bounds.size.width);
 	}];
