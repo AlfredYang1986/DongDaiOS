@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "AYCommand.h"
+#import "AYPushAnimateView.h"
 
 @interface AYPushAnimateCommand : NSObject <AYCommand>
 

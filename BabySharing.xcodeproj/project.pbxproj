@@ -210,6 +210,7 @@
 		70228D6A1F25D8270099B028 /* AYSearchSKUController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70228D691F25D8270099B028 /* AYSearchSKUController.m */; };
 		70228D6D1F25D99E0099B028 /* AYSearchSKUResultCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70228D6C1F25D99E0099B028 /* AYSearchSKUResultCellView.m */; };
 		70228D701F25D9C70099B028 /* AYSearchSKUDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70228D6F1F25D9C70099B028 /* AYSearchSKUDelegate.m */; };
+		7023BF951FECD8DF001FF435 /* AYPushAnimateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7023BF941FECD8DF001FF435 /* AYPushAnimateView.m */; };
 		7024EB781F735B2F00FFE20F /* AYSetNapDeviceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7024EB711F735B2F00FFE20F /* AYSetNapDeviceController.m */; };
 		7024EB791F735B2F00FFE20F /* AYSetNapOptionsCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7024EB741F735B2F00FFE20F /* AYSetNapOptionsCellView.m */; };
 		7024EB7A1F735B2F00FFE20F /* AYSetServiceFacilityDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7024EB771F735B2F00FFE20F /* AYSetServiceFacilityDelegate.m */; };
@@ -1248,6 +1249,8 @@
 		70228D6C1F25D99E0099B028 /* AYSearchSKUResultCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSearchSKUResultCellView.m; sourceTree = "<group>"; };
 		70228D6E1F25D9C70099B028 /* AYSearchSKUDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSearchSKUDelegate.h; sourceTree = "<group>"; };
 		70228D6F1F25D9C70099B028 /* AYSearchSKUDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSearchSKUDelegate.m; sourceTree = "<group>"; };
+		7023BF931FECD8DF001FF435 /* AYPushAnimateView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYPushAnimateView.h; sourceTree = "<group>"; };
+		7023BF941FECD8DF001FF435 /* AYPushAnimateView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AYPushAnimateView.m; sourceTree = "<group>"; };
 		7024EB701F735B2F00FFE20F /* AYSetNapDeviceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetNapDeviceController.h; sourceTree = "<group>"; };
 		7024EB711F735B2F00FFE20F /* AYSetNapDeviceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetNapDeviceController.m; sourceTree = "<group>"; };
 		7024EB731F735B2F00FFE20F /* AYSetNapOptionsCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetNapOptionsCellView.h; sourceTree = "<group>"; };
@@ -6995,6 +6998,8 @@
 				708DE24E1FDEA53E00171357 /* AYPushAnimateCommand.m */,
 				708DE2501FDEA55100171357 /* AYPopAnimateCommand.h */,
 				708DE2511FDEA55100171357 /* AYPopAnimateCommand.m */,
+				7023BF931FECD8DF001FF435 /* AYPushAnimateView.h */,
+				7023BF941FECD8DF001FF435 /* AYPushAnimateView.m */,
 			);
 			path = ServicePagePushPop;
 			sourceTree = "<group>";
@@ -9840,6 +9845,7 @@
 				705EC8871CE4BC1D0008D5EA /* AYRefrashTagContentDataCommand.m in Sources */,
 				80F058DF1E5C3AD0002B105F /* AYAlipayPayCommand.m in Sources */,
 				701D8A9F1CA7E06700B5D4C1 /* Providers+ContextOpt.m in Sources */,
+				7023BF951FECD8DF001FF435 /* AYPushAnimateView.m in Sources */,
 				70160F171ECECDA900D1CF6D /* AYRejectOrderCommand.m in Sources */,
 				7006931B1CC4A3AF00B511FF /* WETouchableView.m in Sources */,
 				807CBDA31DD5EAAB00DE42D2 /* AYUpdateRegUserProfileCommand.m in Sources */,

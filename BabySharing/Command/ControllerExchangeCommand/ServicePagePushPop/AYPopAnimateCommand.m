@@ -38,22 +38,25 @@
 		[des performWithResult:&dic_init];
 	}
 	
-	if (des.snapAnimateView) {
+	if (source.shotTopView) {
 		
-		[nav popViewControllerAnimated:NO];
-		des.snapAnimateView.alpha = 1;
-		[des.view addSubview: des.snapAnimateView];
-		
-		[UIView animateWithDuration:0.5 animations:^{
-			des.snapAnimateView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);;
-			des.snapAnimateView.alpha = 0;
+		[UIView animateWithDuration:5 animations:^{
+			
+			source.shotTopView.frame = CGRectMake(0, 0, SCREEN_WIDTH, source.shotTopView.bounds.size.height);
+			source.shotMidView.frame = CGRectMake(0, source.shotTopView.bounds.size.height, SCREEN_WIDTH, SCREEN_HEIGHT-CGRectGetHeight(source.shotTopView.frame)-CGRectGetHeight(source.shotBtmView.frame));
+			source.shotBtmView.frame = CGRectMake(0, SCREEN_HEIGHT-source.shotBtmView.bounds.size.height, SCREEN_WIDTH, source.shotBtmView.bounds.size.height);
+			
+//			source.shotTopView.alpha = source.shotMidView.alpha = source.shotBtmView.alpha = 1;
 		} completion:^(BOOL finished) {
-			[des.snapAnimateView removeFromSuperview];
-			des.snapAnimateView = nil;
+			[source.shotTopView removeFromSuperview];
+			[source.shotMidView removeFromSuperview];
+			[source.shotBtmView removeFromSuperview];
+			
+			source.shotTopView = source.shotMidView = source.shotBtmView = nil;
+			
+			[nav popViewControllerAnimated:NO];
 		}];
-		
 	} else {
-		
 		[nav popViewControllerAnimated:YES];
 	}
 	
@@ -64,7 +67,6 @@
 //		id (*func)(id, SEL) = (id (*)(id, SEL))imp;
 //		func(recev, sel);
 //	}
-	
 	
 }
 

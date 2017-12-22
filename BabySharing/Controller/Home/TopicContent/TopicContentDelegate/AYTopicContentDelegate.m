@@ -77,8 +77,10 @@
 	[dic setObject:cell.coverImage forKey:kAYControllerImgForFrameKey];
 	[dic setValue:[queryData objectAtIndex:indexPath.row] forKey:kAYControllerChangeArgsKey];
 	
-	id<AYCommand> cmd_push_animate = PUSHANIMATE;
-	[cmd_push_animate performWithResult:&dic];
+//	id<AYCommand> cmd_push_animate = PUSHANIMATE;
+//	[cmd_push_animate performWithResult:&dic];
+	id<AYCommand> cmd_push = PUSH;
+	[cmd_push performWithResult:&dic];
 }
 
 

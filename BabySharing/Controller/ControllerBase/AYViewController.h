@@ -20,6 +20,10 @@
 
 @property (nonatomic, strong) UIView *snapAnimateView;
 
+@property (nonatomic, strong) UIView *shotTopView;
+@property (nonatomic, strong) UIView *shotMidView;
+@property (nonatomic, strong) UIView *shotBtmView;
+
 - (void)clearController;
 - (void)BtmAlertOtherBtnClick;
 - (void)tabBarVCSelectIndex:(NSInteger)index;

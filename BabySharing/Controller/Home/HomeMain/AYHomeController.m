@@ -516,7 +516,7 @@ typedef void(^queryContentFinish)(void);
 	[dic setObject:[args objectForKey:@"cover"] forKey:kAYControllerImgForFrameKey];
 	[dic setValue:[args objectForKey:kAYServiceArgsSelf] forKey:kAYControllerChangeArgsKey];
 	
-	id<AYCommand> cmd_push_animate = PUSHANIMATE;
+	id<AYCommand> cmd_push_animate = PUSH;
 	[cmd_push_animate performWithResult:&dic];
 	return nil;
 }

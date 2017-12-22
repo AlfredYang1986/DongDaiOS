@@ -38,37 +38,51 @@
 	
 	des.hidesBottomBarWhenPushed = YES;
 	[source.navigationController pushViewController:des animated:NO];
-	
-//	MXSProfileVC *firstVC = f_vc;
-//	MXSShowImageVC *secondVC = t_vc;
-//
-//	MXShowTableCell *cell = [firstVC.showTable cellForRowAtIndexPath:args];
 
-	UIView *snapShotView = [source.navigationController.view snapshotViewAfterScreenUpdates:NO];
+//	UIView *snapShotView = [source.navigationController.view snapshotViewAfterScreenUpdates:NO];
+//	UIView *snapShotView = [source.navigationController.view resizableSnapshotViewFromRect:CGRectMake(0, 0, SCREEN_WIDTH, 300) afterScreenUpdates:NO withCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
 	CGRect firstFrame  = [source.view convertRect:imgForFrame.frame fromView:[imgForFrame superview]];
-	//	CGRect secondFrame = [secondVC.view convertRect:secondVC.showImg.frame fromView:secondVC.view];
 
-//	des.popFrame = firstFrame;
-
-
-	//	secondVC.showImg.hidden = YES;
-
-	CGRect secondFrame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-	snapShotView.frame = secondFrame;
-	source.snapAnimateView = snapShotView;
-	[des.view addSubview:snapShotView];
+	CGRect topFrame = CGRectMake(0, 0, SCREEN_WIDTH, firstFrame.origin.y);
+	CGRect midFrame = CGRectMake(0, firstFrame.origin.y, SCREEN_WIDTH, firstFrame.size.height);
+	CGRect btmFrame = CGRectMake(0, CGRectGetMaxY(firstFrame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(firstFrame));
+	
+	UIView *shot_view_top = [source.navigationController.view resizableSnapshotViewFromRect:topFrame afterScreenUpdates:NO withCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+	UIView *shot_view_mid = [source.navigationController.view resizableSnapshotViewFromRect:midFrame afterScreenUpdates:NO withCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+	UIView *shot_view_btm = [source.navigationController.view resizableSnapshotViewFromRect:btmFrame afterScreenUpdates:NO withCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+	
+	shot_view_top.frame = topFrame;
+	shot_view_mid.frame = midFrame;
+	shot_view_btm.frame = btmFrame;
+	des.shotTopView = shot_view_top;
+	des.shotMidView = shot_view_mid;
+	des.shotBtmView = shot_view_btm;
+	[des.view addSubview:shot_view_top];
+	[des.view addSubview:shot_view_mid];
+	[des.view addSubview:shot_view_btm];
+	
+//	CGRect secondFrame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+//	snapShotView.frame = secondFrame;
+//	source.snapAnimateView = snapShotView;
+//	[des.view addSubview:snapShotView];
 
 	CGFloat scala_w = SCREEN_WIDTH/firstFrame.size.width;
-	CGFloat scala_h = 300/firstFrame.size.height;
+//	CGFloat scala_h = 300/midFrame.size.height;
+//
+//	CGRect retFrame = CGRectMake(- midFrame.origin.x * scala_w, - midFrame.origin.y * scala_h, SCREEN_WIDTH*scala_w, secondFrame.size.height * scala_h);
+	
+	CGRect retFrame_top = CGRectMake(0, -CGRectGetHeight(topFrame), SCREEN_WIDTH, CGRectGetHeight(topFrame));
+	CGRect retFrame_mid = CGRectMake(- firstFrame.origin.x * scala_w, 0, SCREEN_WIDTH*scala_w, 300);
+	CGRect retFrame_btm = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, CGRectGetHeight(btmFrame));
 
-	CGRect retFrame = CGRectMake(- firstFrame.origin.x * scala_w, - firstFrame.origin.y * scala_h + 60, SCREEN_WIDTH*scala_w, secondFrame.size.height * scala_h);
-
-	[UIView animateWithDuration:0.5 animations:^{
-		snapShotView.frame = retFrame;
-		snapShotView.alpha = 0;
+	[UIView animateWithDuration:5 animations:^{
+		shot_view_top.frame = retFrame_top;
+		shot_view_mid.frame = retFrame_mid;
+		shot_view_btm.frame = retFrame_btm;
+		
 	} completion:^(BOOL finished) {
-		[snapShotView removeFromSuperview];
-//		des.showImg.hidden = NO;
+		shot_view_top.alpha = shot_view_mid.alpha = shot_view_btm.alpha = 0;
+//		[snapShotView removeFromSuperview];
 	}];
 }
 
@@ -76,4 +90,15 @@
 	return kAYFactoryManagerCommandTypeModule;
 }
 
+
+- (UIImage *)imageFromView: (UIView *) theView {
+	
+	UIGraphicsBeginImageContext(theView.frame.size);
+	CGContextRef context = UIGraphicsGetCurrentContext();
+	[theView.layer renderInContext:context];
+	UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+	
+	return theImage;
+}
 @end
