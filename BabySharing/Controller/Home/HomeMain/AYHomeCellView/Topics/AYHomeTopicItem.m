@@ -35,11 +35,11 @@
 
 - (void)initialize {
 	
-//	self.layer.shadowColor = [UIColor gary].CGColor;
-//	self.layer.shadowOffset = CGSizeMake(0, 0);
-//	self.layer.shadowRadius = 3.f;
-//	self.layer.shadowOpacity = 0.5f;
-//	self.layer.cornerRadius = 4.f;
+	self.layer.shadowColor = [UIColor gary].CGColor;
+	self.layer.shadowOffset = CGSizeMake(0, 3);
+	self.layer.shadowRadius = 3.f;
+	self.layer.shadowOpacity = 0.5f;
+	self.layer.cornerRadius = 3.f;
 	
 //	UIView *radiusView = [[UIView alloc] init];
 //	[Tools setViewBorder:radiusView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[UIColor white]];
@@ -51,13 +51,14 @@
 	_coverImage = [[UIImageView alloc] init];
 	_coverImage.image = IMGRESOURCE(@"default_image");
 	_coverImage.contentMode = UIViewContentModeScaleAspectFill;
-	_coverImage.clipsToBounds = YES;
+	[_coverImage setRadius:4 borderWidth:0 borderColor:nil background:nil];
 	[self addSubview:_coverImage];
 	[_coverImage mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(self);
-		make.left.equalTo(self);
-		make.width.equalTo(self);
-		make.height.mas_equalTo(116);
+//		make.top.equalTo(self);
+//		make.left.equalTo(self);
+//		make.width.equalTo(self);
+//		make.height.mas_equalTo(116);
+		make.edges.equalTo(self);
 	}];
 	
 	titleLabel = [Tools creatUILabelWithText:@"Service" andTextColor:[UIColor white] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];

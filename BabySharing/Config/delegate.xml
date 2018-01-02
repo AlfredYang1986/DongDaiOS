@@ -73,6 +73,10 @@
 		<command type="notify"  message="willOpenMapMatch" />
     </delegate>
 	
+	<delegate type="TableViewDelegateAndDatasource" name="NursaryList" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+	</delegate>
+	
 	<delegate type="TableViewDelegateAndDatasource" name="SearchSKU" factory="AYDefaultDelegateFactory" >
 		<command type="message" message="changeQueryData:" />
 	</delegate>

@@ -21,13 +21,14 @@
 @implementation AYMapMatchCellView {
 	
 //	UIImageView *userPhoto;
-	UIImageView *positionSignView;
-	UILabel *titleLabel;
-	UILabel *distanceLabel;
-	UILabel *priceLabel;
 	
 	UIImageView *coverImage;
 	UILabel *descLabel;
+	UILabel *tagLabel;
+	
+	UIImageView *positionSignView;
+	UILabel *addrLabel;
+	UILabel *distanceLabel;
 	
 }
 
@@ -85,11 +86,12 @@
 //	}];
 	
 	UIView *bgView = [UIView new];
-	bgView.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.95f];
-	[Tools setViewBorder:bgView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
+	bgView.backgroundColor = [UIColor white];
+//	[Tools setViewBorder:bgView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
 	[self addSubview:bgView];
 	[bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.edges.equalTo(self).insets(UIEdgeInsetsMake(5, 20, 5, 20));
+//		make.edges.equalTo(self).insets(UIEdgeInsetsMake(5, 20, 5, 20));
+		make.edges.equalTo(self);
 	}];
 	
 //	UIView *shadowView = [[UIView alloc] init];
@@ -105,26 +107,6 @@
 //	}];
 //	[self sendSubviewToBack:shadowView];
 	
-	positionSignView = [[UIImageView alloc]init];
-	[self addSubview:positionSignView];
-	positionSignView.image = IMGRESOURCE(@"home_icon_location_theme");
-	[positionSignView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(bgView).offset(10);
-		make.top.equalTo(bgView).offset(18);
-		make.size.mas_equalTo(CGSizeMake(10, 12));
-	}];
-	
-	distanceLabel = [Tools creatUILabelWithText:@"00m" andTextColor:[Tools RGB127GaryColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
-	[self addSubview:distanceLabel];
-	
-	titleLabel = [Tools creatUILabelWithText:@"服务妈妈的主题服务" andTextColor:[Tools RGB127GaryColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-	[self addSubview:titleLabel];
-	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(positionSignView.mas_right).offset(6);
-		make.centerY.equalTo(positionSignView);
-		make.right.equalTo(distanceLabel.mas_left).offset(-10);
-	}];
-	
 	coverImage = [[UIImageView alloc]init];
 	coverImage.image = IMGRESOURCE(@"default_image");
 	coverImage.contentMode = UIViewContentModeScaleAspectFill;
@@ -132,25 +114,55 @@
 	[Tools setViewBorder:coverImage withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
 	[self addSubview:coverImage];
 	[coverImage mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.bottom.equalTo(bgView).offset(-10);
-		make.left.equalTo(positionSignView);
-		make.size.mas_equalTo(CGSizeMake(125, 89));
+		make.top.equalTo(bgView).offset(15);
+		make.left.equalTo(bgView).offset(15);
+		make.size.mas_equalTo(CGSizeMake(117, 72));
+	}];
+	
+	tagLabel = [Tools creatUILabelWithText:@"TAG" andTextColor:[Tools garyColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	[self addSubview:tagLabel];
+	[tagLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(coverImage.mas_right).offset(15);
+		make.top.equalTo(coverImage);
 	}];
 	
 	descLabel = [Tools creatUILabelWithText:@"Service description" andTextColor:[Tools RGB89GaryColor] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	descLabel.numberOfLines = 3;
 	[self addSubview:descLabel];
 	[descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(coverImage.mas_right).offset(10);
+		make.top.equalTo(tagLabel.mas_bottom).offset(8);
+		make.left.equalTo(tagLabel);
 		make.right.equalTo(bgView).offset(-15);
-		make.top.equalTo(coverImage);
 	}];
 	
-	priceLabel = [Tools creatUILabelWithText:@"¥Price/Unit" andTextColor:[Tools garyColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-	[self addSubview:priceLabel];
-	[priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+	UIView *separView = [[UIView alloc] init];
+	[self addSubview:separView];
+	[separView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(coverImage);
+		make.right.equalTo(descLabel);
+		make.top.equalTo(coverImage.mas_bottom).offset(15);
+		make.height.mas_equalTo(0.5);
+	}];
+	separView.backgroundColor = [UIColor garyLine];
+	
+	positionSignView = [[UIImageView alloc]init];
+	[self addSubview:positionSignView];
+	positionSignView.image = IMGRESOURCE(@"home_icon_location_theme");
+	[positionSignView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(bgView).offset(15);
+		make.top.equalTo(separView.mas_bottom).offset(20);
+		make.size.mas_equalTo(CGSizeMake(11, 13));
+	}];
+	
+	distanceLabel = [Tools creatUILabelWithText:@"00m" andTextColor:[Tools RGB127GaryColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+	[self addSubview:distanceLabel];
+	
+	addrLabel = [Tools creatUILabelWithText:@"服务妈妈的主题服务" andTextColor:[Tools RGB127GaryColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	[self addSubview:addrLabel];
+	[addrLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(positionSignView.mas_right).offset(4);
+		make.centerY.equalTo(positionSignView);
 		make.right.equalTo(bgView).offset(-15);
-		make.bottom.equalTo(coverImage);
 	}];
 	
 }
@@ -159,35 +171,21 @@
 	_service_info = [service_info objectForKey:kAYServiceArgsInfo];
 	
 	NSDictionary *info_location = [_service_info objectForKey:kAYServiceArgsLocationInfo];
-	CLLocation *location_self = [service_info objectForKey:@"location_self"];
-	NSNumber *lat = [[info_location objectForKey:kAYServiceArgsPin] objectForKey:kAYServiceArgsLatitude];
-	NSNumber *lon = [[info_location objectForKey:kAYServiceArgsPin] objectForKey:kAYServiceArgsLongtitude];
-	
-	CLLocation *pinLocation = [[CLLocation alloc] initWithLatitude:lat.doubleValue longitude:lon.doubleValue];
-	CLLocationDistance meters = [location_self distanceFromLocation:pinLocation];
-	distanceLabel.text = [NSString stringWithFormat:@"%.lfm", meters];
-	[distanceLabel sizeToFit];
-	[distanceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.right.equalTo(self).offset(-35);
-		make.centerY.equalTo(positionSignView);
-//		make.width.mas_equalTo(distanceLabel.bounds.size.width);
-		make.width.mas_equalTo(0);
-	}];
+//	CLLocation *location_self = [service_info objectForKey:@"location_self"];
+//	NSNumber *lat = [[info_location objectForKey:kAYServiceArgsPin] objectForKey:kAYServiceArgsLatitude];
+//	NSNumber *lon = [[info_location objectForKey:kAYServiceArgsPin] objectForKey:kAYServiceArgsLongtitude];
+//	CLLocation *pinLocation = [[CLLocation alloc] initWithLatitude:lat.doubleValue longitude:lon.doubleValue];
+//	CLLocationDistance meters = [location_self distanceFromLocation:pinLocation];
 	
 	NSString *addressStr = [info_location objectForKey:kAYServiceArgsAddress];
-//	NSString *adjstAddrStr = [info_location objectForKey:kAYServiceArgsAdjustAddress];
-	if (addressStr && ![addressStr isEqualToString:@""]) {
+	NSString *district = [info_location objectForKey:kAYServiceArgsDistrict];
+	if (addressStr.length != 0) {
 		NSString *stringPre = @"中国北京市";
 		if ([addressStr hasPrefix:stringPre]) {
 			addressStr = [addressStr stringByReplacingOccurrencesOfString:stringPre withString:@""];
 		}
-//		titleLabel.text = [NSString stringWithFormat:@"%@%@", addressStr, adjstAddrStr];
-		titleLabel.text = addressStr;
-		[titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(positionSignView.mas_right).offset(6);
-			make.centerY.equalTo(positionSignView);
-			make.right.equalTo(distanceLabel.mas_left).offset(-10);
-		}];
+		addrLabel.text = [NSString stringWithFormat:@"%@%@", district, addressStr];
+//		addrLabel.text = addressStr;
 	}
 	
 	NSString* photo_name = [_service_info objectForKey:kAYServiceArgsImages];
@@ -230,7 +228,7 @@
 	NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:priceStr];
 	[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, length+1)];
 	[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
-	priceLabel.attributedText = attributedText;
+	tagLabel.attributedText = attributedText;
 	
 }
 

@@ -14,7 +14,7 @@
 #import "AYProfileOrigCellView.h"
 #import "AYProfileServCellView.h"
 
-#define kLAYOUTCELLCOUNT 		6
+#define kLAYOUTCELLCOUNT 		5
 
 @interface HomeTopTipCell : UITableViewCell
 
@@ -105,7 +105,7 @@
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    return servicesData.count + kLAYOUTCELLCOUNT;
+
 	return kLAYOUTCELLCOUNT;
 }
 
@@ -116,17 +116,17 @@
 		NSString* class_name = @"AYHomeTopicsCellView";
 		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 	}
-	else if (indexPath.row == 1) {
-		NSString* class_name = @"AYHomeAroundCellView";
-		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-	}
+//	else if (indexPath.row == 1) {
+//		NSString* class_name = @"AYHomeAroundCellView";
+//		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+//	}
 	else {
 		NSString* class_name = @"AYHomeAssortmentCellView";
 		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 		
 		NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
 		[tmp setValue:[servicesData copy] forKey:@"services"];
-		[tmp setValue:[NSNumber numberWithInteger:indexPath.row - 2] forKey:@"index"];
+		[tmp setValue:[NSNumber numberWithInteger:indexPath.row - 1] forKey:@"index"];
 		[(UITableViewCell*)cell performMethod:@"setCellInfo:" withResult:&tmp];
 	}
 	
@@ -136,16 +136,16 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
-		return 110;
+		return 370;
 	}
+//	else if (indexPath.row == 1) {
+//		return 110;
+//	}
 	else if (indexPath.row == 1) {
-		return 110;
-	}
-	else if (indexPath.row == 2) {
-		return 300;
+		return 330;
 	}
 	else
-		return 260;
+		return 290;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

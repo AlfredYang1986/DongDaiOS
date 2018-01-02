@@ -185,13 +185,21 @@
         <facade type="DefaultFacade" name="HomeQueryModel" notification="true"/>
 		<facade type="DefaultFacade" name="ProfileRemote" />
 		<command type="Module" name="LocationAuth" />
-	   
-        <view type="FakeStatusBar"		name="FakeStatusBar" />
-<!--        <view type="FakeNavBar"			name="FakeNavBar" />-->
+		
 		<view type="Table"				name="Table" />
 		
         <delegate type="TableViewDelegateAndDatasource" name="Home" />
     </controller>
+	
+	<controller type="DefaultController" name="NursaryList" factory="AYDefaultControllerFactoy" >
+		<facade type="DefaultFacade"        name="ChoiceRemote" />
+		
+		<view type="FakeStatusBar"  name="FakeStatusBar" />
+		<view type="FakeNavBar"     name="FakeNavBar" />
+		<view type="Table"          name="Table" />
+		
+		<delegate type="TableViewDelegateAndDatasource" name="NursaryList" />
+	</controller>
 	
 	<controller type="DefaultController" name="ChoiceContent" factory="AYDefaultControllerFactoy" >
 		<facade type="DefaultFacade"	name="ChoiceRemote" />

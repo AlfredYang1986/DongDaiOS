@@ -1,12 +1,12 @@
 //
-//  AYCollectServController.m
+//  AYNursaryListController.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 8/7/16.
-//  Copyright © 2016年 Alfred Yang. All rights reserved.
+//  Created by Alfred Yang on 2/1/18.
+//  Copyright © 2018年 Alfred Yang. All rights reserved.
 //
 
-#import "AYCollectServController.h"
+#import "AYNursaryListController.h"
 #import "AYFactoryManager.h"
 #import "AYViewBase.h"
 #import "AYResourceManager.h"
@@ -15,22 +15,22 @@
 #import "AYRemoteCallCommand.h"
 #import "AYRemoteCallDefines.h"
 
-@implementation AYCollectServController {
-    
-    UILabel *tipsLabel;
+
+@implementation AYNursaryListController {
+	
 	NSMutableArray *resultArr;
 }
 
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
-    
-    NSDictionary* dic = (NSDictionary*)*obj;
-    
-    if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        
-    } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
-        
-    } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
+	
+	NSDictionary* dic = (NSDictionary*)*obj;
+	
+	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
+		
+	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
+		
+	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
 		id backArgs = [dic objectForKey:kAYControllerChangeArgsKey];
 		
 		if ([backArgs isKindOfClass:[NSString class]]) {
@@ -49,119 +49,107 @@
 					NSInteger index = [resultArr indexOfObject:result.firstObject];
 					[resultArr removeObject:result.firstObject];
 					id tmp = [resultArr copy];
-					kAYDelegatesSendMessage(@"CollectServ", kAYDelegateChangeDataMessage, &tmp)
+					kAYDelegatesSendMessage(@"NursaryList", kAYDelegateChangeDataMessage, &tmp)
 					UITableView *view_table = [self.views objectForKey:kAYTableView];
-//					[view_table reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
 					[view_table deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
 					
 				}
 			}
 			
 		}
-    }
+	}
 }
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
+	[super viewDidLoad];
 	
 	resultArr = [NSMutableArray array];
-    
-    id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
-    id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
-    id<AYCommand> cmd_delegate = [view_table.commands objectForKey:@"registerDelegate:"];
-    
-    id<AYDelegateBase> cmd_collect = [self.delegates objectForKey:@"CollectServ"];
-    
-    id obj = (id)cmd_collect;
-    [cmd_datasource performWithResult:&obj];
-    obj = (id)cmd_collect;
-    [cmd_delegate performWithResult:&obj];
-    
-    id<AYCommand> cmd_search = [view_table.commands objectForKey:@"registerCellWithClass:"];
-    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeServPerCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_search performWithResult:&class_name];
-    
-    UITableView *tableView = (UITableView*)view_table;
-    tipsLabel = [Tools creatUILabelWithText:@"您还没有收藏过服务" andTextColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-    [tableView addSubview:tipsLabel];
-    [tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(tableView).offset(20);
-        make.top.equalTo(tableView).offset(60);
-    }];
-    tipsLabel.hidden = YES;
-    
-    tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
-    [self loadNewData];
+	
+	id<AYViewBase> view_table = [self.views objectForKey:kAYTableView];
+	id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
+	id<AYCommand> cmd_delegate = [view_table.commands objectForKey:@"registerDelegate:"];
+	
+	id<AYDelegateBase> cmd_collect = [self.delegates objectForKey:@"NursaryList"];
+	
+	id obj = (id)cmd_collect;
+	[cmd_datasource performWithResult:&obj];
+	obj = (id)cmd_collect;
+	[cmd_delegate performWithResult:&obj];
+	
+	id<AYCommand> cmd_search = [view_table.commands objectForKey:@"registerCellWithClass:"];
+	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeServPerCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+	[cmd_search performWithResult:&class_name];
+	
+	UITableView *tableView = (UITableView*)view_table;
+	tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+	[self loadNewData];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+	[super viewWillAppear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
+	[super viewWillDisappear:animated];
 }
 
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
-    return nil;
+	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
+	return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
-    
-    NSString *title = @"我心仪的服务";
-    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
-    
-    UIImage* left = IMGRESOURCE(@"bar_left_black");
-    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
-    
-    NSNumber* left_hidden = [NSNumber numberWithBool:YES];
-    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &left_hidden)
-    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
-    return nil;
+	view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
+	
+	NSString *title = @"看顾";
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
+	
+	UIImage* left = IMGRESOURCE(@"bar_left_black");
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
+	
+	NSNumber* left_hidden = [NSNumber numberWithBool:YES];
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &left_hidden)
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
+	return nil;
 }
 
 - (id)TableLayout:(UIView*)view {
-    view.frame = CGRectMake(0, kStatusAndNavBarH , SCREEN_WIDTH, SCREEN_HEIGHT - 64);
-    return nil;
+	view.frame = CGRectMake(0, kStatusAndNavBarH , SCREEN_WIDTH, SCREEN_HEIGHT - 64);
+	return nil;
 }
 
 #pragma mark -- actions
 - (void)loadNewData {
-    
-    NSDictionary* user = nil;
-    CURRENUSER(user)
-    NSMutableDictionary *dic = [Tools getBaseRemoteData];
-    [[dic objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:@"user_id"] forKey:@"user_id"];
-    
-    id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
-    AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"AllCollectService"];
-    [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-        if (success) {
-            
-            NSArray *data = [[result objectForKey:@"result"] objectForKey:@"services"];
+	
+	NSDictionary *user;
+	CURRENUSER(user);
+	NSMutableDictionary *dic_search = [Tools getBaseRemoteData];
+	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+	[[dic_search objectForKey:kAYCommArgsCondition] setValue:@"看顾" forKey:kAYServiceArgsCategoryInfo];
+	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[NSNumber numberWithLongLong:([NSDate date].timeIntervalSince1970 * 1000)] forKey:kAYCommArgsRemoteDate];
+	
+	id<AYFacadeBase> f_choice = [self.facades objectForKey:@"ChoiceRemote"];
+	AYRemoteCallCommand *cmd_search = [f_choice.commands objectForKey:@"ChoiceSearch"];
+	[cmd_search performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+		if (success) {
+			
+			NSArray *data = [result objectForKey:@"services"];
 			resultArr = [data mutableCopy];
-            if (data.count == 0) {
-                tipsLabel.hidden = NO;
-            } else {
-                tipsLabel.hidden = YES;
-                kAYDelegatesSendMessage(@"CollectServ", @"changeQueryData:", &data)
-                kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
-            }
-        } else {
-            tipsLabel.hidden = YES;
-            AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
-        }
-        
-        id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
-        [((UITableView*)view_table).mj_header endRefreshing];
-    }];
+			kAYDelegatesSendMessage(@"NursaryList", @"changeQueryData:", &data)
+			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+		}
+		else {
+			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
+		}
+		
+		id<AYViewBase> view_table = [self.views objectForKey:kAYTableView];
+		[((UITableView*)view_table).mj_header endRefreshing];
+	}];
 }
 
 - (id)ownerIconTap:(id)args {
-    return nil;
+	return nil;
 }
 
 #pragma mark -- notifies
@@ -213,7 +201,7 @@
 					[resultArr removeObject:result_pred.firstObject];
 					id data = [resultArr copy];
 					kAYDelegatesSendMessage(@"CollectServ", @"changeQueryData:", &data)
-//					kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+					//					kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 					dispatch_async(dispatch_get_main_queue(), ^{
 						UITableView *view_table = [self.views objectForKey:kAYTableView];
 						[view_table deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
@@ -234,15 +222,16 @@
 }
 
 - (id)leftBtnSelected {
-    NSLog(@"pop view controller");
-    
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
-    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
-    id<AYCommand> cmd = POP;
-    [cmd performWithResult:&dic];
-    return nil;
+	NSLog(@"pop view controller");
+	
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	
+	id<AYCommand> cmd = POP;
+	[cmd performWithResult:&dic];
+	return nil;
 }
 
 @end
+

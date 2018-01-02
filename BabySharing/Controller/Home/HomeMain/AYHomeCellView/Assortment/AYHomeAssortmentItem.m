@@ -63,10 +63,20 @@
 	}];
 	[likeBtn addTarget:self action:@selector(didLikeBtnClick) forControlEvents:UIControlEventTouchUpInside];
 	
+	tagLabel = [UILabel creatLabelWithText:@"*TAG" textColor:[UIColor random] fontSize:313 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	[self addSubview:tagLabel];
+	[tagLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(_coverImage.mas_bottom).offset(10);
+		make.left.equalTo(_coverImage);
+//		make.left.equalTo(addrlabel.mas_right).offset(5);
+//		make.centerY.equalTo(addrlabel);
+	}];
+	
 	titleLabel = [UILabel creatLabelWithText:@"Service title" textColor:[UIColor black] fontSize:615.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	titleLabel.numberOfLines = 2;
 	[self addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(_coverImage.mas_bottom).offset(10);
+		make.top.equalTo(tagLabel.mas_bottom).offset(5);
 		make.left.equalTo(_coverImage);
 		make.right.equalTo(_coverImage);
 	}];
@@ -74,15 +84,8 @@
 	addrlabel = [UILabel creatLabelWithText:@"Address s" textColor:[UIColor gary] fontSize:11.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	[self addSubview:addrlabel];
 	[addrlabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(titleLabel.mas_bottom).offset(10);
+		make.top.equalTo(titleLabel.mas_bottom).offset(6);
 		make.left.equalTo(_coverImage);
-	}];
-	
-	tagLabel = [UILabel creatLabelWithText:@"*TAG" textColor:[UIColor random] fontSize:313 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
-	[self addSubview:tagLabel];
-	[tagLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(addrlabel.mas_right).offset(5);
-		make.centerY.equalTo(addrlabel);
 	}];
 	
 }

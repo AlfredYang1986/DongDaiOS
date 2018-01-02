@@ -101,24 +101,32 @@ typedef void(^queryContentFinish)(void);
 	
 	serviceDataFound = [[NSMutableArray alloc] init];
 	
-	UIView *HomeHeadView = [[UIView alloc] initWithFrame:CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kTABLEMARGINTOP)];
+	UIView *HomeHeadView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, kTABLEMARGINTOP)];
 	[self.view addSubview:HomeHeadView];
 
-	UIImageView *PhotoView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 40, 40)];
+	UIImageView *PhotoView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 20+kStatusBarH, 40, 40)];
 	[HomeHeadView addSubview:PhotoView];
 	[PhotoView sd_setImageWithURL:[NSURL URLWithString:[kAYDongDaDownloadURL stringByAppendingString:@""] ] placeholderImage:IMGRESOURCE(@"default_user")];
 	
-	UILabel *locationLabel = [Tools creatUILabelWithText:@"北京市" andTextColor:[Tools garyColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UIImageView *dongda = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"default_image")];
+	[HomeHeadView addSubview:dongda];
+	[dongda mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(PhotoView);
+		make.centerX.equalTo(HomeHeadView);
+		make.size.mas_equalTo(CGSizeMake(68, 40));
+	}];
+	
+	UILabel *locationLabel = [Tools creatUILabelWithText:@"北京" andTextColor:[Tools garyColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[HomeHeadView addSubview:locationLabel];
 	[locationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(PhotoView.mas_right).offset(10);
-		make.bottom.equalTo(PhotoView).offset(-5);
+		make.left.equalTo(dongda.mas_right).offset(10);
+		make.centerY.equalTo(PhotoView).offset(0);
 	}];
 	
 	UIButton *collesBtn = [UIButton creatButtonWithTitle:@"My Colles" titleColor:[UIColor gary] fontSize:614 backgroundColor:nil];
 	[HomeHeadView addSubview:collesBtn];
 	[collesBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerY.equalTo(HomeHeadView);
+		make.centerY.equalTo(PhotoView);
 		make.right.equalTo(HomeHeadView).offset(-15);
 		make.size.mas_equalTo(CGSizeMake(80, 40));
 	}];
@@ -145,6 +153,27 @@ typedef void(^queryContentFinish)(void);
 	
 	[self loadNewData];
 	[self startLocation];
+	
+	UIView *shadow_map = [UIView new];
+	shadow_map.backgroundColor = [UIColor white];
+	shadow_map.layer.shadowColor = [UIColor gary].CGColor;
+	shadow_map.layer.shadowOffset = CGSizeMake(0, 0);
+	shadow_map.layer.shadowRadius = 5.f;
+	shadow_map.layer.shadowOpacity = 0.5f;
+	shadow_map.layer.cornerRadius = 31;
+	[self.view addSubview:shadow_map];
+	[shadow_map mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.right.equalTo(self.view).offset(-20);
+		make.bottom.equalTo(self.view).offset(-20);
+		make.size.mas_equalTo(CGSizeMake(62, 62));
+	}];
+	UIButton *mapBtn = [[UIButton alloc] init];
+	[mapBtn setImage:IMGRESOURCE(@"home_btn_nearby") forState:UIControlStateNormal];
+	[self.view addSubview:mapBtn];
+	[mapBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.edges.equalTo(shadow_map);
+	}];
+	[mapBtn addTarget:self action:@selector(willOpenMapMatch) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -152,7 +181,7 @@ typedef void(^queryContentFinish)(void);
     [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 
--(void)viewDidAppear:(BOOL)animated{
+-(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 }
 
@@ -403,33 +432,6 @@ typedef void(^queryContentFinish)(void);
 
 - (id)rightBtnSelected {
 	
-	if (!loc) {
-		NSString *title;
-		if (isLocationAuth) {
-			title = @"正在定位，请稍等...";
-		} else {
-			title = @"查看地图需要您授权使用定位功能";
-		}
-		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-		return nil;
-	}
-	
-	id<AYCommand> des = DEFAULTCONTROLLER(@"MapMatch");
-	
-	NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
-	[dic_show_module setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-	[dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
-	[dic_show_module setValue:self forKey:kAYControllerActionSourceControllerKey];
-	
-	NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
-	[args setValue:loc forKey:@"location"];
-	[args setValue:[serviceDataFound copy] forKey:@"result_data"];
-	
-	[dic_show_module setValue:[args copy] forKey:kAYControllerChangeArgsKey];
-	
-	id<AYCommand> cmd_show_module = PUSH;
-	[cmd_show_module performWithResult:&dic_show_module];
-	
 	return nil;
 }
 
@@ -493,13 +495,19 @@ typedef void(^queryContentFinish)(void);
 	return nil;
 }
 
-- (id)didAssortmentMoreBtnClick {
-	id<AYCommand> des = DEFAULTCONTROLLER(@"Assortment");
+- (id)didAssortmentMoreBtnClick:(id)args {
+	id<AYCommand> des ;
+	if ([args isEqualToString:@"看顾"]) {
+		des = DEFAULTCONTROLLER(@"NursaryList");
+	} else {
+		des = DEFAULTCONTROLLER(@"Assortment");
+	}
+	
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-	//	[dic setValue:args forKey:kAYControllerChangeArgsKey];
+	[dic setValue:args forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd_show_module = PUSH;
 	[cmd_show_module performWithResult:&dic];

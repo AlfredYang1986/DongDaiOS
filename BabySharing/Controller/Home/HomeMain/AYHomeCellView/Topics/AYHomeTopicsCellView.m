@@ -18,6 +18,9 @@
 #import "AYViewController.h"
 
 @implementation AYHomeTopicsCellView  {
+	UILabel *titleLabel;
+	UILabel *subTitleLabel;
+	
 	UICollectionView *collectionView;
 	
 	NSArray *topicsArr;
@@ -35,18 +38,33 @@
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		topicsArr = kAY_top_assortment_titles;
 		
-		UICollectionViewFlowLayout *flowLayout = [UICollectionViewFlowLayout new];
-		flowLayout.itemSize  = CGSizeMake(100, 90);
-		flowLayout.scrollDirection  = UICollectionViewScrollDirectionHorizontal;
-		flowLayout.minimumInteritemSpacing = 10;
-		flowLayout.minimumLineSpacing = 8;
 		
-		collectionView = [[UICollectionView  alloc]initWithFrame:CGRectMake(0, 10, SCREEN_WIDTH, 90) collectionViewLayout:flowLayout];
+		titleLabel = [Tools creatUILabelWithText:@"Zhuanji01" andTextColor:[Tools blackColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		[self addSubview:titleLabel];
+		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(self).offset(15);
+			make.top.equalTo(self).offset(15);
+		}];
+		
+		subTitleLabel = [UILabel creatLabelWithText:@"一句话简单描述" textColor:[UIColor gary] fontSize:313 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		[self addSubview:subTitleLabel];
+		[subTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(titleLabel);
+			make.top.equalTo(titleLabel.mas_bottom).offset(2);
+		}];
+		
+		UICollectionViewFlowLayout *flowLayout = [UICollectionViewFlowLayout new];
+		flowLayout.itemSize  = CGSizeMake(200, 250);
+		flowLayout.scrollDirection  = UICollectionViewScrollDirectionHorizontal;
+		flowLayout.minimumInteritemSpacing = 0;
+		flowLayout.minimumLineSpacing = 16;
+		
+		collectionView = [[UICollectionView  alloc]initWithFrame:CGRectMake(0, 70, SCREEN_WIDTH, 270) collectionViewLayout:flowLayout];
 		collectionView.delegate = self;
 		collectionView.dataSource = self;
 		collectionView.showsVerticalScrollIndicator = NO;
 		collectionView.showsHorizontalScrollIndicator = NO;
-		collectionView.contentInset = UIEdgeInsetsMake(0, 15, 0, 0);
+		collectionView.contentInset = UIEdgeInsetsMake(5, 15, 0, 0);
 		[collectionView setBackgroundColor:[UIColor clearColor]];
 		[collectionView registerClass:NSClassFromString(@"AYHomeTopicItem") forCellWithReuseIdentifier:@"AYHomeTopicItem"];
 		[self addSubview:collectionView];

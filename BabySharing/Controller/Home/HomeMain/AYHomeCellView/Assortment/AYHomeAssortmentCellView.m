@@ -41,7 +41,7 @@
 		
 		titleArr = @[@"看顾", @"运动", @"艺术", @"科学"];
 		
-		titleLabel = [Tools creatUILabelWithText:@"Assortment01" andTextColor:[Tools blackColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		titleLabel = [Tools creatUILabelWithText:@"Assortment01" andTextColor:[UIColor black] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(15);
@@ -55,7 +55,7 @@
 			make.top.equalTo(titleLabel.mas_bottom).offset(2);
 		}];
 		
-		UIButton *moreBtn = [Tools creatUIButtonWithTitle:@"查看全部" andTitleColor:[Tools RGB153GaryColor] andFontSize:313.f andBackgroundColor:nil];
+		UIButton *moreBtn = [Tools creatUIButtonWithTitle:@"查看更多" andTitleColor:[UIColor theme] andFontSize:313.f andBackgroundColor:nil];
 		[self addSubview:moreBtn];
 		[moreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.right.equalTo(self).offset(-15);
@@ -70,7 +70,7 @@
 		flowLayout.minimumInteritemSpacing = 10;
 		flowLayout.minimumLineSpacing = 8;
 		
-		CollectionView = [[UICollectionView  alloc]initWithFrame:CGRectMake(0, 80, SCREEN_WIDTH, 180) collectionViewLayout:flowLayout];
+		CollectionView = [[UICollectionView  alloc]initWithFrame:CGRectMake(0, 80, SCREEN_WIDTH, 210) collectionViewLayout:flowLayout];
 		CollectionView.delegate = self;
 		CollectionView.dataSource = self;
 		CollectionView.showsVerticalScrollIndicator = NO;
@@ -121,8 +121,8 @@
 	NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
 	
 	if (indexPath.row == 6) {
-		
-		[(AYViewController*)self.controller performSel:@"didAssortmentMoreBtnClick" withResult:nil];
+		NSString *title = titleLabel.text;
+		[(AYViewController*)self.controller performSel:@"didAssortmentMoreBtnClick:" withResult:&title];
 	} else {
 		
 		AYHomeAssortmentItem *item = (AYHomeAssortmentItem*)[collectionView cellForItemAtIndexPath:indexPath];
@@ -165,8 +165,8 @@
 
 #pragma mark -- actions
 - (void)didAssortmentMoreBtnClick {
-//	kAYViewSendNotify(self, @"didAssortmentMoreBtnClick", nil)
-	[(AYViewController*)self.controller performSel:@"didAssortmentMoreBtnClick" withResult:nil];
+	NSString *title = titleLabel.text;
+	[(AYViewController*)self.controller performSel:@"didAssortmentMoreBtnClick:" withResult:&title];
 }
 
 #pragma mark -- messages
@@ -175,9 +175,9 @@
 	serviceData = [args objectForKey:@"services"];
 	
 	if ([[args objectForKey:@"index"] intValue] == 0) {
-		itemSizeData = CGSizeMake(220, 220);
+		itemSizeData = CGSizeMake(315, 250);
 	} else
-		itemSizeData = CGSizeMake(140, 180);
+		itemSizeData = CGSizeMake(160, 210);
 	
 	titleLabel.text = [titleArr objectAtIndex:[[args objectForKey:@"index"] intValue]];
 	
