@@ -41,7 +41,8 @@
 					@"AYServiceDescCellView",
 					@"AYServiceMapCellView",
 					@"AYServiceFacilityCellView",
-					@"AYServiceNotiCellView", ];
+					@"AYServiceNotiCellView",
+					@"AYServiceTAGCellView", ];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -90,9 +91,9 @@
 		tmp = [dic_desc copy];
 	}
 	
-	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+//	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+	[(UITableViewCell*)cell performMethod:@"setCellInfo:" withResult:&tmp];
     cell.controller = self.controller;
-    ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
     return (UITableViewCell*)cell;
 }
 

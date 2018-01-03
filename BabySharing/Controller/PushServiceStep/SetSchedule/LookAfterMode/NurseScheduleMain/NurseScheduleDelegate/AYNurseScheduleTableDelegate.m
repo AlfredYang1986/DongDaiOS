@@ -74,7 +74,7 @@
 	}
 	[dic setValue:[NSNumber numberWithFloat:indexPath.row] forKey:@"row"];
 	
-	kAYViewSendMessage(cell, kAYCellSetCellInfoMessage, &dic)
+	kAYViewSendMessage(cell, kAYDelegateSetCellInfoMessage, &dic)
 	
 	((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
 	return (UITableViewCell*)cell;

@@ -32,6 +32,7 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 	
     UIImageView *userPhoto;
     UILabel *userName;
+	UILabel *userJob;
 	
 	UIImageView *realNameSign;
 	UILabel *realNameLabel;
@@ -51,90 +52,87 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
     if (self) {
 		
         self.clipsToBounds = YES;
-        
+		self.selectionStyle = UITableViewCellSelectionStyleNone;
+		
+		CGFloat photoWidth = 55;
         userPhoto = [[UIImageView alloc] init];
         userPhoto.image = IMGRESOURCE(@"default_user");
         userPhoto.contentMode = UIViewContentModeScaleAspectFill;
         userPhoto.clipsToBounds = YES;
-        userPhoto.layer.cornerRadius = 32.f;
+        userPhoto.layer.cornerRadius = photoWidth*0.5;
 //        userPhoto.layer.borderColor = [Tools borderAlphaColor].CGColor;
 //        userPhoto.layer.borderWidth = 2.f;
         [self addSubview:userPhoto];
         [userPhoto mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self).offset(20);
-            make.top.equalTo(self).offset(15);
-			make.bottom.equalTo(self).offset(-25);
-            make.size.mas_equalTo(CGSizeMake(64, 64));
+            make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
+            make.top.equalTo(self).offset(30);
+			make.bottom.equalTo(self).offset(-30);
+            make.size.mas_equalTo(CGSizeMake(photoWidth, photoWidth));
         }];
 		
-        userName = [Tools creatUILabelWithText:@"UserName" andTextColor:[Tools blackColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-        [self addSubview:userName];
-        [userName mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(self).offset(23);
-            make.left.equalTo(userPhoto.mas_right).offset(12);
-			make.right.equalTo(self).offset(-40);
-        }];
-		
-		realNameSign = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"remind_time")];
-		[self addSubview:realNameSign];
-		[realNameSign mas_makeConstraints:^(MASConstraintMaker *make) {
+		userName = [UILabel creatLabelWithText:@"UserName" textColor:[UIColor black] fontSize:614.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		userName.numberOfLines = 1;
+		[self addSubview:userName];
+		[userName mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(self).offset(0);
+			make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
+			make.right.equalTo(userPhoto.mas_left).offset(-20);
+		}];
+		userJob = [UILabel creatLabelWithText:@"UserJob" textColor:[UIColor gary] fontSize:314.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		userJob.numberOfLines = 1;
+		[self addSubview:userJob];
+		[userJob mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.bottom.equalTo(userPhoto);
 			make.left.equalTo(userName);
-			make.top.equalTo(userName.mas_bottom).offset(8);
-			make.size.mas_equalTo(CGSizeMake(11, 11));
-		}];
-        realNameLabel = [Tools creatUILabelWithText:isGettingCertData andTextColor:[Tools garyColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-        [self addSubview:realNameLabel];
-		[realNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(realNameSign.mas_right).offset(4);
-			make.centerY.equalTo(realNameSign);
-        }];
-		
-		phoneNoSign = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"remind_time")];
-		[self addSubview:phoneNoSign];
-		[phoneNoSign mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(realNameLabel.mas_right).offset(16);
-			make.centerY.equalTo(realNameSign);
-			make.size.mas_equalTo(CGSizeMake(11, 11));
-		}];
-		phoneNoLabel = [Tools creatUILabelWithText:isGettingCertData andTextColor:[Tools garyColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		[self addSubview:phoneNoLabel];
-		[phoneNoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(phoneNoSign.mas_right).offset(4);
-			make.centerY.equalTo(phoneNoSign);
+			make.right.equalTo(userName);
 		}];
 		
-		UIImageView *arrow_right = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"details_icon_arrow_right")];
-		[self addSubview:arrow_right];
-		[arrow_right mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerY.equalTo(self);
-			make.right.equalTo(self).offset(-20);
-			make.size.mas_equalTo(CGSizeMake(8, 14));
-		}];
+//		realNameSign = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"remind_time")];
+//		[self addSubview:realNameSign];
+//		[realNameSign mas_makeConstraints:^(MASConstraintMaker *make) {
+//			make.left.equalTo(userName);
+//			make.top.equalTo(userName.mas_bottom).offset(8);
+//			make.size.mas_equalTo(CGSizeMake(11, 11));
+//		}];
+//        realNameLabel = [Tools creatUILabelWithText:isGettingCertData andTextColor:[Tools garyColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+//        [self addSubview:realNameLabel];
+//		[realNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//			make.left.equalTo(realNameSign.mas_right).offset(4);
+//			make.centerY.equalTo(realNameSign);
+//        }];
+//
+//		phoneNoSign = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"remind_time")];
+//		[self addSubview:phoneNoSign];
+//		[phoneNoSign mas_makeConstraints:^(MASConstraintMaker *make) {
+//			make.left.equalTo(realNameLabel.mas_right).offset(16);
+//			make.centerY.equalTo(realNameSign);
+//			make.size.mas_equalTo(CGSizeMake(11, 11));
+//		}];
+//		phoneNoLabel = [Tools creatUILabelWithText:isGettingCertData andTextColor:[Tools garyColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+//		[self addSubview:phoneNoLabel];
+//		[phoneNoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//			make.left.equalTo(phoneNoSign.mas_right).offset(4);
+//			make.centerY.equalTo(phoneNoSign);
+//		}];
+//
+//		UIImageView *arrow_right = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"details_icon_arrow_right")];
+//		[self addSubview:arrow_right];
+//		[arrow_right mas_makeConstraints:^(MASConstraintMaker *make) {
+//			make.centerY.equalTo(self);
+//			make.right.equalTo(self).offset(-20);
+//			make.size.mas_equalTo(CGSizeMake(8, 14));
+//		}];
 		
 		UIView *bottom_view = [[UIView alloc] init];
-		bottom_view.backgroundColor = [Tools garyBackgroundColor];
+		bottom_view.backgroundColor = [UIColor garyLine];
 		[self addSubview:bottom_view];
 		[bottom_view mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerX.equalTo(self);
+//			make.top.equalTo(userPhoto.mas_bottom).offset(30);
+			make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
+			make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
 			make.bottom.equalTo(self);
-			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 10));
+			make.height.mas_equalTo(0.5);
 		}];
-		
-		UIView *shadow_view = [[UIView alloc]init];
-		shadow_view.backgroundColor = [Tools whiteColor];
-		shadow_view.layer.shadowColor = [Tools garyColor].CGColor;
-		shadow_view.layer.shadowOffset = CGSizeMake(0, 2.f);
-		shadow_view.layer.shadowOpacity = 0.05f;
-		shadow_view.layer.shadowRadius =1.f;
-		[self addSubview:shadow_view];
-		[shadow_view mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.bottom.equalTo(self).offset(-10);
-			make.centerX.equalTo(self);
-			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 10));
-		}];
-		
-		[self sendSubviewToBack:shadow_view];
-		[self sendSubviewToBack:bottom_view];
 		
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];

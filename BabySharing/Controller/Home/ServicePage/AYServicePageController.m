@@ -118,6 +118,7 @@
 									 @"ServiceOwnerInfoCell",
 									 @"ServiceCapacityCell",
 									 @"ServiceDescCell",
+									 @"ServiceTAGCell",
 									 @"ServiceMapCell",
 									 @"ServiceFacilityCell",
 									 @"ServiceNotiCell"];

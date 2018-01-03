@@ -37,6 +37,7 @@ static NSString* const kAYDongDaAppMode =				@"dongda_app_mode";
 #define SCREEN_WIDTH                                    [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT                                   [UIScreen mainScreen].bounds.size.height
 #define SCREEN_SCALE									[UIScreen mainScreen].scale
+#define SCREEN_MARGIN_LR								15
 #define kStatusBarH										(iPhoneX ? 44.f : 20.f)
 #define kNavBarH										44
 #define kStatusAndNavBarH								(iPhoneX ? 88.f : 64.f)

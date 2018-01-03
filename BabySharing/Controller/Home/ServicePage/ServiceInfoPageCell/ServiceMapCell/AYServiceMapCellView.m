@@ -25,8 +25,6 @@
 	AYAnnonation *currentAnno;
 	
 	UILabel *addressLabel;
-	UIImageView *addressBg;
-	UIImageView *addressArrowBg;
 	
 	UIView *tapview;
 }
@@ -34,14 +32,31 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
+		self.selectionStyle = UITableViewCellSelectionStyleNone;
+		
+		UILabel *titleLabel = [UILabel creatLabelWithText:@"Map" textColor:[UIColor black] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		[self addSubview:titleLabel];
+		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(self).offset(20);
+			make.top.equalTo(self).offset(30);
+//			make.bottom.equalTo(self).offset(-100);
+		}];
+		
+		addressLabel = [UILabel creatLabelWithText:@"Map address info" textColor:[UIColor black] fontSize:314.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		addressLabel.numberOfLines = 2;
+		[self addSubview:addressLabel];
+		[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(titleLabel);
+			make.top.equalTo(titleLabel.mas_bottom).offset(20);
+		}];
 		
 		orderMapView = [[MAMapView alloc] init];
 		[self addSubview:orderMapView];
 		[orderMapView mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(self);
+			make.top.equalTo(addressLabel.mas_bottom).offset(14);
 			make.centerX.equalTo(self);
-			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 235));
-			make.bottom.equalTo(self);
+			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - SCREEN_MARGIN_LR*2, 118));
+			make.bottom.equalTo(self).offset(20);
 		}];
 		orderMapView.delegate = self;
 		orderMapView.scrollEnabled = NO;
@@ -57,21 +72,7 @@
 		tapview.userInteractionEnabled = YES;
 		[tapview addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didMapTap)]];
 		
-		addressLabel = [Tools creatUILabelWithText:@"Service address info" andTextColor:[Tools blackColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		addressLabel.numberOfLines = 2;
-		[self addSubview:addressLabel];
 		
-		addressBg = [[UIImageView alloc]init];
-		[self addSubview:addressBg];
-		addressArrowBg = [[UIImageView alloc] init];
-		[self addSubview:addressArrowBg];
-		
-//		[self bringSubviewToFront:addressBg];
-		[self bringSubviewToFront:addressLabel];
-		
-		if (reuseIdentifier != nil) {
-			[self setUpReuseCell];
-		}
 	}
 	return self;
 }
@@ -82,31 +83,6 @@
 @synthesize notifies = _notiyies;
 
 #pragma mark -- life cycle
-- (void)setUpReuseCell {
-	id<AYViewBase> cell = VIEW(@"ServiceMapCell", @"ServiceMapCell");
-	
-	NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
-	for (NSString* name in cell.commands.allKeys) {
-		AYViewCommand* cmd = [cell.commands objectForKey:name];
-		AYViewCommand* c = [[AYViewCommand alloc]init];
-		c.view = self;
-		c.method_name = cmd.method_name;
-		c.need_args = cmd.need_args;
-		[arr_commands setValue:c forKey:name];
-	}
-	self.commands = [arr_commands copy];
-	
-	NSMutableDictionary* arr_notifies = [[NSMutableDictionary alloc]initWithCapacity:cell.notifies.count];
-	for (NSString* name in cell.notifies.allKeys) {
-		AYViewNotifyCommand* cmd = [cell.notifies objectForKey:name];
-		AYViewNotifyCommand* c = [[AYViewNotifyCommand alloc]init];
-		c.view = self;
-		c.method_name = cmd.method_name;
-		c.need_args = cmd.need_args;
-		[arr_notifies setValue:c forKey:name];
-	}
-	self.notifies = [arr_notifies copy];
-}
 
 #pragma mark -- commands
 - (void)postPerform {
@@ -139,29 +115,7 @@
 	if (addressStr && ![addressStr isEqualToString:@""]) {
 		addressLabel.text = [NSString stringWithFormat:@"%@%@", addressStr, adjustAddressStr];
 	}
-	[addressLabel sizeToFit];
-	[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerX.equalTo(self);
-		make.bottom.equalTo(self.mas_top).offset(90);
-		make.width.mas_lessThanOrEqualTo(254);
-	}];
 	
-	UIImage *bg = IMGRESOURCE(@"map_address_bg_part_b");
-	bg = [bg resizableImageWithCapInsets:UIEdgeInsetsMake(15, 20, 15, 20) resizingMode:UIImageResizingModeTile];
-	addressBg.image =  bg;
-	[addressBg mas_remakeConstraints:^(MASConstraintMaker *make) {
-		make.edges.equalTo(addressLabel).insets(UIEdgeInsetsMake(-4, -12, -10, -12));
-	}];
-	
-	UIImage *arrowBg = IMGRESOURCE(@"map_address_bg_part_a");
-	arrowBg = [arrowBg resizableImageWithCapInsets:UIEdgeInsetsMake(2, 0, 20, 0) resizingMode:UIImageResizingModeTile];
-	addressArrowBg.image = arrowBg;
-	[addressArrowBg mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(addressLabel).offset(0);
-		make.width.mas_equalTo(26);
-		make.bottom.equalTo(addressLabel).offset(16);
-		make.centerX.equalTo(addressLabel);
-	}];
 	
 	NSDictionary *dic_loc = [info_loc objectForKey:kAYServiceArgsPin];
 	NSNumber *latitude = [dic_loc objectForKey:kAYServiceArgsLatitude];

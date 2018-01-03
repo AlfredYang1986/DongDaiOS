@@ -60,7 +60,7 @@
 	cell = [tableView dequeueReusableCellWithIdentifier:class_name];
 	
 	id tmp = [querydata objectAtIndex:indexPath.row];
-	kAYViewSendMessage(cell, kAYCellSetCellInfoMessage, &tmp)
+	kAYViewSendMessage(cell, kAYDelegateSetCellInfoMessage, &tmp)
 	
 	cell.controller = self.controller;
 	return (UITableViewCell*)cell;

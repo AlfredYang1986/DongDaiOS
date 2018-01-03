@@ -22,6 +22,7 @@
 	}
 	label.textColor = color;
 	label.textAlignment = align;
+	label.numberOfLines = 0;
 	
 	if (font > 600.f) {
 		label.font = kAYFontMedium(font - 600);

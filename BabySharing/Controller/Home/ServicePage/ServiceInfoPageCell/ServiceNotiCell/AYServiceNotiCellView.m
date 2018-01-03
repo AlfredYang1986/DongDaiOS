@@ -33,6 +33,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
+		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		
 		tipsTitleLabel = [Tools creatUILabelWithText:@"服务守则" andTextColor:[Tools garyColor] andFontSize:318.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:tipsTitleLabel];
@@ -81,10 +82,6 @@
 		}
 	}
 	return self;
-}
-
-- (void)layoutSubviews {
-	[super layoutSubviews];
 }
 
 #pragma mark -- life cycle

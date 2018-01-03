@@ -30,7 +30,7 @@
     [super viewDidLoad];
 	
 	id tmp = [dic_args copy];
-	kAYViewsSendMessage(@"RemoteBack", kAYCellSetCellInfoMessage, &tmp)
+	kAYViewsSendMessage(@"RemoteBack", kAYDelegateSetCellInfoMessage, &tmp)
 	
 }
 

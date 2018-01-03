@@ -48,7 +48,7 @@ static NSString* const kAYPickerRegisterDelegateMessage =		@"registerDelegate:";
 static NSString* const kAYDelegateChangeDataMessage =			@"changeQueryData:";
 
 //Cell common message
-static NSString* const kAYCellSetCellInfoMessage =				@"setCellInfo:";
+static NSString* const kAYDelegateSetCellInfoMessage =			@"setCellInfo:";
 
 #pragma mark -- VC中的views发消息 / 发通知
 #define kAYViewsSendMessage(VIEW,MESSAGE,ARGS)              {\

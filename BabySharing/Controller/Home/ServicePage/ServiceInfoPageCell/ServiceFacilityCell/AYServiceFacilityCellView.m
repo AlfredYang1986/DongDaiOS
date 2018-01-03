@@ -19,6 +19,7 @@
 @implementation AYServiceFacilityCellView {
 	
 	NSMutableArray *facilityArr;
+	UIScrollView *ScrollView;
 }
 
 @synthesize para = _para;
@@ -29,63 +30,31 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		
 		UILabel *titleLabel = [Tools creatUILabelWithText:@"友好性设施" andTextColor:[Tools lightGaryColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(20);
 			make.top.equalTo(self).offset(30);
-			make.bottom.equalTo(self).offset(-250);
+			make.bottom.equalTo(self).offset(-100);
 		}];
 		
-		CGFloat margin = 20.f;
-		CGFloat itemHeight = 80.f;
-		CGFloat itemWidth = 70.f;
-		CGFloat lineSpacing = 30.f;
-		CGFloat InteritemSpacing = (SCREEN_WIDTH - margin*2 - itemWidth*4)/3;
-		
-		facilityArr = [NSMutableArray array];
-		NSArray *facilityTitlesArr = kAY_service_options_title_facilities;
-		for (int i = 0; i < 8; ++i) {
-			AYPlayItemsView *facilityItem = [[AYPlayItemsView alloc] initWithTitle:[facilityTitlesArr objectAtIndex:i] andIconName:[NSString stringWithFormat:@"details_icon_facility_%d", i]];
-			[self addSubview:facilityItem];
-			[facilityItem mas_makeConstraints:^(MASConstraintMaker *make) {
-				make.top.equalTo(titleLabel.mas_bottom).offset(i/4 * (itemHeight+lineSpacing) + lineSpacing);
-				make.left.equalTo(self).offset(i%4 * (InteritemSpacing+itemWidth) + margin);
-				make.size.mas_equalTo(CGSizeMake(itemWidth, itemHeight));
-			}];
-			
-			[facilityArr addObject:facilityItem];
-		}
+		ScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 60, SCREEN_WIDTH, 80)];
+		ScrollView.showsVerticalScrollIndicator = NO;
+		ScrollView.showsHorizontalScrollIndicator = NO;
+		[self addSubview:ScrollView];
 		
 		UIView *bottom_view = [[UIView alloc] init];
-		bottom_view.backgroundColor = [Tools garyBackgroundColor];
+		bottom_view.backgroundColor = [UIColor garyLine];
 		[self addSubview:bottom_view];
 		[bottom_view mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerX.equalTo(self);
+			//			make.top.equalTo(userPhoto.mas_bottom).offset(30);
+			make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
+			make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
 			make.bottom.equalTo(self);
-			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 10));
+			make.height.mas_equalTo(0.5);
 		}];
-		
-		UIView *shadow_view = [[UIView alloc]init];
-		shadow_view.backgroundColor = [Tools whiteColor];
-		shadow_view.layer.shadowColor = [Tools garyColor].CGColor;
-		shadow_view.layer.shadowOffset = CGSizeMake(0, 2.f);
-		shadow_view.layer.shadowOpacity = 0.05f;
-		shadow_view.layer.shadowRadius =1.f;
-		[self addSubview:shadow_view];
-		[shadow_view mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.bottom.equalTo(self).offset(-10);
-			make.centerX.equalTo(self);
-			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 10));
-		}];
-		
-		[self sendSubviewToBack:shadow_view];
-		[self sendSubviewToBack:bottom_view];
-		
-        if (reuseIdentifier != nil) {
-            [self setUpReuseCell];
-        }
     }
     return self;
 }
@@ -147,19 +116,22 @@
 	NSDictionary *service_info = args;
 	
 	NSArray *facilities = [[service_info objectForKey:kAYServiceArgsDetailInfo] objectForKey:kAYServiceArgsFacility];;
-	NSArray *options_title_facility = kAY_service_options_title_facilities;
-    for (int i = 0; i < facilities.count; ++i) {
-		NSString *f = [facilities objectAtIndex:i];
+	
+	CGFloat itemHeight = 64;
+	CGFloat lineSpacing = 25;
+	CGFloat preMaxX = 0;
+	
+	for (int i = 0; i < facilities.count; ++i) {
 		
-		if ([options_title_facility containsObject:f]) {
-			
-			NSInteger index = [options_title_facility indexOfObject:f];
-			
-			AYPlayItemsView *item = [facilityArr objectAtIndex:index];
-			[item setEnableStatusWith:YES];
-		}
+		NSString *title = [facilities objectAtIndex:i];
+		AYPlayItemsView *facilityItem = [[AYPlayItemsView alloc] initWithTitle:title andIconName:[NSString stringWithFormat:@"details_icon_facility_%d", i]];
+		[ScrollView addSubview:facilityItem];
+		CGSize labelSize = [title sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]}];
+		facilityItem.frame = CGRectMake(SCREEN_MARGIN_LR + i==0? 0 : lineSpacing + preMaxX, 8, labelSize.width, itemHeight);
 		
-    }
+		preMaxX = facilityItem.frame.origin.x + labelSize.width;
+	}
+	ScrollView.contentSize = CGSizeMake(preMaxX+25, 80);
 	
     return nil;
 }

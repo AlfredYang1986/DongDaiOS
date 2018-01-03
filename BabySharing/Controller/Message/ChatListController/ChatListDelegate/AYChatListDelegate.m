@@ -74,7 +74,7 @@
 		NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 		[dic setValue:tmp forKey:kAYGroupListCellContentKey];
 		[dic setValue:cell forKey:kAYGroupListCellCellKey];
-		kAYViewSendMessage(cell, kAYCellSetCellInfoMessage, &dic)
+		kAYViewSendMessage(cell, kAYDelegateSetCellInfoMessage, &dic)
 		
 		return (UITableViewCell*)cell;
 	}

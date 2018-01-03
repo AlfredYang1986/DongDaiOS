@@ -18,10 +18,8 @@
 
 @implementation AYServiceTitleCellView {
     UILabel *titleLabel;
-	
 	UILabel *themeLabel;
-	UILabel *ownerNameLabel;
-	UIImageView *ownerPhoto;
+	UILabel *tagLabel;
 	
 	NSDictionary *service_info;
 }
@@ -34,48 +32,41 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		
-		UIView *propView = [[UIView alloc] init];
-		[self addSubview:propView];
-		[propView mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(self);
-			make.bottom.equalTo(self);
-			make.center.equalTo(self);
-			make.size.mas_equalTo(CGSizeMake(0.01f, 82.f));
+		titleLabel = [UILabel creatLabelWithText:@"Service title is not set" textColor:[UIColor black] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		[self addSubview:titleLabel];
+		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(self).offset(28);
+			make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
+			make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
 		}];
 		
-		themeLabel = [Tools creatUILabelWithText:@"Theme" andTextColor:[Tools whiteColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		[Tools setViewBorder:themeLabel withRadius:8.f andBorderWidth:0.f andBorderColor:nil andBackground:[Tools themeColor]];
+		themeLabel = [UILabel creatLabelWithText:@"Theme" textColor:[UIColor black] fontSize:313.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview: themeLabel];
-        
-        titleLabel = [Tools creatUILabelWithText:@"Service title is not set" andTextColor:[Tools blackColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		titleLabel.numberOfLines = 2.f;
-        [self addSubview:titleLabel];
+		[themeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(titleLabel);
+			make.top.equalTo(titleLabel.mas_bottom).offset(20);
+		}];
+		
+		tagLabel = [UILabel creatLabelWithText:@"TAG" textColor:[UIColor black] fontSize:612.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		[self addSubview: tagLabel];
+		[tagLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(titleLabel);
+			make.top.equalTo(themeLabel.mas_bottom).offset(5);
+		}];
 		
 		UIView *bottom_view = [[UIView alloc] init];
-		bottom_view.backgroundColor = [Tools garyBackgroundColor];
+		bottom_view.backgroundColor = [UIColor garyLine];
 		[self addSubview:bottom_view];
 		[bottom_view mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerX.equalTo(self);
+			make.top.equalTo(tagLabel.mas_bottom).offset(30);
+			make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
+			make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
 			make.bottom.equalTo(self);
-			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 10));
+			make.height.mas_equalTo(0.5);
 		}];
 		
-		UIView *shadow_view = [[UIView alloc]init];
-		shadow_view.backgroundColor = [Tools whiteColor];
-		shadow_view.layer.shadowColor = [Tools garyColor].CGColor;
-		shadow_view.layer.shadowOffset = CGSizeMake(0, 2.f);
-		shadow_view.layer.shadowOpacity = 0.05f;
-		shadow_view.layer.shadowRadius =1.f;
-		[self addSubview:shadow_view];
-		[shadow_view mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.bottom.equalTo(self).offset(-10);
-			make.centerX.equalTo(self);
-			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 10));
-		}];
-		
-		[self sendSubviewToBack:shadow_view];
-		[self sendSubviewToBack:bottom_view];
 		
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
