@@ -34,7 +34,7 @@
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		
 //        capacity_icon
-		classView = [[AYCapacityUnitView alloc] initWithIcon:@"details_icon_classmax" title:@"CalssMax" info:@"0"];
+		classView = [[AYCapacityUnitView alloc] initWithIcon:@"details_icon_classmax" title:@"班级人数" info:@"0"];
 		[self addSubview:classView];
 		[classView mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self);
@@ -43,7 +43,7 @@
 		}];
 
 //        age_boundary_icon
-		ageView = [[AYCapacityUnitView alloc] initWithIcon:@"details_icon_age" title:@"CalssMax" info:@"0"];
+		ageView = [[AYCapacityUnitView alloc] initWithIcon:@"details_icon_ages" title:@"适合年龄" info:@"0"];
 		[self addSubview:ageView];
 		[ageView mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self);
@@ -53,7 +53,7 @@
 		
 
 //        allow_leave_icon
-		teacherView = [[AYCapacityUnitView alloc] initWithIcon:@"details_icon_teacher" title:@"CalssMax" info:@"0"];
+		teacherView = [[AYCapacityUnitView alloc] initWithIcon:@"details_icon_teacher" title:@"师生配比" info:@"0"];
 		[self addSubview:teacherView];
 		[teacherView mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.right.equalTo(self);

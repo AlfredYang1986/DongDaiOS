@@ -36,11 +36,11 @@
 - (void)postPerform {
     isExpend = NO;
 	CellNameArr = @[@"AYServiceTitleCellView",
-					@"AYServiceOwnerInfoCellView",
 					@"AYServiceCapacityCellView",
+					@"AYServiceOwnerInfoCellView",
 					@"AYServiceDescCellView",
-					@"AYServiceMapCellView",
 					@"AYServiceFacilityCellView",
+					@"AYServiceMapCellView",
 					@"AYServiceNotiCellView",
 					@"AYServiceTAGCellView", ];
 }
@@ -76,7 +76,7 @@
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 7;
+    return 6;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -91,7 +91,6 @@
 		tmp = [dic_desc copy];
 	}
 	
-//	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	[(UITableViewCell*)cell performMethod:@"setCellInfo:" withResult:&tmp];
     cell.controller = self.controller;
     return (UITableViewCell*)cell;

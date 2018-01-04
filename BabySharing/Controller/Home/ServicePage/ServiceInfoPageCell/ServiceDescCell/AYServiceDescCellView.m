@@ -20,6 +20,8 @@
 	
 	UILabel *tipsTitleLabel;
 	UILabel *descLabel;
+	UIImageView *maskView;
+	UILabel *TAGsLabel;
 	UIButton *showhideBtn;
 	
 	NSDictionary *dic_attr;
@@ -47,6 +49,8 @@
 	
 }
 
+
+#pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
 	
 }
@@ -70,7 +74,7 @@
 		self.clipsToBounds = YES;
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		
-		tipsTitleLabel = [UILabel creatLabelWithText:@"服务介绍" textColor:[Tools lightGaryColor] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		tipsTitleLabel = [UILabel creatLabelWithText:@"服务介绍" textColor:[UIColor black] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:tipsTitleLabel];
 		[tipsTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
@@ -79,11 +83,30 @@
 
 		descLabel = [UILabel creatLabelWithText:@"" textColor:[UIColor gary] fontSize:15 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:descLabel];
-		[descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(tipsTitleLabel);
-			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
-			make.bottom.equalTo(self).offset(0);
+//		[descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//			make.left.equalTo(tipsTitleLabel);
+//			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
+//			make.bottom.equalTo(self).offset(0);
+//		}];
+		
+		maskView = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"mask_detail_desc")];
+		[self addSubview:maskView];
+		[maskView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.bottom.equalTo(descLabel);
+			make.left.equalTo(descLabel);
+			make.right.equalTo(descLabel);
+			make.height.mas_equalTo(19);
 		}];
+		maskView.hidden = YES;
+		
+		TAGsLabel = [UILabel creatLabelWithText:@"##" textColor:[UIColor gary] fontSize:316.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		[self addSubview:TAGsLabel];
+		[TAGsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
+			make.centerY.equalTo(descLabel.mas_bottom).offset(30);
+//			make.bottom.equalTo(self).offset(20);
+		}];
+		TAGsLabel.hidden = YES;
 		
 		showhideBtn = [UIButton creatButtonWithTitle:@"展开" titleColor:[UIColor gary] fontSize:15 backgroundColor:nil];
 //		[showhideBtn setTitle:@"展开" forState:UIControlStateNormal];
@@ -96,11 +119,19 @@
 		}];
 		[showhideBtn addTarget:self action:@selector(didShowhideBtnClick) forControlEvents:UIControlEventTouchUpInside];
 		
+		UIView *bottom_view = [[UIView alloc] init];
+		bottom_view.backgroundColor = [UIColor garyLine];
+		[self addSubview:bottom_view];
+		[bottom_view mas_makeConstraints:^(MASConstraintMaker *make) {
+			//			make.top.equalTo(userPhoto.mas_bottom).offset(30);
+			make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
+			make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
+			make.bottom.equalTo(self);
+			make.height.mas_equalTo(0.5);
+		}];
 	}
 	return self;
 }
-
-#pragma mark -- commands
 
 
 #pragma mark -- actions
@@ -157,37 +188,49 @@
 	NSAttributedString *descAttri = [[NSAttributedString alloc] initWithString:descStr attributes:dic_attr];
 	descLabel.attributedText = descAttri;
 	
-//	CGFloat textHeight = [self getAttrStrHeight:descLabel.attributedText width:SCREEN_WIDTH - SCREEN_MARGIN_LR*2];
-//	NSNumber *expend_args = [service_info objectForKey:@"is_expend"];
-//
-//	if (textHeight < 130) {
-//		showhideBtn.hidden = YES;
-//		[descLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-//			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
-//			make.left.equalTo(self).offset(16);
-//			make.right.equalTo(self).offset(-16);
-//			make.bottom.equalTo(self).offset(-30);
-//		}];
-//	} else {
-//		showhideBtn.hidden = NO;
-//		if (expend_args.boolValue) {
-//			showhideBtn.transform = CGAffineTransformMakeRotation(M_PI);
-//			[descLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-//				make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
-//				make.left.equalTo(self).offset(16);
-//				make.right.equalTo(self).offset(-16);
-//				make.bottom.equalTo(self).offset(-60);
-//			}];
-//		} else {
-//			[descLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-//				make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
-//				make.left.equalTo(self).offset(16);
-//				make.right.equalTo(self).offset(-16);
-//				make.bottom.equalTo(self).offset(-60);
-//				make.height.mas_equalTo(130);
-//			}];
-//		}
-//	}
+	CGFloat marginBtm = 30;
+	NSArray *tags = [service_info objectForKey:@""];
+	if (tags.count == 0) {
+		marginBtm = 60;
+		
+		NSAttributedString *tsgsAttri = [[NSAttributedString alloc] initWithString:@"#TSGST# #TSGST#" attributes:dic_attr];
+		TAGsLabel.attributedText = tsgsAttri;
+		TAGsLabel.hidden = NO;
+	}
+	
+	CGFloat textHeight = [self getAttrStrHeight:descLabel.attributedText width:SCREEN_WIDTH - SCREEN_MARGIN_LR*2];
+	NSNumber *expend_args = [service_info objectForKey:@"is_expend"];
+
+	if (textHeight < 88) {
+		showhideBtn.hidden = YES;
+		[descLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
+			make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
+			make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
+			make.bottom.equalTo(self).offset(- marginBtm);
+		}];
+	} else {
+		showhideBtn.hidden = NO;
+		if (expend_args.boolValue) {
+			showhideBtn.selected = YES;
+			[descLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+				make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
+				make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
+				make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
+				make.bottom.equalTo(self).offset(-marginBtm);
+			}];
+		} else {
+			showhideBtn.selected = NO;
+			maskView.hidden = NO;
+			descLabel.numberOfLines = 4;
+			[descLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+				make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
+				make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
+				make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
+				make.bottom.equalTo(self).offset(-marginBtm);
+			}];
+		}
+	}
 	
 	return nil;
 }

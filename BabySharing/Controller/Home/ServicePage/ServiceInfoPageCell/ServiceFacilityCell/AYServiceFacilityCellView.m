@@ -32,7 +32,7 @@
     if (self) {
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		
-		UILabel *titleLabel = [Tools creatUILabelWithText:@"友好性设施" andTextColor:[Tools lightGaryColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		UILabel *titleLabel = [UILabel creatLabelWithText:@"场地安全友好性" textColor:[UIColor black] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(20);
@@ -44,6 +44,14 @@
 		ScrollView.showsVerticalScrollIndicator = NO;
 		ScrollView.showsHorizontalScrollIndicator = NO;
 		[self addSubview:ScrollView];
+		
+		UIImageView *mask = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"mask_detail_facility")];
+		[self addSubview:mask];
+		[mask mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.right.equalTo(ScrollView);
+			make.centerY.equalTo(ScrollView);
+			make.size.mas_equalTo(CGSizeMake(20, 76));
+		}];
 		
 		UIView *bottom_view = [[UIView alloc] init];
 		bottom_view.backgroundColor = [UIColor garyLine];

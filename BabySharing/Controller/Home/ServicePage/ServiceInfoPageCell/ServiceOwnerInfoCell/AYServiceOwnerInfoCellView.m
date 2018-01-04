@@ -34,11 +34,6 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
     UILabel *userName;
 	UILabel *userJob;
 	
-	UIImageView *realNameSign;
-	UILabel *realNameLabel;
-	UIImageView *phoneNoSign;
-	UILabel *phoneNoLabel;
-	
     NSDictionary *service_info;
 }
 
@@ -74,7 +69,7 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 		userName.numberOfLines = 1;
 		[self addSubview:userName];
 		[userName mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(self).offset(0);
+			make.top.equalTo(userPhoto).offset(0);
 			make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
 			make.right.equalTo(userPhoto.mas_left).offset(-20);
 		}];
@@ -87,41 +82,6 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 			make.right.equalTo(userName);
 		}];
 		
-//		realNameSign = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"remind_time")];
-//		[self addSubview:realNameSign];
-//		[realNameSign mas_makeConstraints:^(MASConstraintMaker *make) {
-//			make.left.equalTo(userName);
-//			make.top.equalTo(userName.mas_bottom).offset(8);
-//			make.size.mas_equalTo(CGSizeMake(11, 11));
-//		}];
-//        realNameLabel = [Tools creatUILabelWithText:isGettingCertData andTextColor:[Tools garyColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-//        [self addSubview:realNameLabel];
-//		[realNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//			make.left.equalTo(realNameSign.mas_right).offset(4);
-//			make.centerY.equalTo(realNameSign);
-//        }];
-//
-//		phoneNoSign = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"remind_time")];
-//		[self addSubview:phoneNoSign];
-//		[phoneNoSign mas_makeConstraints:^(MASConstraintMaker *make) {
-//			make.left.equalTo(realNameLabel.mas_right).offset(16);
-//			make.centerY.equalTo(realNameSign);
-//			make.size.mas_equalTo(CGSizeMake(11, 11));
-//		}];
-//		phoneNoLabel = [Tools creatUILabelWithText:isGettingCertData andTextColor:[Tools garyColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-//		[self addSubview:phoneNoLabel];
-//		[phoneNoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//			make.left.equalTo(phoneNoSign.mas_right).offset(4);
-//			make.centerY.equalTo(phoneNoSign);
-//		}];
-//
-//		UIImageView *arrow_right = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"details_icon_arrow_right")];
-//		[self addSubview:arrow_right];
-//		[arrow_right mas_makeConstraints:^(MASConstraintMaker *make) {
-//			make.centerY.equalTo(self);
-//			make.right.equalTo(self).offset(-20);
-//			make.size.mas_equalTo(CGSizeMake(8, 14));
-//		}];
 		
 		UIView *bottom_view = [[UIView alloc] init];
 		bottom_view.backgroundColor = [UIColor garyLine];
@@ -230,20 +190,7 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 						 placeholderImage:IMGRESOURCE(@"default_user") /*options:SDWebImageRefreshCached*/];
 		}
 		
-		NSString *ownerName = [info_owner objectForKey:@"owner_name"];
-		if (ownerName && ![ownerName isEqualToString:@""]) {
-			realNameLabel.text = VerifiedRealName;
-			realNameSign.image = IMGRESOURCE(@"checked_icon");
-		} else {
-			realNameLabel.text = hasNoRealName;
-		}
 		
-		NSString *contcatNo = [info_owner objectForKey:kAYProfileArgsContactNo];
-		if (contcatNo && ![contcatNo isEqualToString:@""]) {
-			phoneNoLabel.text = VerifiedPhoneNo;
-			phoneNoSign.image = IMGRESOURCE(@"checked_icon");
-		} else
-			phoneNoLabel.text = hasNoPhoneNo;
 	}
 	
     return nil;

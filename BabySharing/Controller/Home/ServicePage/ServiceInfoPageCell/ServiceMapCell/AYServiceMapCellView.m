@@ -34,7 +34,7 @@
 	if (self) {
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		
-		UILabel *titleLabel = [UILabel creatLabelWithText:@"Map" textColor:[UIColor black] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		UILabel *titleLabel = [UILabel creatLabelWithText:@"场地地址" textColor:[UIColor black] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(20);
@@ -56,7 +56,7 @@
 			make.top.equalTo(addressLabel.mas_bottom).offset(14);
 			make.centerX.equalTo(self);
 			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - SCREEN_MARGIN_LR*2, 118));
-			make.bottom.equalTo(self).offset(20);
+			make.bottom.equalTo(self).offset(-20);
 		}];
 		orderMapView.delegate = self;
 		orderMapView.scrollEnabled = NO;

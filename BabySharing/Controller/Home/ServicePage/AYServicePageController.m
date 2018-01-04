@@ -22,7 +22,7 @@
 #import "AYServicePageBtmView.h"
 
 #define kLIMITEDSHOWNAVBAR			(-70.5)
-#define kFlexibleHeight				300
+#define kFlexibleHeight				280
 #define kBtmViewHeight				56
 #define kBookBtnTitleNormal			@"查看可预订时间"
 #define kBookBtnTitleSeted			@"申请预订"
@@ -271,7 +271,7 @@
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT /*- (per_mode ? 0 : kBtmViewHeight) - HOME_IND_HEIGHT*/);
     
     ((UITableView*)view).contentInset = UIEdgeInsetsMake(kFlexibleHeight, 0, 0, 0);
-    ((UITableView*)view).estimatedRowHeight = 300;
+    ((UITableView*)view).estimatedRowHeight = kFlexibleHeight;
     ((UITableView*)view).rowHeight = UITableViewAutomaticDimension;
     return nil;
 }

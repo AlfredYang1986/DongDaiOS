@@ -108,27 +108,28 @@ typedef void(^queryContentFinish)(void);
 	[HomeHeadView addSubview:PhotoView];
 	[PhotoView sd_setImageWithURL:[NSURL URLWithString:[kAYDongDaDownloadURL stringByAppendingString:@""] ] placeholderImage:IMGRESOURCE(@"default_user")];
 	
-	UIImageView *dongda = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"default_image")];
+	UIImageView *dongda = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"logo_artfont")];
 	[HomeHeadView addSubview:dongda];
 	[dongda mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(PhotoView);
 		make.centerX.equalTo(HomeHeadView);
-		make.size.mas_equalTo(CGSizeMake(68, 40));
+		make.size.mas_equalTo(CGSizeMake(59, 25));
 	}];
 	
-	UILabel *locationLabel = [Tools creatUILabelWithText:@"北京" andTextColor:[Tools garyColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *locationLabel = [UILabel creatLabelWithText:@"北京" textColor:[UIColor gary] fontSize:311.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[HomeHeadView addSubview:locationLabel];
 	[locationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(dongda.mas_right).offset(10);
 		make.centerY.equalTo(PhotoView).offset(0);
 	}];
 	
-	UIButton *collesBtn = [UIButton creatButtonWithTitle:@"My Colles" titleColor:[UIColor gary] fontSize:614 backgroundColor:nil];
+	UIButton *collesBtn = [UIButton new];
+	[collesBtn setImage:IMGRESOURCE(@"home_icon_collection") forState:UIControlStateNormal];
 	[HomeHeadView addSubview:collesBtn];
 	[collesBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(PhotoView);
-		make.right.equalTo(HomeHeadView).offset(-15);
-		make.size.mas_equalTo(CGSizeMake(80, 40));
+		make.right.equalTo(HomeHeadView).offset(-10);
+		make.size.mas_equalTo(CGSizeMake(30, 30));
 	}];
 	[collesBtn addTarget:self action:@selector(didCollectBtnClick) forControlEvents:UIControlEventTouchUpInside];
 	
