@@ -97,39 +97,30 @@
 - (void)setItemInfo:(NSDictionary *)itemInfo {
 	_itemInfo = itemInfo;
 	
-	NSString *photoName = [_itemInfo objectForKey:kAYServiceArgsImages];
+	NSString *photoName = [_itemInfo objectForKey:kAYServiceArgsImage];
 	if (photoName) {
 		[_coverImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photoName]] placeholderImage:IMGRESOURCE(@"default_image")];
 	}
 	
-//	NSString *titleStr = [_itemInfo objectForKey:kAYServiceArgsTitle];
-//	titleLabel.text = titleStr;
 	
-	NSDictionary *info_addr = [_itemInfo objectForKey:kAYServiceArgsLocationInfo];
-	NSString *district = [info_addr objectForKey:kAYServiceArgsDistrict];
-	if ([district hasPrefix:@"北京市"]) {
-		district = [district substringFromIndex:3];
-	}
+	NSString *district = [_itemInfo objectForKey:kAYServiceArgsLocationInfo];
+	district = [district substringToIndex:3];
 	addrlabel.text = district;
 	
-	NSDictionary *info_catg = [_itemInfo objectForKey:kAYServiceArgsCategoryInfo];
-	NSString *tag = [info_catg objectForKey:kAYServiceArgsCourseCoustom];
+	NSString *tag = [[_itemInfo objectForKey:kAYServiceArgsTags] firstObject];
 	if (tag.length == 0) {
-		tag = [info_catg objectForKey:kAYServiceArgsCatThirdly];
-		if (tag.length == 0) {
-			tag = [info_catg objectForKey:kAYServiceArgsCatSecondary];
-			if (tag.length == 0) {
-				tag = @"未设置主题";
-			}
-		}
+		tag = @"没有标签";
 	}
 	tagLabel.text = [@"·" stringByAppendingString:tag];
 	
-	NSDictionary *info_owner = [_itemInfo objectForKey:@"owner"];
-	NSString *screenName = [info_owner objectForKey:kAYProfileArgsScreenName];
-	NSString *catg = [info_catg objectForKey:kAYServiceArgsCat];
+	NSString *brand_name = [_itemInfo objectForKey:kAYBrandArgsName];
+	NSString *operation = [[_itemInfo objectForKey:kAYServiceArgsOperation] firstObject];
+	NSString *leaf = [_itemInfo objectForKey:kAYServiceArgsLeaf];
+	if (![leaf hasSuffix:@"看顾"]) {
+		leaf = [leaf stringByAppendingString:@"课程"];
+	}
 	
-	titleLabel.text = [NSString stringWithFormat:@"%@'%@%@", screenName, tag, catg];
+	titleLabel.text = [NSString stringWithFormat:@"%@的%@%@", brand_name, operation, leaf];
 }
 
 

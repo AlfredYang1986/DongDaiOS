@@ -26,7 +26,6 @@
 	
 	CGSize itemSizeData;
 	
-	NSArray *titleArr;
 }
 
 @synthesize para = _para;
@@ -39,8 +38,6 @@
 	if (self) {
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		
-		titleArr = @[@"看顾", @"运动", @"艺术", @"科学"];
-		
 		titleLabel = [Tools creatUILabelWithText:@"Assortment01" andTextColor:[UIColor black] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -48,7 +45,7 @@
 			make.top.equalTo(self).offset(15);
 		}];
 		
-		subTitleLabel = [UILabel creatLabelWithText:@"一句话简单描述" textColor:[UIColor gary] fontSize:313 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		subTitleLabel = [UILabel creatLabelWithText:@"一句话简单描述" textColor:[UIColor gary] fontSize:13 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:subTitleLabel];
 		[subTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);
@@ -87,21 +84,18 @@
 			make.bottom.equalTo(self);
 		}];
 		
-//		if (reuseIdentifier != nil) {
-//			[self setUpReuseCell];
-//		}
 	}
 	return self;
 }
 
--(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-//	return serviceData.count;
-	return 6 + 1;
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+	return serviceData.count + 1;
+//	return 6 + 1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 	
-	if (indexPath.row == 6) {
+	if (indexPath.row == serviceData.count) {
 		AYHomeMoreItem *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AYHomeMoreItem" forIndexPath:indexPath];
 		return cell;
 	} else {
@@ -120,7 +114,7 @@
 	
 	NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
 	
-	if (indexPath.row == 6) {
+	if (indexPath.row == serviceData.count) {
 		NSString *title = titleLabel.text;
 		[(AYViewController*)self.controller performSel:@"didAssortmentMoreBtnClick:" withResult:&title];
 	} else {
@@ -171,16 +165,27 @@
 
 #pragma mark -- messages
 - (id)setCellInfo:(id)args {
-	
-	serviceData = [args objectForKey:@"services"];
-	
-	if ([[args objectForKey:@"index"] intValue] == 0) {
+	NSString *cat = [[args objectForKey:@"service"] objectForKey:@"service_type"];
+	itemSizeData = CGSizeMake(160, 210);
+	NSString *subStr;
+	if ([cat isEqualToString:@"看顾"]) {
 		itemSizeData = CGSizeMake(315, 250);
-	} else
-		itemSizeData = CGSizeMake(160, 210);
+		subStr = @"看顾看顾看顾";
+	}
+	else if ([cat isEqualToString:@"艺术"]) {
+		subStr = @"看顾看顾看顾";
+	}
+	else if ([cat isEqualToString:@"运动"]) {
+		subStr = @"看顾看顾看顾";
+	}
+	else {
+		subStr = @"科学看顾看顾";
+	}
 	
-	titleLabel.text = [titleArr objectAtIndex:[[args objectForKey:@"index"] intValue]];
+	titleLabel.text = cat;
+	subTitleLabel.text = subStr;
 	
+	serviceData = [[args objectForKey:@"service"] objectForKey:@"services"];
 	[CollectionView reloadData];
 	
 	return nil;

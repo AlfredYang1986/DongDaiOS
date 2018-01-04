@@ -43,8 +43,20 @@ static NSString* const kAYProfileArgsDescription =			@"description";
 static NSString* const kAYProfileArgsRegistDate =			@"date";
 static NSString* const kAYProfileArgsIsHasPhone =			@"has_auth_phone";
 
+//brand args
+static NSString* const kAYBrandArgsID =						@"brand_id";
+static NSString* const kAYBrandArgsName =					@"brand_name";
 
 //service args
+static NSString* const kAYServiceArgsType =					@"service_type";
+static NSString* const kAYServiceArgsOperation =			@"operation";
+static NSString* const kAYServiceArgsTags =					@"service_tags";
+static NSString* const kAYServiceArgsLeaf =					@"service_leaf";
+static NSString* const kAYServiceArgsImage =				@"service_image";
+static NSString* const kAYServiceArgsLocationID =			@"location_id";
+//static NSString* const kAYServiceArgsImage2 =				@"service_image";
+
+
 static NSString* const kAYServiceArgsSelf =					@"service";
 static NSString* const kAYServiceArgsInfo =					@"service_info";
 static NSString* const kAYServiceArgsID =					@"service_id";

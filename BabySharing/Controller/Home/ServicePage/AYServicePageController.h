@@ -8,8 +8,8 @@
 
 #import "AYViewController.h"
 #import "AYViewBase.h"
-#import "SDCycleScrollView.h"
+#import "AYImageTagView.h"
 
-@interface AYServicePageController : AYViewController<SDCycleScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
+@interface AYServicePageController : AYViewController<UICollectionViewDelegate, UICollectionViewDataSource>
 
 @end

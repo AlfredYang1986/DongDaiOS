@@ -125,7 +125,7 @@
 		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 		
 		NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
-		[tmp setValue:[servicesData copy] forKey:@"services"];
+		[tmp setValue:[servicesData objectAtIndex:indexPath.row - 1] forKey:@"service"];
 		[tmp setValue:[NSNumber numberWithInteger:indexPath.row - 1] forKey:@"index"];
 		[(UITableViewCell*)cell performMethod:@"setCellInfo:" withResult:&tmp];
 	}

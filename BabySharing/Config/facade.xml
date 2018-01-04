@@ -216,6 +216,8 @@
         <command type="Remote" name="AllCollectService" />
 		
 		<command type="Remote" name="QueryServiceDetail" />
+		
+		<command type="Remote" name="HomeQuery" />
     </facade>
     
     <facade type="DefaultFacade" name="OrderRemote" factory="AYDefaultFacadeFactory" >

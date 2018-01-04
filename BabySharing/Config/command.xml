@@ -220,6 +220,8 @@
     <command type="Remote" name="UnCollectService"      route="al/collections/pop" factory="AYRemoteCallFactory" />
     <command type="Remote" name="AllCollectService"     route="al/user/collected/services" factory="AYRemoteCallFactory" />
 	
+	<command type="Remote" name="HomeQuery"  		   route="al/homepage/service" factory="AYRemoteCallFactory" />
+	
     <command type="Remote" name="QueryOrders"			route="al/order/search" factory="AYRemoteCallFactory" />
 	<command type="Remote" name="QueryOrderDetail"		route="al/order/detail" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryOwnOrders"		route="v2.1/order/query/owner" factory="AYRemoteCallFactory" />

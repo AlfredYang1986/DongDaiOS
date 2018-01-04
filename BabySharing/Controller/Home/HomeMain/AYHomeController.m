@@ -149,7 +149,7 @@ typedef void(^queryContentFinish)(void);
 		}
 		
 		tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
-		tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+//		tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
 	}
 	
 	[self loadNewData];
@@ -301,24 +301,31 @@ typedef void(^queryContentFinish)(void);
 	
 	NSMutableDictionary *dic_search = [[NSMutableDictionary alloc] init];;
 	[dic_search setValue:[user objectForKey:kAYCommArgsToken] forKey:kAYCommArgsToken];
+	
 	/*condition*/
 	NSMutableDictionary *dic_condt = [[NSMutableDictionary alloc] init];
-	[dic_condt setValue:[NSNumber numberWithLongLong:[NSDate date].timeIntervalSince1970*1000] forKey:kAYCommArgsRemoteDate];
-	[dic_condt setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+	NSMutableArray *catsArr = [NSMutableArray array];
+	NSArray *cats = @[@"看顾",@"艺术",@"运动",@"科学"];
+	for (NSString *cat in cats) {
+		NSDictionary *dic = @{@"service_type":cat, @"count":[NSNumber numberWithInt:6]};
+		[catsArr addObject:dic];
+	}
+	[dic_condt setValue:[catsArr copy] forKey:@"service_type_list"];
+	
 	[dic_search setValue:dic_condt forKey:kAYCommArgsCondition];
 	
 	id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
-	AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"SearchFiltService"];
+	AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"HomeQuery"];
 	[cmd_tags performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
 		
 		UITableView *view_table = [self.views objectForKey:@"Table"];
 		if (success) {
 			
-			timeIntervalFound = ((NSNumber*)[[result objectForKey:@"result"] objectForKey:kAYCommArgsRemoteDate]).longValue * 0.001;
-			serviceDataFound = [[[result objectForKey:@"result"] objectForKey:@"services"] mutableCopy];
-			skipCountFound = serviceDataFound.count;			//刷新重置 计数为当前请求service数据个数
+//			timeIntervalFound = ((NSNumber*)[[result objectForKey:@"result"] objectForKey:kAYCommArgsRemoteDate]).longValue * 0.001;
+//			serviceDataFound = [[[result objectForKey:@"result"] objectForKey:@"services"] mutableCopy];
+//			skipCountFound = serviceDataFound.count;			//刷新重置 计数为当前请求service数据个数
 			
-			id tmp = [serviceDataFound copy];
+			id tmp = [result objectForKey:@"homepage_services"];
 			kAYDelegatesSendMessage(@"Home", kAYDelegateChangeDataMessage, &tmp)
 			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 		} else {

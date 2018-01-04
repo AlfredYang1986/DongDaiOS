@@ -38,15 +38,17 @@
 	BOOL isBlackLeftBtn;
 	BOOL isStatusHide;
 	
-//	NSNumber *cellMinY;
 	
     UIButton *bar_like_btn;
     UIView *flexibleView;
+	UIScrollView *TAGScrollView;
+	NSMutableArray *imageTagsView;
+	AYImageTagView *tmpImageTag;
+	
 	BOOL isChangeCollect;
 	/****/
 	UICollectionView *CarouselView;
-	UIPageControl *pageControl;
-	int carouselNumb;
+	NSArray *serviceImages;
 	CGFloat HeadViewHeight;
 	/****/
 	
@@ -73,7 +75,7 @@
 
 #pragma mark --<UICollectionViewDataSource,UICollectionViewDelegate>
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-	return carouselNumb == 0 ? 1 : carouselNumb;
+	return serviceImages.count == 0 ? 1 : serviceImages.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -98,8 +100,39 @@
 
 //设置页码
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-	int page = (int)(scrollView.contentOffset.x / SCREEN_WIDTH + 0.5)%carouselNumb;
-	pageControl.currentPage = page;
+	
+	int page = (int)(scrollView.contentOffset.x / SCREEN_WIDTH + 0.5)% serviceImages.count;
+	NSDictionary *item = [serviceImages objectAtIndex:page];
+	NSString *tag = [item objectForKey:@"tag"];
+	
+	for (AYImageTagView *view in imageTagsView) {
+		if ([view.label.text isEqualToString:tag]) {
+			
+			tmpImageTag.isSelect = NO;
+			view.isSelect = YES;
+			tmpImageTag = view;
+			
+			CGPoint offSet = TAGScrollView.contentOffset;
+			CGFloat x_min = CGRectGetMinX(view.frame);
+			CGFloat x_max = CGRectGetMaxX(view.frame);
+			
+			if (x_min - offSet.x <= 0) {
+				[TAGScrollView scrollRectToVisible:view.frame animated:YES];
+				
+//				TAGScrollView.contentOffset = CGPointMake(view.frame.origin.x, 0);
+				
+			} else if (x_max - offSet.x >= SCREEN_WIDTH) {
+				[TAGScrollView scrollRectToVisible:view.frame animated:YES];
+				
+//				TAGScrollView.contentOffset = CGPointMake(view.frame.origin.x - (SCREEN_WIDTH-view.frame.size.width), 0);
+				
+			} else {
+				
+			}
+		}
+	}
+	
+//	pageControl.currentPage = page;
 }
 
 - (void)viewDidLoad {
@@ -155,6 +188,14 @@
 		CarouselView.bounces = NO;
 		[CarouselView registerClass:NSClassFromString(@"AYServiceImagesCell") forCellWithReuseIdentifier:@"AYServiceImagesCell"];
 		[flexibleView addSubview:CarouselView];
+		
+		UIImageView *mask = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"mask_detail_images")];
+		[flexibleView addSubview:mask];
+		mask.frame = CGRectMake(0, HeadViewHeight - 42, SCREEN_WIDTH, 42);
+		
+		TAGScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, HeadViewHeight-30, SCREEN_WIDTH, 30)];
+		[flexibleView addSubview:TAGScrollView];
+		TAGScrollView.bounces = NO;
 	}
 	
 	NSNumber *per_mode = [receiveData objectForKey:@"perview_mode"];
@@ -409,25 +450,49 @@
 
 #pragma mark -- actions
 - (void)layoutServicePageBannerImages {
-	carouselNumb = (int)((NSArray*)[service_info objectForKey:@"images"]).count;
+	serviceImages = [service_info objectForKey:@"images"];
 	
-	pageControl = [[UIPageControl alloc]init];
-	pageControl.pageIndicatorTintColor = [UIColor colorWithWhite:1.f alpha:0.5f];
-	pageControl.currentPageIndicatorTintColor = [Tools whiteColor];
-	pageControl.transform = CGAffineTransformMakeScale(0.6, 0.6);
-	[flexibleView addSubview:pageControl];
-	pageControl.numberOfPages = carouselNumb;
-	CGSize size = [pageControl sizeForNumberOfPages:carouselNumb];
-	[pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.bottom.equalTo(flexibleView).offset(-5);
-		make.centerX.equalTo(flexibleView);
-		make.size.mas_equalTo(CGSizeMake(size.width, 10));
-	}];
-	pageControl.hidden = carouselNumb == 1;
+	NSArray *tags = @[@"标签", @"图片标签图", @"图片标签图片", @"图片标签", @"图片标签", @"图片标签图"];
+	CGFloat itemHeight = 30;
+	CGFloat marginBetween = 40;
+	CGFloat padding = 15;
+	CGFloat preMaxX = 0;
+	imageTagsView = [NSMutableArray array];
+	for (int i = 0; i < tags.count; ++i) {
+		
+		NSString *title = [tags objectAtIndex:i];
+		CGSize labelSize = [title sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]}];
+		CGRect frame = CGRectMake( i==0 ? 0 : marginBetween + preMaxX, 0, labelSize.width+padding*2, itemHeight);
+		
+		AYImageTagView *item = [[AYImageTagView alloc] initWithFrame:frame title:title];
+		[TAGScrollView addSubview:item];
+		
+		preMaxX = item.frame.origin.x + item.frame.size.width;
+		
+		item.userInteractionEnabled = YES;
+		[item addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didImageTagTap:)]];
+		
+		[imageTagsView addObject:item];
+	}
+	TAGScrollView.contentSize = CGSizeMake(preMaxX, 30);
+	
+	tmpImageTag = imageTagsView.firstObject;
+	tmpImageTag.isSelect = YES;
 	
 	NSNumber *iscollect = [service_info objectForKey:kAYServiceArgsIsCollect];
 	bar_like_btn.selected = iscollect.boolValue;
 	
+}
+
+- (void)didImageTagTap:(UITapGestureRecognizer*)tap {
+	//正则匹配
+	NSPredicate *pred_tag = [NSPredicate predicateWithFormat:@"SELF.%@=%@", @"tag", @""];
+	NSArray *result = [serviceImages filteredArrayUsingPredicate:pred_tag];
+	
+	if (result.count != 0) {
+		int index = (int)[serviceImages indexOfObject:result.firstObject];
+		[CarouselView selectItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0] animated:NO scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+	}
 }
 
 - (void)didBookBtnClick {
