@@ -115,26 +115,15 @@
 		701B9C401E5EBA33001B0517 /* AYSetCourseSignDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 701B9C3B1E5EBA33001B0517 /* AYSetCourseSignDelegate.m */; };
 		701B9C411E5EBA33001B0517 /* AYSetCourseSignCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 701B9C3E1E5EBA33001B0517 /* AYSetCourseSignCellView.m */; };
 		701BB6051E0BC88D00319A54 /* AYPServsCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 701BB6041E0BC88D00319A54 /* AYPServsCellView.m */; };
-		701C80EF1F987D9A00283849 /* AYServiceTimesRule.h in Sources */ = {isa = PBXBuildFile; fileRef = 702DD4D81F987AD600243CC0 /* AYServiceTimesRule.h */; };
-		701C80F01F987D9A00283849 /* AYSetNapScheduleController.h in Sources */ = {isa = PBXBuildFile; fileRef = 702DD4D91F987AD600243CC0 /* AYSetNapScheduleController.h */; };
 		701C80F11F987D9A00283849 /* AYSetNapScheduleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 702DD4DA1F987AD600243CC0 /* AYSetNapScheduleController.m */; };
-		701C80F21F987D9A00283849 /* AYServiceTimesPickDelegate.h in Sources */ = {isa = PBXBuildFile; fileRef = 702DD4DC1F987AD600243CC0 /* AYServiceTimesPickDelegate.h */; };
 		701C80F31F987D9A00283849 /* AYServiceTimesPickDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 702DD4DD1F987AD600243CC0 /* AYServiceTimesPickDelegate.m */; };
-		701C80F41F987D9A00283849 /* AYServiceTimesShowDelegate.h in Sources */ = {isa = PBXBuildFile; fileRef = 702DD4DE1F987AD600243CC0 /* AYServiceTimesShowDelegate.h */; };
 		701C80F51F987D9A00283849 /* AYServiceTimesShowDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 702DD4DF1F987AD600243CC0 /* AYServiceTimesShowDelegate.m */; };
-		701C80F61F987D9A00283849 /* AYAddTimeSignView.h in Sources */ = {isa = PBXBuildFile; fileRef = 702DD4E11F987AD600243CC0 /* AYAddTimeSignView.h */; };
 		701C80F71F987D9A00283849 /* AYAddTimeSignView.m in Sources */ = {isa = PBXBuildFile; fileRef = 702DD4E21F987AD600243CC0 /* AYAddTimeSignView.m */; };
-		701C80F81F987D9A00283849 /* AYScheduleWeekDaysView.h in Sources */ = {isa = PBXBuildFile; fileRef = 702DD4E31F987AD600243CC0 /* AYScheduleWeekDaysView.h */; };
 		701C80F91F987D9A00283849 /* AYScheduleWeekDaysView.m in Sources */ = {isa = PBXBuildFile; fileRef = 702DD4E41F987AD600243CC0 /* AYScheduleWeekDaysView.m */; };
-		701C80FA1F987D9A00283849 /* AYServiceAddTimesCellView.h in Sources */ = {isa = PBXBuildFile; fileRef = 702DD4E51F987AD600243CC0 /* AYServiceAddTimesCellView.h */; };
 		701C80FB1F987D9A00283849 /* AYServiceAddTimesCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 702DD4E61F987AD600243CC0 /* AYServiceAddTimesCellView.m */; };
-		701C80FC1F987D9A00283849 /* AYServiceTimesCellView.h in Sources */ = {isa = PBXBuildFile; fileRef = 702DD4E71F987AD600243CC0 /* AYServiceTimesCellView.h */; };
 		701C80FD1F987D9A00283849 /* AYServiceTimesCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 702DD4E81F987AD600243CC0 /* AYServiceTimesCellView.m */; };
-		701C80FE1F987D9A00283849 /* AYSpecialDayCellView.h in Sources */ = {isa = PBXBuildFile; fileRef = 702DD4E91F987AD600243CC0 /* AYSpecialDayCellView.h */; };
 		701C80FF1F987D9A00283849 /* AYSpecialDayCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 702DD4EA1F987AD600243CC0 /* AYSpecialDayCellView.m */; };
-		701C81001F987D9A00283849 /* AYSpecialTMAndStateView.h in Sources */ = {isa = PBXBuildFile; fileRef = 702DD4EB1F987AD600243CC0 /* AYSpecialTMAndStateView.h */; };
 		701C81011F987D9A00283849 /* AYSpecialTMAndStateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 702DD4EC1F987AD600243CC0 /* AYSpecialTMAndStateView.m */; };
-		701C81021F987D9A00283849 /* AYWeekDayBtn.h in Sources */ = {isa = PBXBuildFile; fileRef = 702DD4ED1F987AD600243CC0 /* AYWeekDayBtn.h */; };
 		701C81031F987D9A00283849 /* AYWeekDayBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 702DD4EE1F987AD600243CC0 /* AYWeekDayBtn.m */; };
 		701C81071F98841000283849 /* AYPushServiceTMCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 701C81061F98841000283849 /* AYPushServiceTMCommand.m */; };
 		701C810A1F98844400283849 /* AYParseServiceTMCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 701C81091F98844400283849 /* AYParseServiceTMCommand.m */; };
@@ -9274,26 +9263,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				701C80EF1F987D9A00283849 /* AYServiceTimesRule.h in Sources */,
-				701C80F01F987D9A00283849 /* AYSetNapScheduleController.h in Sources */,
 				701C80F11F987D9A00283849 /* AYSetNapScheduleController.m in Sources */,
-				701C80F21F987D9A00283849 /* AYServiceTimesPickDelegate.h in Sources */,
 				701C80F31F987D9A00283849 /* AYServiceTimesPickDelegate.m in Sources */,
-				701C80F41F987D9A00283849 /* AYServiceTimesShowDelegate.h in Sources */,
 				701C80F51F987D9A00283849 /* AYServiceTimesShowDelegate.m in Sources */,
-				701C80F61F987D9A00283849 /* AYAddTimeSignView.h in Sources */,
 				701C80F71F987D9A00283849 /* AYAddTimeSignView.m in Sources */,
-				701C80F81F987D9A00283849 /* AYScheduleWeekDaysView.h in Sources */,
 				701C80F91F987D9A00283849 /* AYScheduleWeekDaysView.m in Sources */,
-				701C80FA1F987D9A00283849 /* AYServiceAddTimesCellView.h in Sources */,
 				701C80FB1F987D9A00283849 /* AYServiceAddTimesCellView.m in Sources */,
-				701C80FC1F987D9A00283849 /* AYServiceTimesCellView.h in Sources */,
 				701C80FD1F987D9A00283849 /* AYServiceTimesCellView.m in Sources */,
-				701C80FE1F987D9A00283849 /* AYSpecialDayCellView.h in Sources */,
 				701C80FF1F987D9A00283849 /* AYSpecialDayCellView.m in Sources */,
-				701C81001F987D9A00283849 /* AYSpecialTMAndStateView.h in Sources */,
 				701C81011F987D9A00283849 /* AYSpecialTMAndStateView.m in Sources */,
-				701C81021F987D9A00283849 /* AYWeekDayBtn.h in Sources */,
 				701C81031F987D9A00283849 /* AYWeekDayBtn.m in Sources */,
 				70125A0F1E0AA0AA0082C76B /* AYCollectionView.m in Sources */,
 				7056BA0A1F1F2BF400386E3A /* AYOSWaitCellView.m in Sources */,

@@ -81,7 +81,7 @@
 	[self.view bringSubviewToFront:bannerView];
 	UIImageView *cover = [[UIImageView alloc] initWithFrame:bannerView.bounds];
 	
-	NSArray *assortmentArr = kAY_top_assortment_titles;
+	NSArray *assortmentArr = kAY_home_album_titles;
 	NSString *coverImgName = [NSString stringWithFormat:@"topsort_list_%ld", [assortmentArr indexOfObject:sortCateg]];
 	cover.image = IMGRESOURCE(coverImgName);
 	[bannerView addSubview:cover];

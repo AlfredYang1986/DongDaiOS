@@ -85,13 +85,15 @@
     id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 	
 	id tmp = [querydata copy];
-	if (indexPath.row == 3) {
-		NSMutableDictionary *dic_desc = [querydata mutableCopy];
-		[dic_desc setValue:[NSNumber numberWithBool:isExpend] forKey:@"is_expend"];
-		tmp = [dic_desc copy];
+	if (tmp) {
+		if (indexPath.row == 3) {
+			NSMutableDictionary *dic_desc = [querydata mutableCopy];
+			[dic_desc setValue:[NSNumber numberWithBool:isExpend] forKey:@"is_expend"];
+			tmp = [dic_desc copy];
+		}
+		
+		[(UITableViewCell*)cell performMethod:@"setCellInfo:" withResult:&tmp];
 	}
-	
-	[(UITableViewCell*)cell performMethod:@"setCellInfo:" withResult:&tmp];
     cell.controller = self.controller;
     return (UITableViewCell*)cell;
 }

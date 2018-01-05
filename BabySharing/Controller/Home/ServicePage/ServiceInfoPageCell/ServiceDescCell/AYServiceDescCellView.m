@@ -189,11 +189,17 @@
 	descLabel.attributedText = descAttri;
 	
 	CGFloat marginBtm = 30;
-	NSArray *tags = [service_info objectForKey:@""];
-	if (tags.count == 0) {
+	NSArray *tags = [service_info objectForKey:kAYServiceArgsTags];
+	if (tags.count != 0) {
 		marginBtm = 60;
-		
-		NSAttributedString *tsgsAttri = [[NSAttributedString alloc] initWithString:@"#TSGST# #TSGST#" attributes:dic_attr];
+		NSString *tagStr = @"#";
+		for (NSString *tag in tags) {
+			if (tags.lastObject == tag) {
+				tagStr = [tagStr stringByAppendingString:@"#"];
+			} else
+				tagStr = [[tagStr stringByAppendingString:tag] stringByAppendingString:@"# #"];
+		}
+		NSAttributedString *tsgsAttri = [[NSAttributedString alloc] initWithString:tagStr attributes:dic_attr];
 		TAGsLabel.attributedText = tsgsAttri;
 		TAGsLabel.hidden = NO;
 	}

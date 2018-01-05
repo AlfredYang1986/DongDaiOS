@@ -81,13 +81,15 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 	AYServiceImagesCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AYServiceImagesCell" forIndexPath:indexPath];
 	
-	NSArray *images = [service_info objectForKey:kAYServiceArgsImages];
-	if (images.count != 0) {
-		if ([[images firstObject] isKindOfClass:[NSString class]]) {
-			[cell setItemImageWithImageName:[images objectAtIndex:indexPath.row]];
-		} else {
-			[cell setItemImageWithImage:[images objectAtIndex:indexPath.row]];
-		}
+	if (serviceImages.count != 0) {
+//		if ([[serviceImages firstObject] isKindOfClass:[NSString class]]) {
+//			[cell setItemImageWithImageName:[serviceImages objectAtIndex:indexPath.row]];
+//		} else {
+//		NSDictionary *info_img = [serviceImages objectAtIndex:indexPath.row];
+//		[cell setItemImageWithImage:[info_img objectForKey:@"image"]];
+//		}
+		NSDictionary *info_img = [serviceImages objectAtIndex:indexPath.row];
+		[cell setItemImageWithImageName:[info_img objectForKey:@"image"]];
 		
 	} else
 		[cell setItemImageWithImage:IMGRESOURCE(@"default_image")];
@@ -191,11 +193,23 @@
 		
 		UIImageView *mask = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"mask_detail_images")];
 		[flexibleView addSubview:mask];
-		mask.frame = CGRectMake(0, HeadViewHeight - 42, SCREEN_WIDTH, 42);
+//		mask.frame = CGRectMake(0, HeadViewHeight - 42, SCREEN_WIDTH, 42);
+		[mask mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.bottom.equalTo(flexibleView);
+			make.left.equalTo(flexibleView);
+			make.right.equalTo(flexibleView);
+			make.height.equalTo(@42);
+		}];
 		
-		TAGScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, HeadViewHeight-30, SCREEN_WIDTH, 30)];
+		TAGScrollView = [[UIScrollView alloc] init/*WithFrame:CGRectMake(0, HeadViewHeight-30, SCREEN_WIDTH, 30)*/];
 		[flexibleView addSubview:TAGScrollView];
 		TAGScrollView.bounces = NO;
+		[TAGScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.bottom.equalTo(flexibleView);
+			make.left.equalTo(flexibleView);
+			make.right.equalTo(flexibleView);
+			make.height.equalTo(@30);
+		}];
 	}
 	
 	NSNumber *per_mode = [receiveData objectForKey:@"perview_mode"];
@@ -330,7 +344,7 @@
     return nil;
 }
 
--(id)scrollOffsetY:(NSNumber*)y {
+- (id)scrollOffsetY:(NSNumber*)y {
 	
     id<AYViewBase> navBar = [self.views objectForKey:@"FakeNavBar"];
 	id<AYViewBase> statusBar = [self.views objectForKey:@"FakeStatusBar"];
@@ -444,17 +458,24 @@
 
 #pragma mark -- actions
 - (void)layoutServicePageBannerImages {
-	serviceImages = [service_info objectForKey:@"images"];
+	serviceImages = [service_info objectForKey:kAYServiceArgsImages];
 	
-	NSArray *tags = @[@"标签", @"图片标签图", @"图片标签图片", @"图片标签", @"图片标签", @"图片标签图"];
+	NSMutableArray *tagsArr = [NSMutableArray array];
+	for (NSDictionary *info_img in serviceImages) {
+		NSString *img_tag = [info_img objectForKey:@"tag"];
+		if (![tagsArr containsObject:img_tag]) {
+			[tagsArr addObject:img_tag];
+		}
+	}
+	
 	CGFloat itemHeight = 30;
-	CGFloat marginBetween = 40;
+	CGFloat marginBetween = 20;
 	CGFloat padding = 15;
 	CGFloat preMaxX = 0;
 	imageTagsView = [NSMutableArray array];
-	for (int i = 0; i < tags.count; ++i) {
+	for (int i = 0; i < tagsArr.count; ++i) {
 		
-		NSString *title = [tags objectAtIndex:i];
+		NSString *title = [tagsArr objectAtIndex:i];
 		CGSize labelSize = [title sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]}];
 		CGRect frame = CGRectMake( i==0 ? 0 : marginBetween + preMaxX, 0, labelSize.width+padding*2, itemHeight);
 		
@@ -479,8 +500,9 @@
 }
 
 - (void)didImageTagTap:(UITapGestureRecognizer*)tap {
+	UIView *item = tap.view;
 	//正则匹配
-	NSPredicate *pred_tag = [NSPredicate predicateWithFormat:@"SELF.%@=%@", @"tag", @""];
+	NSPredicate *pred_tag = [NSPredicate predicateWithFormat:@"SELF.%@=%@", @"tag", ((AYImageTagView*)item).label.text];
 	NSArray *result = [serviceImages filteredArrayUsingPredicate:pred_tag];
 	
 	if (result.count != 0) {

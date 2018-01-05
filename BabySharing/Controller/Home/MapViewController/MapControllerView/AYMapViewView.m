@@ -79,15 +79,15 @@
         [self removeAnnotation:currentAnno];
     }
     
-    loc = [resultAndLoc objectForKey:@"location"];
+    loc = [resultAndLoc objectForKey:kAYServiceArgsLocationInfo];
     fiteResultData = [resultAndLoc objectForKey:@"result_data"];
     
     for (int i = 0; i < fiteResultData.count; ++i) {
         NSDictionary *service_info = fiteResultData[i];
         
-		NSDictionary *dic_loc = [[service_info objectForKey:kAYServiceArgsLocationInfo] objectForKey:kAYServiceArgsPin];
-		NSNumber *latitude = [dic_loc objectForKey:kAYServiceArgsLatitude];
-		NSNumber *longitude = [dic_loc objectForKey:kAYServiceArgsLongtitude];
+		NSDictionary *dic_pin = [service_info objectForKey:kAYServiceArgsPin];
+		NSNumber *latitude = [dic_pin objectForKey:kAYServiceArgsLatitude];
+		NSNumber *longitude = [dic_pin objectForKey:kAYServiceArgsLongtitude];
 		CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.doubleValue longitude:longitude.doubleValue];
 		
 		AYAnnonation *anno = [[AYAnnonation alloc]init];
@@ -96,22 +96,26 @@
 		anno.title = annoTitle;
 		anno.index = i;
 		
-		NSDictionary *info_categ = [service_info objectForKey:kAYServiceArgsCategoryInfo];
-		NSString *serviceCat = [info_categ objectForKey:kAYServiceArgsCat];
-		NSString *cansCat = [info_categ objectForKey:kAYServiceArgsCatSecondary];
-		NSString *pre_map_icon_name;
-		NSArray *optios_title_arr;
-		if ([serviceCat isEqualToString:kAYStringCourse]) {
-			pre_map_icon_name = @"map_icon_course";
-			optios_title_arr = kAY_service_options_title_course;
-			
-		} else if([serviceCat isEqualToString:kAYStringNursery]) {
-			pre_map_icon_name = @"map_icon_nursery";
-			optios_title_arr = kAY_service_options_title_nursery;
-		}
+//		NSDictionary *info_categ = [service_info objectForKey:kAYServiceArgsCategoryInfo];
+//		NSString *serviceCat = [info_categ objectForKey:kAYServiceArgsCat];
+//		NSString *cansCat = [info_categ objectForKey:kAYServiceArgsCatSecondary];
+//		NSString *pre_map_icon_name;
+//		NSArray *optios_title_arr;
+//		if ([serviceCat isEqualToString:kAYStringCourse]) {
+//			pre_map_icon_name = @"map_icon_course";
+//			optios_title_arr = kAY_service_options_title_course;
+//
+//		} else if([serviceCat isEqualToString:kAYStringNursery]) {
+//			pre_map_icon_name = @"map_icon_nursery";
+//			optios_title_arr = kAY_service_options_title_nursery;
+//		}
 		
-		anno.imageName_normal = [NSString stringWithFormat:@"%@_%ld_normal",pre_map_icon_name, [optios_title_arr indexOfObject:cansCat]];
-		anno.imageName_select = [NSString stringWithFormat:@"%@_%ld_select",pre_map_icon_name, [optios_title_arr indexOfObject:cansCat]];
+//		anno.imageName_normal = [NSString stringWithFormat:@"%@_%ld_normal",pre_map_icon_name, [optios_title_arr indexOfObject:cansCat]];
+//		anno.imageName_select = [NSString stringWithFormat:@"%@_%ld_select",pre_map_icon_name, [optios_title_arr indexOfObject:cansCat]];
+		
+		anno.imageName_normal = @"map_icon_course_0_normal";
+		anno.imageName_select = @"map_icon_course_0_select";
+		
 		
         [self addAnnotation:anno];
         [annoArray addObject:anno];

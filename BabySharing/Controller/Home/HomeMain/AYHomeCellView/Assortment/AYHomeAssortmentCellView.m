@@ -62,9 +62,8 @@
 		[moreBtn addTarget:self action:@selector(didAssortmentMoreBtnClick) forControlEvents:UIControlEventTouchUpInside];
 		
 		UICollectionViewFlowLayout *flowLayout = [UICollectionViewFlowLayout new];
-//		flowLayout.itemSize = CGSizeMake(160, 200);
 		flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-		flowLayout.minimumInteritemSpacing = 10;
+		flowLayout.minimumInteritemSpacing = 8;
 		flowLayout.minimumLineSpacing = 8;
 		
 		CollectionView = [[UICollectionView  alloc]initWithFrame:CGRectMake(0, 65, SCREEN_WIDTH, 250) collectionViewLayout:flowLayout];
@@ -78,7 +77,7 @@
 		[CollectionView registerClass:NSClassFromString(@"AYHomeMoreItem") forCellWithReuseIdentifier:@"AYHomeMoreItem"];
 		[self addSubview:CollectionView];
 		[CollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(self).offset(80);
+			make.top.equalTo(self).offset(65);
 			make.left.equalTo(self);
 			make.right.equalTo(self);
 			make.bottom.equalTo(self);

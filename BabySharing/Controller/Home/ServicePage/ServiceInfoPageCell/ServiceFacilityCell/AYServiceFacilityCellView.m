@@ -123,7 +123,7 @@
 - (id)setCellInfo:(id)args {
 	NSDictionary *service_info = args;
 	
-	NSArray *facilities = [[service_info objectForKey:kAYServiceArgsDetailInfo] objectForKey:kAYServiceArgsFacility];;
+	NSArray *facilities = [[service_info objectForKey:kAYServiceArgsLocationInfo] objectForKey:@"friendliness"];;
 	
 	CGFloat itemHeight = 64;
 	CGFloat lineSpacing = 25;

@@ -36,7 +36,7 @@
 	if (self) {
 		
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
-		topicsArr = kAY_top_assortment_titles;
+		topicsArr = kAY_home_album_titles;
 		
 		
 		titleLabel = [UILabel creatLabelWithText:@"简单描述" textColor:[Tools blackColor] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];

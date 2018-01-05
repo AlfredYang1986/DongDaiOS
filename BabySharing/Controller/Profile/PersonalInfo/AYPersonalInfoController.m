@@ -24,17 +24,17 @@
     UIImageView *coverImg;
 }
 
-- (void)postPerform{
-    
+- (void)postPerform {
+	NSDictionary *user_info = nil;
+	CURRENPROFILE(user_info)
+	personal_info = user_info;
 }
 
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
     
     NSDictionary* dic = (NSDictionary*)*obj;
-    
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        personal_info = [dic objectForKey:kAYControllerChangeArgsKey];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         

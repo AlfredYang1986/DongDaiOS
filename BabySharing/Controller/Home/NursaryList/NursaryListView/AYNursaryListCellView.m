@@ -122,7 +122,7 @@
 	}
 	
 	
-	NSString *district = [service_info objectForKey:kAYServiceArgsLocationInfo];
+	NSString *district = [service_info objectForKey:kAYServiceArgsAddress];
 	district = [district substringToIndex:3];
 	addrlabel.text = district;
 	

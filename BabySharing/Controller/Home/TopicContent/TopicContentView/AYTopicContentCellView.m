@@ -96,7 +96,7 @@
 		}];
 		
 		titleLabel = [Tools creatLabelWithText:@"Service Belong to Servant" textColor:[UIColor black] fontSize:16 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
-		titleLabel.numberOfLines = 1;
+		titleLabel.numberOfLines = 2;
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(themeLabel);
@@ -150,7 +150,7 @@
 - (id)setCellInfo:(NSDictionary*)dic_args {
 	service_info = dic_args;
 	
-	NSString* photo_name = [service_info objectForKey:kAYServiceArgsImages];
+	NSString* photo_name = [service_info objectForKey:kAYServiceArgsImage];
 	NSString *urlStr = [NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name];
 	if (photo_name) {
 		
@@ -175,9 +175,11 @@
 	themeLabel.text = themeStr;
 	
 	NSString *punchline = [service_info objectForKey:kAYServiceArgsPunchline];
-	titleLabel.text = punchline;
+	if (punchline.length != 0) {
+		titleLabel.text = [[@"\"" stringByAppendingString:punchline] stringByAppendingString:@"\""];
+	}
 	
-	NSString *addressStr = [service_info objectForKey:kAYServiceArgsLocationInfo];
+	NSString *addressStr = [service_info objectForKey:kAYServiceArgsAddress];
 	addressStr = [addressStr substringToIndex:3];
 	addressLabel.text = addressStr;
 	

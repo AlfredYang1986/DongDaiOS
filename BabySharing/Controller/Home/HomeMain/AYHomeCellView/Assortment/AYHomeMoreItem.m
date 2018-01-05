@@ -33,6 +33,7 @@
 	UIImageView *bg = [[UIImageView alloc] init];
 	bg.image = IMGRESOURCE(@"home_btn_lessonmore");
 	[bg setRadius:4 borderWidth:0 borderColor:nil background:nil];
+	bg.contentMode = UIViewContentModeScaleAspectFill;
 	[self addSubview:bg];
 	[bg mas_makeConstraints:^(MASConstraintMaker *make) {
 //		make.edges.equalTo(self).insets(UIEdgeInsetsMake(0, 0, 0, 15));

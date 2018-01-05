@@ -132,8 +132,10 @@
 
 #pragma mark -- notifies
 - (id)setCellInfo:(id)args {
-    
-    
+	
+	[classView info:args atIndex:1];
+    [ageView info:args atIndex:0];
+	[teacherView info:args atIndex:2];
     return nil;
 }
 

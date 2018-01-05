@@ -367,7 +367,8 @@
     </controller>
     
     <controller type="DefaultController" name="MapMatch" factory="AYDefaultControllerFactoy" >
-		<facade type="DefaultFacade"    name="Timemanagement" notification="true" />
+		<facade type="DefaultFacade"    name="ChoiceRemote" />
+		
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="MapView"        name="MapView" />
 		<view type="Collection"        name="Collection" />

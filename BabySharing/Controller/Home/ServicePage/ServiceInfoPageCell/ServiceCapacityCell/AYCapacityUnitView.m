@@ -47,31 +47,39 @@
 	
 	NSDictionary *service_info = info;
 	
-	NSDictionary *info_detail = [service_info objectForKey:kAYServiceArgsDetailInfo];
-	
-	NSDictionary *age_boundary = [info_detail objectForKey:kAYServiceArgsAgeBoundary];
-	NSNumber *usl = ((NSNumber *)[age_boundary objectForKey:kAYServiceArgsAgeBoundaryUp]);
-	NSNumber *lsl = ((NSNumber *)[age_boundary objectForKey:kAYServiceArgsAgeBoundaryLow]);
-	NSString *ages = [NSString stringWithFormat:@"%d-%d岁",lsl.intValue,usl.intValue];
-	
-	NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:ages];
-	[attributedText setAttributes:@{NSFontAttributeName:kAYFontMedium(22.f)} range:NSMakeRange(0, ages.length - 1)];
-	[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11.f]} range:NSMakeRange(ages.length - 1, 1)];
-	infoLabel.attributedText = attributedText;
-	
-	NSNumber *capacity = [info_detail objectForKey:kAYServiceArgsCapacity];
-	infoLabel.text = [NSString stringWithFormat:@"%d",capacity.intValue == 0 ? 1 : capacity.intValue];
-	
-	NSString *servantCat = @"服务者数量";
-	NSDictionary *info_categ = [service_info objectForKey:kAYServiceArgsCategoryInfo];
-	NSString *service_cat = [info_categ objectForKey:kAYServiceArgsCat];
-	if ([service_cat isEqualToString:kAYStringCourse]) {
-		servantCat = @"老师数量";
+	if (index == 1) {	//Max
+		int numb = [[service_info objectForKey:@"class_max_stu"] intValue];
+		NSString *stu;
+		if (numb <= 0) {
+			stu = @"-";
+		} else
+			stu = [NSString stringWithFormat:@"%d", numb];
+		infoLabel.text = stu;
 	}
-	infoLabel.text = servantCat;
+	else if (index == 0) {	//boundary_agr
+		NSNumber *min = [service_info objectForKey:@"min_age"];
+		NSNumber *max = [service_info objectForKey:@"max_age"];
+		
+		infoLabel.text = [NSString stringWithFormat:@"%@-%@岁", min, max];
+		
+	} else {
+		int class = [[service_info objectForKey:@"class_max_stu"] intValue];
+		int teacher = [[service_info objectForKey:@"teacher_num"] intValue];
+		NSString *str;
+		if (class <= 0 || teacher <= 0) {
+			str = @"-";
+		} else {
+			int ratio = class / teacher;
+			str = [NSString stringWithFormat:@"1:%d", ratio];
+		}
+		infoLabel.text = str;
+	}
 	
-	NSNumber *servant = [info_detail objectForKey:kAYServiceArgsServantNumb];
-	infoLabel.text = [NSString stringWithFormat:@"%d", servant.intValue == 0 ? 1 : servant.intValue];
+//	NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:ages];
+//	[attributedText setAttributes:@{NSFontAttributeName:kAYFontMedium(22.f)} range:NSMakeRange(0, ages.length - 1)];
+//	[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11.f]} range:NSMakeRange(ages.length - 1, 1)];
+//	infoLabel.attributedText = attributedText;
+	
 }
 
 @end

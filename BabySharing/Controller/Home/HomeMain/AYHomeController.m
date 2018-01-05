@@ -36,6 +36,7 @@ typedef void(^queryContentFinish)(void);
 	UILabel *addressLabel;
 	BOOL isDargging;
 	
+	UIImageView *profilePhoto;
 	CLLocation *loc;
 	NSDictionary *search_pin;
 	
@@ -90,7 +91,6 @@ typedef void(^queryContentFinish)(void);
 				}
 			}
 		}
-			
     }
 }
 
@@ -104,14 +104,22 @@ typedef void(^queryContentFinish)(void);
 	UIView *HomeHeadView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, kTABLEMARGINTOP)];
 	[self.view addSubview:HomeHeadView];
 
-	UIImageView *PhotoView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 20+kStatusBarH, 40, 40)];
-	[HomeHeadView addSubview:PhotoView];
-	[PhotoView sd_setImageWithURL:[NSURL URLWithString:[kAYDongDaDownloadURL stringByAppendingString:@""] ] placeholderImage:IMGRESOURCE(@"default_user")];
+	NSDictionary *user_info = nil;
+	CURRENPROFILE(user_info)
+	NSString* photo_name = [user_info objectForKey:@"screen_photo"];
+	
+	CGFloat photoWidth = 40;
+	profilePhoto = [[UIImageView alloc] initWithFrame:CGRectMake(15, 20+kStatusBarH, photoWidth, photoWidth)];
+	[profilePhoto setRadius:photoWidth*0.5 borderWidth:0 borderColor:nil background:nil];
+	[HomeHeadView addSubview:profilePhoto];
+	[profilePhoto sd_setImageWithURL:[NSURL URLWithString:[kAYDongDaDownloadURL stringByAppendingString:photo_name] ] placeholderImage:IMGRESOURCE(@"default_user")];
+	profilePhoto.userInteractionEnabled = YES;
+	[profilePhoto addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(profilePhotoTap)]];
 	
 	UIImageView *dongda = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"logo_artfont")];
 	[HomeHeadView addSubview:dongda];
 	[dongda mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerY.equalTo(PhotoView);
+		make.centerY.equalTo(profilePhoto);
 		make.centerX.equalTo(HomeHeadView);
 		make.size.mas_equalTo(CGSizeMake(59, 25));
 	}];
@@ -120,14 +128,14 @@ typedef void(^queryContentFinish)(void);
 	[HomeHeadView addSubview:locationLabel];
 	[locationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(dongda.mas_right).offset(10);
-		make.centerY.equalTo(PhotoView).offset(0);
+		make.centerY.equalTo(profilePhoto).offset(0);
 	}];
 	
 	UIButton *collesBtn = [UIButton new];
 	[collesBtn setImage:IMGRESOURCE(@"home_icon_collection") forState:UIControlStateNormal];
 	[HomeHeadView addSubview:collesBtn];
 	[collesBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerY.equalTo(PhotoView);
+		make.centerY.equalTo(profilePhoto);
 		make.right.equalTo(HomeHeadView).offset(-10);
 		make.size.mas_equalTo(CGSizeMake(30, 30));
 	}];
@@ -225,6 +233,18 @@ typedef void(^queryContentFinish)(void);
 }
 
 #pragma mark -- actions
+- (void)profilePhotoTap {
+	// 个人信息
+	AYViewController* des = DEFAULTCONTROLLER(@"PersonalInfo");
+	NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+	[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+	
+	id<AYCommand> cmd = PUSH;
+	[cmd performWithResult:&dic_push];
+}
+
 - (void)didCollectBtnClick {
 	
 	AYViewController* des = DEFAULTCONTROLLER(@"CollectServ");
@@ -295,6 +315,11 @@ typedef void(^queryContentFinish)(void);
 }
 
 - (void)loadNewData {
+	
+	NSDictionary *user_info = nil;
+	CURRENPROFILE(user_info)
+	NSString* photo_name = [user_info objectForKey:@"screen_photo"];
+	[profilePhoto sd_setImageWithURL:[NSURL URLWithString:[kAYDongDaDownloadURL stringByAppendingString:photo_name] ] placeholderImage:IMGRESOURCE(@"default_user")];
 	
 	NSDictionary* user = nil;
 	CURRENUSER(user);
@@ -463,8 +488,7 @@ typedef void(^queryContentFinish)(void);
 	[dic_show_module setValue:self forKey:kAYControllerActionSourceControllerKey];
 	
 	NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
-	[args setValue:loc forKey:@"location"];
-	[args setValue:[serviceDataFound copy] forKey:@"result_data"];
+	[args setValue:loc forKey:kAYServiceArgsLocationInfo];
 	
 	[dic_show_module setValue:[args copy] forKey:kAYControllerChangeArgsKey];
 	

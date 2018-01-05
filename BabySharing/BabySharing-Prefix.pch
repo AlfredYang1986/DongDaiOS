@@ -125,7 +125,7 @@ typedef enum : int {
 #define kAY_service_course_title_ofall			@{@"艺术":kAY_service_course_title_0, @"运动":kAY_service_course_title_1, @"科学":kAY_service_course_title_2}
 
 #define kAY_service_options_title_facilities	@[@"无烟", @"急救包", @"防摔地板", @"安全桌角", @"安全插座", @"安全护栏", @"消防设备", @"空气净化器"]
-#define kAY_top_assortment_titles				@[@"国际高端看顾", @"名师团队", @"环境优雅", @"资深外教", @"时间灵活"];
+#define kAY_home_album_titles					@[@"国际高端看顾", @"名师团队", @"环境优雅", @"资深外教", @"时间灵活"];
 
 #define kAY_service_options_yard_images_tag		@[@"家长休息区", @"阅读区", @"教学区", @"生活区", @"寄存区", @"户外区"]
 #define kAY_service_options_characters			@[@"浸入式双语", @"资深外教", @"营养师配餐", @"进口教具", @"主题看顾", @"实时监控"]

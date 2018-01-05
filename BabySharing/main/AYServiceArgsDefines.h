@@ -44,18 +44,19 @@ static NSString* const kAYProfileArgsRegistDate =			@"date";
 static NSString* const kAYProfileArgsIsHasPhone =			@"has_auth_phone";
 
 //brand args
+static NSString* const kAYBrandArgsSelf =					@"brand";
 static NSString* const kAYBrandArgsID =						@"brand_id";
 static NSString* const kAYBrandArgsName =					@"brand_name";
+static NSString* const kAYBrandArgsTag =					@"brand_tag";
 
 //service args
 static NSString* const kAYServiceArgsType =					@"service_type";
 static NSString* const kAYServiceArgsOperation =			@"operation";
 static NSString* const kAYServiceArgsTags =					@"service_tags";
 static NSString* const kAYServiceArgsLeaf =					@"service_leaf";
-static NSString* const kAYServiceArgsImage =				@"service_image";
 static NSString* const kAYServiceArgsLocationID =			@"location_id";
 static NSString* const kAYServiceArgsPunchline =			@"punchline";
-//static NSString* const kAYServiceArgsPunchline1 =			@"punchline";
+static NSString* const kAYServiceArgsLocationImages =		@"location_images";
 
 
 static NSString* const kAYServiceArgsSelf =					@"service";
@@ -75,7 +76,8 @@ static NSString* const kAYServiceArgsConcert =				@"concert";
 static NSString* const kAYServiceArgsCourseCoustom =		@"concert";
 //static NSString* const kAYServiceArgsCourseCoustom =		@"reserve1";
 
-static NSString* const kAYServiceArgsImages =				@"images";
+static NSString* const kAYServiceArgsImages =				@"service_images";
+static NSString* const kAYServiceArgsImage =				@"service_image";
 static NSString* const kAYServiceArgsTitle =				@"title";
 static NSString* const kAYServiceArgsDescription =			@"description";
 static NSString* const kAYServiceArgsCharact =				@"characteristics";

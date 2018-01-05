@@ -40,13 +40,10 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        resultAndLoc = [dic objectForKey:kAYControllerChangeArgsKey];
-//        loc = [resultAndLoc objectForKey:@"location"];
-//        fiteResultData = [resultAndLoc objectForKey:@"result_data"];
+        loc = [dic objectForKey:kAYControllerChangeArgsKey];
 		
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
-        
-        
+		
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
         
     }
@@ -65,11 +62,6 @@
     }];
     [closeBtn addTarget:self action:@selector(didCloseBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 	
-    id<AYViewBase> map = [self.views objectForKey:@"MapView"];
-    id<AYCommand> cmd_map = [map.commands objectForKey:@"changeResultData:"];
-    NSDictionary *dic_map = [resultAndLoc mutableCopy];
-    [cmd_map performWithResult:&dic_map];
-	
 	
 	id<AYDelegateBase> deleg = [self.delegates objectForKey:@"MapMatch"];
 	id obj = (id)deleg;
@@ -82,8 +74,36 @@
 	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"MapMatchCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	[cmd_cell performWithResult:&class_name];
 	
-	id tmp = [resultAndLoc copy];
-	kAYDelegatesSendMessage(@"MapMatch", @"changeQueryData:", &tmp)
+	NSMutableDictionary *dic_search = [Tools getBaseRemoteData];
+//	
+//	NSMutableDictionary *dic_pin = [[NSMutableDictionary alloc] init];
+//	[dic_pin setValue:[NSNumber numberWithDouble:loc.coordinate.latitude] forKey:kAYServiceArgsLatitude];
+//	[dic_pin setValue:[NSNumber numberWithDouble:loc.coordinate.longitude] forKey:kAYServiceArgsLongtitude];
+//	[[dic_search objectForKey:kAYCommArgsCondition] setValue:dic_pin forKey:kAYServiceArgsPin];
+	
+	id<AYFacadeBase> f_choice = [self.facades objectForKey:@"ChoiceRemote"];
+	AYRemoteCallCommand *cmd_search = [f_choice.commands objectForKey:@"ChoiceSearch"];
+	[cmd_search performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+		if (success) {
+			
+			NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+			[dic setValue:loc forKey:kAYServiceArgsLocationInfo];
+			[dic setValue:[result objectForKey:@"services"] forKey:@"result_data"];
+			
+			id<AYViewBase> map = [self.views objectForKey:@"MapView"];
+			id<AYCommand> cmd_map = [map.commands objectForKey:@"changeResultData:"];
+			NSDictionary *dic_map = [dic mutableCopy];
+			[cmd_map performWithResult:&dic_map];
+			
+			id tmp = [dic copy];
+			kAYDelegatesSendMessage(@"MapMatch", @"changeQueryData:", &tmp)
+			
+		} else {
+			NSString *title = @"请改善网络环境并重试";
+			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+		}
+	}];
+	
 }
 
 - (void)viewWillAppear:(BOOL)animated {

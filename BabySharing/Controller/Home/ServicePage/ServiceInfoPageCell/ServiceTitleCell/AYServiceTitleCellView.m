@@ -70,7 +70,7 @@
 			make.top.equalTo(titleLabel.mas_bottom).offset(20);
 		}];
 		
-		tagLabel = [UILabel creatLabelWithText:@"TAG" textColor:[UIColor black] fontSize:612.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		tagLabel = [UILabel creatLabelWithText:@"TAG" textColor:[UIColor tag] fontSize:612.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview: tagLabel];
 		[tagLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);
@@ -97,30 +97,31 @@
 	
     NSDictionary *service_info = (NSDictionary*)args;
 	
-	NSDictionary *info_categ = [service_info objectForKey:kAYServiceArgsCategoryInfo];
-	NSString *service_cat = [info_categ objectForKey:kAYServiceArgsCat];
+	NSString *service_cat = [service_info objectForKey:kAYServiceArgsCat];
+	NSString *service_type = [service_info objectForKey:kAYServiceArgsType];
+	NSString *service_leaf = [service_info objectForKey:kAYServiceArgsLeaf];
 	
-//	NSString *prefix;
 	NSString *themeStr;
-	if ([service_cat containsString:@"看"]) {
-		themeStr = [info_categ objectForKey:kAYServiceArgsCatSecondary];
+	if ([service_cat isEqualToString:kAYStringNursery]) {
+		themeStr = service_leaf;
 		
-	} else if ([service_cat isEqualToString:kAYStringCourse]) {//
-		themeStr = [NSString stringWithFormat:@"%@·%@%@", [info_categ objectForKey:kAYServiceArgsCatSecondary], [info_categ objectForKey:kAYServiceArgsCatThirdly], service_cat];
+	} else if ([service_cat isEqualToString:kAYStringCourse]) {
+		themeStr = [NSString stringWithFormat:@"%@·%@%@", service_type, service_leaf, kAYStringCourse];
 		
 	} else {
 		themeStr = @"服务·主题";
-		NSLog(@"---null---");
 	}
 	
 	themeLabel.text = themeStr;
 	
 	
-	NSString *titleStr = [service_info objectForKey:kAYServiceArgsTitle];
-	if (titleStr && ![titleStr isEqualToString:@""]) {
-		titleLabel.text = titleStr;
+	NSString *titleStr = [service_info objectForKey:kAYServiceArgsPunchline];
+	if (titleStr.length != 0) {
+		titleLabel.text = [[@"\"" stringByAppendingString:titleStr] stringByAppendingString:@"\""];
 	}
 	
+	NSString *tag = [[service_info objectForKey:kAYServiceArgsTags] firstObject];
+	tagLabel.text = tag;
 	
     return nil;
 }

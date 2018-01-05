@@ -42,6 +42,27 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 @synthesize commands = _commands;
 @synthesize notifies = _notiyies;
 
+#pragma mark -- commands
+- (void)postPerform {
+	
+}
+
+- (void)performWithResult:(NSObject**)obj {
+	
+}
+
+- (NSString*)getViewType {
+	return kAYFactoryManagerCatigoryView;
+}
+
+- (NSString*)getViewName {
+	return [NSString stringWithUTF8String:object_getClassName([self class])];
+}
+
+- (NSString*)getCommandType {
+	return kAYFactoryManagerCatigoryView;
+}
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
@@ -51,7 +72,8 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 		
 		CGFloat photoWidth = 55;
         userPhoto = [[UIImageView alloc] init];
-        userPhoto.image = IMGRESOURCE(@"default_user");
+//        userPhoto.image = IMGRESOURCE(@"default_user");
+		userPhoto.backgroundColor = [UIColor theme];
         userPhoto.contentMode = UIViewContentModeScaleAspectFill;
         userPhoto.clipsToBounds = YES;
         userPhoto.layer.cornerRadius = photoWidth*0.5;
@@ -94,63 +116,12 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 			make.height.mas_equalTo(0.5);
 		}];
 		
-        if (reuseIdentifier != nil) {
-            [self setUpReuseCell];
-        }
     }
     return self;
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-}
-
 #pragma mark -- life cycle
-- (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(@"ServiceOwnerInfoCell", @"ServiceOwnerInfoCell");
-    NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
-    for (NSString* name in cell.commands.allKeys) {
-        AYViewCommand* cmd = [cell.commands objectForKey:name];
-        AYViewCommand* c = [[AYViewCommand alloc]init];
-        c.view = self;
-        c.method_name = cmd.method_name;
-        c.need_args = cmd.need_args;
-        [arr_commands setValue:c forKey:name];
-    }
-    self.commands = [arr_commands copy];
-    
-    NSMutableDictionary* arr_notifies = [[NSMutableDictionary alloc]initWithCapacity:cell.notifies.count];
-    for (NSString* name in cell.notifies.allKeys) {
-        AYViewNotifyCommand* cmd = [cell.notifies objectForKey:name];
-        AYViewNotifyCommand* c = [[AYViewNotifyCommand alloc]init];
-        c.view = self;
-        c.method_name = cmd.method_name;
-        c.need_args = cmd.need_args;
-        [arr_notifies setValue:c forKey:name];
-    }
-    self.notifies = [arr_notifies copy];
-}
 
-#pragma mark -- commands
-- (void)postPerform {
-    
-}
-
-- (void)performWithResult:(NSObject**)obj {
-    
-}
-
-- (NSString*)getViewType {
-    return kAYFactoryManagerCatigoryView;
-}
-
-- (NSString*)getViewName {
-    return [NSString stringWithUTF8String:object_getClassName([self class])];
-}
-
-- (NSString*)getCommandType {
-    return kAYFactoryManagerCatigoryView;
-}
 
 #pragma mark -- actions
 
@@ -177,23 +148,54 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 		userPhoto.userInteractionEnabled = NO;
 
 	} else {
-		
-		NSDictionary *info_owner = [service_info objectForKey:@"owner"];
 		userPhoto.userInteractionEnabled = YES;
-		NSString *userNameStr = [info_owner objectForKey:@"screen_name"];
-		if (userNameStr && ![userNameStr isEqualToString:@""]) {
-			userName.text = userNameStr;
-		}
-		NSString *screen_photo = [info_owner objectForKey:kAYProfileArgsScreenPhoto];
-		if (screen_photo && ![screen_photo isEqualToString:@""]) {
-			[userPhoto sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", pre, screen_photo]]
-						 placeholderImage:IMGRESOURCE(@"default_user") /*options:SDWebImageRefreshCached*/];
+		
+		NSDictionary *info_owner = [service_info objectForKey:kAYBrandArgsSelf];
+		
+		NSString *userNameStr = [info_owner objectForKey:kAYBrandArgsName];
+		if (userNameStr.length != 0) {
+			userName.text = [userNameStr stringByAppendingString:@"老师"];
+			userJob.text = userNameStr;
 		}
 		
+		NSString *tag = [info_owner objectForKey:kAYBrandArgsTag];
+		userPhoto.image = [self createImageContext:tag];
+		
+//		NSString *screen_photo = [info_owner objectForKey:kAYProfileArgsScreenPhoto];
+//		if (screen_photo && ![screen_photo isEqualToString:@""]) {
+//			[userPhoto sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", pre, screen_photo]]
+//						 placeholderImage:IMGRESOURCE(@"default_user") /*options:SDWebImageRefreshCached*/];
+//		}
 		
 	}
 	
     return nil;
+}
+
+- (UIImage *)createImageContext:(NSString *)text {
+	
+	CGSize imageSize = userPhoto.bounds.size; //画的背景 大小
+	
+	UIGraphicsBeginImageContextWithOptions(imageSize, YES, SCREEN_SCALE);
+	CGContextRef context = UIGraphicsGetCurrentContext();
+	CGContextDrawPath(context, kCGPathStroke);
+	
+	NSDictionary *attributes = @{NSFontAttributeName:[UIFont boldSystemFontOfSize:20]};
+	
+	CGRect sizeToFit = [text boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, 20) options:NSStringDrawingUsesDeviceMetrics attributes:attributes context:nil];
+	
+	NSLog(@"图片: %f %f",imageSize.width,imageSize.height);
+	NSLog(@"sizeToFit: %f %f",sizeToFit.size.width,sizeToFit.size.height);
+	
+	CGContextSetFillColorWithColor(context, [UIColor white].CGColor);
+	
+	[text drawAtPoint:CGPointMake((imageSize.width - sizeToFit.size.width)/2, 0) withAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:20]}];
+	//返回绘制的新图形
+	
+	UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+	
+	UIGraphicsEndImageContext();
+	return newImage;
 }
 
 @end

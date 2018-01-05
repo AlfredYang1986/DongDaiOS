@@ -23,7 +23,7 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-	assortmentArr = kAY_top_assortment_titles;
+	assortmentArr = kAY_home_album_titles;
 }
 
 - (void)performWithResult:(NSObject**)obj {

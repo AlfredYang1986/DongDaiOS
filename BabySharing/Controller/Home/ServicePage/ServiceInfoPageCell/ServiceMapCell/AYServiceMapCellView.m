@@ -111,15 +111,13 @@
 	
 	NSDictionary *info_loc = [service_info objectForKey:kAYServiceArgsLocationInfo];
 	NSString *addressStr = [info_loc objectForKey:kAYServiceArgsAddress];
-	NSString *adjustAddressStr = [info_loc objectForKey:kAYServiceArgsAdjustAddress];
-	if (addressStr && ![addressStr isEqualToString:@""]) {
-		addressLabel.text = [NSString stringWithFormat:@"%@%@", addressStr, adjustAddressStr];
+	if (addressStr.length != 0) {
+		addressLabel.text = addressStr;
 	}
 	
-	
-	NSDictionary *dic_loc = [info_loc objectForKey:kAYServiceArgsPin];
-	NSNumber *latitude = [dic_loc objectForKey:kAYServiceArgsLatitude];
-	NSNumber *longitude = [dic_loc objectForKey:kAYServiceArgsLongtitude];
+	NSDictionary *info_pin = [info_loc objectForKey:kAYServiceArgsPin];
+	NSNumber *latitude = [info_pin objectForKey:kAYServiceArgsLatitude];
+	NSNumber *longitude = [info_pin objectForKey:kAYServiceArgsLongtitude];
 	CLLocation *loc = [[CLLocation alloc] initWithLatitude:latitude.doubleValue longitude:longitude.doubleValue];
 	
 	if (latitude && longitude) {
