@@ -43,7 +43,7 @@
 	[self.view addSubview:contentView];
 	[self.view sendSubviewToBack:contentView];
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:@"师生设定" andTextColor:[Tools blackColor] andFontSize:630.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	UILabel *titleLabel = [Tools creatLabelWithText:@"师生设定" textColor:[Tools blackColor] fontSize:630.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	titleLabel.numberOfLines = 0;
 	[contentView addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {

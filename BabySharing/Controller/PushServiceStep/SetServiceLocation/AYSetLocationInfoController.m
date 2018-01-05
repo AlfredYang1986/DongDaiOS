@@ -54,7 +54,7 @@ static NSString* const kTableDelegate =					@"SetLocationInfo";
 	[super viewDidLoad];
 	tagState = 0;
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:@"场地信息" andTextColor:[Tools blackColor] andFontSize:630 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatLabelWithText:@"场地信息" textColor:[Tools blackColor] fontSize:630 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(kStatusAndNavBarH+20);

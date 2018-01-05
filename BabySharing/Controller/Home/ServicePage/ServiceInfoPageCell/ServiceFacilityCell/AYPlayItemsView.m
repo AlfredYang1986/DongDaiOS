@@ -27,7 +27,7 @@
             make.size.mas_equalTo(CGSizeMake(25, 25));
         }];
         
-        UILabel *titleLabel = [Tools creatUILabelWithText:title andTextColor:[Tools garyColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+        UILabel *titleLabel = [Tools creatLabelWithText:title textColor:[Tools garyColor] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(iconBtn.mas_bottom).offset(15);

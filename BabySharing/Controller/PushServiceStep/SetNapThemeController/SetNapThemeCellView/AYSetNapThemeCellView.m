@@ -44,7 +44,7 @@
         btm_line.backgroundColor = [Tools garyBackgroundColor].CGColor;
         [self.layer addSublayer:btm_line];
         
-        titleLabel = [Tools creatUILabelWithText:nil andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+        titleLabel = [Tools creatLabelWithText:nil textColor:[Tools blackColor] fontSize:14.f backgroundColor:nil textAlignment:0];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(20);

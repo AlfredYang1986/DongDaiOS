@@ -38,7 +38,7 @@
 		make.edges.equalTo(self);
 	}];
 	
-	titleLabel = [Tools creatUILabelWithText:@"SKU" andTextColor:[Tools whiteColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	titleLabel = [Tools creatLabelWithText:@"SKU" textColor:[Tools whiteColor] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	[self addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.center.equalTo(self);

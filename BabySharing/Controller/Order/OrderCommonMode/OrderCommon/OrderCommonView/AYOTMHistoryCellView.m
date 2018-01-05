@@ -50,14 +50,14 @@
 			make.size.mas_equalTo(CGSizeMake(10, 10));
 		}];
 		
-		mouthLabel = [Tools creatUILabelWithText:@"01月" andTextColor:[Tools garyColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		mouthLabel = [Tools creatLabelWithText:@"01月" textColor:[Tools garyColor] fontSize:313.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 		[self addSubview:mouthLabel];
 		[mouthLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self.mas_left).offset(marginLeft * 0.5);
 			make.top.equalTo(self);
 		}];
 		
-		dayLabel = [Tools creatUILabelWithText:@"01" andTextColor:[Tools blackColor] andFontSize:616.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		dayLabel = [Tools creatLabelWithText:@"01" textColor:[Tools blackColor] fontSize:616.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 		[self addSubview:dayLabel];
 		[dayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(mouthLabel.mas_bottom).offset(3);
@@ -89,7 +89,7 @@
 			make.size.mas_equalTo(CGSizeMake(photoImageWidth, photoImageWidth));
 		}];
 		
-		titleLabel = [Tools creatUILabelWithText:@"service title" andTextColor:[Tools whiteColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		titleLabel = [Tools creatLabelWithText:@"service title" textColor:[Tools whiteColor] fontSize:314.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(self).offset(15);
@@ -105,7 +105,7 @@
 			make.size.mas_equalTo(CGSizeMake(10, 10));
 		}];
 		
-		dateLabel = [Tools creatUILabelWithText:@"00:00 - 00:00" andTextColor:[Tools whiteColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		dateLabel = [Tools creatLabelWithText:@"00:00 - 00:00" textColor:[Tools whiteColor] fontSize:13.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 		dateLabel.numberOfLines = 0;
 		[self addSubview:dateLabel];
 		[dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -121,7 +121,7 @@
 			make.size.mas_equalTo(CGSizeMake(8, 10));
 		}];
 		
-		positionLabel = [Tools creatUILabelWithText:@"service position address info" andTextColor:[Tools whiteColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		positionLabel = [Tools creatLabelWithText:@"service position address info" textColor:[Tools whiteColor] fontSize:13.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		positionLabel.numberOfLines = 2;
 		[self addSubview:positionLabel];
 		[positionLabel mas_makeConstraints:^(MASConstraintMaker *make) {

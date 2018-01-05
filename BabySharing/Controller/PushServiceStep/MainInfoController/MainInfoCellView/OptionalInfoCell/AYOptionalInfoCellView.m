@@ -42,7 +42,7 @@
             make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 70));
         }];
         
-        titleLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools themeColor] andFontSize:616.f andBackgroundColor:nil andTextAlignment:0];
+        titleLabel = [Tools creatLabelWithText:@"" textColor:[Tools themeColor] fontSize:616.f backgroundColor:nil textAlignment:0];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(15);

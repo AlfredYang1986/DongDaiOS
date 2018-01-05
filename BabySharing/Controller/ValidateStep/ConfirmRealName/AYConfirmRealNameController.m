@@ -41,14 +41,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-    UILabel *title = [Tools creatUILabelWithText:@"实名认证" andTextColor:[Tools blackColor] andFontSize:622.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    UILabel *title = [Tools creatLabelWithText:@"实名认证" textColor:[Tools blackColor] fontSize:622.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
     [self.view addSubview:title];
     [title mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(kStatusAndNavBarH+28);
         make.left.equalTo(self.view).offset(20);
     }];
 	
-	UILabel *nameLabel = [Tools creatUILabelWithText:@"姓名" andTextColor:[Tools blackColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *nameLabel = [Tools creatLabelWithText:@"姓名" textColor:[Tools blackColor] fontSize:313.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:nameLabel];
 	[nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(title);
@@ -71,7 +71,7 @@
     }];
     [Tools creatCALayerWithFrame:CGRectMake(0, inputTextFieldHeight - 1, inputTextFieldWidth, 1) andColor:[Tools garyLineColor] inSuperView:nameTextField];
 	
-	UILabel *socialLabel = [Tools creatUILabelWithText:@"身份证号" andTextColor:[Tools blackColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *socialLabel = [Tools creatLabelWithText:@"身份证号" textColor:[Tools blackColor] fontSize:313.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:socialLabel];
 	[socialLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(nameLabel);

@@ -74,14 +74,14 @@
 
 - (void)initialize {
 	
-	dayLabel = [Tools creatUILabelWithText:@"Null" andTextColor:[Tools themeColor] andFontSize:316.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	dayLabel = [Tools creatLabelWithText:@"Null" textColor:[Tools themeColor] fontSize:316.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	[self addSubview:dayLabel];
 	[dayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(self);
 		make.centerY.equalTo(self);
 	}];
 	
-	todaySignLabel = [Tools creatUILabelWithText:@"今天" andTextColor:[Tools themeColor] andFontSize:8.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	todaySignLabel = [Tools creatLabelWithText:@"今天" textColor:[Tools themeColor] fontSize:8.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	[self addSubview:todaySignLabel];
 	[todaySignLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(self);
@@ -89,7 +89,7 @@
 	}];
 	todaySignLabel.hidden = YES;
 	
-	selectedSignLabel = [Tools creatUILabelWithText:@"已选" andTextColor:[Tools themeColor] andFontSize:8.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	selectedSignLabel = [Tools creatLabelWithText:@"已选" textColor:[Tools themeColor] fontSize:8.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	[self addSubview:selectedSignLabel];
 	[selectedSignLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(self);

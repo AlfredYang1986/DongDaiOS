@@ -17,7 +17,7 @@
 	if (self) {
 		[Tools setViewBorder:self withRadius:4.f andBorderWidth:1 andBorderColor:[Tools garyLineColor] andBackground:[Tools whiteColor]];
 		
-		titleLabel = [Tools creatUILabelWithText:title andTextColor:[Tools garyColor] andFontSize:315 andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		titleLabel = [Tools creatLabelWithText:title textColor:[Tools garyColor] fontSize:315 backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.center.equalTo(self);

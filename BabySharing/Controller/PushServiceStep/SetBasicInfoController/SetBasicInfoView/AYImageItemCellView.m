@@ -41,7 +41,7 @@
 		make.edges.equalTo(self);
 	}];
 	
-	coverLabel =  [Tools creatUILabelWithText:@"封面" andTextColor:[Tools whiteColor] andFontSize:311 andBackgroundColor:[Tools themeColor] andTextAlignment:NSTextAlignmentCenter];
+	coverLabel =  [Tools creatLabelWithText:@"封面" textColor:[Tools whiteColor] fontSize:311 backgroundColor:[Tools themeColor] textAlignment:NSTextAlignmentCenter];
 	[self addSubview:coverLabel];
 	[coverLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(self);

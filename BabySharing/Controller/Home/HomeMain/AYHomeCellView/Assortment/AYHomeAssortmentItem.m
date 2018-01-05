@@ -49,7 +49,7 @@
 		make.left.equalTo(self).offset(0);
 		make.right.equalTo(self);
 		make.top.equalTo(self);
-		make.bottom.equalTo(self).offset(-80);
+		make.bottom.equalTo(self).offset(-130);
 	}];
 	
 	likeBtn  = [[UIButton alloc] init];
@@ -122,6 +122,5 @@
 	
 	titleLabel.text = [NSString stringWithFormat:@"%@的%@%@", brand_name, operation, leaf];
 }
-
 
 @end

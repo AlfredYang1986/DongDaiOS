@@ -35,7 +35,7 @@
 		UIColor *mainColor = [Tools whiteColor];
 		self.backgroundColor = [Tools themeColor];
 		
-		startLabel = [Tools creatUILabelWithText:@"开始" andTextColor:mainColor andFontSize:20.f andBackgroundColor:nil andTextAlignment:1];
+		startLabel = [Tools creatLabelWithText:@"开始" textColor:mainColor fontSize:20.f backgroundColor:nil textAlignment:1];
 		[self addSubview:startLabel];
 		[startLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(20);
@@ -43,7 +43,7 @@
 			make.width.mas_equalTo(80);
 		}];
 		
-		endLabel = [Tools creatUILabelWithText:@"结束" andTextColor:mainColor andFontSize:20.f andBackgroundColor:nil andTextAlignment:1];
+		endLabel = [Tools creatLabelWithText:@"结束" textColor:mainColor fontSize:20.f backgroundColor:nil textAlignment:1];
 		[self addSubview:endLabel];
 		[endLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(startLabel.mas_right).offset(55);

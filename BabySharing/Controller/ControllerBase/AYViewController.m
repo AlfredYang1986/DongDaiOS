@@ -277,7 +277,7 @@
     int type_alert = ((NSNumber*)[alert_info objectForKey:@"type"]).intValue;
     
     NSString *titleStr = [alert_info objectForKey:@"title"];
-    UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    UILabel *titleLabel = [Tools creatLabelWithText:titleStr textColor:[Tools blackColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
     titleLabel.numberOfLines = 0;
     [btmAlertView addSubview:titleLabel];
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {

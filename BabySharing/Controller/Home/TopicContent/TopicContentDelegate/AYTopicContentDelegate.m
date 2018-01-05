@@ -47,38 +47,33 @@
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	return queryData.count;
-//	return 6;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	NSString* class_name = @"AYHomeServPerCellView";
+	NSString* class_name = @"AYTopicContentCellView";
 	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 	cell.controller = self.controller;
 	
 	id tmp = [queryData objectAtIndex:indexPath.row];
-	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+	if (tmp) {
+		[(UITableViewCell*)cell performMethod:@"setCellInfo:" withResult:&tmp];
+	}
 	return (UITableViewCell*)cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return HOMECOMMONCELLHEIGHT;
+	return 390;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	
-	AYHomeServPerCellView *cell = (AYHomeServPerCellView*)[tableView cellForRowAtIndexPath:indexPath];
 	
 	id<AYCommand> des = DEFAULTCONTROLLER(@"ServicePage");
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
 	[dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-	
-	[dic setObject:cell.coverImage forKey:kAYControllerImgForFrameKey];
 	[dic setValue:[queryData objectAtIndex:indexPath.row] forKey:kAYControllerChangeArgsKey];
 	
-//	id<AYCommand> cmd_push_animate = PUSHANIMATE;
-//	[cmd_push_animate performWithResult:&dic];
 	id<AYCommand> cmd_push = PUSH;
 	[cmd_push performWithResult:&dic];
 }

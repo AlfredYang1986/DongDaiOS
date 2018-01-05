@@ -27,6 +27,9 @@
 + (UIColor*)black {
 	return [UIColor colorWithRed:64.0/255.0 green:64.0/255.0 blue:64.0/255.0 alpha:1.0];
 }
++ (UIColor*)tag {
+	return [UIColor colorWithRed:35.0/255.0 green:85.0/255.0 blue:79.0/255.0 alpha:1.0];
+}
 
 + (UIColor*)white {
 	return [UIColor whiteColor];

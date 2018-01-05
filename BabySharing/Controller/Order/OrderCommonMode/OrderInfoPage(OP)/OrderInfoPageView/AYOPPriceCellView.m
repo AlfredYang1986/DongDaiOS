@@ -35,21 +35,21 @@
 		/*******************************/
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		
-		unitPriceLabel = [Tools creatUILabelWithText:@"$100 * 1 Uint" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		unitPriceLabel = [Tools creatLabelWithText:@"$100 * 1 Uint" textColor:[Tools blackColor] fontSize:13.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:unitPriceLabel];
 		[unitPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.right.equalTo(self).offset(-15);
 			make.bottom.equalTo(self.mas_bottom).offset(-15);
 		}];
 		
-		sumPriceLabel = [Tools creatUILabelWithText:@"$100" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		sumPriceLabel = [Tools creatLabelWithText:@"$100" textColor:[Tools blackColor] fontSize:13.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:sumPriceLabel];
 		[sumPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.right.equalTo(unitPriceLabel);
 			make.bottom.equalTo(unitPriceLabel.mas_top).offset(-10);
 		}];
 		
-		UILabel *priceTitle = [Tools creatUILabelWithText:@"价格" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		UILabel *priceTitle = [Tools creatLabelWithText:@"价格" textColor:[Tools blackColor] fontSize:13.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:priceTitle];
 		[priceTitle mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(15);

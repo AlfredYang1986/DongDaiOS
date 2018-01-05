@@ -59,7 +59,7 @@
 		[tmp insertString:@":" atIndex:tmp.length - 2];
 		
 //		topTitle = [Tools creatUILabelWithText:[tmp stringByAppendingString:@"开始"] andTextColor:[Tools themeColor] andFontSize:TitleFontSize andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		topTitle = [Tools creatUILabelWithText:tmp andTextColor:[Tools themeColor] andFontSize:TitleFontSize andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		topTitle = [Tools creatLabelWithText:tmp textColor:[Tools themeColor] fontSize:TitleFontSize backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:topTitle];
 		[topTitle mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(self).offset(3);
@@ -70,7 +70,7 @@
 		[tmp insertString:@":" atIndex:tmp.length - 2];
 		
 //		btmtitle = [Tools creatUILabelWithText:[tmp stringByAppendingString:@"结束"] andTextColor:[Tools themeColor] andFontSize:TitleFontSize andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		btmtitle = [Tools creatUILabelWithText:tmp andTextColor:[Tools themeColor] andFontSize:TitleFontSize andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		btmtitle = [Tools creatLabelWithText:tmp textColor:[Tools themeColor] fontSize:TitleFontSize backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:btmtitle];
 		[btmtitle mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.bottom.equalTo(self);

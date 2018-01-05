@@ -47,14 +47,14 @@
             make.size.mas_equalTo(CGSizeMake(60, 60));
         }];
         
-        orderDateLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        orderDateLabel = [Tools creatLabelWithText:@"" textColor:[Tools blackColor] fontSize:17.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
         [self addSubview:orderDateLabel];
         [orderDateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(pushUserImageview);
             make.left.equalTo(pushUserImageview.mas_right).offset(15);
         }];
         
-        detailInfoLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools blackColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        detailInfoLabel = [Tools creatLabelWithText:@"" textColor:[Tools blackColor] fontSize:15.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
         detailInfoLabel.numberOfLines = 2;
         [self addSubview:detailInfoLabel];
         [detailInfoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -72,7 +72,7 @@
             make.size.mas_equalTo(CGSizeMake(10, 10));
         }];
         
-        countTimeOrStatesLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools garyColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+        countTimeOrStatesLabel = [Tools creatLabelWithText:@"" textColor:[Tools garyColor] fontSize:15.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
         [self addSubview:countTimeOrStatesLabel];
         [countTimeOrStatesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(self).offset(-15);

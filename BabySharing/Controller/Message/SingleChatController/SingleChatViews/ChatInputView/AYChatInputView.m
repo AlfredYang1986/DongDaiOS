@@ -76,7 +76,7 @@
     }];
     height_note = INPUT_HEIGHT;
     
-    placeHoldeLabel = [Tools creatUILabelWithText:@"请输入" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    placeHoldeLabel = [Tools creatLabelWithText:@"请输入" textColor:[Tools garyColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
     [self addSubview:placeHoldeLabel];
     [placeHoldeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(inputView);

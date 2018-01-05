@@ -55,14 +55,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:@"服务守则" andTextColor:[Tools blackColor] andFontSize:630.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatLabelWithText:@"服务守则" textColor:[Tools blackColor] fontSize:630.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(kStatusAndNavBarH+20);
 		make.left.equalTo(self.view).offset(20);
 	}];
 	
-	UILabel *h1 = [Tools creatUILabelWithText:@"需要家长陪同" andTextColor:[Tools blackColor] andFontSize:616.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *h1 = [Tools creatLabelWithText:@"需要家长陪同" textColor:[Tools blackColor] fontSize:616.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:h1];
 	[h1 mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(titleLabel.mas_bottom).offset(30);
@@ -80,7 +80,7 @@
 	}];
 	isALeaveSwitch.on = [[[push_service_info objectForKey:kAYServiceArgsDetailInfo] objectForKey:kAYServiceArgsAllowLeave] boolValue];
 	
-	UILabel *h2 = [Tools creatUILabelWithText:@"需要孩子健康证明" andTextColor:[Tools blackColor] andFontSize:616.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *h2 = [Tools creatLabelWithText:@"需要孩子健康证明" textColor:[Tools blackColor] fontSize:616.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:h2];
 	[h2 mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(h1.mas_bottom).offset(30);
@@ -110,7 +110,7 @@
 		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 0.5));
 	}];
 	
-	UILabel *otherLabel = [Tools creatUILabelWithText:@"更多守则" andTextColor:[Tools blackColor] andFontSize:616.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *otherLabel = [Tools creatLabelWithText:@"更多守则" textColor:[Tools blackColor] fontSize:616.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
     [self.view addSubview:otherLabel];
     [otherLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(lineView.mas_bottom).offset(20);
@@ -130,7 +130,7 @@
 		make.right.equalTo(self.view).offset(-20);
 	}];
 	
-	placeHold = [Tools creatUILabelWithText:@"请输入" andTextColor:[Tools garyColor] andFontSize:315 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	placeHold = [Tools creatLabelWithText:@"请输入" textColor:[Tools garyColor] fontSize:315 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:placeHold];
 	[placeHold mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(noticeTextView).offset(2);

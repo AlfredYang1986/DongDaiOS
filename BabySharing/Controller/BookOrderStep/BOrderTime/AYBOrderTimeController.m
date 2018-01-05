@@ -113,7 +113,7 @@
 		OTMSet = [[NSMutableDictionary alloc] init];
 	}
 	
-	dateShowLabel = [Tools creatUILabelWithText:@"选择日期" andTextColor:[Tools whiteColor] andFontSize:13.f andBackgroundColor:[Tools themeColor] andTextAlignment:NSTextAlignmentCenter];
+	dateShowLabel = [Tools creatLabelWithText:@"选择日期" textColor:[Tools whiteColor] fontSize:13.f backgroundColor:[Tools themeColor] textAlignment:NSTextAlignmentCenter];
 	[self.view addSubview:dateShowLabel];
 	[dateShowLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(self.view);
@@ -123,7 +123,7 @@
 	
 	NSArray *weekdayTitle = @[@"周日", @"周一", @"周二", @"周三", @"周四", @"周五", @"周六"];
 	for (int i = 0; i < weekdayTitle.count; ++i) {
-		UILabel *itemLabel = [Tools creatUILabelWithText:[weekdayTitle objectAtIndex:i] andTextColor:[Tools blackColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		UILabel *itemLabel = [Tools creatLabelWithText:[weekdayTitle objectAtIndex:i] textColor:[Tools blackColor] fontSize:311.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 		[self.view addSubview:itemLabel];
 		[itemLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(dateShowLabel.mas_bottom).offset(20);

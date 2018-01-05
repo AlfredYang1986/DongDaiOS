@@ -61,21 +61,23 @@
 		make.edges.equalTo(self);
 	}];
 	
-	titleLabel = [Tools creatUILabelWithText:@"Service" andTextColor:[UIColor white] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-	titleLabel.numberOfLines = 2;
+	titleLabel = [Tools creatLabelWithText:@"Service" textColor:[UIColor white] fontSize:624.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+	titleLabel.backgroundColor = [UIColor colorWithRED:83 GREEN:102 BLUE:119 ALPHA:1];
 	[self addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerX.equalTo(self);
-		make.top.equalTo(self).offset(0);
+		make.left.equalTo(self);
+		make.centerY.equalTo(self.mas_top).offset(57);
 		make.height.mas_equalTo(40);
+		make.width.mas_equalTo(124);
 	}];
 	
-	themeLabel = [Tools creatUILabelWithText:@"Theme" andTextColor:[UIColor theme] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	themeLabel = [Tools creatLabelWithText:@"Theme Theme ThemeThemeTheme" textColor:[UIColor theme] fontSize:311.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+	themeLabel.numberOfLines = 2;
 //	[Tools setViewBorder:themeLabel withRadius:4.f andBorderWidth:1.f andBorderColor:[UIColor theme] andBackground:nil];
 	[self addSubview:themeLabel];
 	[themeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerX.equalTo(self);
-		make.bottom.equalTo(self).offset(-15);
+		make.left.equalTo(self);
+		make.top.equalTo(titleLabel.mas_bottom).offset(15);
 	}];
 	
 }

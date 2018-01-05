@@ -48,7 +48,7 @@
 
 - (void)postPerform {
 	
-    UILabel *tips = [Tools creatUILabelWithText:@"您的手机号码？" andTextColor:[Tools themeColor] andFontSize:20.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    UILabel *tips = [Tools creatLabelWithText:@"您的手机号码？" textColor:[Tools themeColor] fontSize:20.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
     [self addSubview:tips];
     [tips mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self);
@@ -67,7 +67,7 @@
     }];
 	[Tools creatCALayerWithFrame:CGRectMake(0, phoneBgHeight - 0.5, SCREEN_WIDTH - 50, 0.5) andColor:[Tools themeColor] inSuperView:inputPhoneNoView];
 	
-    UILabel *phoneNo = [Tools creatUILabelWithText:@"+ 86" andTextColor:[Tools whiteColor] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    UILabel *phoneNo = [Tools creatLabelWithText:@"+ 86" textColor:[Tools whiteColor] fontSize:615.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	[Tools setViewBorder:phoneNo withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
     [inputPhoneNoView addSubview:phoneNo];
     [phoneNo mas_makeConstraints:^(MASConstraintMaker *make) {

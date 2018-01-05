@@ -104,14 +104,14 @@
 		}];
 		[Tools setViewBorder:radiusBGView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools whiteColor]];
 		
-		titleLabel = [Tools creatUILabelWithText:nil andTextColor:[Tools blackColor] andFontSize:617 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		titleLabel = [Tools creatLabelWithText:nil textColor:[Tools blackColor] fontSize:617 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(radiusBGView).offset(15);
 			make.top.equalTo(radiusBGView).offset(12);
 		}];
 		
-		addressLabel = [Tools creatUILabelWithText:nil andTextColor:[Tools blackColor] andFontSize:315 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		addressLabel = [Tools creatLabelWithText:nil textColor:[Tools blackColor] fontSize:315 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:addressLabel];
 		[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(radiusBGView).offset(15);
@@ -155,7 +155,7 @@
 //		[editAdjustTextView setContentInset:UIEdgeInsetsMake(-5, -3, -5, -3)];
 //		[editAdjustTextView addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew context:nil];
 		
-		adjustLabel = [Tools creatUILabelWithText:@"请填写具体地址" andTextColor:[Tools garyColor] andFontSize:315 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		adjustLabel = [Tools creatLabelWithText:@"请填写具体地址" textColor:[Tools garyColor] fontSize:315 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:adjustLabel];
 		[adjustLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(editAdjustTextView).offset(5);

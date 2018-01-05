@@ -51,7 +51,7 @@
         //配置用户Key
         [AMapSearchServices sharedServices].apiKey = kAMapApiKey;
         
-        addressLabel = [Tools creatUILabelWithText:@"service address" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+        addressLabel = [Tools creatLabelWithText:@"service address" textColor:[Tools blackColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
         [self addSubview:addressLabel];
         [addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self).offset(0);

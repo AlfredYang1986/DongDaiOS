@@ -168,7 +168,7 @@
 	headView.backgroundColor = [Tools garyBackgroundColor];
 	if (section > 0) {
 		
-		UILabel *titleLabel = [Tools creatUILabelWithText:[sectionTitles objectAtIndex:section - 1] andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		UILabel *titleLabel = [Tools creatLabelWithText:[sectionTitles objectAtIndex:section - 1] textColor:[Tools blackColor] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 		[headView addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(headView);

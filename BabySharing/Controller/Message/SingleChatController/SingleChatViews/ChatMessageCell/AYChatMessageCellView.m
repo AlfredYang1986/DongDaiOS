@@ -79,12 +79,12 @@
     self.backgroundColor = [UIColor clearColor];
     
     if (time_label == nil) {
-        time_label = [Tools creatUILabelWithText:@"while" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        time_label = [Tools creatLabelWithText:@"while" textColor:[Tools garyColor] fontSize:12.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
         [self addSubview:time_label];
     }
     
     if (content == nil) {
-        content = [Tools creatUILabelWithText:@"chat message content" andTextColor:[Tools blackColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        content = [Tools creatLabelWithText:@"chat message content" textColor:[Tools blackColor] fontSize:15.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
         content.numberOfLines = 0;
         [self addSubview:content];
         

@@ -68,7 +68,7 @@
 }
 
 - (id)TransfromExpend:(NSNumber*)args {
-//    isExpend = args.boolValue;
+
 	isExpend = !isExpend;
     expendHeight = args.floatValue;
     return nil;

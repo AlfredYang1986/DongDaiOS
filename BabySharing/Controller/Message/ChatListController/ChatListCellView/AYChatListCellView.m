@@ -73,14 +73,14 @@
 			make.edges.equalTo(isReadSign).insets(UIEdgeInsetsMake(margin, margin, margin, margin));
 		}];
 		
-		themeLabel = [Tools creatUILabelWithText:@"UserName" andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		themeLabel = [Tools creatLabelWithText:@"UserName" textColor:[Tools blackColor] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:themeLabel];
 		[themeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(themeImg.mas_right).offset(15);
 			make.top.equalTo(themeImg);
 		}];
 		
-		chatLabel = [Tools creatUILabelWithText:@"Message - context " andTextColor:[Tools garyColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		chatLabel = [Tools creatLabelWithText:@"Message - context " textColor:[Tools garyColor] fontSize:313.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		chatLabel.numberOfLines = 3.f;
 		[self addSubview:chatLabel];
 		[chatLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -90,7 +90,7 @@
 			make.bottom.equalTo(self).offset(-25);
 		}];
 		
-		dateLabel = [Tools creatUILabelWithText:@"00:00" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		dateLabel = [Tools creatLabelWithText:@"00:00" textColor:[Tools blackColor] fontSize:12.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:dateLabel];
 		[dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(themeLabel);

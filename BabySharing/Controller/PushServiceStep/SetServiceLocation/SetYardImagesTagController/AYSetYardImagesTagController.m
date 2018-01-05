@@ -43,7 +43,7 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:@"场地标签" andTextColor:[Tools blackColor] andFontSize:622.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatLabelWithText:@"场地标签" textColor:[Tools blackColor] fontSize:622.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(kStatusAndNavBarH+20);
@@ -83,7 +83,7 @@
 	[self.view addSubview:pageFlowView];
 	[pageFlowView scrollToPage:pageIndex];
 	
-	pageCountLabel = [Tools creatUILabelWithText:@"0/0" andTextColor:[Tools garyColor] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	pageCountLabel = [Tools creatLabelWithText:@"0/0" textColor:[Tools garyColor] fontSize:615.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	[self.view addSubview:pageCountLabel];
 	[pageCountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(pageFlowView.mas_bottom).offset(15);

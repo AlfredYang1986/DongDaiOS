@@ -38,11 +38,11 @@
 	if (self) {
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		
-		titleLabel = [Tools creatUILabelWithText:@"Assortment01" andTextColor:[UIColor black] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		titleLabel = [Tools creatLabelWithText:@"分类" textColor:[UIColor black] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(15);
-			make.top.equalTo(self).offset(15);
+			make.top.equalTo(self).offset(0);
 		}];
 		
 		subTitleLabel = [UILabel creatLabelWithText:@"一句话简单描述" textColor:[UIColor gary] fontSize:13 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
@@ -67,7 +67,7 @@
 		flowLayout.minimumInteritemSpacing = 10;
 		flowLayout.minimumLineSpacing = 8;
 		
-		CollectionView = [[UICollectionView  alloc]initWithFrame:CGRectMake(0, 80, SCREEN_WIDTH, 210) collectionViewLayout:flowLayout];
+		CollectionView = [[UICollectionView  alloc]initWithFrame:CGRectMake(0, 65, SCREEN_WIDTH, 250) collectionViewLayout:flowLayout];
 		CollectionView.delegate = self;
 		CollectionView.dataSource = self;
 		CollectionView.showsVerticalScrollIndicator = NO;
@@ -90,7 +90,6 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
 	return serviceData.count + 1;
-//	return 6 + 1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -130,8 +129,12 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-	
-	return itemSizeData;
+	if (serviceData.count == indexPath.row && itemSizeData.height == 320) {
+		
+		return CGSizeMake(106+SCREEN_MARGIN_LR, itemSizeData.height);
+	} else {
+		return itemSizeData;
+	}
 }
 
 #pragma mark -- life cycle
@@ -166,10 +169,10 @@
 #pragma mark -- messages
 - (id)setCellInfo:(id)args {
 	NSString *cat = [[args objectForKey:@"service"] objectForKey:@"service_type"];
-	itemSizeData = CGSizeMake(160, 210);
+	itemSizeData = CGSizeMake(160, 250);
 	NSString *subStr;
 	if ([cat isEqualToString:@"看顾"]) {
-		itemSizeData = CGSizeMake(315, 250);
+		itemSizeData = CGSizeMake(320, 320);
 		subStr = @"看顾看顾看顾";
 	}
 	else if ([cat isEqualToString:@"艺术"]) {

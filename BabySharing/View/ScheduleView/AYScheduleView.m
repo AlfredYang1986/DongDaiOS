@@ -86,7 +86,7 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
 	
 	CGFloat labelWidth = (SCREEN_WIDTH - margin * 2)/7;
 	for (int i = 0; i<7; i++) {
-		UILabel *label = [Tools creatUILabelWithText:[titleArr objectAtIndex:i] andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		UILabel *label = [Tools creatLabelWithText:[titleArr objectAtIndex:i] textColor:[Tools blackColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 		[self addSubview:label];
 		[label mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self.mas_left).offset((margin+labelWidth*0.5)+labelWidth*i);
@@ -305,7 +305,7 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
         UILabel *label = [headerView viewWithTag:119];
         if (label == nil) {
             //添加日期
-            label = [Tools creatUILabelWithText:nil andTextColor:[Tools blackColor] andFontSize:620.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+            label = [Tools creatLabelWithText:nil textColor:[Tools blackColor] fontSize:620.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
             label.tag = 119;
             [headerView addSubview:label];
             [label mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -53,7 +53,7 @@ static NSString* const kSetBasicInfoDelegate =					@"SetBasicInfo";
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:@"基本信息" andTextColor:[Tools blackColor] andFontSize:630 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatLabelWithText:@"基本信息" textColor:[Tools blackColor] fontSize:630 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(kStatusAndNavBarH+20);

@@ -39,7 +39,7 @@
     
     self.clipsToBounds = YES;
     
-    stateLabel = [Tools creatUILabelWithText:@"咨询中" andTextColor:[Tools garyColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:0];
+    stateLabel = [Tools creatLabelWithText:@"咨询中" textColor:[Tools garyColor] fontSize:17.f backgroundColor:nil textAlignment:0];
     [self addSubview:stateLabel];
     [stateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self);

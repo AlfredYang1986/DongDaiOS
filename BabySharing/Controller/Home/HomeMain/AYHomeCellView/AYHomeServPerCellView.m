@@ -46,18 +46,19 @@
 	if (self) {
 		self.backgroundColor = [UIColor clearColor];
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
-//		UIView *shadowView = [[UIView alloc] init];
-//		shadowView.backgroundColor = [UIColor whiteColor];
-//		shadowView.layer.cornerRadius = 4.f;
-//		shadowView.layer.shadowColor = [Tools colorWithRED:43 GREEN:65 BLUE:114 ALPHA:1].CGColor;//shadowColor阴影颜色
-//		shadowView.layer.shadowOffset = CGSizeMake(0,0);//shadowOffset阴影偏移，默认(0, -3),这个跟shadowRadius配合使用
-//		shadowView.layer.shadowOpacity = 0.18f;//阴影透明度，默认0
-//		shadowView.layer.shadowRadius = 4;//阴影半径，默认3
-//		[self addSubview:shadowView];
-//		[self sendSubviewToBack:shadowView];
-//		[shadowView mas_makeConstraints:^(MASConstraintMaker *make) {
-//			make.edges.equalTo(coverImage);
-//		}];
+		
+		UIView *shadowView = [[UIView alloc] init];
+		shadowView.backgroundColor = [UIColor whiteColor];
+		shadowView.layer.cornerRadius = 4.f;
+		shadowView.layer.shadowColor = [Tools colorWithRED:43 GREEN:65 BLUE:114 ALPHA:1].CGColor;//shadowColor阴影颜色
+		shadowView.layer.shadowOffset = CGSizeMake(0,0);//shadowOffset阴影偏移，默认(0, -3),这个跟shadowRadius配合使用
+		shadowView.layer.shadowOpacity = 0.18f;//阴影透明度，默认0
+		shadowView.layer.shadowRadius = 4;//阴影半径，默认3
+		[self addSubview:shadowView];
+		[self sendSubviewToBack:shadowView];
+		[shadowView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.edges.equalTo(_coverImage);
+		}];
 		
 		_coverImage = [[UIImageView alloc]init];
 		_coverImage.image = IMGRESOURCE(@"default_image");
@@ -88,7 +89,7 @@
 			make.size.mas_equalTo(CGSizeMake(45, 26));
 		}];
 		
-		themeLabel = [Tools creatUILabelWithText:@"Theme" andTextColor:[Tools themeColor] andFontSize:611.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		themeLabel = [Tools creatLabelWithText:@"Theme" textColor:[Tools themeColor] fontSize:611.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 		[Tools setViewBorder:themeLabel withRadius:4.f andBorderWidth:1.f andBorderColor:[Tools themeColor] andBackground:nil];
 		[self addSubview:themeLabel];
 		[themeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -97,7 +98,7 @@
 			make.size.mas_equalTo(CGSizeMake(72, 26));
 		}];
 		
-		ageBoundaryLabel = [Tools creatUILabelWithText:@"0-0" andTextColor:[Tools themeColor] andFontSize:611.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		ageBoundaryLabel = [Tools creatLabelWithText:@"0-0" textColor:[Tools themeColor] fontSize:611.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 		[Tools setViewBorder:ageBoundaryLabel withRadius:4.f andBorderWidth:1.f andBorderColor:[Tools themeColor] andBackground:nil];
 		[self addSubview:ageBoundaryLabel];
 		[ageBoundaryLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -106,7 +107,7 @@
 			make.size.mas_equalTo(CGSizeMake(60, 26));
 		}];
 		
-		titleLabel = [Tools creatUILabelWithText:@"Service Belong to Servant" andTextColor:[Tools blackColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		titleLabel = [Tools creatLabelWithText:@"Service Belong to Servant" textColor:[Tools blackColor] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		titleLabel.numberOfLines = 1;
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -124,7 +125,7 @@
 			make.size.mas_equalTo(CGSizeMake(10, 12));
 		}];
 		
-		addressLabel = [Tools creatUILabelWithText:@"Address Info" andTextColor:[Tools RGB153GaryColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		addressLabel = [Tools creatLabelWithText:@"Address Info" textColor:[Tools RGB153GaryColor] fontSize:313.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:addressLabel];
 		[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(positionSignView);
@@ -132,7 +133,7 @@
 		}];
 		
 		
-		priceLabel = [Tools creatUILabelWithText:@"¥Price/Unit" andTextColor:[Tools themeColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		priceLabel = [Tools creatLabelWithText:@"¥Price/Unit" textColor:[Tools themeColor] fontSize:313.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:priceLabel];
 //		[priceLabel sizeToFit];
 //		[priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {

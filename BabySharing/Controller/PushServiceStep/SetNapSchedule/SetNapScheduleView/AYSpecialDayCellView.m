@@ -40,7 +40,7 @@
 		make.size.mas_equalTo(CGSizeMake(32, 32));
 	}];
 	
-	titleLabel = [Tools creatUILabelWithText:@"0" andTextColor:[Tools blackColor] andFontSize:315 andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	titleLabel = [Tools creatLabelWithText:@"0" textColor:[Tools blackColor] fontSize:315 backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	[self addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.center.equalTo(self);

@@ -14,14 +14,14 @@
     self = [super init];
     if (self) {
 		
-        _titleLabel = [Tools creatUILabelWithText:title andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+        _titleLabel = [Tools creatLabelWithText:title textColor:[Tools themeColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
         [self addSubview:_titleLabel];
         [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(8);
             make.centerX.equalTo(self);
         }];
 		
-        _timeLabel = [Tools creatUILabelWithText:nil andTextColor:[Tools themeColor] andFontSize:26.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+        _timeLabel = [Tools creatLabelWithText:nil textColor:[Tools themeColor] fontSize:26.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
         [self addSubview:_timeLabel];
         [_timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_titleLabel.mas_bottom).offset(8);

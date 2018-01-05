@@ -49,7 +49,7 @@
 		make.size.mas_equalTo(CGSizeMake(20,20));
 	}];
 	
-	UILabel *titleH1 = [Tools creatUILabelWithText:@"确认取消订单" andTextColor:[Tools blackColor] andFontSize:616.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleH1 = [Tools creatLabelWithText:@"确认取消订单" textColor:[Tools blackColor] fontSize:616.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleH1];
 	[titleH1 mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(checkIcon.mas_right).offset(20);

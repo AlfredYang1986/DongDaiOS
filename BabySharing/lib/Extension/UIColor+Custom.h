@@ -16,6 +16,7 @@
 + (UIColor *)theme;
 + (UIColor *)themeBorder;
 + (UIColor *)themeLight;
++ (UIColor *)tag;
 
 + (UIColor *)black;
 + (UIColor *)gary;

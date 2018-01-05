@@ -80,7 +80,7 @@
 	headView.backgroundColor = [Tools whiteColor];
 	
 	NSString *titleStr = @"请选择取消原因：";
-	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools garyColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatLabelWithText:titleStr textColor:[Tools garyColor] fontSize:314.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[headView addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(headView);

@@ -18,7 +18,7 @@
 		
 		[Tools setViewBorder:self withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
 		
-		titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools whiteColor] andFontSize:617 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		titleLabel = [Tools creatLabelWithText:titleStr textColor:[Tools whiteColor] fontSize:617 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(self);
@@ -35,7 +35,7 @@
 			make.size.mas_equalTo(CGSizeMake(8, 14));
 		}];
 		
-		subTitleLabel = [Tools creatUILabelWithText:@"Sub" andTextColor:[Tools whiteColor] andFontSize:315 andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+		subTitleLabel = [Tools creatLabelWithText:@"Sub" textColor:[Tools whiteColor] fontSize:315 backgroundColor:nil textAlignment:NSTextAlignmentRight];
 		[self addSubview:subTitleLabel];
 		[subTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(self);

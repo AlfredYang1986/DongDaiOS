@@ -35,7 +35,7 @@
 	if (self) {
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		
-		tipsTitleLabel = [Tools creatUILabelWithText:@"服务守则" andTextColor:[Tools garyColor] andFontSize:318.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		tipsTitleLabel = [Tools creatLabelWithText:@"服务守则" textColor:[Tools garyColor] fontSize:318.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:tipsTitleLabel];
 		[tipsTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(20);
@@ -50,7 +50,7 @@
 			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(40);
 			make.size.mas_equalTo(CGSizeMake(4, 4));
 		}];
-		allowLabel = [Tools creatUILabelWithText:@"Is Allow leave" andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		allowLabel = [Tools creatLabelWithText:@"Is Allow leave" textColor:[Tools blackColor] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:allowLabel];
 		[allowLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(allowSignView.mas_right).offset(10);
@@ -66,7 +66,7 @@
 			make.size.equalTo(allowSignView);
 		}];
 		
-		otherWordLabel = [Tools creatUILabelWithText:@"Other Words" andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		otherWordLabel = [Tools creatLabelWithText:@"Other Words" textColor:[Tools blackColor] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		otherWordLabel.numberOfLines = 0;
 		[self addSubview:otherWordLabel];
 		[otherWordLabel mas_makeConstraints:^(MASConstraintMaker *make) {

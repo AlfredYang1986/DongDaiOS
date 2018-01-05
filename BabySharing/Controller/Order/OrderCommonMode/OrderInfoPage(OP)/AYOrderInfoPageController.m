@@ -127,7 +127,7 @@
 					BTMView.frame = CGRectMake(0, SCREEN_HEIGHT - BOTTOM_HEIGHT - HOME_IND_HEIGHT, SCREEN_WIDTH, BOTTOM_HEIGHT);
 					
 					NSString *resonStr = [NSString stringWithFormat:@"拒绝原因:%@", [order_info objectForKey:kAYOrderArgsFurtherMessage]];
-					UILabel *tipsLabel = [Tools creatUILabelWithText:resonStr andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+					UILabel *tipsLabel = [Tools creatLabelWithText:resonStr textColor:[Tools themeColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 					[BTMView addSubview:tipsLabel];
 					[tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 						make.left.equalTo(BTMView).offset(20);
@@ -163,7 +163,7 @@
 					BTMView.frame = CGRectMake(0, SCREEN_HEIGHT - BOTTOM_HEIGHT - HOME_IND_HEIGHT, SCREEN_WIDTH, BOTTOM_HEIGHT);
 					
 					NSString *resonStr = [NSString stringWithFormat:@"取消原因:%@", [order_info objectForKey:kAYOrderArgsFurtherMessage]];
-					UILabel *tipsLabel = [Tools creatUILabelWithText:resonStr andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+					UILabel *tipsLabel = [Tools creatLabelWithText:resonStr textColor:[Tools themeColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 					[BTMView addSubview:tipsLabel];
 					[tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 						make.left.equalTo(BTMView).offset(20);

@@ -96,7 +96,7 @@
 		NSString *startStr = [format_time stringFromDate:startDate];
 		NSString *endStr = [format_time stringFromDate:endDate];
 		
-		UILabel *tipslabel = [Tools creatUILabelWithText:[NSString stringWithFormat:@"当前可预订时间段 %@-%@", startStr, endStr] andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		UILabel *tipslabel = [Tools creatLabelWithText:[NSString stringWithFormat:@"当前可预订时间段 %@-%@", startStr, endStr] textColor:[Tools garyColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 		tipslabel.numberOfLines = 0;
 		[self.view addSubview:tipslabel];
 		[tipslabel mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -39,14 +39,14 @@
 			make.edges.equalTo(self);
 		}];
 		
-		assortmentTitle = [Tools creatUILabelWithText:@"# Assortment' title #" andTextColor:[Tools whiteColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		assortmentTitle = [Tools creatLabelWithText:@"# Assortment' title #" textColor:[Tools whiteColor] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 		[self addSubview:assortmentTitle];
 		[assortmentTitle mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(imageView).offset(-5);
 			make.centerX.equalTo(self);
 		}];
 		
-		skipedCount = [Tools creatUILabelWithText:@"Skiped' count" andTextColor:[Tools whiteColor] andFontSize:11.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		skipedCount = [Tools creatLabelWithText:@"Skiped' count" textColor:[Tools whiteColor] fontSize:11.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 		[Tools setViewBorder:skipedCount withRadius:10.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools borderAlphaColor]];
 		[self addSubview:skipedCount];
 		[skipedCount sizeToFit];

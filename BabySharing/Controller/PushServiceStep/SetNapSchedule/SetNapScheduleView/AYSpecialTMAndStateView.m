@@ -86,7 +86,7 @@ static NSString *const kBasicKey = @"basic";
 		make.height.mas_equalTo(46);
 		make.width.equalTo(specialView);
 	}];
-	UILabel *specialStateTitle = [Tools creatUILabelWithText:@"服务状态" andTextColor:[Tools blackColor] andFontSize:615 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *specialStateTitle = [Tools creatLabelWithText:@"服务状态" textColor:[Tools blackColor] fontSize:615 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[specialStateView addSubview:specialStateTitle];
 	[specialStateTitle mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(specialStateView).offset(15);
@@ -135,7 +135,7 @@ static NSString *const kBasicKey = @"basic";
 		make.height.mas_equalTo(46);
 		make.width.equalTo(openDayView);
 	}];
-	UILabel *openDayStateTitle = [Tools creatUILabelWithText:@"开放日状态" andTextColor:[Tools blackColor] andFontSize:615 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *openDayStateTitle = [Tools creatLabelWithText:@"开放日状态" textColor:[Tools blackColor] fontSize:615 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[openDayStateView addSubview:openDayStateTitle];
 	[openDayStateTitle mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(openDayStateView).offset(15);

@@ -44,14 +44,14 @@
 			on = @"获取系统时间错误";
 		}
 		
-		UILabel *hello = [Tools creatUILabelWithText:on andTextColor:[Tools garyColor] andFontSize:330.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		UILabel *hello = [Tools creatLabelWithText:on textColor:[Tools garyColor] fontSize:330.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:hello];
 		[hello mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(20);
 			make.top.equalTo(self).offset(30 + 28);
 		}];
 		
-		UILabel *tipsLabel = [Tools creatUILabelWithText:@"为您的孩子找个好去处" andTextColor:[Tools garyColor] andFontSize:18.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		UILabel *tipsLabel = [Tools creatLabelWithText:@"为您的孩子找个好去处" textColor:[Tools garyColor] fontSize:18.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:tipsLabel];
 		[tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(20);
@@ -106,7 +106,7 @@
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-	return kLAYOUTCELLCOUNT;
+	return 1 + servicesData.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -142,10 +142,10 @@
 //		return 110;
 //	}
 	else if (indexPath.row == 1) {
-		return 330;
+		return 390;
 	}
 	else
-		return 290;
+		return 320;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

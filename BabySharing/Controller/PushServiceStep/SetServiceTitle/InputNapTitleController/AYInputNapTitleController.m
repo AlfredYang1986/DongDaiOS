@@ -46,7 +46,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:@"Servant' Servcie" andTextColor:[Tools blackColor] andFontSize:622.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatLabelWithText:@"Servant' Servcie" textColor:[Tools blackColor] fontSize:622.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(80);
@@ -84,7 +84,7 @@
         make.centerX.equalTo(self.view);
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 90));
     }];
-	placeHolder = [Tools creatUILabelWithText:@"请用一句话来描述您的服务" andTextColor:[Tools garyColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	placeHolder = [Tools creatLabelWithText:@"请用一句话来描述您的服务" textColor:[Tools garyColor] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[inputTitleTextView addSubview:placeHolder];
 	[placeHolder mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(inputTitleTextView).offset(5);

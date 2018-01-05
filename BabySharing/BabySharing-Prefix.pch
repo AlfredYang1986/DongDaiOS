@@ -47,7 +47,7 @@ static NSString* const kAYDongDaAppMode =				@"dongda_app_mode";
 
 #define NavBarRightBtnFontSize							616
 #define OneDayTimeInterval								86400
-#define HOMECOMMONCELLHEIGHT							363
+#define HOMECOMMONCELLHEIGHT							390
 
 //PayWayOption
 typedef enum : int {

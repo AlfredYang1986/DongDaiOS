@@ -82,7 +82,7 @@
     [cmd_search performWithResult:&class_name];
     
     UITableView *tableView = (UITableView*)view_table;
-    tipsLabel = [Tools creatUILabelWithText:@"您还没有收藏过服务" andTextColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    tipsLabel = [Tools creatLabelWithText:@"您还没有收藏过服务" textColor:[Tools garyColor] fontSize:16.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
     [tableView addSubview:tipsLabel];
     [tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(tableView).offset(20);

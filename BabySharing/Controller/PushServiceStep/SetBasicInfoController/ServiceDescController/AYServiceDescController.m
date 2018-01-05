@@ -52,7 +52,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [Tools whiteColor];
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:@"服务描述" andTextColor:[Tools blackColor] andFontSize:622 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatLabelWithText:@"服务描述" textColor:[Tools blackColor] fontSize:622 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(kStatusAndNavBarH+20);
@@ -86,7 +86,7 @@
     }];
 	[descTextView setContentInset:UIEdgeInsetsMake(-5, -3, -5, -3)];
 	
-	placeHolder = [Tools creatUILabelWithText:@"服务的计划和安排；预期目标；师资介绍" andTextColor:[Tools garyColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	placeHolder = [Tools creatLabelWithText:@"服务的计划和安排；预期目标；师资介绍" textColor:[Tools garyColor] fontSize:314.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[descTextView addSubview:placeHolder];
 	[placeHolder mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(descTextView).offset(5);
@@ -98,7 +98,7 @@
 		placeHolder.hidden  = YES;
 	}
 	
-    countlabel = [Tools creatUILabelWithText:[NSString stringWithFormat:@"%d",LIMITNUMB - (int)setedStr.length] andTextColor:[Tools garyColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    countlabel = [Tools creatLabelWithText:[NSString stringWithFormat:@"%d",LIMITNUMB - (int)setedStr.length] textColor:[Tools garyColor] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
     [self.view addSubview:countlabel];
     [countlabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(descTextView.mas_bottom).offset(12);

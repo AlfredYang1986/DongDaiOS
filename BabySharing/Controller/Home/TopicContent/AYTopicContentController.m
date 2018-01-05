@@ -103,7 +103,7 @@
 	navLeftBtn.selected = YES;
 	[navLeftBtn addTarget:self action:@selector(leftBtnSelected) forControlEvents:UIControlEventTouchUpInside];
 	
-	bannerTitle = [Tools creatUILabelWithText:@"# The Topic #" andTextColor:[Tools whiteColor] andFontSize:622.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	bannerTitle = [Tools creatLabelWithText:@"# The Topic #" textColor:[Tools whiteColor] fontSize:622.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	[bannerView addSubview:bannerTitle];
 	[bannerTitle mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(bannerView).offset(15);
@@ -154,7 +154,7 @@
 	obj = (id)delegate_found;
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
 	
-	NSArray *arr_cell_name = @[@"AYHomeServPerCellView"];
+	NSArray *arr_cell_name = @[@"AYTopicContentCellView"];
 	for (NSString *cell_name in arr_cell_name) {
 		id class_name = [cell_name copy];
 		kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name);

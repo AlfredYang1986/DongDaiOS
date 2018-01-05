@@ -65,7 +65,7 @@
 		isAble = [NSNumber numberWithBool:YES];
 	}
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:@"看顾状态" andTextColor:[Tools whiteColor] andFontSize:620.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatLabelWithText:@"看顾状态" textColor:[Tools whiteColor] fontSize:620.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(110);

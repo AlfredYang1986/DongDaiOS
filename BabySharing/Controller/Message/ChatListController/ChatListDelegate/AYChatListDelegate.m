@@ -85,7 +85,7 @@
     UIView* reVal = [[UIView alloc]init];
     reVal.backgroundColor = [UIColor whiteColor];
     
-    UILabel* label = [Tools creatUILabelWithText:@"消息" andTextColor:[Tools blackColor] andFontSize:624.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    UILabel* label = [Tools creatLabelWithText:@"消息" textColor:[Tools blackColor] fontSize:624.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
     [reVal addSubview:label];
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(reVal).offset(20);

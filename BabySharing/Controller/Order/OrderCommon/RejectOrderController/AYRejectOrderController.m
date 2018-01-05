@@ -63,7 +63,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [Tools darkBackgroundColor];
     
-    UILabel *tipsLabel = [Tools creatUILabelWithText:@"确认拒绝订单" andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    UILabel *tipsLabel = [Tools creatLabelWithText:@"确认拒绝订单" textColor:[UIColor whiteColor] fontSize:16.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
     [self.view addSubview:tipsLabel];
     [tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(150);
@@ -94,14 +94,14 @@
         make.height.mas_equalTo(120);
     }];
     
-    placeholderLabel = [Tools creatUILabelWithText:@"您拒绝的理由？" andTextColor:[Tools garyColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    placeholderLabel = [Tools creatLabelWithText:@"您拒绝的理由？" textColor:[Tools garyColor] fontSize:13.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
     [self.view addSubview:placeholderLabel];
     [placeholderLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(seasonOfTextView).offset(7);
         make.left.equalTo(seasonOfTextView).offset(7);
     }];
 	
-    countLabel = [Tools creatUILabelWithText:@"还可以输入88个字符" andTextColor:[Tools garyColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+    countLabel = [Tools creatLabelWithText:@"还可以输入88个字符" textColor:[Tools garyColor] fontSize:13.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
     [self.view addSubview:countLabel];
     [countLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(seasonOfTextView).offset(-10);

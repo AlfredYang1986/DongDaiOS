@@ -32,14 +32,14 @@
         
         self.backgroundColor = [UIColor whiteColor];
         
-        titleLabel = [Tools creatUILabelWithText:@"00:00 - 00:00" andTextColor:[Tools blackColor] andFontSize:320 andBackgroundColor:nil andTextAlignment:0];
+        titleLabel = [Tools creatLabelWithText:@"00:00 - 00:00" textColor:[Tools blackColor] fontSize:320 backgroundColor:nil textAlignment:0];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(15);
             make.centerY.equalTo(self);
         }];
 		
-		subTitlelabel = [Tools creatUILabelWithText:@"0 hour" andTextColor:[Tools garyColor] andFontSize:311 andBackgroundColor:nil andTextAlignment:0];
+		subTitlelabel = [Tools creatLabelWithText:@"0 hour" textColor:[Tools garyColor] fontSize:311 backgroundColor:nil textAlignment:0];
 		[self addSubview:subTitlelabel];
 		[subTitlelabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.right.equalTo(self).offset(-15);

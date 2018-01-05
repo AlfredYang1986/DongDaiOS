@@ -44,7 +44,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:@"其他守则" andTextColor:[Tools themeColor] andFontSize:620.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatLabelWithText:@"其他守则" textColor:[Tools themeColor] fontSize:620.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(80);
@@ -65,7 +65,7 @@
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 200));
     }];
 	
-	placeHolder = [Tools creatUILabelWithText:@"其他要求告知家长的需要" andTextColor:[Tools garyColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	placeHolder = [Tools creatLabelWithText:@"其他要求告知家长的需要" textColor:[Tools garyColor] fontSize:314.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[descTextView addSubview:placeHolder];
 	[placeHolder mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(descTextView).offset(5);
@@ -77,7 +77,7 @@
 		placeHolder.hidden  = YES;
 	}
 	
-    countlabel = [Tools creatUILabelWithText:[NSString stringWithFormat:@"还可以输入%lu个字符",LIMITNUMB - setedStr.length] andTextColor:[Tools themeColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:0];
+    countlabel = [Tools creatLabelWithText:[NSString stringWithFormat:@"还可以输入%lu个字符",LIMITNUMB - setedStr.length] textColor:[Tools themeColor] fontSize:12.f backgroundColor:nil textAlignment:0];
     [self.view addSubview:countlabel];
     [countlabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(descTextView.mas_bottom).offset(-10);

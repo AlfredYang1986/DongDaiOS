@@ -119,14 +119,14 @@
 		make.size.mas_equalTo(CGSizeMake(117, 72));
 	}];
 	
-	tagLabel = [Tools creatUILabelWithText:@"TAG" andTextColor:[Tools garyColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	tagLabel = [Tools creatLabelWithText:@"TAG" textColor:[Tools garyColor] fontSize:13.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self addSubview:tagLabel];
 	[tagLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(coverImage.mas_right).offset(15);
 		make.top.equalTo(coverImage);
 	}];
 	
-	descLabel = [Tools creatUILabelWithText:@"Service description" andTextColor:[Tools RGB89GaryColor] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	descLabel = [Tools creatLabelWithText:@"Service description" textColor:[Tools RGB89GaryColor] fontSize:615.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	descLabel.numberOfLines = 3;
 	[self addSubview:descLabel];
 	[descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -154,10 +154,10 @@
 		make.size.mas_equalTo(CGSizeMake(11, 13));
 	}];
 	
-	distanceLabel = [Tools creatUILabelWithText:@"00m" andTextColor:[Tools RGB127GaryColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+	distanceLabel = [Tools creatLabelWithText:@"00m" textColor:[Tools RGB127GaryColor] fontSize:314.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
 	[self addSubview:distanceLabel];
 	
-	addrLabel = [Tools creatUILabelWithText:@"服务妈妈的主题服务" andTextColor:[Tools RGB127GaryColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	addrLabel = [Tools creatLabelWithText:@"服务妈妈的主题服务" textColor:[Tools RGB127GaryColor] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self addSubview:addrLabel];
 	[addrLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(positionSignView.mas_right).offset(4);

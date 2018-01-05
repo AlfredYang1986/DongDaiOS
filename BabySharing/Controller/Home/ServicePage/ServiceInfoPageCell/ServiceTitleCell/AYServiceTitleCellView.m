@@ -21,7 +21,6 @@
 	UILabel *themeLabel;
 	UILabel *tagLabel;
 	
-	NSDictionary *service_info;
 }
 
 @synthesize para = _para;
@@ -93,24 +92,10 @@
     return self;
 }
 
-#pragma mark -- actions
-- (void)didOwnerPhotoClick {
-	id<AYCommand> des = DEFAULTCONTROLLER(@"OneProfile");
-	
-	NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-	[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-	[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-	[dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-	[dic_push setValue:[service_info objectForKey:@"owner_id"] forKey:kAYControllerChangeArgsKey];
-	
-	id<AYCommand> cmd = PUSH;
-	[cmd performWithResult:&dic_push];
-	
-}
-
 #pragma mark -- notifies
 - (id)setCellInfo:(id)args {
-    service_info = (NSDictionary*)args;
+	
+    NSDictionary *service_info = (NSDictionary*)args;
 	
 	NSDictionary *info_categ = [service_info objectForKey:kAYServiceArgsCategoryInfo];
 	NSString *service_cat = [info_categ objectForKey:kAYServiceArgsCat];

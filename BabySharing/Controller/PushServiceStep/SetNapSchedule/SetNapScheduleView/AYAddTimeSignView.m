@@ -31,7 +31,7 @@
 		
 		[Tools setViewBorder:BGView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeLightColor]];
 		
-		titleLabel = [Tools creatUILabelWithText:title andTextColor:[Tools whiteColor] andFontSize:615 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		titleLabel = [Tools creatLabelWithText:title textColor:[Tools whiteColor] fontSize:615 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(15);

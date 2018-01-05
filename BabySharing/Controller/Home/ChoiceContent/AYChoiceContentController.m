@@ -72,13 +72,13 @@
 		make.top.equalTo(bannerView);
 		make.size.mas_equalTo(CGSizeMake(137, 214));
 	}];
-	bannerTitle = [Tools creatUILabelWithText:theTopCateg andTextColor:[Tools themeColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	bannerTitle = [Tools creatLabelWithText:theTopCateg textColor:[Tools themeColor] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	[bannerView addSubview:bannerTitle];
 	[bannerTitle mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(choice_logo.mas_bottom).offset(5);
 		make.centerX.equalTo(bannerView);
 	}];
-	bannerCount = [Tools creatUILabelWithText:@"20个服务" andTextColor:[Tools RGB153GaryColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	bannerCount = [Tools creatLabelWithText:@"20个服务" textColor:[Tools RGB153GaryColor] fontSize:313.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	[bannerView addSubview:bannerCount];
 	[bannerCount mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(bannerTitle.mas_bottom).offset(0);
@@ -176,7 +176,7 @@
 	view.backgroundColor = [Tools themeColor];
 	
 	NSString *title = @"咚哒严选";
-	navTitleLabel = [Tools creatUILabelWithText:title andTextColor:[Tools whiteColor] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	navTitleLabel = [Tools creatLabelWithText:title textColor:[Tools whiteColor] fontSize:615.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	[view addSubview:navTitleLabel];
 	[navTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 //		make.bottom.equalTo(view.mas_centerY).offset(0);
@@ -186,7 +186,7 @@
 	
 //	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
 	
-	navCountLabel = [Tools creatUILabelWithText:@"20个服务" andTextColor:[Tools whiteColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	navCountLabel = [Tools creatLabelWithText:@"20个服务" textColor:[Tools whiteColor] fontSize:311.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	[view addSubview:navCountLabel];
 	[navCountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(view.mas_centerY).offset(0);

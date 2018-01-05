@@ -38,7 +38,7 @@
 			make.size.mas_equalTo(CGSizeMake(120, 40));
 		}];
 		
-		titleLabel = [Tools creatUILabelWithText:@"添加时间" andTextColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:0];
+		titleLabel = [Tools creatLabelWithText:@"添加时间" textColor:[Tools themeColor] fontSize:16.f backgroundColor:nil textAlignment:0];
 		[divView addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.right.equalTo(divView);

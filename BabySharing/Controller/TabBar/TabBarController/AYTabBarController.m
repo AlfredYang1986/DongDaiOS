@@ -163,7 +163,7 @@
 		if (isExchangeModel == ModeExchangeTypeServantToCommon) {
 			
 			cover.backgroundColor = [Tools darkBackgroundColor];
-			UILabel *tipsLabel = [Tools creatUILabelWithText:@"切换为预订模式" andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:1];
+			UILabel *tipsLabel = [Tools creatLabelWithText:@"切换为预订模式" textColor:[UIColor whiteColor] fontSize:16.f backgroundColor:nil textAlignment:1];
 			[cover addSubview:tipsLabel];
 			[tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 				make.centerY.equalTo(cover).offset(-60);

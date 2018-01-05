@@ -43,14 +43,14 @@
 			make.edges.equalTo(self).insets(UIEdgeInsetsMake(0, 15, 0, 15));
 		}];
 		
-		titleLabel = [Tools creatUILabelWithText:@"Around" andTextColor:[UIColor black] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		titleLabel = [Tools creatLabelWithText:@"Around" textColor:[UIColor black] fontSize:615.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(self).offset(35);
 			make.left.equalTo(coverImage).offset(16);
 		}];
 		
-		subTitleLabel = [Tools creatUILabelWithText:@"Around description text" andTextColor:[UIColor gary] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		subTitleLabel = [Tools creatLabelWithText:@"Around description text" textColor:[UIColor gary] fontSize:313.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:subTitleLabel];
 		[subTitleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);

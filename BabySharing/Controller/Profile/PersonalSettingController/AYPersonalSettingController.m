@@ -98,7 +98,7 @@ static NSString* const descInitStr =			@"描述一下自己的经历";
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
     NSString *pre = cmd.route;
     [user_photo sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:[profile_dic objectForKey:@"screen_photo"]]] placeholderImage:IMGRESOURCE(@"default_image")];
-    UILabel *nameLabel = [Tools creatUILabelWithText:@"姓名" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    UILabel *nameLabel = [Tools creatLabelWithText:@"姓名" textColor:[Tools blackColor] fontSize:17.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
     [mainView addSubview:nameLabel];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(user_photo.mas_bottom).offset(20);
@@ -131,14 +131,14 @@ static NSString* const descInitStr =			@"描述一下自己的经历";
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 30, 1));
     }];
     
-    UILabel *descTitleLabel = [Tools creatUILabelWithText:@"关于我" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    UILabel *descTitleLabel = [Tools creatLabelWithText:@"关于我" textColor:[Tools blackColor] fontSize:17.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
     [mainView addSubview:descTitleLabel];
     [descTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(separtor.mas_bottom).offset(20);
         make.left.equalTo(nameLabel);
     }];
     
-    descLabel = [Tools creatUILabelWithText:nil andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+    descLabel = [Tools creatLabelWithText:nil textColor:[Tools garyColor] fontSize:14.f backgroundColor:nil textAlignment:0];
     descLabel.numberOfLines = 0;
     [mainView addSubview:descLabel];
     [descLabel mas_makeConstraints:^(MASConstraintMaker *make) {

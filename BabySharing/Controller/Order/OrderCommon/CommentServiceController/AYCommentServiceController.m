@@ -69,7 +69,7 @@
         [service_rangs addObject:[NSNumber numberWithFloat:5]];
     }
     
-    UILabel *tipsLabel = [Tools creatUILabelWithText:@"请评价您体验的服务" andTextColor:[UIColor whiteColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    UILabel *tipsLabel = [Tools creatLabelWithText:@"请评价您体验的服务" textColor:[UIColor whiteColor] fontSize:17.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
     [self.view addSubview:tipsLabel];
     [tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(90);
@@ -89,7 +89,7 @@
         make.size.mas_equalTo(CGSizeMake(70, 70));
     }];
 	
-    nameLabel = [Tools creatUILabelWithText:@"服务者" andTextColor:[Tools whiteColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    nameLabel = [Tools creatLabelWithText:@"服务者" textColor:[Tools whiteColor] fontSize:15.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
     [self.view addSubview:nameLabel];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(userPhoto.mas_bottom).offset(25);

@@ -56,7 +56,7 @@
 	[self.view addSubview:coustomView];
 	coustomView.clipsToBounds = YES;
 	
-	UILabel *tipCoustomLabel = [Tools creatUILabelWithText:@"创建新的标签" andTextColor:[Tools blackColor] andFontSize:617 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *tipCoustomLabel = [Tools creatLabelWithText:@"创建新的标签" textColor:[Tools blackColor] fontSize:617 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[coustomView addSubview:tipCoustomLabel];
 	[tipCoustomLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(coustomView).offset(20);
@@ -78,7 +78,7 @@
 	[Tools creatCALayerWithFrame:CGRectMake(20, 44, SCREEN_WIDTH - 40, 0.5) andColor:[Tools garyLineColor] inSuperView:coustomView];
 	
 	CGFloat itemWidth = (SCREEN_WIDTH - 40 - 3*8)/4;
-	coustomLabel = [Tools creatUILabelWithText:@"Coustom" andTextColor:[Tools whiteColor] andFontSize:315 andBackgroundColor:[Tools themeColor] andTextAlignment:NSTextAlignmentCenter];
+	coustomLabel = [Tools creatLabelWithText:@"Coustom" textColor:[Tools whiteColor] fontSize:315 backgroundColor:[Tools themeColor] textAlignment:NSTextAlignmentCenter];
 	[Tools setViewBorder:coustomLabel withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
 	[coustomView addSubview:coustomLabel];
 	[coustomLabel mas_makeConstraints:^(MASConstraintMaker *make) {

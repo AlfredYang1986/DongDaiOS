@@ -59,7 +59,7 @@
 	CGFloat marginScreen = 40.f;
 	CGFloat itemBtnHeight = 40;
 	
-	titleLabel = [Tools creatUILabelWithText:@"价格设定" andTextColor:[Tools blackColor] andFontSize:630.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	titleLabel = [Tools creatLabelWithText:@"价格设定" textColor:[Tools blackColor] fontSize:630.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	titleLabel.numberOfLines = 0;
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -158,7 +158,7 @@
 				}
 			}
 			
-			UILabel *tipLabel = [Tools creatUILabelWithText:[NSString stringWithFormat:@"设置%@价格该服务可按%@预定", [itemTitles objectAtIndex:i], [itemTips objectAtIndex:i]] andTextColor:[Tools garyColor] andFontSize:311 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+			UILabel *tipLabel = [Tools creatLabelWithText:[NSString stringWithFormat:@"设置%@价格该服务可按%@预定", [itemTitles objectAtIndex:i], [itemTips objectAtIndex:i]] textColor:[Tools garyColor] fontSize:311 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 			[radiusView addSubview:tipLabel];
 			[tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 				make.bottom.equalTo(radiusView.mas_bottom).offset(-10);
@@ -206,7 +206,7 @@
 			
 			[self setInputViewTitle:inputView andPriceNumb:[self predPriceWithType:i inPriceArr:info_price_arr]];
 			
-			UILabel *tipLabel = [Tools creatUILabelWithText:[NSString stringWithFormat:@"设置%@价格该服务可按%@预定", [itemTitles objectAtIndex:i], [itemTips objectAtIndex:i]] andTextColor:[Tools garyColor] andFontSize:311 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+			UILabel *tipLabel = [Tools creatLabelWithText:[NSString stringWithFormat:@"设置%@价格该服务可按%@预定", [itemTitles objectAtIndex:i], [itemTips objectAtIndex:i]] textColor:[Tools garyColor] fontSize:311 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 			[radiusView addSubview:tipLabel];
 			[tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 				make.bottom.equalTo(radiusView.mas_bottom).offset(-10);

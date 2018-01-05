@@ -74,7 +74,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:@"标题" andTextColor:[Tools themeColor] andFontSize:620.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatLabelWithText:@"标题" textColor:[Tools themeColor] fontSize:620.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(80);
@@ -106,7 +106,7 @@
         costTextField.text = price;
     }
     
-    UILabel *RMBSign = [Tools creatUILabelWithText:@"元" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    UILabel *RMBSign = [Tools creatLabelWithText:@"元" textColor:[Tools blackColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
     [self.view addSubview:RMBSign];
     [RMBSign mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(h1);
@@ -118,7 +118,7 @@
     h3.textInsets = UIEdgeInsetsMake(0, 5, 0, 0);
     [self.view addSubview:h3];
 	
-	UILabel *iconLael = [Tools creatUILabelWithText:@"小时" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+	UILabel *iconLael = [Tools creatLabelWithText:@"小时" textColor:[Tools blackColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
     [self.view addSubview:iconLael];
     [iconLael mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(h3);
@@ -186,7 +186,7 @@
 			timeTextField.text = duration;
 		}
 		
-		UILabel *TIMESign = [Tools creatUILabelWithText:@"分钟" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+		UILabel *TIMESign = [Tools creatLabelWithText:@"分钟" textColor:[Tools blackColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
 		[self.view addSubview:TIMESign];
 		[TIMESign mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(h2);

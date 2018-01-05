@@ -30,7 +30,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-    UILabel *titleLabel = [Tools creatUILabelWithText:@"您要发布的服务" andTextColor:[Tools blackColor] andFontSize:630.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    UILabel *titleLabel = [Tools creatLabelWithText:@"您要发布的服务" textColor:[Tools blackColor] fontSize:630.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	titleLabel.numberOfLines = 0;
     [self.view addSubview:titleLabel];
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {

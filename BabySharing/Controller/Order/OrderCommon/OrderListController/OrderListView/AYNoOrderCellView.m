@@ -29,14 +29,14 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        UILabel *titleLabel = [Tools creatUILabelWithText:@"没有预定申请" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+        UILabel *titleLabel = [Tools creatLabelWithText:@"没有预定申请" textColor:[Tools blackColor] fontSize:16.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(15);
             make.centerX.equalTo(self);
         }];
         
-        UILabel *description = [Tools creatUILabelWithText:@"您目前没有需要处理的预定申请" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+        UILabel *description = [Tools creatLabelWithText:@"您目前没有需要处理的预定申请" textColor:[Tools garyColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
         [self addSubview:description];
         [description mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self);

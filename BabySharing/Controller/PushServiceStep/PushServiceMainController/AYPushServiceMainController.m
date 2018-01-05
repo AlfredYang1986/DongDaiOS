@@ -157,7 +157,7 @@
 	[self.view addSubview:sloganView];
 	[Tools setViewBorder:sloganView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools whiteColor]];
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:@"Servant' Servcie" andTextColor:[Tools blackColor] andFontSize:617 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatLabelWithText:@"Servant' Servcie" textColor:[Tools blackColor] fontSize:617 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[sloganView addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(sloganView).offset(kBETWEENMARGIN);
@@ -165,7 +165,7 @@
 		make.centerX.equalTo(sloganView);
 	}];
 	
-	UILabel *sloganLabel = [Tools creatUILabelWithText:@"Servant' Servcie" andTextColor:[Tools blackColor] andFontSize:313 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *sloganLabel = [Tools creatLabelWithText:@"Servant' Servcie" textColor:[Tools blackColor] fontSize:313 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[sloganView addSubview:sloganLabel];
 	[sloganLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.bottom.equalTo(sloganView).offset(-kBETWEENMARGIN);
@@ -281,7 +281,7 @@
 	pushBtn.enabled = NO;
 	[pushBtn addTarget:self action:@selector(didPushBtnClick) forControlEvents:UIControlEventTouchUpInside];
 	
-	pushBtnTitle = [Tools creatUILabelWithText:@"准备发布" andTextColor:[Tools whiteColor] andFontSize:617 andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	pushBtnTitle = [Tools creatLabelWithText:@"准备发布" textColor:[Tools whiteColor] fontSize:617 backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	[self.view addSubview:pushBtnTitle];
 	[pushBtnTitle mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.center.equalTo(pushBtn);

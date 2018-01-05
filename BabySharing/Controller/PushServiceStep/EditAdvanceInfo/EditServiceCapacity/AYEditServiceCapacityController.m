@@ -67,7 +67,7 @@
         [cmd_delegate performWithResult:&obj];
     }
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:@"描述" andTextColor:[Tools themeColor] andFontSize:620.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatLabelWithText:@"描述" textColor:[Tools themeColor] fontSize:620.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(80);
@@ -102,7 +102,7 @@
     babyAgesTitle.userInteractionEnabled = YES;
     [babyAgesTitle addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editBabyAgesClick:)]];
     
-    agesNumbLabel = [Tools creatUILabelWithText:@"0岁 - 0岁" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+    agesNumbLabel = [Tools creatLabelWithText:@"0岁 - 0岁" textColor:[Tools themeColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
     [tableView addSubview:agesNumbLabel];
     [agesNumbLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(babyAgesTitle).offset(-rightMargin);
@@ -127,7 +127,7 @@
         make.size.equalTo(babyAgesTitle);
     }];
     
-    UILabel *babyNumbSign = [Tools creatUILabelWithText:@"个" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+    UILabel *babyNumbSign = [Tools creatLabelWithText:@"个" textColor:[Tools themeColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
     [tableView addSubview:babyNumbSign];
     [babyNumbSign mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(babyNumbTitle).offset(-rightMargin);
@@ -170,7 +170,7 @@
 	}];
 	[tableView sendSubviewToBack:servantBg];
     
-    UILabel *servantNumbSign = [Tools creatUILabelWithText:@"个" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+    UILabel *servantNumbSign = [Tools creatLabelWithText:@"个" textColor:[Tools themeColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
     [tableView addSubview:servantNumbSign];
     [servantNumbSign mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(servantNumbTitle).offset(-rightMargin);
@@ -202,7 +202,7 @@
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, labelHeight));
     }];
     
-    UILabel *serCatLabel = [Tools creatUILabelWithText:@"服务类型" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+    UILabel *serCatLabel = [Tools creatLabelWithText:@"服务类型" textColor:[Tools garyColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
     [tableView addSubview:serCatLabel];
     [serCatLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(serviceCatTitle);
@@ -229,7 +229,7 @@
         make.size.equalTo(serviceCatTitle);
     }];
     
-    serThemeLabel = [Tools creatUILabelWithText:@"服务主题" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+    serThemeLabel = [Tools creatLabelWithText:@"服务主题" textColor:[Tools garyColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
     [tableView addSubview:serThemeLabel];
     [serThemeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(serviceThemeTitle);

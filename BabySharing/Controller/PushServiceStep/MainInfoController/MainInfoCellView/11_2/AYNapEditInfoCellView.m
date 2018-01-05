@@ -30,14 +30,14 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        titleLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools themeColor] andFontSize:616.f andBackgroundColor:nil andTextAlignment:0];
+        titleLabel = [Tools creatLabelWithText:@"" textColor:[Tools themeColor] fontSize:616.f backgroundColor:nil textAlignment:0];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(15);
             make.bottom.equalTo(self.mas_centerY).offset(-2);
         }];
         
-        subTitlelabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+        subTitlelabel = [Tools creatLabelWithText:@"" textColor:[Tools garyColor] fontSize:14.f backgroundColor:nil textAlignment:0];
         [self addSubview:subTitlelabel];
         [subTitlelabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(titleLabel);

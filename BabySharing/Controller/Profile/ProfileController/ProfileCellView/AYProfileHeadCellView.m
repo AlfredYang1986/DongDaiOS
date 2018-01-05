@@ -28,14 +28,14 @@
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
 		
-		user_name = [Tools creatUILabelWithText:@"User Name" andTextColor:[Tools blackColor] andFontSize:630.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		user_name = [Tools creatLabelWithText:@"User Name" textColor:[Tools blackColor] fontSize:630.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:user_name];
 		[user_name mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(self).offset(20);
 			make.left.equalTo(self).offset(20);
 		}];
 		
-		editEnter = [Tools creatUILabelWithText:@"查看并编辑个人资料" andTextColor:[Tools blackColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		editEnter = [Tools creatLabelWithText:@"查看并编辑个人资料" textColor:[Tools blackColor] fontSize:313.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:editEnter];
 		[editEnter mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(user_name);

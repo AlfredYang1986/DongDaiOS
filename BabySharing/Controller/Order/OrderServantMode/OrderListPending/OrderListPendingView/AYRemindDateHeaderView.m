@@ -19,14 +19,14 @@
 //		self.backgroundView.backgroundColor = [Tools whiteColor];
 		self.contentView.backgroundColor = [Tools whiteColor];
 		
-		dateLabel = [Tools creatUILabelWithText:@"2017-01-01" andTextColor:[Tools blackColor] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		dateLabel = [Tools creatLabelWithText:@"2017-01-01" textColor:[Tools blackColor] fontSize:615.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:dateLabel];
 		[dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(self);
 			make.left.equalTo(self).offset(20);
 		}];
 
-		hoursLabel =  [Tools creatUILabelWithText:@"00:00-00:00" andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		hoursLabel =  [Tools creatLabelWithText:@"00:00-00:00" textColor:[Tools blackColor] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:hoursLabel];
 		[hoursLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(self);

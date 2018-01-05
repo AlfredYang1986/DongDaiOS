@@ -31,14 +31,14 @@
 		
 //		[Tools creatCALayerWithFrame:CGRectMake(0, 84.5, SCREEN_WIDTH, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
         
-        dateLabel =  [Tools creatUILabelWithText:@"Service Date" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        dateLabel =  [Tools creatLabelWithText:@"Service Date" textColor:[Tools blackColor] fontSize:17.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
         [self addSubview:dateLabel];
 		[dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(15);
 			make.bottom.equalTo(self.mas_centerY).offset(-3);
 		}];
 		
-		timeLabel =  [Tools creatUILabelWithText:@"Service Time" andTextColor:[Tools themeColor] andFontSize:20.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		timeLabel =  [Tools creatLabelWithText:@"Service Time" textColor:[Tools themeColor] fontSize:20.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:timeLabel];
 		[timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(15);

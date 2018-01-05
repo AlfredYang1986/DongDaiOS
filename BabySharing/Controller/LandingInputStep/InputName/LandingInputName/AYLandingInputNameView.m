@@ -45,7 +45,7 @@
 
 - (void)postPerform {
 	
-	UILabel *tips = [Tools creatUILabelWithText:@"还有，您的姓名" andTextColor:[Tools themeColor] andFontSize:20.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *tips = [Tools creatLabelWithText:@"还有，您的姓名" textColor:[Tools themeColor] fontSize:20.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self addSubview:tips];
 	[tips mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self);

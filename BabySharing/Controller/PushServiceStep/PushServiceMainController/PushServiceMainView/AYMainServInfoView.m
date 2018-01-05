@@ -33,7 +33,7 @@
 		[self addSubview:radiusBGView];
 		[Tools setViewBorder:radiusBGView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools whiteColor]];
 		
-		titleLabel = [Tools creatUILabelWithText:title andTextColor:[Tools themeColor] andFontSize:617 andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		titleLabel = [Tools creatLabelWithText:title textColor:[Tools themeColor] fontSize:617 backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.center.equalTo(self);

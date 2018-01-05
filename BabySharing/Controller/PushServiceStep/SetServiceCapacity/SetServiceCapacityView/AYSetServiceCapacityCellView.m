@@ -35,7 +35,7 @@
         separator.backgroundColor = [Tools whiteColor].CGColor;
         [self.layer addSublayer:separator];
         
-        titleLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:0];
+        titleLabel = [Tools creatLabelWithText:@"" textColor:[Tools blackColor] fontSize:16.f backgroundColor:nil textAlignment:0];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self);
@@ -85,7 +85,7 @@
         }];
         [addBtn addTarget:self action:@selector(didAddBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         
-        countLabel = [Tools creatUILabelWithText:@"0" andTextColor:[Tools themeColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+        countLabel = [Tools creatLabelWithText:@"0" textColor:[Tools themeColor] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
         [divView addSubview:countLabel];
         [countLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(divView);

@@ -32,14 +32,14 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        titleLabel = [Tools creatUILabelWithText:@"关于我" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        titleLabel = [Tools creatLabelWithText:@"关于我" textColor:[Tools blackColor] fontSize:17.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(10);
             make.left.equalTo(self).offset(15);
         }];
         
-        descLabel = [Tools creatUILabelWithText:@"向咚哒社区其他年轻家庭和孩子们介绍您自己，让交流感到轻松有趣" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        descLabel = [Tools creatLabelWithText:@"向咚哒社区其他年轻家庭和孩子们介绍您自己，让交流感到轻松有趣" textColor:[Tools blackColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
         descLabel.numberOfLines = 0;
         [self addSubview:descLabel];
         [descLabel mas_makeConstraints:^(MASConstraintMaker *make) {

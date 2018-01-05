@@ -41,7 +41,7 @@
         }];
         
 
-         titleLabel = [Tools creatUILabelWithText:@"PayWay Option" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+         titleLabel = [Tools creatLabelWithText:@"PayWay Option" textColor:[Tools blackColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
          [self addSubview:titleLabel];
          [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
              make.centerY.equalTo(payWayIcon);

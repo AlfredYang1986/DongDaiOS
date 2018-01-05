@@ -51,7 +51,7 @@
         
     }
     
-    UILabel *welcome = [Tools creatUILabelWithText:@"最后一步，您的照片" andTextColor:[Tools themeColor] andFontSize:22.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    UILabel *welcome = [Tools creatLabelWithText:@"最后一步，您的照片" textColor:[Tools themeColor] fontSize:22.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
     [self.view addSubview:welcome];
     [welcome mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(WELCOMEY);
@@ -62,7 +62,7 @@
     UIView *photoView = (UIView*)photo_view;
     
     NSString *user_name = [login_attr objectForKey:@"screen_name"];
-    UILabel *nameLabel = [Tools creatUILabelWithText:user_name andTextColor:[Tools themeColor] andFontSize:620.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    UILabel *nameLabel = [Tools creatLabelWithText:user_name textColor:[Tools themeColor] fontSize:620.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
     [self.view addSubview:nameLabel];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(photoView.mas_bottom).offset(16);

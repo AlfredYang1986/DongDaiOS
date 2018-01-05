@@ -77,7 +77,7 @@
 	[cmd_delegate performWithResult:&obj];
 	
 	id<AYCommand> cmd_search = [view_table.commands objectForKey:@"registerCellWithClass:"];
-	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeServPerCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+	NSString* class_name = @"AYNursaryListCellView";
 	[cmd_search performWithResult:&class_name];
 	
 	UITableView *tableView = (UITableView*)view_table;
@@ -115,19 +115,15 @@
 }
 
 - (id)TableLayout:(UIView*)view {
-	view.frame = CGRectMake(0, kStatusAndNavBarH , SCREEN_WIDTH, SCREEN_HEIGHT - 64);
+	view.frame = CGRectMake(0, kStatusAndNavBarH , SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH);
 	return nil;
 }
 
 #pragma mark -- actions
 - (void)loadNewData {
 	
-	NSDictionary *user;
-	CURRENUSER(user);
 	NSMutableDictionary *dic_search = [Tools getBaseRemoteData];
-	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
 	[[dic_search objectForKey:kAYCommArgsCondition] setValue:@"看顾" forKey:kAYServiceArgsCategoryInfo];
-	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[NSNumber numberWithLongLong:([NSDate date].timeIntervalSince1970 * 1000)] forKey:kAYCommArgsRemoteDate];
 	
 	id<AYFacadeBase> f_choice = [self.facades objectForKey:@"ChoiceRemote"];
 	AYRemoteCallCommand *cmd_search = [f_choice.commands objectForKey:@"ChoiceSearch"];
