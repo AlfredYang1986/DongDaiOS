@@ -35,14 +35,15 @@
 #pragma mark -- life cycle
 - (void)postPerform {
     isExpend = NO;
+	
 	CellNameArr = @[@"AYServiceTitleCellView",
 					@"AYServiceCapacityCellView",
 					@"AYServiceOwnerInfoCellView",
 					@"AYServiceDescCellView",
 					@"AYServiceFacilityCellView",
 					@"AYServiceMapCellView",
-					@"AYServiceNotiCellView",
-					@"AYServiceTAGCellView", ];
+					/*@"AYServiceNotiCellView",
+					 @"AYServiceTAGCellView",*/ ];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -64,6 +65,16 @@
 
 - (id)changeQueryData:(NSDictionary*)args {
     querydata = args;
+	
+	NSString *service_cat = [querydata objectForKey:kAYServiceArgsCat];
+	if ([service_cat isEqualToString:kAYStringCourse]) {
+		
+		CellNameArr = @[@"AYServiceTitleCellView",
+						@"AYServiceCapacityCellView",
+						@"AYServiceOwnerInfoCellView",
+						@"AYServiceDescCellView",
+						@"AYServiceMapCellView", ];
+	}
     return nil;
 }
 
@@ -76,7 +87,8 @@
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 6;
+	
+    return CellNameArr.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -31,6 +31,8 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 @implementation AYServiceOwnerInfoCellView {
 	
     UIImageView *userPhoto;
+	UILabel *brandTagLabel;
+	
     UILabel *userName;
 	UILabel *userJob;
 	
@@ -63,6 +65,8 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 	return kAYFactoryManagerCatigoryView;
 }
 
+
+#pragma mark -- life cycle
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
@@ -87,19 +91,26 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
             make.size.mas_equalTo(CGSizeMake(photoWidth, photoWidth));
         }];
 		
-		userName = [UILabel creatLabelWithText:@"UserName" textColor:[UIColor black] fontSize:614.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		brandTagLabel = [UILabel creatLabelWithText:@"-" textColor:[UIColor white] fontSize:620 backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+		brandTagLabel.font = [UIFont boldSystemFontOfSize:20];
+		[self addSubview:brandTagLabel];
+		[brandTagLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.center.equalTo(userPhoto);
+		}];
+		
+		userName = [UILabel creatLabelWithText:@"UserName" textColor:[UIColor black] fontSize:617.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		userName.numberOfLines = 1;
 		[self addSubview:userName];
 		[userName mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(userPhoto).offset(0);
+			make.top.equalTo(userPhoto).offset(2);
 			make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
 			make.right.equalTo(userPhoto.mas_left).offset(-20);
 		}];
-		userJob = [UILabel creatLabelWithText:@"UserJob" textColor:[UIColor gary] fontSize:314.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		userJob = [UILabel creatLabelWithText:@"UserJob" textColor:[UIColor gary] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		userJob.numberOfLines = 1;
 		[self addSubview:userJob];
 		[userJob mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.bottom.equalTo(userPhoto);
+			make.bottom.equalTo(userPhoto).offset(-2);
 			make.left.equalTo(userName);
 			make.right.equalTo(userName);
 		}];
@@ -119,8 +130,6 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
     }
     return self;
 }
-
-#pragma mark -- life cycle
 
 
 #pragma mark -- actions
@@ -159,7 +168,9 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 		}
 		
 		NSString *tag = [info_owner objectForKey:kAYBrandArgsTag];
-		userPhoto.image = [self createImageContext:tag];
+//		userPhoto.image = [self createImageContext:tag];
+		
+		brandTagLabel.text = tag;
 		
 //		NSString *screen_photo = [info_owner objectForKey:kAYProfileArgsScreenPhoto];
 //		if (screen_photo && ![screen_photo isEqualToString:@""]) {

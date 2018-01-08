@@ -24,6 +24,7 @@
 	UICollectionView *collectionView;
 	
 	NSArray *topicsArr;
+	NSArray *subTopicsArr;
 }
 
 @synthesize para = _para;
@@ -31,13 +32,34 @@
 @synthesize commands = _commands;
 @synthesize notifies = _notiyies;
 
+#pragma mark -- commands
+- (void)postPerform {
+	
+}
+
+- (void)performWithResult:(NSObject**)obj {
+	
+}
+
+- (NSString*)getViewType {
+	return kAYFactoryManagerCatigoryView;
+}
+
+- (NSString*)getViewName {
+	return [NSString stringWithUTF8String:object_getClassName([self class])];
+}
+
+- (NSString*)getCommandType {
+	return kAYFactoryManagerCatigoryView;
+}
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
 		
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		topicsArr = kAY_home_album_titles;
-		
+		subTopicsArr = kAY_home_album_titles_sub;
 		
 		titleLabel = [UILabel creatLabelWithText:@"简单描述" textColor:[Tools blackColor] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
@@ -82,6 +104,8 @@
 	
 	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
 	[tmp setValue:[topicsArr objectAtIndex:indexPath.row] forKey:@"title"];
+	[tmp setValue:[subTopicsArr objectAtIndex:indexPath.row] forKey:@"title_sub"];
+	[tmp setValue:[NSString stringWithFormat:@"home_album_%d", (int)indexPath.row] forKey:@"img"];
 	//	[tmp setValue:[NSNumber numberWithInteger:100] forKey:@"count_skiped"];
 //	[tmp setValue:[NSString stringWithFormat:@"topsort_home_%ld", indexPath.row] forKey:@"assortment_img"];
 	[cell setItemInfo:[tmp copy]];
@@ -90,31 +114,7 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	NSString *sort = [topicsArr objectAtIndex:indexPath.row];
-	//	kAYViewSendNotify(self, @"didSelectAssortmentAtIndex:", &sort)
-//	[self performNotify:@"didOneTopicClick:" withResult:&sort];
-//	[self controller:self.controller performSeletor:@"didOneTopicClick:" withResult:&sort];
 	[(AYViewController*)self.controller performSel:@"didOneTopicClick:" withResult:&sort];
-}
-
-#pragma mark -- commands
-- (void)postPerform {
-	
-}
-
-- (void)performWithResult:(NSObject**)obj {
-	
-}
-
-- (NSString*)getViewType {
-	return kAYFactoryManagerCatigoryView;
-}
-
-- (NSString*)getViewName {
-	return [NSString stringWithUTF8String:object_getClassName([self class])];
-}
-
-- (NSString*)getCommandType {
-	return kAYFactoryManagerCatigoryView;
 }
 
 #pragma mark -- actions

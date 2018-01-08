@@ -63,14 +63,14 @@
 			make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
 		}];
 		
-		themeLabel = [UILabel creatLabelWithText:@"Theme" textColor:[UIColor black] fontSize:313.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		themeLabel = [UILabel creatLabelWithText:@"Theme" textColor:[UIColor black] fontSize:622.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview: themeLabel];
 		[themeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);
 			make.top.equalTo(titleLabel.mas_bottom).offset(20);
 		}];
 		
-		tagLabel = [UILabel creatLabelWithText:@"TAG" textColor:[UIColor tag] fontSize:612.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		tagLabel = [UILabel creatLabelWithText:@"TAG" textColor:[UIColor tag] fontSize:616.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview: tagLabel];
 		[tagLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);
@@ -103,7 +103,7 @@
 	
 	NSString *themeStr;
 	if ([service_cat isEqualToString:kAYStringNursery]) {
-		themeStr = service_leaf;
+		themeStr = service_type;
 		
 	} else if ([service_cat isEqualToString:kAYStringCourse]) {
 		themeStr = [NSString stringWithFormat:@"%@·%@%@", service_type, service_leaf, kAYStringCourse];

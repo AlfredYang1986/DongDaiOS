@@ -22,7 +22,7 @@
 #import "UICollectionViewLeftAlignedLayout.h"
 
 
-#define kTABLEMARGINTOP					(kStatusBarH+80)
+#define kTABLEMARGINTOP					(kStatusBarH + 80)
 #define kCollectionViewHeight			164
 
 typedef void(^queryContentFinish)(void);
@@ -155,8 +155,11 @@ typedef void(^queryContentFinish)(void);
 			id class_name = [cell_name copy];
 			kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name);
 		}
-		
-		tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+//		MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+//		header.stateLabel.hidden = YES;
+//		header.lastUpdatedTimeLabel.hidden = YES;
+//		tableView.mj_header = header;
+		tableView.mj_header = [MXSRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
 //		tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
 	}
 	
@@ -553,7 +556,7 @@ typedef void(^queryContentFinish)(void);
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
 	
-	[dic setObject:[args objectForKey:@"cover"] forKey:kAYControllerImgForFrameKey];
+//	[dic setObject:[args objectForKey:@"cover"] forKey:kAYControllerImgForFrameKey];
 	[dic setValue:[args objectForKey:kAYServiceArgsSelf] forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd_push_animate = PUSH;

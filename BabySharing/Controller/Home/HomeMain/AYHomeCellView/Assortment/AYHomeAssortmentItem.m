@@ -111,7 +111,7 @@
 	if (tag.length == 0) {
 		tag = @"没有标签";
 	}
-	tagLabel.text = [@"·" stringByAppendingString:tag];
+	tagLabel.text = tag;
 	
 	NSString *brand_name = [_itemInfo objectForKey:kAYBrandArgsName];
 	NSString *operation = [[_itemInfo objectForKey:kAYServiceArgsOperation] firstObject];

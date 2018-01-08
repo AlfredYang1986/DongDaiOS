@@ -33,7 +33,7 @@
 			make.top.equalTo(icon.mas_bottom).offset(8);
 		}];
 		
-		infoLabel = [UILabel creatLabelWithText:@"info" textColor:[UIColor black] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+		infoLabel = [UILabel creatLabelWithText:@"-" textColor:[UIColor black] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 		[self addSubview:infoLabel];
 		[infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self);

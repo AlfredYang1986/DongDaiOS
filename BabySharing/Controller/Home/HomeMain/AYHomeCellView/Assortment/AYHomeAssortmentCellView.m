@@ -115,11 +115,12 @@
 	if (indexPath.row == serviceData.count) {
 		NSString *title = titleLabel.text;
 		[(AYViewController*)self.controller performSel:@"didAssortmentMoreBtnClick:" withResult:&title];
+		return;
 	} else {
 		
-		AYHomeAssortmentItem *item = (AYHomeAssortmentItem*)[collectionView cellForItemAtIndexPath:indexPath];
-		UIImageView *cover = item.coverImage;
-		[dic setValue:cover forKey:@"cover"];
+//		AYHomeAssortmentItem *item = (AYHomeAssortmentItem*)[collectionView cellForItemAtIndexPath:indexPath];
+//		UIImageView *cover = item.coverImage;
+//		[dic setValue:cover forKey:@"cover"];
 		[dic setValue:[serviceData objectAtIndex:indexPath.row] forKey:kAYServiceArgsSelf];
 	}
 	

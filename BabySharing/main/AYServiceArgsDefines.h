@@ -69,7 +69,7 @@ static NSString* const kAYServiceArgsChoiced =				@"selected";
 static NSString* const kAYServiceArgsTopCateg =				@"hotcate";
 
 static NSString* const kAYServiceArgsCategoryInfo =			@"category";
-static NSString* const kAYServiceArgsCat =					@"service_cat";
+static NSString* const kAYServiceArgsCat =					@"category";
 static NSString* const kAYServiceArgsCatSecondary =			@"cans_cat";
 static NSString* const kAYServiceArgsCatThirdly =			@"cans";
 static NSString* const kAYServiceArgsConcert =				@"concert";

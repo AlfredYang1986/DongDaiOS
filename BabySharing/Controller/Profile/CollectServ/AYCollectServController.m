@@ -78,7 +78,7 @@
     [cmd_delegate performWithResult:&obj];
     
     id<AYCommand> cmd_search = [view_table.commands objectForKey:@"registerCellWithClass:"];
-    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeServPerCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NursaryListCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_search performWithResult:&class_name];
     
     UITableView *tableView = (UITableView*)view_table;
@@ -141,7 +141,7 @@
     [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
             
-            NSArray *data = [[result objectForKey:@"result"] objectForKey:@"services"];
+            NSArray *data = [result objectForKey:@"services"];
 			resultArr = [data mutableCopy];
             if (data.count == 0) {
                 tipsLabel.hidden = NO;

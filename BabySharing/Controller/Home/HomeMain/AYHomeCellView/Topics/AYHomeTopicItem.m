@@ -61,23 +61,24 @@
 		make.edges.equalTo(self);
 	}];
 	
-	titleLabel = [Tools creatLabelWithText:@"Service" textColor:[UIColor white] fontSize:624.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
-	titleLabel.backgroundColor = [UIColor colorWithRED:83 GREEN:102 BLUE:119 ALPHA:1];
+	titleLabel = [UILabel creatLabelWithText:@"Service" textColor:[UIColor white] fontSize:624.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+//	titleLabel.backgroundColor = [UIColor colorWithRED:83 GREEN:102 BLUE:119 ALPHA:1];
 	[self addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(self);
+		make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
 		make.centerY.equalTo(self.mas_top).offset(57);
-		make.height.mas_equalTo(40);
-		make.width.mas_equalTo(124);
+//		make.height.mas_equalTo(40);
+//		make.width.mas_equalTo(124);
 	}];
 	
-	themeLabel = [Tools creatLabelWithText:@"Theme Theme ThemeThemeTheme" textColor:[UIColor theme] fontSize:311.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+	themeLabel = [UILabel creatLabelWithText:@"Theme" textColor:[UIColor white] fontSize:615.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	themeLabel.numberOfLines = 2;
 //	[Tools setViewBorder:themeLabel withRadius:4.f andBorderWidth:1.f andBorderColor:[UIColor theme] andBackground:nil];
 	[self addSubview:themeLabel];
 	[themeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(self);
-		make.top.equalTo(titleLabel.mas_bottom).offset(15);
+		make.left.equalTo(titleLabel);
+		make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
+		make.top.equalTo(titleLabel.mas_bottom).offset(18);
 	}];
 	
 }
@@ -90,9 +91,13 @@
 - (void)setItemInfo:(NSDictionary*)itemInfo {
 	
 	NSString *title = [itemInfo objectForKey:@"title"];
-	if (title.length != 0) {
-		titleLabel.text = title;
-	}
+	titleLabel.text = title;
+	
+	NSString *title_sub = [itemInfo objectForKey:@"title_sub"];
+	themeLabel.text = title_sub;
+	
+	NSString *imgName = [itemInfo objectForKey:@"img"];
+	_coverImage.image = IMGRESOURCE(imgName);
 }
 
 

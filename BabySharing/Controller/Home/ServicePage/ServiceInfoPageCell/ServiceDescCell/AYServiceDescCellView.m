@@ -195,7 +195,7 @@
 		NSString *tagStr = @"#";
 		for (NSString *tag in tags) {
 			if (tags.lastObject == tag) {
-				tagStr = [tagStr stringByAppendingString:@"#"];
+				tagStr = [[tagStr stringByAppendingString:tag] stringByAppendingString:@"#"];
 			} else
 				tagStr = [[tagStr stringByAppendingString:tag] stringByAppendingString:@"# #"];
 		}

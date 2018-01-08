@@ -14,9 +14,12 @@
     __unsafe_unretained UIImageView *_arrowView;
 }
 @property (weak, nonatomic) UIActivityIndicatorView *loadingView;
+@property (nonatomic, weak) UIView *progressIndicatorView;
 @end
 
-@implementation MJRefreshNormalHeader
+@implementation MJRefreshNormalHeader {
+	CAShapeLayer *progressLayer;
+}
 #pragma mark - 懒加载子控件
 - (UIImageView *)arrowView
 {
@@ -35,6 +38,25 @@
         [self addSubview:_loadingView = loadingView];
     }
     return _loadingView;
+}
+
+- (UIView*)progressIndicatorView {
+	CGFloat Width = 20;
+	
+	UIView *indicator = [[UIView alloc] init];
+	
+	progressLayer = [CAShapeLayer layer];
+	UIBezierPath *path_cir = [[UIBezierPath alloc] init];
+	[path_cir addArcWithCenter:CGPointMake(Width*0.5, Width*0.5) radius:Width*0.5 startAngle:M_PI endAngle:M_PI*2 clockwise:YES];
+	progressLayer.path = path_cir.CGPath;
+	progressLayer.fillColor = [UIColor clearColor].CGColor;
+	progressLayer.strokeColor = [Tools themeColor].CGColor;
+	progressLayer.lineWidth = 4;
+	progressLayer.lineCap = kCALineCapRound;
+	progressLayer.lineJoin = kCALineJoinRound;
+	[indicator.layer addSublayer:progressLayer];
+	
+	return indicator;
 }
 
 #pragma mark - 公共方法
@@ -124,4 +146,20 @@
         self.arrowView.hidden = YES;
     }
 }
+
+- (void)scrollViewContentOffsetDidChange:(NSDictionary *)change {
+	[super scrollViewContentOffsetDidChange:change];
+	NSLog(@"MJRefresh_Michauxs:%@", change);
+}
+
+//- (void)scrollViewPanStateDidChange:(NSDictionary *)change {
+//	[super scrollViewPanStateDidChange:change];
+//	NSLog(@"MJRefresh_Michauxs:%@", change);
+//}
+
+//- (void)scrollViewContentSizeDidChange:(NSDictionary *)change {
+//	[super scrollViewContentSizeDidChange:change];
+//	NSLog(@"MJRefresh_Michauxs:%@", change);
+//}
+
 @end

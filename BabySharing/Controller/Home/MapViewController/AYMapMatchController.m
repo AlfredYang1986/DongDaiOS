@@ -20,7 +20,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <AMapSearchKit/AMapSearchKit.h>
 
-#define kCollectionViewHeight				164
+#define kCollectionViewHeight				158
 
 @implementation AYMapMatchController {
     
@@ -40,7 +40,7 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        loc = [dic objectForKey:kAYControllerChangeArgsKey];
+        loc = [[dic objectForKey:kAYControllerChangeArgsKey] objectForKey:kAYServiceArgsLocationInfo];
 		
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
@@ -97,6 +97,7 @@
 			
 			id tmp = [dic copy];
 			kAYDelegatesSendMessage(@"MapMatch", @"changeQueryData:", &tmp)
+			kAYViewsSendMessage(kAYCollectionView, kAYTableRefreshMessage, nil)
 			
 		} else {
 			NSString *title = @"请改善网络环境并重试";

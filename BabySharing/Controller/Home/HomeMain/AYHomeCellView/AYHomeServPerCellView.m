@@ -60,7 +60,7 @@
 			make.edges.equalTo(_coverImage);
 		}];
 		
-		_coverImage = [[UIImageView alloc]init];
+		_coverImage = [[UIImageView alloc] init];
 		_coverImage.image = IMGRESOURCE(@"default_image");
 		_coverImage.contentMode = UIViewContentModeScaleAspectFill;
 		_coverImage.layer.cornerRadius = 4.f;

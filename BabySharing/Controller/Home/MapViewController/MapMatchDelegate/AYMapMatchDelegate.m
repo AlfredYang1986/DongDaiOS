@@ -59,13 +59,16 @@
 	NSString *class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"MapMatchCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	AYMapMatchCellView *cell = [collectionView dequeueReusableCellWithReuseIdentifier:class_name forIndexPath:indexPath];
 	
-	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
-	[tmp setValue:[servicesData objectAtIndex:indexPath.row] forKey:kAYServiceArgsInfo];
-	[tmp setValue:loc forKey:@"location_self"];
-	cell.service_info = [tmp copy];
-	cell.didTouchUpInSubCell = ^(NSDictionary *service_info) {
+	if (servicesData) {
 		
-	};
+		NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
+		[tmp setValue:[servicesData objectAtIndex:indexPath.row] forKey:kAYServiceArgsInfo];
+		[tmp setValue:loc forKey:@"location_self"];
+		cell.service_info = [tmp copy];
+		cell.didTouchUpInSubCell = ^(NSDictionary *service_info) {
+			
+		};
+	}
 	
 	return (UICollectionViewCell*)cell;
 }

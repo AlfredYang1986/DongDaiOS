@@ -127,7 +127,7 @@
 	}];
 	
 	descLabel = [Tools creatLabelWithText:@"Service description" textColor:[Tools RGB89GaryColor] fontSize:615.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
-	descLabel.numberOfLines = 3;
+	descLabel.numberOfLines = 2;
 	[self addSubview:descLabel];
 	[descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(tagLabel.mas_bottom).offset(8);
@@ -158,6 +158,7 @@
 	[self addSubview:distanceLabel];
 	
 	addrLabel = [Tools creatLabelWithText:@"服务妈妈的主题服务" textColor:[Tools RGB127GaryColor] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	addrLabel.numberOfLines = 1;
 	[self addSubview:addrLabel];
 	[addrLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(positionSignView.mas_right).offset(4);
@@ -173,7 +174,7 @@
 	
 	NSString *addressStr = [_service_info objectForKey:kAYServiceArgsAddress];
 	if (addressStr.length != 0) {
-		addressStr = [addressStr substringToIndex:3];
+//		addressStr = [addressStr substringToIndex:3];
 		addrLabel.text = addressStr;
 	}
 	

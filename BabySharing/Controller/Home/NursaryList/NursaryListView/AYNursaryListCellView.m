@@ -59,8 +59,8 @@
 		[self addSubview:coverImage];
 		[coverImage mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(self).offset(15);
-			make.right.equalTo(self).offset(SCREEN_MARGIN_LR);
-			make.left.equalTo(self).offset(-SCREEN_MARGIN_LR);
+			make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
+			make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
 			make.height.equalTo(@210);
 		}];
 		
@@ -75,14 +75,14 @@
 		}];
 		[likeBtn addTarget:self action:@selector(didLikeBtnClick) forControlEvents:UIControlEventTouchUpInside];
 		
-		tagLabel = [UILabel creatLabelWithText:@"*TAG" textColor:[UIColor random] fontSize:313 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		tagLabel = [UILabel creatLabelWithText:@"*TAG" textColor:[UIColor tag] fontSize:615 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:tagLabel];
 		[tagLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(coverImage.mas_bottom).offset(14);
 			make.left.equalTo(coverImage);
 		}];
 		
-		titleLabel = [UILabel creatLabelWithText:@"Service title" textColor:[UIColor black] fontSize:615.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		titleLabel = [UILabel creatLabelWithText:@"Service title" textColor:[UIColor black] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		titleLabel.numberOfLines = 2;
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -91,7 +91,7 @@
 			make.right.equalTo(coverImage);
 		}];
 		
-		addrlabel = [UILabel creatLabelWithText:@"Address s" textColor:[UIColor gary] fontSize:11.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+		addrlabel = [UILabel creatLabelWithText:@"Address s" textColor:[UIColor gary] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 		[self addSubview:addrlabel];
 		[addrlabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(titleLabel.mas_bottom).offset(10);
@@ -130,7 +130,7 @@
 	if (tag.length == 0) {
 		tag = @"没有标签";
 	}
-	tagLabel.text = [@"·" stringByAppendingString:tag];
+	tagLabel.text = tag;
 	
 	NSString *brand_name = [service_info objectForKey:kAYBrandArgsName];
 	NSString *operation = [[service_info objectForKey:kAYServiceArgsOperation] firstObject];

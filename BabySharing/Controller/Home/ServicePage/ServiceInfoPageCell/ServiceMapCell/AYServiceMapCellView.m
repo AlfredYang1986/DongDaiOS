@@ -29,6 +29,33 @@
 	UIView *tapview;
 }
 
+@synthesize para = _para;
+@synthesize controller = _controller;
+@synthesize commands = _commands;
+@synthesize notifies = _notiyies;
+
+#pragma mark -- commands
+- (void)postPerform {
+	
+}
+
+- (void)performWithResult:(NSObject**)obj {
+	
+}
+
+- (NSString*)getViewType {
+	return kAYFactoryManagerCatigoryView;
+}
+
+- (NSString*)getViewName {
+	return [NSString stringWithUTF8String:object_getClassName([self class])];
+}
+
+- (NSString*)getCommandType {
+	return kAYFactoryManagerCatigoryView;
+}
+
+#pragma mark -- life cycle
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
@@ -48,6 +75,7 @@
 		[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);
 			make.top.equalTo(titleLabel.mas_bottom).offset(20);
+			make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
 		}];
 		
 		orderMapView = [[MAMapView alloc] init];
@@ -75,34 +103,6 @@
 		
 	}
 	return self;
-}
-
-@synthesize para = _para;
-@synthesize controller = _controller;
-@synthesize commands = _commands;
-@synthesize notifies = _notiyies;
-
-#pragma mark -- life cycle
-
-#pragma mark -- commands
-- (void)postPerform {
-	
-}
-
-- (void)performWithResult:(NSObject**)obj {
-	
-}
-
-- (NSString*)getViewType {
-	return kAYFactoryManagerCatigoryView;
-}
-
-- (NSString*)getViewName {
-	return [NSString stringWithUTF8String:object_getClassName([self class])];
-}
-
-- (NSString*)getCommandType {
-	return kAYFactoryManagerCatigoryView;
 }
 
 - (id)setCellInfo:(id)args{

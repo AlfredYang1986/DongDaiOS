@@ -10,7 +10,6 @@
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
 #import "AYFactoryManager.h"
-#import "AYHomeCellDefines.h"
 
 @implementation AYTableView
 @synthesize para = _para;

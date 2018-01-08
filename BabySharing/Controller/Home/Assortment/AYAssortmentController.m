@@ -44,24 +44,15 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	
-//	id<AYCommand> des = DEFAULTCONTROLLER(@"ServicePage");
-//	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-//	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-//	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-//
-//	[dic setValue:[remoteDataArr objectAtIndex:indexPath.row] forKey:kAYControllerChangeArgsKey];
-//
-//	id<AYCommand> cmd_push = PUSHANIMATE;
-//	[cmd_push performWithResult:&dic];
 	
-	AYHomeAssortmentItem *item = (AYHomeAssortmentItem*)[collectionView cellForItemAtIndexPath:indexPath];
+//	AYHomeAssortmentItem *item = (AYHomeAssortmentItem*)[collectionView cellForItemAtIndexPath:indexPath];
 	
 	id<AYCommand> des = DEFAULTCONTROLLER(@"ServicePage");
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
 	
-	[dic setObject:item.coverImage forKey:kAYControllerImgForFrameKey];
+//	[dic setObject:item.coverImage forKey:kAYControllerImgForFrameKey];
 	[dic setValue:[remoteDataArr objectAtIndex:indexPath.row] forKey:kAYControllerChangeArgsKey];
 	
 //	id<AYCommand> cmd_push_animate = PUSHANIMATE;
@@ -98,21 +89,21 @@
 	
 	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
 	layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-	layout.itemSize = CGSizeMake((SCREEN_WIDTH - 39)*0.5, 250);
+	layout.itemSize = CGSizeMake((SCREEN_WIDTH - SCREEN_MARGIN_LR*2-15)*0.5, 250);
 	layout.minimumInteritemSpacing = 8.f;
 	layout.minimumLineSpacing = 8.f;
 	
-	servCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, SCREEN_HEIGHT-kStatusAndNavBarH) collectionViewLayout:layout];
+	servCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(SCREEN_MARGIN_LR, kStatusAndNavBarH+10, SCREEN_WIDTH-SCREEN_MARGIN_LR*2, SCREEN_HEIGHT-kStatusAndNavBarH) collectionViewLayout:layout];
 	servCollectionView.delegate = self;
 	servCollectionView.dataSource = self;
 	servCollectionView.backgroundColor = [UIColor clearColor];
 	servCollectionView.showsVerticalScrollIndicator = NO;
 	
-	servCollectionView.contentInset = UIEdgeInsetsMake(10, 15, 0, 15);
+	servCollectionView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
 	[self.view addSubview:servCollectionView];
 	[servCollectionView registerClass:NSClassFromString(@"AYHomeAssortmentItem") forCellWithReuseIdentifier:@"AYHomeAssortmentItem"];
 	
-	servCollectionView.mj_header = [MJRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+	servCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
 	servCollectionView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
 	
 	[self loadNewData];

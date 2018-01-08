@@ -53,19 +53,20 @@
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeServPerCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NursaryListCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
     cell.controller = self.controller;
     
-    id tmp = [querydata objectAtIndex:indexPath.row];
-    id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
-    [cmd performWithResult:&tmp];
+	id tmp = [querydata objectAtIndex:indexPath.row];
+	if (tmp) {
+		[(UITableViewCell*)cell performMethod:@"setCellInfo:" withResult:&tmp];
+	}
     
     return (UITableViewCell*)cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return HOMECOMMONCELLHEIGHT;
+    return 340;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
