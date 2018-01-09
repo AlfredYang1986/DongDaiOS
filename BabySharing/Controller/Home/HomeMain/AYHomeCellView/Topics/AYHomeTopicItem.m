@@ -10,10 +10,11 @@
 
 @implementation AYHomeTopicItem {
 	
+	UILabel *engLabel;
+	UILabel *titleLabel;
 	UILabel *themeLabel;
 	
-	UILabel *titleLabel;
-	
+	CGFloat titleWidth;
 	NSDictionary *service_info;
 }
 
@@ -54,41 +55,64 @@
 	[_coverImage setRadius:4 borderWidth:0 borderColor:nil background:nil];
 	[self addSubview:_coverImage];
 	[_coverImage mas_makeConstraints:^(MASConstraintMaker *make) {
-//		make.top.equalTo(self);
-//		make.left.equalTo(self);
-//		make.width.equalTo(self);
-//		make.height.mas_equalTo(116);
 		make.edges.equalTo(self);
 	}];
 	
-	titleLabel = [UILabel creatLabelWithText:@"Service" textColor:[UIColor white] fontSize:624.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
-//	titleLabel.backgroundColor = [UIColor colorWithRED:83 GREEN:102 BLUE:119 ALPHA:1];
-	[self addSubview:titleLabel];
-	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+	engLabel = [UILabel creatLabelWithText:@"Service" textColor:[UIColor white] fontSize:622.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	engLabel.textColor = [UIColor colorWithWhite:1 alpha:0.3];
+	[self addSubview:engLabel];
+	[engLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
-		make.centerY.equalTo(self.mas_top).offset(57);
-//		make.height.mas_equalTo(40);
-//		make.width.mas_equalTo(124);
+		make.centerY.equalTo(self.mas_top).offset(18);
+		make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
 	}];
 	
-	themeLabel = [UILabel creatLabelWithText:@"Theme" textColor:[UIColor white] fontSize:615.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+	UIView *leftView = [[UIView alloc] init];
+	[self addSubview:leftView];
+	[leftView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(self);
+		make.top.equalTo(self).offset(37);
+		make.size.mas_equalTo(CGSizeMake(SCREEN_MARGIN_LR, 40));
+	}];
+	
+	titleLabel = [UILabel creatLabelWithText:@"Service" textColor:[UIColor white] fontSize:624.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+	titleLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:0.3];
+	[self addSubview:titleLabel];
+	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(leftView.mas_right).offset(0);
+		make.top.equalTo(self).offset(37);
+		make.height.mas_equalTo(40);
+//		make.width.mas_equalTo(124);
+	}];
+	UIView *rightView = [[UIView alloc] init];
+	[self addSubview:rightView];
+	[rightView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(titleLabel.mas_right);
+		make.top.equalTo(leftView).offset(0);
+		make.size.equalTo(leftView);
+	}];
+	leftView.backgroundColor = rightView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.3];
+	
+	themeLabel = [UILabel creatLabelWithText:@"Theme" textColor:[UIColor white] fontSize:615.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	themeLabel.numberOfLines = 2;
-//	[Tools setViewBorder:themeLabel withRadius:4.f andBorderWidth:1.f andBorderColor:[UIColor theme] andBackground:nil];
 	[self addSubview:themeLabel];
 	[themeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(titleLabel);
+		make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
 		make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
-		make.top.equalTo(titleLabel.mas_bottom).offset(18);
+		make.top.equalTo(titleLabel.mas_bottom).offset(14);
 	}];
 	
 }
 
 #pragma mark - actions
-- (void)didLikeBtnClick:(UIButton*)btn {
-	
+- (void)layoutSubviews {
+	[super layoutSubviews];
 }
 
 - (void)setItemInfo:(NSDictionary*)itemInfo {
+	
+	NSString *eng = [itemInfo objectForKey:@"eng"];
+	engLabel.text = eng;
 	
 	NSString *title = [itemInfo objectForKey:@"title"];
 	titleLabel.text = title;

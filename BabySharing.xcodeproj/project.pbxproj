@@ -696,7 +696,6 @@
 		70E105CA1F26EB5E00470C70 /* AYAssortmentReviseDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E105C91F26EB5E00470C70 /* AYAssortmentReviseDelegate.m */; };
 		70E105CD1F26EF6C00470C70 /* AYAssortmentItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E105CC1F26EF6C00470C70 /* AYAssortmentItemView.m */; };
 		70E77CE31D8E812B00C882DD /* AYUpdateOrderInfoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E77CE21D8E812B00C882DD /* AYUpdateOrderInfoCommand.m */; };
-		70E91AE8200383B900DF1D8F /* MXSRefreshHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E91AE7200383B900DF1D8F /* MXSRefreshHeader.m */; };
 		70E9AB701CF3FE960019D33A /* AYNotifyFollowBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E9AB6F1CF3FE960019D33A /* AYNotifyFollowBtnView.m */; };
 		70E9AB7D1CF401DB0019D33A /* AYNotifyFollowedBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E9AB791CF401DB0019D33A /* AYNotifyFollowedBtnView.m */; };
 		70E9AB7E1CF401DB0019D33A /* AYNotifyUnFollowBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E9AB7C1CF401DB0019D33A /* AYNotifyUnFollowBtnView.m */; };
@@ -719,6 +718,7 @@
 		70EC72381D190D6F0012B123 /* SDCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EC722F1D190D6F0012B123 /* SDCollectionViewCell.m */; };
 		70EC72391D190D6F0012B123 /* SDCycleScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EC72311D190D6F0012B123 /* SDCycleScrollView.m */; };
 		70EC723A1D190D6F0012B123 /* UIView+SDExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EC72331D190D6F0012B123 /* UIView+SDExtension.m */; };
+		70EE2D7A2004731C001CEDE8 /* MXSRefreshHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EE2D792004731C001CEDE8 /* MXSRefreshHeader.m */; };
 		70F34D5E1CA5189300CEF7C1 /* AYResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F34D5D1CA5189300CEF7C1 /* AYResourceManager.m */; };
 		70F34D6B1CA5274B00CEF7C1 /* OBShapedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F34D671CA5274B00CEF7C1 /* OBShapedButton.m */; };
 		70F34D6C1CA5274B00CEF7C1 /* UIImage+ColorAtPixel.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F34D6A1CA5274B00CEF7C1 /* UIImage+ColorAtPixel.m */; };
@@ -2280,8 +2280,6 @@
 		70E105CC1F26EF6C00470C70 /* AYAssortmentItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAssortmentItemView.m; sourceTree = "<group>"; };
 		70E77CE11D8E812B00C882DD /* AYUpdateOrderInfoCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYUpdateOrderInfoCommand.h; sourceTree = "<group>"; };
 		70E77CE21D8E812B00C882DD /* AYUpdateOrderInfoCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYUpdateOrderInfoCommand.m; sourceTree = "<group>"; };
-		70E91AE6200383B900DF1D8F /* MXSRefreshHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MXSRefreshHeader.h; sourceTree = "<group>"; };
-		70E91AE7200383B900DF1D8F /* MXSRefreshHeader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MXSRefreshHeader.m; sourceTree = "<group>"; };
 		70E9AB6E1CF3FE960019D33A /* AYNotifyFollowBtnView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNotifyFollowBtnView.h; sourceTree = "<group>"; };
 		70E9AB6F1CF3FE960019D33A /* AYNotifyFollowBtnView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNotifyFollowBtnView.m; sourceTree = "<group>"; };
 		70E9AB781CF401DB0019D33A /* AYNotifyFollowedBtnView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNotifyFollowedBtnView.h; sourceTree = "<group>"; };
@@ -2326,6 +2324,8 @@
 		70EC72311D190D6F0012B123 /* SDCycleScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDCycleScrollView.m; sourceTree = "<group>"; };
 		70EC72321D190D6F0012B123 /* UIView+SDExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SDExtension.h"; sourceTree = "<group>"; };
 		70EC72331D190D6F0012B123 /* UIView+SDExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SDExtension.m"; sourceTree = "<group>"; };
+		70EE2D782004731C001CEDE8 /* MXSRefreshHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXSRefreshHeader.h; sourceTree = "<group>"; };
+		70EE2D792004731C001CEDE8 /* MXSRefreshHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MXSRefreshHeader.m; sourceTree = "<group>"; };
 		70F34D5B1CA50CEB00CEF7C1 /* AYViewLayoutDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYViewLayoutDefines.h; sourceTree = "<group>"; };
 		70F34D5C1CA5189300CEF7C1 /* AYResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYResourceManager.h; sourceTree = "<group>"; };
 		70F34D5D1CA5189300CEF7C1 /* AYResourceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYResourceManager.m; sourceTree = "<group>"; };
@@ -4636,6 +4636,7 @@
 		702E7AC71CA171D30097867E /* View */ = {
 			isa = PBXGroup;
 			children = (
+				70EE2D762004731C001CEDE8 /* ThirdView */,
 				7043BD231F8CD65A0096F3FB /* ShadowView */,
 				706319071F79311E00109ACE /* OnceTip */,
 				70F9675E1E287E0E00B3805B /* NoContentCell */,
@@ -6350,8 +6351,6 @@
 				705E71BD1FFB777F003E9646 /* MJRefreshNormalHeader.m */,
 				705E71BE1FFB777F003E9646 /* MJRefreshStateHeader.h */,
 				705E71BF1FFB777F003E9646 /* MJRefreshStateHeader.m */,
-				70E91AE6200383B900DF1D8F /* MXSRefreshHeader.h */,
-				70E91AE7200383B900DF1D8F /* MXSRefreshHeader.m */,
 			);
 			path = Header;
 			sourceTree = "<group>";
@@ -8222,6 +8221,23 @@
 			path = PageControl;
 			sourceTree = "<group>";
 		};
+		70EE2D762004731C001CEDE8 /* ThirdView */ = {
+			isa = PBXGroup;
+			children = (
+				70EE2D772004731C001CEDE8 /* MXSRefreshHeader+MJRefrsh */,
+			);
+			path = ThirdView;
+			sourceTree = "<group>";
+		};
+		70EE2D772004731C001CEDE8 /* MXSRefreshHeader+MJRefrsh */ = {
+			isa = PBXGroup;
+			children = (
+				70EE2D782004731C001CEDE8 /* MXSRefreshHeader.h */,
+				70EE2D792004731C001CEDE8 /* MXSRefreshHeader.m */,
+			);
+			path = "MXSRefreshHeader+MJRefrsh";
+			sourceTree = "<group>";
+		};
 		70F34D641CA5274B00CEF7C1 /* ShapedButton */ = {
 			isa = PBXGroup;
 			children = (
@@ -9302,7 +9318,7 @@
 				707B4D3D1CA819D900F6256E /* Tools.m in Sources */,
 				70EC72351D190D6F0012B123 /* TAAnimatedDotView.m in Sources */,
 				7050353B1F28728800B3119A /* AYChoiceContentController.m in Sources */,
-				70E91AE8200383B900DF1D8F /* MXSRefreshHeader.m in Sources */,
+				70EE2D7A2004731C001CEDE8 /* MXSRefreshHeader.m in Sources */,
 				703971FA1FE10F1D00049184 /* AYViewController+RunTimeCmd.m in Sources */,
 				7056BA091F1F2BF400386E3A /* AYOSEstabCellView.m in Sources */,
 				704697CF1CE047F200DACD8A /* MKAnnotationView+WebCache.m in Sources */,

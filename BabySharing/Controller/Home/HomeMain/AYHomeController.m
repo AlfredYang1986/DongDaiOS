@@ -37,6 +37,7 @@ typedef void(^queryContentFinish)(void);
 	BOOL isDargging;
 	
 	UIImageView *profilePhoto;
+	UILabel *locationLabel;
 	CLLocation *loc;
 	NSDictionary *search_pin;
 	
@@ -124,7 +125,7 @@ typedef void(^queryContentFinish)(void);
 		make.size.mas_equalTo(CGSizeMake(59, 25));
 	}];
 	
-	UILabel *locationLabel = [UILabel creatLabelWithText:@"北京" textColor:[UIColor gary] fontSize:311.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	locationLabel = [UILabel creatLabelWithText:@"正在获取地址" textColor:[UIColor gary] fontSize:311.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[HomeHeadView addSubview:locationLabel];
 	[locationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(dongda.mas_right).offset(10);
@@ -609,7 +610,13 @@ typedef void(^queryContentFinish)(void);
 //        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
 	}
 }
-
+-(CLGeocoder *)geoC
+{
+	if (!_geoC) {
+		_geoC = [[CLGeocoder alloc] init];
+	}
+	return _geoC;
+}
 //定位成功 调用代理方法
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
 	loc = [locations firstObject];
@@ -617,6 +624,13 @@ typedef void(^queryContentFinish)(void);
 	[l setValue:[NSNumber numberWithDouble:loc.coordinate.latitude] forKey:kAYServiceArgsLatitude];
 	[l setValue:[NSNumber numberWithDouble:loc.coordinate.longitude] forKey:kAYServiceArgsLongtitude];
 	search_pin = [l copy];
+	
+	[self.geoC reverseGeocodeLocation:loc completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
+		if (!error) {
+			CLPlacemark *first = placemarks.firstObject;
+			locationLabel.text = first.locality;
+		}
+	}];
 	
 	[manager stopUpdatingLocation];
 }
@@ -636,6 +650,7 @@ typedef void(^queryContentFinish)(void);
 			isLocationAuth = NO;
 			loc = nil;
 			search_pin = nil;
+			locationLabel.text = @"无法定位";
 		}
 			break;
 		default:

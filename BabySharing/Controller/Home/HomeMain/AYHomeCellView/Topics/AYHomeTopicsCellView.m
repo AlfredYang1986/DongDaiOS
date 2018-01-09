@@ -23,6 +23,7 @@
 	
 	UICollectionView *collectionView;
 	
+	NSArray *EngArr;
 	NSArray *topicsArr;
 	NSArray *subTopicsArr;
 }
@@ -34,7 +35,6 @@
 
 #pragma mark -- commands
 - (void)postPerform {
-	
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -58,6 +58,7 @@
 	if (self) {
 		
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
+		EngArr = @[@"Montessori", @"Native Speaker", @"Extreme Sports", @"Art", @"Science Technology"];
 		topicsArr = kAY_home_album_titles;
 		subTopicsArr = kAY_home_album_titles_sub;
 		
@@ -76,12 +77,12 @@
 		}];
 		
 		UICollectionViewFlowLayout *flowLayout = [UICollectionViewFlowLayout new];
-		flowLayout.itemSize  = CGSizeMake(200, 250);
+		flowLayout.itemSize  = CGSizeMake(235, 310);
 		flowLayout.scrollDirection  = UICollectionViewScrollDirectionHorizontal;
 		flowLayout.minimumInteritemSpacing = 0;
 		flowLayout.minimumLineSpacing = 16;
 		
-		collectionView = [[UICollectionView  alloc]initWithFrame:CGRectMake(0, 70, SCREEN_WIDTH, 270) collectionViewLayout:flowLayout];
+		collectionView = [[UICollectionView  alloc]initWithFrame:CGRectMake(0, 70, SCREEN_WIDTH, 310) collectionViewLayout:flowLayout];
 		collectionView.delegate = self;
 		collectionView.dataSource = self;
 		collectionView.showsVerticalScrollIndicator = NO;
@@ -103,6 +104,7 @@
 	AYHomeTopicItem *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AYHomeTopicItem" forIndexPath:indexPath];
 	
 	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
+	[tmp setValue:[EngArr objectAtIndex:indexPath.row] forKey:@"eng"];
 	[tmp setValue:[topicsArr objectAtIndex:indexPath.row] forKey:@"title"];
 	[tmp setValue:[subTopicsArr objectAtIndex:indexPath.row] forKey:@"title_sub"];
 	[tmp setValue:[NSString stringWithFormat:@"home_album_%d", (int)indexPath.row] forKey:@"img"];

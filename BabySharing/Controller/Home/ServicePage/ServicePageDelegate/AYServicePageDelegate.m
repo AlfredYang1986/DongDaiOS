@@ -148,10 +148,10 @@
 //}
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.row == 1) {
-		return YES;
-	} else
-		return NO;
+//	if (indexPath.row == 1) {
+//		return YES;
+//	} else
+	return NO;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -136,7 +136,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
-		return 370;
+		return 410;
 	}
 //	else if (indexPath.row == 1) {
 //		return 110;
@@ -150,9 +150,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	if (indexPath.row == 1) {
-		kAYDelegateSendNotify(self, @"willOpenMapMatch", nil)
-	}
+//	if (indexPath.row == 1) {
+//		kAYDelegateSendNotify(self, @"willOpenMapMatch", nil)
+//	}
 	
 //	if (indexPath.row < kLAYOUTCELLCOUNT) {
 //		return;

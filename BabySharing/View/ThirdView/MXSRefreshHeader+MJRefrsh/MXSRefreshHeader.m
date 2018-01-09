@@ -38,7 +38,7 @@
 		
 		progressLayer = [CAShapeLayer layer];
 		UIBezierPath *path_cir = [[UIBezierPath alloc] init];
-		[path_cir addArcWithCenter:CGPointMake(Width*0.5, Width*0.5) radius:Width*0.5 startAngle:-M_PI_2 endAngle:M_PI*2-M_PI_2 clockwise:YES];
+		[path_cir addArcWithCenter:CGPointMake(Width*0.5, Width*0.5) radius:Width*0.5 startAngle:-M_PI_2 endAngle:M_PI*2+M_PI_2 clockwise:YES];
 		progressLayer.path = path_cir.CGPath;
 		progressLayer.fillColor = [UIColor clearColor].CGColor;
 		progressLayer.strokeColor = [UIColor gary].CGColor;
@@ -74,14 +74,11 @@
 	[super placeSubviews];
 	
 	// indicator的中心点
-//	self.progressIndicatorView.mj_size = CGSizeMake(20, 20);
-//	self.progressIndicatorView.center = self.center;
-	
-	self.progressIndicatorView.frame = CGRectMake((SCREEN_WIDTH-20)*0.5, (MJRefreshHeaderHeight-20)*0.5, 20, 20);
+	CGRect subFrame = CGRectMake((SCREEN_WIDTH-20)*0.5, (MJRefreshHeaderHeight-20), 20, 20);
+	self.progressIndicatorView.frame = subFrame;
 	
 	// 圈圈
-//	self.loadingView.center = self.center;
-	self.loadingView.frame = self.progressIndicatorView.frame;
+	self.loadingView.frame = subFrame;
 }
 
 - (void)setState:(MJRefreshState)state
@@ -125,24 +122,20 @@
 
 - (void)scrollViewContentOffsetDidChange:(NSDictionary *)change {
 	[super scrollViewContentOffsetDidChange:change];
-	NSLog(@"MJRefresh_Michauxs:%@", change);
 	
 	CGPoint new = [change[@"new"] CGPointValue];
-	CGFloat off_set_y = -new.y;
-	CGFloat toValue = off_set_y / MJRefreshHeaderHeight;
-	if (toValue > 1) {
-		toValue = 1;
+	CGFloat off_set_y = new.y + 20;
+	CGFloat toValue = 0;
+	if (off_set_y < 0) {
+		
+		toValue = -off_set_y / (MJRefreshHeaderHeight-20);
+		if (toValue > 1) {
+			toValue = 1;
+		}
 	}
-	
-//	progressLayer.frame = self.progressIndicatorView.bounds;
+//	NSLog(@"%f",toValue);
 	progressLayer.strokeStart = 0.f;
 	progressLayer.strokeEnd = toValue;
-	
-//	UIBezierPath *path = [UIBezierPath bezierPathWithOvalInRect:self.progressIndicatorView.bounds];
-//	progressLayer.path = path.CGPath;
-//	progressLayer.fillColor = [UIColor clearColor].CGColor;
-//	progressLayer.lineWidth = 2.0f;
-//	progressLayer.strokeColor = [UIColor redColor].CGColor;
 	
 //	[self animatWitnKey:@"strokeEnd" OnLayer:progressLayer From:0 to:toValue duration:0];
 	
