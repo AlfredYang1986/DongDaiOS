@@ -78,6 +78,7 @@
 		coverImage = [[UIImageView alloc]init];
 		coverImage.image = IMGRESOURCE(@"default_image");
 		coverImage.contentMode = UIViewContentModeScaleAspectFill;
+		coverImage.clipsToBounds = YES;
 		[conterView addSubview:coverImage];
 		[coverImage mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(conterView);

@@ -21,8 +21,8 @@
 #import "AYDongDaSegDefines.h"
 #import "UICollectionViewLeftAlignedLayout.h"
 
-
-#define kTABLEMARGINTOP					(kStatusBarH + 80)
+#define kHOMENAVHEIGHT					64
+#define kTABLEMARGINTOP					(kStatusBarH + kHOMENAVHEIGHT)
 #define kCollectionViewHeight			164
 
 typedef void(^queryContentFinish)(void);
@@ -39,6 +39,7 @@ typedef void(^queryContentFinish)(void);
 	UIImageView *profilePhoto;
 	UILabel *locationLabel;
 	CLLocation *loc;
+	NSString *localityStr;
 	NSDictionary *search_pin;
 	
 	BOOL isLocationAuth;
@@ -100,6 +101,10 @@ typedef void(^queryContentFinish)(void);
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	[defaults setValue:[NSNumber numberWithInt:DongDaAppModeCommon] forKey:kAYDongDaAppMode];
+	[defaults synchronize];
+	
 	serviceDataFound = [[NSMutableArray alloc] init];
 	
 	UIView *HomeHeadView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, kTABLEMARGINTOP)];
@@ -109,8 +114,8 @@ typedef void(^queryContentFinish)(void);
 	CURRENPROFILE(user_info)
 	NSString* photo_name = [user_info objectForKey:@"screen_photo"];
 	
-	CGFloat photoWidth = 40;
-	profilePhoto = [[UIImageView alloc] initWithFrame:CGRectMake(15, 20+kStatusBarH, photoWidth, photoWidth)];
+	CGFloat photoWidth = 36;
+	profilePhoto = [[UIImageView alloc] initWithFrame:CGRectMake(SCREEN_MARGIN_LR, (kHOMENAVHEIGHT-photoWidth)*0.5+kStatusBarH, photoWidth, photoWidth)];
 	[profilePhoto setRadius:photoWidth*0.5 borderWidth:0 borderColor:nil background:nil];
 	[HomeHeadView addSubview:profilePhoto];
 	[profilePhoto sd_setImageWithURL:[NSURL URLWithString:[kAYDongDaDownloadURL stringByAppendingString:photo_name] ] placeholderImage:IMGRESOURCE(@"default_user")];
@@ -122,15 +127,18 @@ typedef void(^queryContentFinish)(void);
 	[dongda mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(profilePhoto);
 		make.centerX.equalTo(HomeHeadView);
-		make.size.mas_equalTo(CGSizeMake(59, 25));
+		make.size.mas_equalTo(CGSizeMake(56, 24));
 	}];
 	
-	locationLabel = [UILabel creatLabelWithText:@"正在获取地址" textColor:[UIColor gary] fontSize:311.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	locationLabel = [UILabel creatLabelWithText:@"北京市" textColor:[UIColor black] fontSize:313.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[HomeHeadView addSubview:locationLabel];
 	[locationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(dongda.mas_right).offset(10);
-		make.centerY.equalTo(profilePhoto).offset(0);
+		make.left.equalTo(dongda.mas_right).offset(7);
+//		make.centerY.equalTo(profilePhoto).offset(0);
+		make.bottom.equalTo(dongda);
 	}];
+	locationLabel.userInteractionEnabled = YES;
+	[locationLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(locationLabelTap)]];
 	
 	UIButton *collesBtn = [UIButton new];
 	[collesBtn setImage:IMGRESOURCE(@"home_icon_collection") forState:UIControlStateNormal];
@@ -237,6 +245,18 @@ typedef void(^queryContentFinish)(void);
 }
 
 #pragma mark -- actions
+- (void)locationLabelTap {
+	
+	if ([localityStr isEqualToString:@"北京市"]) {
+		NSString *title = @"咚哒目前只支持北京市,我们正在努力到达更多的城市";
+		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+	}
+	else {
+		NSString *title = [@"咚哒目前只支持北京市,我们正在努力到达" stringByAppendingString:localityStr];
+		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+	}
+}
+
 - (void)profilePhotoTap {
 	// 个人信息
 	AYViewController* des = DEFAULTCONTROLLER(@"PersonalInfo");
@@ -322,8 +342,10 @@ typedef void(^queryContentFinish)(void);
 	
 	NSDictionary *user_info = nil;
 	CURRENPROFILE(user_info)
-	NSString* photo_name = [user_info objectForKey:@"screen_photo"];
-	[profilePhoto sd_setImageWithURL:[NSURL URLWithString:[kAYDongDaDownloadURL stringByAppendingString:photo_name] ] placeholderImage:IMGRESOURCE(@"default_user")];
+	NSString* photo_name = [user_info objectForKey:kAYProfileArgsScreenPhoto];
+	if (photo_name) {
+		[profilePhoto sd_setImageWithURL:[NSURL URLWithString:[kAYDongDaDownloadURL stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"default_user")];
+	}
 	
 	NSDictionary* user = nil;
 	CURRENUSER(user);
@@ -628,7 +650,7 @@ typedef void(^queryContentFinish)(void);
 	[self.geoC reverseGeocodeLocation:loc completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
 		if (!error) {
 			CLPlacemark *first = placemarks.firstObject;
-			locationLabel.text = first.locality;
+			localityStr = first.locality;
 		}
 	}];
 	

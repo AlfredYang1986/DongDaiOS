@@ -58,7 +58,7 @@ static NSString* const kAYEMAppKey = @"blackmirror#dongda";
 	NSString *app_Version = [infoDic objectForKey:@"CFBundleShortVersionString"];
 	
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	NSString *note_version = [defaults objectForKey:@"dongda_app_version"];
+	NSString *note_version = [defaults objectForKey:kAYDongDaAppVersion];
 	
 	CGRect screenBounds = [[UIScreen mainScreen] bounds];
 	if (![app_Version isEqualToString:note_version]) {

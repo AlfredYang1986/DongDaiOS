@@ -32,7 +32,7 @@
 	
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	NSNumber *app_mode = [defaults objectForKey:kAYDongDaAppMode];
-	if (app_mode.intValue == DongDaAppModeUnLogin) {
+	if (app_mode && app_mode.intValue == DongDaAppModeUnLogin) {
 		return;
 	}
     /**

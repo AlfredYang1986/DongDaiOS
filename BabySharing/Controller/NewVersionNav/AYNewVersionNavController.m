@@ -95,7 +95,7 @@
 	NSDictionary *infoDic=[[NSBundle mainBundle] infoDictionary];
 	NSString *app_Version = [infoDic objectForKey:@"CFBundleShortVersionString"];
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	[defaults setValue:app_Version forKey:@"dongda_app_version"];
+	[defaults setValue:app_Version forKey:kAYDongDaAppVersion];
 	[defaults synchronize];
 	
 	/**

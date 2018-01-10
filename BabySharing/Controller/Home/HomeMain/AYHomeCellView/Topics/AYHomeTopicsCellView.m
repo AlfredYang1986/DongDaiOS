@@ -82,7 +82,7 @@
 		flowLayout.minimumInteritemSpacing = 0;
 		flowLayout.minimumLineSpacing = 16;
 		
-		collectionView = [[UICollectionView  alloc]initWithFrame:CGRectMake(0, 70, SCREEN_WIDTH, 310) collectionViewLayout:flowLayout];
+		collectionView = [[UICollectionView  alloc]initWithFrame:CGRectMake(0, 70, SCREEN_WIDTH, 330) collectionViewLayout:flowLayout];
 		collectionView.delegate = self;
 		collectionView.dataSource = self;
 		collectionView.showsVerticalScrollIndicator = NO;
@@ -96,7 +96,7 @@
 	return self;
 }
 
--(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
 	return topicsArr.count;
 }
 

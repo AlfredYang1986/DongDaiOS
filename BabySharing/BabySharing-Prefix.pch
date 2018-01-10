@@ -29,6 +29,7 @@ static NSString* const kAYEMIDDongDaMaster =			@"dongda_master";
 static NSString* const kAYNetworkSlowTip =				@"请改善网络环境并重试";
 
 static NSString* const kAYDongDaAppMode =				@"dongda_app_mode";
+static NSString* const kAYDongDaAppVersion =			@"dongda_app_version";
 
 
 // 判断是否是iPhone X
