@@ -43,7 +43,7 @@
 		}];
 		
 		allowSignView = [[UIView alloc] init];
-		[Tools setViewBorder:allowSignView withRadius:2.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
+		[Tools setViewBorder:allowSignView withRadius:2.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools theme]];
 		[self addSubview:allowSignView];
 		[allowSignView mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(tipsTitleLabel);
@@ -58,7 +58,7 @@
 		}];
 		
 		otherSignView = [[UIView alloc] init];
-		[Tools setViewBorder:otherSignView withRadius:2.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
+		[Tools setViewBorder:otherSignView withRadius:2.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools theme]];
 		[self addSubview:otherSignView];
 		[otherSignView mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(allowSignView);

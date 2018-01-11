@@ -134,7 +134,7 @@
 	UIImage* left = IMGRESOURCE(@"bar_left_theme");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
 	
-    UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools garyColor] andFontSize:616.f andBackgroundColor:nil];
+    UIButton* bar_right_btn = [Tools creatBtnWithTitle:@"下一步" titleColor:[Tools garyColor] fontSize:616.f backgroundColor:nil];
     bar_right_btn.userInteractionEnabled = NO;
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
 	
@@ -149,13 +149,13 @@
 	if (count != 0) {
 		placeHolder.hidden = YES;
 		if (!isAlreadyEnable) {
-			UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools themeColor] andFontSize:616.f andBackgroundColor:nil];
+			UIButton* bar_right_btn = [Tools creatBtnWithTitle:@"下一步" titleColor:[Tools theme] fontSize:616.f backgroundColor:nil];
 			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
 			isAlreadyEnable = YES;
 		}
 	} else {
 		
-		UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools garyColor] andFontSize:616.f andBackgroundColor:nil];
+		UIButton* bar_right_btn = [Tools creatBtnWithTitle:@"下一步" titleColor:[Tools garyColor] fontSize:616.f backgroundColor:nil];
 		bar_right_btn.userInteractionEnabled = NO;
 		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
 		isAlreadyEnable = NO;

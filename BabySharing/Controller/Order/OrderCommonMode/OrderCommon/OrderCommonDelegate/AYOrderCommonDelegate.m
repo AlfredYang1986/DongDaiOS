@@ -137,7 +137,7 @@ typedef enum : NSUInteger {
 	UIView *headView = [[UIView alloc] init];
 	headView.backgroundColor = [Tools whiteColor];
 	
-	UIButton *allNewsBtn  = [Tools creatUIButtonWithTitle:@"全部订单" andTitleColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil];
+	UIButton *allNewsBtn  = [Tools creatBtnWithTitle:@"全部订单" titleColor:[Tools blackColor] fontSize:14.f backgroundColor:nil];
 	[headView addSubview:allNewsBtn];
 	[allNewsBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(headView.mas_top).offset(22);

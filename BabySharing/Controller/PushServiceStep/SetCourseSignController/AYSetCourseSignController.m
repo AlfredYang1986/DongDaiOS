@@ -78,7 +78,7 @@
 	[Tools creatCALayerWithFrame:CGRectMake(20, 44, SCREEN_WIDTH - 40, 0.5) andColor:[Tools garyLineColor] inSuperView:coustomView];
 	
 	CGFloat itemWidth = (SCREEN_WIDTH - 40 - 3*8)/4;
-	coustomLabel = [Tools creatLabelWithText:@"Coustom" textColor:[Tools whiteColor] fontSize:315 backgroundColor:[Tools themeColor] textAlignment:NSTextAlignmentCenter];
+	coustomLabel = [Tools creatLabelWithText:@"Coustom" textColor:[Tools whiteColor] fontSize:315 backgroundColor:[Tools theme] textAlignment:NSTextAlignmentCenter];
 	[Tools setViewBorder:coustomLabel withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
 	[coustomView addSubview:coustomLabel];
 	[coustomLabel mas_makeConstraints:^(MASConstraintMaker *make) {

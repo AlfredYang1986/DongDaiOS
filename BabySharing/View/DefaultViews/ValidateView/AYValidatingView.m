@@ -80,7 +80,7 @@
 	}];
 	centerView.alpha = 0;
 	
-	tipLabel = [Tools creatLabelWithText:@"Validating..." textColor:[Tools themeColor] fontSize:617 backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+	tipLabel = [Tools creatLabelWithText:@"Validating..." textColor:[Tools theme] fontSize:617 backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	[centerView addSubview:tipLabel];
 	[tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.bottom.equalTo(centerView);

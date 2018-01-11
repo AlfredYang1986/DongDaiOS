@@ -89,7 +89,7 @@
 	UIView *headView = [[UIView alloc]init];
 	headView.backgroundColor = [Tools whiteColor];
 	
-	UILabel *titleLabel = [Tools creatLabelWithText:@"1. 每天的服务时段" textColor:[Tools themeColor] fontSize:20.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatLabelWithText:@"1. 每天的服务时段" textColor:[Tools theme] fontSize:20.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[headView addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(headView).offset(20);

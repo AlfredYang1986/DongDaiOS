@@ -65,7 +65,7 @@
 	}];
 	
 	
-	_bookBtn = [Tools creatUIButtonWithTitle:@"查看可预订时间" andTitleColor:[Tools whiteColor] andFontSize:615.f andBackgroundColor:[Tools themeColor]];
+	_bookBtn = [Tools creatBtnWithTitle:@"查看可预订时间" titleColor:[Tools whiteColor] fontSize:615.f backgroundColor:[Tools theme]];
 	UIImage *bgimage = IMGRESOURCE(@"details_button_checktime");
 	_bookBtn.layer.contents = (__bridge id _Nullable)(bgimage.CGImage);
 //	[_bookBtn addTarget:self action:@selector(didBookBtnClick) forControlEvents:UIControlEventTouchUpInside];

@@ -89,7 +89,7 @@
 //    [cmd_nib performWithResult:&nib_contact_name];
 //    /****************************************/
     
-    UIButton *applyBtn = [Tools creatUIButtonWithTitle:@"提交" andTitleColor:[Tools whiteColor] andFontSize:316.f andBackgroundColor:[Tools themeColor]];
+    UIButton *applyBtn = [Tools creatBtnWithTitle:@"提交" titleColor:[Tools whiteColor] fontSize:316.f backgroundColor:[Tools theme]];
     [self.view addSubview:applyBtn];
     [applyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view).offset( - HOME_IND_HEIGHT);

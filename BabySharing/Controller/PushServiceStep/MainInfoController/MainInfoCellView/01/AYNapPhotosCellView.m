@@ -36,7 +36,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        addPhotoBtn = [Tools creatUIButtonWithTitle:@"添加照片" andTitleColor:[Tools themeColor] andFontSize:620.f andBackgroundColor:nil];
+        addPhotoBtn = [Tools creatBtnWithTitle:@"添加照片" titleColor:[Tools theme] fontSize:620.f backgroundColor:nil];
         addPhotoBtn.userInteractionEnabled = NO;
         [self addSubview:addPhotoBtn];
         [addPhotoBtn mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -32,7 +32,7 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
-	UILabel *titleLabel = [Tools creatLabelWithText:nil textColor:[Tools themeColor] fontSize:624.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatLabelWithText:nil textColor:[Tools theme] fontSize:624.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	titleLabel.numberOfLines = 0;
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -48,8 +48,8 @@
 	[attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [titleStr length])];
 	titleLabel.attributedText = attributedString;
 	
-	UIButton* PushBtn = [Tools creatUIButtonWithTitle:@"确认发布" andTitleColor:[Tools whiteColor] andFontSize:316.f andBackgroundColor:[Tools themeColor]];
-	[Tools setViewBorder:PushBtn withRadius:25.f andBorderWidth:0 andBorderColor:0 andBackground:[Tools themeColor]];
+	UIButton* PushBtn = [Tools creatBtnWithTitle:@"确认发布" titleColor:[Tools whiteColor] fontSize:316.f backgroundColor:[Tools theme]];
+	[Tools setViewBorder:PushBtn withRadius:25.f andBorderWidth:0 andBorderColor:0 andBackground:[Tools theme]];
 	[self.view addSubview:PushBtn];
 	[PushBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(self.view);

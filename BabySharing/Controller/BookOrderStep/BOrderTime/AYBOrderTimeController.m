@@ -113,7 +113,7 @@
 		OTMSet = [[NSMutableDictionary alloc] init];
 	}
 	
-	dateShowLabel = [Tools creatLabelWithText:@"选择日期" textColor:[Tools whiteColor] fontSize:13.f backgroundColor:[Tools themeColor] textAlignment:NSTextAlignmentCenter];
+	dateShowLabel = [Tools creatLabelWithText:@"选择日期" textColor:[Tools whiteColor] fontSize:13.f backgroundColor:[Tools theme] textAlignment:NSTextAlignmentCenter];
 	[self.view addSubview:dateShowLabel];
 	[dateShowLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(self.view);
@@ -187,7 +187,7 @@
 		kAYDelegatesSendMessage(@"BOTimeTable", @"setDelegateType:", &t)
 	}
 	
-	certainBtn = [Tools creatUIButtonWithTitle:@"申请预订" andTitleColor:[Tools whiteColor] andFontSize:318.f andBackgroundColor:[Tools disableBackgroundColor]];
+	certainBtn = [Tools creatBtnWithTitle:@"申请预订" titleColor:[Tools whiteColor] fontSize:318.f backgroundColor:[Tools disableBackgroundColor]];
 	[self.view addSubview:certainBtn];
 	[certainBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.bottom.equalTo(self.view).offset( -HOME_IND_HEIGHT);
@@ -204,13 +204,13 @@
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
 	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
-	view.backgroundColor = [Tools themeColor];
+	view.backgroundColor = [Tools theme];
 	return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
 	view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
-	view.backgroundColor = [Tools themeColor];
+	view.backgroundColor = [Tools theme];
 	
 	UIImage *left = IMGRESOURCE(@"bar_left_white");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
@@ -239,7 +239,7 @@
 		
 	if ([serviceCat isEqualToString:kAYStringCourse]) {
 		UIView *libgView = [[UIView alloc] initWithFrame:CGRectMake(26.5, 0, 1.f, 736)];
-		libgView.backgroundColor = [Tools themeColor];
+		libgView.backgroundColor = [Tools theme];
 		[view addSubview:libgView];
 		[view sendSubviewToBack:libgView];
 	}
@@ -402,7 +402,7 @@
 		}
 		
 		if (isContainsSet) {
-			certainBtn.backgroundColor = [Tools themeColor];
+			certainBtn.backgroundColor = [Tools theme];
 			certainBtn.enabled = YES;
 		} else {
 			//没有数据，btn不可用
@@ -410,7 +410,7 @@
 			certainBtn.enabled = NO;
 		}
 	} else {
-		certainBtn.backgroundColor = [Tools themeColor];
+		certainBtn.backgroundColor = [Tools theme];
 		certainBtn.enabled = YES;
 	}
 }

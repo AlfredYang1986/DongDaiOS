@@ -71,7 +71,7 @@
     
     if (_isConfirm) {
         _confirLabel.text = @"已验证";
-        _confirLabel.textColor = [Tools themeColor];
+        _confirLabel.textColor = [Tools theme];
     }else {
         _confirLabel.text = @"未验证";
         _confirLabel.textColor = [Tools garyColor];

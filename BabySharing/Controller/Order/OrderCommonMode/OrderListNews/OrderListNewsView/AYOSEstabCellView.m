@@ -70,7 +70,7 @@
 			make.bottom.equalTo(orderNoLabel.mas_top).offset(-5);
 		}];
 		
-		stateLabel = [Tools creatLabelWithText:@"" textColor:[Tools themeColor] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		stateLabel = [Tools creatLabelWithText:@"" textColor:[Tools theme] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:stateLabel];
 		[stateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);

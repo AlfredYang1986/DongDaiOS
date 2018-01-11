@@ -162,7 +162,7 @@
     } else {
         NSNumber *isCanSet = [args objectForKey:@"is_can_set"];
         if (isCanSet.boolValue) {
-            titleLabel.textColor = [Tools themeColor];
+            titleLabel.textColor = [Tools theme];
             optionBtn.enabled = YES;
         } else {
             titleLabel.textColor = [Tools garyColor];

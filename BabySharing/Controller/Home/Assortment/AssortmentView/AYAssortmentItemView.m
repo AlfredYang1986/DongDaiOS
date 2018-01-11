@@ -104,7 +104,7 @@
 	}];
 	
 	
-	priceLabel = [Tools creatLabelWithText:@"¥Price/Unit" textColor:[Tools themeColor] fontSize:313.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	priceLabel = [Tools creatLabelWithText:@"¥Price/Unit" textColor:[Tools theme] fontSize:313.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[radiusView addSubview:priceLabel];
 	[priceLabel sizeToFit];
 	[priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -112,8 +112,8 @@
 		make.top.equalTo(positionSignView.mas_bottom).offset(8);
 	}];
 	
-	ageBoundaryLabel = [Tools creatLabelWithText:@"0-0 old" textColor:[Tools themeColor] fontSize:311.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
-	[Tools setViewBorder:ageBoundaryLabel withRadius:4.f andBorderWidth:1.f andBorderColor:[Tools themeColor] andBackground:nil];
+	ageBoundaryLabel = [Tools creatLabelWithText:@"0-0 old" textColor:[Tools theme] fontSize:311.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+	[Tools setViewBorder:ageBoundaryLabel withRadius:4.f andBorderWidth:1.f andBorderColor:[Tools theme] andBackground:nil];
 	[radiusView addSubview:ageBoundaryLabel];
 	[ageBoundaryLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.right.equalTo(titleLabel);
@@ -121,8 +121,8 @@
 		make.size.mas_equalTo(CGSizeMake(48, 20));
 	}];
 	
-	themeLabel = [Tools creatLabelWithText:@"Theme" textColor:[Tools themeColor] fontSize:311.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
-	[Tools setViewBorder:themeLabel withRadius:4.f andBorderWidth:1.f andBorderColor:[Tools themeColor] andBackground:nil];
+	themeLabel = [Tools creatLabelWithText:@"Theme" textColor:[Tools theme] fontSize:311.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+	[Tools setViewBorder:themeLabel withRadius:4.f andBorderWidth:1.f andBorderColor:[Tools theme] andBackground:nil];
 	[radiusView addSubview:themeLabel];
 	[themeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.right.equalTo(ageBoundaryLabel.mas_left).offset(-8);
@@ -199,8 +199,8 @@
 	NSString *priceStr = [NSString stringWithFormat:@"¥%@/%@", tmp, unitCat];
 	
 	NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:priceStr];
-	[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:15.f], NSForegroundColorAttributeName :[Tools themeColor]} range:NSMakeRange(0, length+1)];
-	[attributedText setAttributes:@{NSFontAttributeName:kAYFontLight(12.f), NSForegroundColorAttributeName :[Tools themeColor]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
+	[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:15.f], NSForegroundColorAttributeName :[Tools theme]} range:NSMakeRange(0, length+1)];
+	[attributedText setAttributes:@{NSFontAttributeName:kAYFontLight(12.f), NSForegroundColorAttributeName :[Tools theme]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
 	priceLabel.attributedText = attributedText;
 	
 	NSDictionary *info_location = [service_info objectForKey:kAYServiceArgsLocationInfo];

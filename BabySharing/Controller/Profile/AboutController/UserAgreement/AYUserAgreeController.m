@@ -42,7 +42,7 @@
     UIWebView *Web = [self.views objectForKey:@"Web"];
     Web.delegate = self;
     
-    UIButton *state = [Tools creatUIButtonWithTitle:@"登陆即表示同意用户协议" andTitleColor:[UIColor whiteColor] andFontSize:17.f andBackgroundColor:[Tools themeColor]];
+    UIButton *state = [Tools creatBtnWithTitle:@"登陆即表示同意用户协议" titleColor:[UIColor whiteColor] fontSize:17.f backgroundColor:[Tools theme]];
     state.layer.cornerRadius = 4.f;
     state.clipsToBounds = YES;
     state.layer.rasterizationScale = [UIScreen mainScreen].scale;

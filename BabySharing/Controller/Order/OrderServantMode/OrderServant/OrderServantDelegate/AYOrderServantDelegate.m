@@ -114,7 +114,7 @@
 	[TOPView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showTodoApplyAndBack)]];
 
 	
-	UIButton *readMoreBtn = [Tools creatUIButtonWithTitle:@"查看全部" andTitleColor:[Tools themeColor] andFontSize:15.f andBackgroundColor:nil];
+	UIButton *readMoreBtn = [Tools creatBtnWithTitle:@"查看全部" titleColor:[Tools theme] fontSize:15.f backgroundColor:nil];
 	[headView addSubview:readMoreBtn];
 	[readMoreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.right.equalTo(TOPView).offset(-20);
@@ -124,7 +124,7 @@
 //	[readMoreBtn addTarget:self action:@selector(didReadMoreBtnClick) forControlEvents:UIControlEventTouchUpInside];
 	readMoreBtn.hidden  = YES;
 	
-	UIButton *historyBtn = [Tools creatUIButtonWithTitle:@"查看历史记录" andTitleColor:[Tools themeColor] andFontSize:15.f andBackgroundColor:nil];
+	UIButton *historyBtn = [Tools creatBtnWithTitle:@"查看历史记录" titleColor:[Tools theme] fontSize:15.f backgroundColor:nil];
 	historyBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
 	[historyBtn setTitleEdgeInsets:UIEdgeInsetsMake(0,20, 0, 0)];
 	[headView addSubview:historyBtn];

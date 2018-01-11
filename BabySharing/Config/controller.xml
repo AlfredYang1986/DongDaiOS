@@ -19,8 +19,6 @@
         <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
         <facade type="DefaultFacade" name="EM" notification="true"/>
 		
-		<command type="Module" name="HomeInit" />
-		
 <!--        <view type="LandingSNS" name="LandingSNS" />-->
 <!--        <view type="Loading"    name="Loading" />-->
         

@@ -151,14 +151,14 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
     if (CalendarCellNote) {
         CalendarCellNote.backgroundColor = [UIColor clearColor];
         if ([CalendarCellNote.numLabel.text isEqualToString:[NSString stringWithFormat:@"%d",self.day]]) {
-            CalendarCellNote.numLabel.textColor = [Tools themeColor];
+            CalendarCellNote.numLabel.textColor = [Tools theme];
         }
         else {
             CalendarCellNote.numLabel.textColor = [UIColor blackColor];
         }
     }
     view.numLabel.textColor = [UIColor whiteColor];
-    view.backgroundColor = [Tools themeColor];
+    view.backgroundColor = [Tools theme];
     CalendarCellNote = view;
     
     NSDateFormatter *format = [[NSDateFormatter alloc] init];

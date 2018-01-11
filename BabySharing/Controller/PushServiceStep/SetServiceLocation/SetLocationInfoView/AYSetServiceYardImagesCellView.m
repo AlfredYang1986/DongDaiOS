@@ -73,7 +73,7 @@
 		UIImage *bgImage = [UIImage imageNamed:@"arrow_sign_left_triangle"];
 		bgImage = [bgImage resizableImageWithCapInsets:UIEdgeInsetsMake(0, 7, 0, 2) resizingMode:UIImageResizingModeTile];
 		tipBGView.image = [bgImage imageWithRenderingMode:(UIImageRenderingModeAlwaysTemplate)];
-		[tipBGView setTintColor:[Tools themeColor]];
+		[tipBGView setTintColor:[Tools theme]];
 		[self addSubview:tipBGView];
 		[tipBGView mas_makeConstraints:^(MASConstraintMaker *make) {
 //			make.edges.equalTo(tipLabel).insets(UIEdgeInsetsMake(-4, -15, -4, -8));

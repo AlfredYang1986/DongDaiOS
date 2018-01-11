@@ -77,7 +77,7 @@
 	[searchBar insertSubview:iv atIndex:1];
 	for (UIView* v in searchBar.subviews.firstObject.subviews) {
 		if ( [v isKindOfClass: [UITextField class]] ) {
-			((UITextField*)v).tintColor = [Tools themeColor];
+			((UITextField*)v).tintColor = [Tools theme];
 			((UITextField*)v).backgroundColor = [Tools whiteColor];
 			((UITextField*)v).textAlignment = NSTextAlignmentLeft;
 			((UITextField*)v).leftView = nil;

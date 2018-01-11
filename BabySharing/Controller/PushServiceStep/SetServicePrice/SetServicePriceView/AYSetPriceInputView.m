@@ -29,7 +29,7 @@
 		_inputField.attributedPlaceholder = placeholder;
 		
 		
-		_inputField.textColor = [Tools themeColor];
+		_inputField.textColor = [Tools theme];
 		_inputField.font = [UIFont boldSystemFontOfSize:24.f];
 		_inputField.textAlignment = NSTextAlignmentCenter;
 		_inputField.keyboardType = UIKeyboardTypeNumberPad;

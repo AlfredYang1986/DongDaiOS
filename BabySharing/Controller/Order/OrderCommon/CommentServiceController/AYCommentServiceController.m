@@ -148,7 +148,7 @@
     
     UIButton *botBtn = [[UIButton alloc]init];
     [self.view addSubview:botBtn];
-    botBtn.backgroundColor = [Tools themeColor];
+    botBtn.backgroundColor = [Tools theme];
     [botBtn setTitle:@"提交" forState:UIControlStateNormal];
     botBtn.titleLabel.font = [UIFont systemFontOfSize:16.f];
     [botBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];

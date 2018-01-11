@@ -65,7 +65,7 @@ static NSString *tipsItemID = @"tipsItem";
     
     pageControl.currentPage = 0;
     
-    addPhotoBtn = [Tools creatUIButtonWithTitle:@"添加图片" andTitleColor:[Tools whiteColor] andFontSize:16.f andBackgroundColor:[Tools themeColor]];
+    addPhotoBtn = [Tools creatBtnWithTitle:@"添加图片" titleColor:[Tools whiteColor] fontSize:16.f backgroundColor:[Tools theme]];
     [addPhotoBtn addTarget:self action:@selector(didAddPhotoBtnClick) forControlEvents:UIControlEventTouchUpInside];
     addPhotoBtn.hidden = YES;
     addPhotoBtn.alpha = 0;

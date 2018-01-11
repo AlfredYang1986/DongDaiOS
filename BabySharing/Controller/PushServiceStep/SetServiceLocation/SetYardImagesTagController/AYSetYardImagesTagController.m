@@ -74,7 +74,7 @@
 	//初始化pageControl
 	UIPageControl *pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, pageFlowView.frame.size.height - 32, SCREEN_WIDTH, 8)];
 	pageControl.pageIndicatorTintColor = [UIColor colorWithWhite:0.5 alpha:0.5f];
-	pageControl.currentPageIndicatorTintColor = [Tools themeColor];
+	pageControl.currentPageIndicatorTintColor = [Tools theme];
 	pageFlowView.pageControl = pageControl;
 	pageFlowView.pageControl.hidden = YES;
 	[pageFlowView addSubview:pageControl];
@@ -141,7 +141,7 @@
 	tmpTagView = tapView;
 	
 	if ([self isAllTagDone]) {
-		UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:616.f andBackgroundColor:nil];
+		UIButton* bar_right_btn = [Tools creatBtnWithTitle:@"保存" titleColor:[Tools theme] fontSize:616.f backgroundColor:nil];
 		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
 	}
 }
@@ -172,7 +172,7 @@
 	UIImage* left = IMGRESOURCE(@"bar_left_black");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
 	
-	UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil];
+	UIButton* bar_right_btn = [Tools creatBtnWithTitle:@"保存" titleColor:[Tools garyColor] fontSize:16.f backgroundColor:nil];
 	bar_right_btn.userInteractionEnabled = NO;
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
 	//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)

@@ -55,7 +55,7 @@
 			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
 		}];
 		
-		moreLabel = [Tools creatLabelWithText:@"没有可预定时间" textColor:[Tools themeColor] fontSize:314.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
+		moreLabel = [Tools creatLabelWithText:@"没有可预定时间" textColor:[Tools theme] fontSize:314.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
 		[self addSubview:moreLabel];
 		[moreLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.bottom.equalTo(timeLabel);

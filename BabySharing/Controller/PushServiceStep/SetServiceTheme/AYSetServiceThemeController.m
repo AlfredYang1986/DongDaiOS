@@ -62,7 +62,7 @@
 				} else
 					opt.subArgs = nil;
 			}
-			UIButton *btn_right = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools themeColor] andFontSize:616 andBackgroundColor:nil];
+			UIButton *btn_right = [Tools creatBtnWithTitle:@"下一步" titleColor:[Tools theme] fontSize:616 backgroundColor:nil];
 			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &btn_right)
 			
 		} else {
@@ -97,7 +97,7 @@
 		titleStr = @"课程类型?";
 		titles = kAY_service_options_title_course;
 		
-		UIButton *btn_right = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools RGB225GaryColor] andFontSize:316 andBackgroundColor:nil];
+		UIButton *btn_right = [Tools creatBtnWithTitle:@"下一步" titleColor:[Tools RGB225GaryColor] fontSize:316 backgroundColor:nil];
 		btn_right.userInteractionEnabled = NO;
 		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &btn_right)
 		

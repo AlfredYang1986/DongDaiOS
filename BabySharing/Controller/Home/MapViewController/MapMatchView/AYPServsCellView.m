@@ -54,7 +54,7 @@
 			make.top.equalTo(timeLine00.mas_bottom).offset(2);
 		}];
 		
-		moreTips = [Tools creatLabelWithText:@"点击详情" textColor:[Tools themeColor] fontSize:12.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		moreTips = [Tools creatLabelWithText:@"点击详情" textColor:[Tools theme] fontSize:12.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:moreTips];
 		[moreTips mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(timeLine00.mas_right).offset(15);

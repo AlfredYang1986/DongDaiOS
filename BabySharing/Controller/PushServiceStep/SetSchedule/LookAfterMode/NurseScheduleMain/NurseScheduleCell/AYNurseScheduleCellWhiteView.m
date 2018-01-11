@@ -33,7 +33,7 @@
 		
 		CGFloat selfHeight = 55.f;
 		UIColor *mainColor = [Tools whiteColor];
-		self.backgroundColor = [Tools themeColor];
+		self.backgroundColor = [Tools theme];
 		
 		startLabel = [Tools creatLabelWithText:@"开始" textColor:mainColor fontSize:20.f backgroundColor:nil textAlignment:1];
 		[self addSubview:startLabel];

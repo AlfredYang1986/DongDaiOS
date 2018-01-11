@@ -76,7 +76,7 @@
     id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
     UITableView *tableView = (UITableView*)view_notify;
 	
-	UILabel *placelabel = [Tools creatLabelWithText:@"场地信息" textColor:[Tools themeColor] fontSize:620.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	UILabel *placelabel = [Tools creatLabelWithText:@"场地信息" textColor:[Tools theme] fontSize:620.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	AYAdvanceOptView *placeTitle = [[AYAdvanceOptView alloc] initWithTitle:placelabel];
 	placeTitle.access.hidden = YES;
 	[tableView addSubview:placeTitle];
@@ -115,7 +115,7 @@
     facilityTitle.userInteractionEnabled = YES;
     [facilityTitle addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didFacilityLabelTap)]];
     
-    UILabel *detailLabel = [Tools creatLabelWithText:@"详情" textColor:[Tools themeColor] fontSize:620.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+    UILabel *detailLabel = [Tools creatLabelWithText:@"详情" textColor:[Tools theme] fontSize:620.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	AYAdvanceOptView *detailTitle = [[AYAdvanceOptView alloc] initWithTitle:detailLabel];
 	detailTitle.access.hidden = YES;
     [tableView addSubview:detailTitle];

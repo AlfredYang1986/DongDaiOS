@@ -136,7 +136,7 @@
     UIImage* left = IMGRESOURCE(@"bar_left_theme");
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
 	
-	UIButton *btn_right = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools garyColor] andFontSize:616 andBackgroundColor:nil];
+	UIButton *btn_right = [Tools creatBtnWithTitle:@"保存" titleColor:[Tools garyColor] fontSize:616 backgroundColor:nil];
 	btn_right.userInteractionEnabled = NO;
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &btn_right)
 	
@@ -174,7 +174,7 @@
 
 - (void)setNavRightBtnEnableStatus {
 	if (!isAlreadyEnable) {
-		UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:616.f andBackgroundColor:nil];
+		UIButton* bar_right_btn = [Tools creatBtnWithTitle:@"保存" titleColor:[Tools theme] fontSize:616.f backgroundColor:nil];
 		kAYViewsSendMessage(@"FakeNavBar", kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
 		isAlreadyEnable = YES;
 	}

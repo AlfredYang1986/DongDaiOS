@@ -111,7 +111,7 @@
     AYViewController* des = DEFAULTCONTROLLER(@"TabBarService");
     if ([self.tabBarController isKindOfClass:[des class]]) {
         UIButton *confirmSerBtn = [[UIButton alloc]init];
-        confirmSerBtn.backgroundColor = [Tools themeColor];
+        confirmSerBtn.backgroundColor = [Tools theme];
         [confirmSerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [confirmSerBtn setTitleColor:[Tools garyColor] forState:UIControlStateDisabled];
         confirmSerBtn.titleLabel.font = kAYFontLight(17.f);

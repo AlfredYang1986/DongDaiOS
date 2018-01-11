@@ -30,7 +30,7 @@
         
         self.backgroundColor = [UIColor whiteColor];
         
-        titleLabel = [Tools creatLabelWithText:@"添加服务时间" textColor:[Tools themeColor] fontSize:16.f backgroundColor:nil textAlignment:0];
+        titleLabel = [Tools creatLabelWithText:@"添加服务时间" textColor:[Tools theme] fontSize:16.f backgroundColor:nil textAlignment:0];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(15);
@@ -38,7 +38,7 @@
         }];
         
         UIButton *addSignBtn = [UIButton buttonWithType:UIButtonTypeContactAdd];
-        addSignBtn.tintColor = [Tools themeColor];
+        addSignBtn.tintColor = [Tools theme];
         addSignBtn.userInteractionEnabled = NO;
         [self addSubview:addSignBtn];
         [addSignBtn mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -77,7 +77,7 @@
 	inputPhoneNo.delegate = self;
 	inputPhoneNo.backgroundColor = [UIColor clearColor];
 	inputPhoneNo.font = [UIFont boldSystemFontOfSize:18.f];
-	inputPhoneNo.textColor = [Tools themeColor];
+	inputPhoneNo.textColor = [Tools theme];
 	inputPhoneNo.keyboardType = UIKeyboardTypeNumberPad;
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldTextDidChange:) name:UITextFieldTextDidChangeNotification object:inputPhoneNo];
 	[inputPhoneNoView addSubview:inputPhoneNo];
@@ -127,7 +127,7 @@
 	coder_area = [[UITextField alloc]init];
 	coder_area.backgroundColor = [UIColor clearColor];
 	coder_area.font = [UIFont boldSystemFontOfSize:18.f];
-	coder_area.textColor = [Tools themeColor];
+	coder_area.textColor = [Tools theme];
 	coder_area.keyboardType = UIKeyboardTypeNumberPad;
 	coder_area.delegate = self;
 	coder_area.userInteractionEnabled = NO;
@@ -195,7 +195,7 @@
 			
             if (seconds == TimeZore || seconds == 0) {
                 getCodeBtn.enabled = YES;
-				getCodeBtn.backgroundColor = [Tools themeColor];
+				getCodeBtn.backgroundColor = [Tools theme];
             }
 		} else {
 			getCodeBtn.enabled = NO;
@@ -250,7 +250,7 @@
         [getCodeBtn setTitle:@"重获动态密码" forState:UIControlStateNormal];
         if (inputPhoneNo.text.length >= kPhoneNoLimit) {
             getCodeBtn.enabled = YES;
-			getCodeBtn.backgroundColor = [Tools themeColor];
+			getCodeBtn.backgroundColor = [Tools theme];
         }
     }
 }

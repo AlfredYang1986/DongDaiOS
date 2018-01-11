@@ -93,7 +93,7 @@ static NSString *const kBasicKey = @"basic";
 		make.centerY.equalTo(specialStateView);
 	}];
 	specialSwitch = [[UISwitch alloc] init];
-	[specialSwitch setOnTintColor:[Tools themeColor]];
+	[specialSwitch setOnTintColor:[Tools theme]];
 	[specialStateView addSubview:specialSwitch];
 	[specialSwitch mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.right.equalTo(specialStateView).offset(-15);
@@ -142,7 +142,7 @@ static NSString *const kBasicKey = @"basic";
 		make.centerY.equalTo(openDayStateView);
 	}];
 	openDaySwitch = [[UISwitch alloc] init];
-	[openDaySwitch setOnTintColor:[Tools themeColor]];
+	[openDaySwitch setOnTintColor:[Tools theme]];
 	[openDayStateView addSubview:openDaySwitch];
 	[openDaySwitch mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.right.equalTo(openDayStateView).offset(-15);
@@ -384,7 +384,7 @@ static NSString *const kBasicKey = @"basic";
 	}];
 	
 	//    rowAction.backgroundColor = [UIColor colorWithPatternImage:IMGRESOURCE(@"cell_delete")];
-	rowAction.backgroundColor = [Tools themeColor];
+	rowAction.backgroundColor = [Tools theme];
 	return @[rowAction];
 }
 

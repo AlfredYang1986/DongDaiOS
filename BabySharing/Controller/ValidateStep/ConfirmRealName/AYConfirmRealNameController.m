@@ -113,12 +113,12 @@
 	
 	if (![nameTextField.text isEqualToString:kAYStringNull] && ![coderTextField.text isEqualToString:kAYStringNull]) {
 		if (!isRightBtnEnable) {
-			UIButton *btn_right = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools themeColor] andFontSize:316 andBackgroundColor:nil];
+			UIButton *btn_right = [Tools creatBtnWithTitle:@"下一步" titleColor:[Tools theme] fontSize:316 backgroundColor:nil];
 			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &btn_right)
 			isRightBtnEnable = YES;
 		}
 	} else {
-		UIButton *btn_right = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools RGB225GaryColor] andFontSize:316 andBackgroundColor:nil];
+		UIButton *btn_right = [Tools creatBtnWithTitle:@"下一步" titleColor:[Tools RGB225GaryColor] fontSize:316 backgroundColor:nil];
 		btn_right.userInteractionEnabled = NO;
 		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &btn_right)
 		isRightBtnEnable = NO;
@@ -137,7 +137,7 @@
 	UIImage* left = IMGRESOURCE(@"bar_left_theme");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
 	
-	UIButton *btn_right = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools RGB225GaryColor] andFontSize:316 andBackgroundColor:nil];
+	UIButton *btn_right = [Tools creatBtnWithTitle:@"下一步" titleColor:[Tools RGB225GaryColor] fontSize:316 backgroundColor:nil];
 	btn_right.userInteractionEnabled = NO;
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &btn_right)
 	

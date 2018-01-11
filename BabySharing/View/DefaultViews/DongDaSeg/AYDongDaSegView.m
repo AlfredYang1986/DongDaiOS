@@ -62,7 +62,7 @@
         self.tag = -99;
 //        self.theme = Light;
         self.font_color = [Tools blackColor];
-        self.select_font_color = [Tools themeColor];
+        self.select_font_color = [Tools theme];
     }
     return self;
 }
@@ -73,7 +73,7 @@
         self.tag = -99;
 //        self.theme = Light;
         self.font_color = [Tools blackColor];
-        self.select_font_color = [Tools themeColor];
+        self.select_font_color = [Tools theme];
     }
     return self;
 }
@@ -92,7 +92,7 @@
     if (self) {
         self.tag = -99;
         self.font_color = [Tools blackColor];
-        self.select_font_color = [Tools themeColor];
+        self.select_font_color = [Tools theme];
     }
     return self;
 }

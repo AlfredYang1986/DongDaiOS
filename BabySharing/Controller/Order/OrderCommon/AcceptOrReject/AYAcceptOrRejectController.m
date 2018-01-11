@@ -79,7 +79,7 @@
     
     UIButton *acceptBtn = [[UIButton alloc]init];
     [self.view addSubview:acceptBtn];
-    acceptBtn.backgroundColor = [Tools themeColor];
+    acceptBtn.backgroundColor = [Tools theme];
     [acceptBtn setTitle:@"接受" forState:UIControlStateNormal];
     acceptBtn.titleLabel.font = [UIFont systemFontOfSize:16.f];
     [acceptBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];

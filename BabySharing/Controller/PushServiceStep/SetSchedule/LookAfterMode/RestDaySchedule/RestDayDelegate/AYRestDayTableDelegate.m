@@ -75,7 +75,7 @@
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 	UIView *headView = [[UIView alloc] init];
-	headView.backgroundColor = [Tools themeColor];
+	headView.backgroundColor = [Tools theme];
 	
 	UILabel *titleLabel = [Tools creatLabelWithText:@"服务时段" textColor:[Tools whiteColor] fontSize:620.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[headView addSubview:titleLabel];

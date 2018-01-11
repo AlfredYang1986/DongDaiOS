@@ -323,7 +323,7 @@
             }];
             
             NSString *btnTitleStr = @"确认";
-            UIButton *otherBtn = [Tools creatUIButtonWithTitle:btnTitleStr andTitleColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil];
+            UIButton *otherBtn = [Tools creatBtnWithTitle:btnTitleStr titleColor:[Tools theme] fontSize:14.f backgroundColor:nil];
             [otherBtn addTarget:self action:@selector(BtmAlertOtherBtnClick) forControlEvents:UIControlEventTouchUpInside];
             [btmAlertView addSubview:otherBtn];
             [otherBtn sizeToFit];

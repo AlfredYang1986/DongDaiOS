@@ -45,7 +45,7 @@
 
 
 - (void)setSubTitleWithString:(NSString *)subString {
-	subTitleLabel.textColor = [Tools themeColor];
+	subTitleLabel.textColor = [Tools theme];
 	subTitleLabel.text = subString;
 }
 

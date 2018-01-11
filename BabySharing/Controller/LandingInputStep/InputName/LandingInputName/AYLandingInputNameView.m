@@ -45,7 +45,7 @@
 
 - (void)postPerform {
 	
-	UILabel *tips = [Tools creatLabelWithText:@"还有，您的姓名" textColor:[Tools themeColor] fontSize:20.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	UILabel *tips = [Tools creatLabelWithText:@"还有，您的姓名" textColor:[Tools theme] fontSize:20.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self addSubview:tips];
 	[tips mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self);
@@ -62,12 +62,12 @@
         make.width.equalTo(self);
         make.height.mas_equalTo(inputBgHeight);
     }];
-	[Tools creatCALayerWithFrame:CGRectMake(0, inputBgHeight - 0.5, SCREEN_WIDTH - 50, 0.5) andColor:[Tools themeColor] inSuperView:inputView];
+	[Tools creatCALayerWithFrame:CGRectMake(0, inputBgHeight - 0.5, SCREEN_WIDTH - 50, 0.5) andColor:[Tools theme] inSuperView:inputView];
 	
     name_area = [[UITextField alloc]init];
     name_area.delegate = self;
     name_area.font = [UIFont boldSystemFontOfSize:20.f];
-    name_area.textColor = [Tools themeColor];
+    name_area.textColor = [Tools theme];
 //    name_area.clearButtonMode = UITextFieldViewModeWhileEditing;
     name_area.placeholder = @"您的姓名";
     [inputView addSubview:name_area];

@@ -33,7 +33,7 @@
 		[self addSubview:radiusBGView];
 		[Tools setViewBorder:radiusBGView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools whiteColor]];
 		
-		titleLabel = [Tools creatLabelWithText:title textColor:[Tools themeColor] fontSize:617 backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+		titleLabel = [Tools creatLabelWithText:title textColor:[Tools theme] fontSize:617 backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.center.equalTo(self);
@@ -67,7 +67,7 @@
 	statusBtn.enabled = isReady;
 		
 	if (_isReady) {
-		[Tools setViewBorder:radiusBGView withRadius:4.f andBorderWidth:1 andBorderColor:[Tools themeColor] andBackground:[Tools whiteColor]];
+		[Tools setViewBorder:radiusBGView withRadius:4.f andBorderWidth:1 andBorderColor:[Tools theme] andBackground:[Tools whiteColor]];
 	} else
 		[Tools setViewBorder:radiusBGView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools whiteColor]];
 }

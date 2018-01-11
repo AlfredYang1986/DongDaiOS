@@ -69,7 +69,7 @@
 	//	id tmp = [order_past copy];
 	//	kAYDelegatesSendMessage(@"UnSubsPage", kAYDelegateChangeDataMessage, &tmp)
 	
-	UIButton *ConfirmPayBtn = [Tools creatUIButtonWithTitle:@"提交" andTitleColor:[Tools whiteColor] andFontSize:314.f andBackgroundColor:[Tools themeColor]];
+	UIButton *ConfirmPayBtn = [Tools creatBtnWithTitle:@"提交" titleColor:[Tools whiteColor] fontSize:314.f backgroundColor:[Tools theme]];
 	[self.view addSubview:ConfirmPayBtn];
 	[ConfirmPayBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.bottom.equalTo(self.view).offset(-HOME_IND_HEIGHT);

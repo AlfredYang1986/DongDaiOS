@@ -53,7 +53,7 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	// Do any additional setup after loading the view.
-	self.view.backgroundColor = [Tools themeColor];
+	self.view.backgroundColor = [Tools theme];
 	
 	if (!timeDurationArr) {
 		timeDurationArr  = [NSMutableArray array];
@@ -169,7 +169,7 @@
 
 - (void)showRightBtn {
 	if (!isChange) {
-		UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools whiteColor] andFontSize:316.f andBackgroundColor:nil];
+		UIButton* bar_right_btn = [Tools creatBtnWithTitle:@"保存" titleColor:[Tools whiteColor] fontSize:316.f backgroundColor:nil];
 		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
 		isChange = YES;
 	}

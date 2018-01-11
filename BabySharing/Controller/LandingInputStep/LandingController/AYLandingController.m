@@ -107,8 +107,8 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 #pragma mark - life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    self.view.layer.contents = (id)IMGRESOURCE(@"launchscreen").CGImage;
-    self.view.backgroundColor = [Tools themeColor];
+    self.view.layer.contents = (id)IMGRESOURCE(@"landing_bg").CGImage;
+    self.view.backgroundColor = [UIColor theme];
 	
 	
 	// 状态栏(statusbar)
@@ -118,12 +118,12 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 	NSLog(@"status.h-%f/nav.h-%f", StatusRect.size.height, NavRect.size.height);
 	
     UIImageView *logo = [[UIImageView alloc]init];
-    logo.image = IMGRESOURCE(@"login_logo");
+    logo.image = IMGRESOURCE(@"landing_logo");
     [self.view addSubview:logo];
     [logo mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(SCREEN_HEIGHT * 68/667);
-        make.left.equalTo(self.view).offset(43);
-        make.size.mas_equalTo(CGSizeMake(52, 52)); //46
+        make.top.equalTo(self.view).offset(SCREEN_HEIGHT * 143/667);
+        make.centerX.equalTo(self.view);
+        make.size.mas_equalTo(CGSizeMake(94, 40)); //46
     }];
     
 //    UIDevice *device = [UIDevice currentDevice];
@@ -133,60 +133,45 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 //    NSLog(@"systemName  %@",device.systemName);
 //    NSLog(@"systemVersion  %@",device.systemVersion);
     
-    UILabel *welcome = [Tools creatLabelWithText:@"欢迎来到 咚哒" textColor:[UIColor whiteColor] fontSize:624.f backgroundColor:nil textAlignment:0];
-    [self.view addSubview:welcome];
-    [welcome mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(logo);
-        make.top.equalTo(logo.mas_bottom).offset(20);
-    }];
-    
-    UILabel *welTips = [Tools creatLabelWithText:@"为孩子预订贴心服务，\n体验与众不同的轻松时刻。" textColor:[UIColor whiteColor] fontSize:24.f backgroundColor:nil textAlignment:0];
-    welTips.numberOfLines = 0;
+    UILabel *welTips = [UILabel creatLabelWithText:@"为孩子创造与众不同" textColor:[UIColor white] fontSize:315 backgroundColor:nil textAlignment:0];
     [self.view addSubview:welTips];
     [welTips mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(welcome.mas_bottom).offset(17);
-        make.left.equalTo(logo);
+        make.top.equalTo(logo.mas_bottom).offset(13);
+        make.centerX.equalTo(logo);
     }];
-    
-    if (SCREEN_WIDTH < 375) {
-        welcome.font = [UIFont boldSystemFontOfSize:20.5f];
-        welTips.font = kAYFontLight(20.5f);
-    }
-    
+	
+	CGFloat btnHeight = 50;
     phoneNoLogin = [[UIButton alloc]init];
-    phoneNoLogin.titleLabel.font = [UIFont systemFontOfSize:15.f];
+    phoneNoLogin.titleLabel.font = kAYFontMedium(17);
+	[phoneNoLogin setImage:IMGRESOURCE(@"landing_phone") forState:UIControlStateNormal];
+	[phoneNoLogin setImageEdgeInsets:UIEdgeInsetsMake(0, -20, 0, 0)];
     [phoneNoLogin setTitle:@"手机号登录" forState:UIControlStateNormal];
-    [phoneNoLogin setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
-    [phoneNoLogin setTitleEdgeInsets:UIEdgeInsetsMake(0, 30, 0, 0)];
-    [phoneNoLogin setImage:IMGRESOURCE(@"phone_icon") forState:UIControlStateNormal];
-    [phoneNoLogin setImageEdgeInsets:UIEdgeInsetsMake(0, -35, 0, 0)];
+    [phoneNoLogin setTitleColor:[UIColor theme] forState:UIControlStateNormal];
+    [phoneNoLogin setTitleEdgeInsets:UIEdgeInsetsMake(0, 20, 0, 0)];
     [phoneNoLogin setBackgroundColor:[UIColor colorWithWhite:1.f alpha:1.f]];
-    phoneNoLogin.layer.cornerRadius = 45.f * 0.5;
+    phoneNoLogin.layer.cornerRadius = btnHeight * 0.5;
     phoneNoLogin.clipsToBounds = YES;
     [self.view addSubview:phoneNoLogin];
     [phoneNoLogin mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(SCREEN_HEIGHT * 0.6);
+        make.bottom.equalTo(self.view).offset(-105);
         make.centerX.equalTo(self.view);
-        make.left.equalTo(self.view).offset(43);
-        make.right.equalTo(self.view).offset(-43);
-        make.height.mas_equalTo(45);
+		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH-SCREEN_MARGIN_LR*2, btnHeight));
     }];
     [phoneNoLogin addTarget:self action:@selector(pushInputPhoneNo) forControlEvents:UIControlEventTouchUpInside];
     
     weChatLogin = [[UIButton alloc]init];
-    weChatLogin.titleLabel.font = [UIFont systemFontOfSize:15.f];
-    [weChatLogin setTitle:@"微信帐号登录" forState:UIControlStateNormal];
-    [weChatLogin setTitleEdgeInsets:UIEdgeInsetsMake(0, 30, 0, 0)];
-    [weChatLogin setImage:IMGRESOURCE(@"login_wechat") forState:UIControlStateNormal];
-    [weChatLogin setImageEdgeInsets:UIEdgeInsetsMake(0, -20, 0, 0)];
-    [weChatLogin setBackgroundColor:[Tools themeColor]];
-    weChatLogin.layer.borderColor = [UIColor whiteColor].CGColor;
-    weChatLogin.layer.borderWidth = 2.f;
-    weChatLogin.layer.cornerRadius = 45.f * 0.5;
+    weChatLogin.titleLabel.font = kAYFontMedium(17);
+	[weChatLogin setImage:IMGRESOURCE(@"landing_wechat") forState:UIControlStateNormal];
+	[weChatLogin setImageEdgeInsets:UIEdgeInsetsMake(0, -35, 0, 0)];
+    [weChatLogin setTitle:@"微信登录" forState:UIControlStateNormal];
+	[weChatLogin setTitleColor:[UIColor white] forState:UIControlStateNormal];
+//    [weChatLogin setTitleEdgeInsets:UIEdgeInsetsMake(0, -35, 0, 0)];
+    [weChatLogin setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.3]];
+    weChatLogin.layer.cornerRadius = btnHeight * 0.5;
     weChatLogin.clipsToBounds = YES;
     [self.view addSubview:weChatLogin];
     [weChatLogin mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(phoneNoLogin.mas_bottom).offset(22.5);
+        make.top.equalTo(phoneNoLogin.mas_bottom).offset(23);
         make.centerX.equalTo(phoneNoLogin);
         make.size.equalTo(phoneNoLogin);
     }];
@@ -199,20 +184,6 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     isWXInstall = IsInstalledWechat.boolValue;
     weChatLogin.hidden = !isWXInstall;
     
-    /****** *****/
-    pri_btn = [[UIButton alloc]init];
-    [self.view addSubview:pri_btn];
-    pri_btn.titleLabel.font = [UIFont systemFontOfSize:11.f];
-    [pri_btn setTitle:@"登录即代表我同意用户 服务条款 及 隐私协议" forState:UIControlStateNormal];
-    [pri_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    pri_btn.clipsToBounds = YES;
-    [pri_btn addTarget:self action:@selector(pri_btnDidClick) forControlEvents:UIControlEventTouchUpInside];
-    [pri_btn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view);
-        make.bottom.equalTo(self.view.mas_bottom).offset(-24.5);
-        make.width.mas_equalTo(SCREEN_WIDTH - 30);
-        make.height.mas_equalTo(15);
-    }];
 }
 
 - (void)postPerform {
@@ -393,7 +364,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 //            id<AYCommand> cmd_exchange = EXCHANGEWINDOWS;
 //            [cmd_exchange performWithResult:&dic_show_module];
 			
-			id<AYCommand> cmd_home_init = [self.commands objectForKey:@"HomeInit"];
+			id<AYCommand> cmd_home_init = COMMAND(@"HomeInit", @"HomeInit");
 			AYViewController* des = nil;
 			[cmd_home_init performWithResult:&des];
 			

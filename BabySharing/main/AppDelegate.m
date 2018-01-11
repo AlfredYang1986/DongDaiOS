@@ -70,6 +70,9 @@ static NSString* const kAYEMAppKey = @"blackmirror#dongda";
 		self.window.rootViewController = rootVC;
 		
 	} else {
+//		id<AYCommand> cmd_home_init = COMMAND(@"HomeInit", @"HomeInit");
+//		AYViewController* des = nil;
+//		[cmd_home_init performWithResult:&des];
 		
 		id<AYCommand> cmd = COMMAND(kAYFactoryManagerCommandTypeInit, kAYFactoryManagerCommandTypeInit);
 		AYViewController* controller = nil;

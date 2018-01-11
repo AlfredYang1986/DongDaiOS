@@ -95,7 +95,7 @@
 		
 		remindOlockIcon = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"remind_olock")];
 		[self addSubview:remindOlockIcon];
-		remindLabel = [Tools creatLabelWithText:@"Remind message" textColor:[Tools themeColor] fontSize:314.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		remindLabel = [Tools creatLabelWithText:@"Remind message" textColor:[Tools theme] fontSize:314.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:remindLabel];
 		
 		startTimeIcon = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"remind_time")];

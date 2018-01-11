@@ -32,7 +32,7 @@
 		
 		CGFloat selfHeight = 55.f;
 		
-		startLabel = [Tools creatLabelWithText:@"开始" textColor:[Tools themeColor] fontSize:20.f backgroundColor:nil textAlignment:1];
+		startLabel = [Tools creatLabelWithText:@"开始" textColor:[Tools theme] fontSize:20.f backgroundColor:nil textAlignment:1];
 		[self addSubview:startLabel];
 		[startLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(20);
@@ -40,7 +40,7 @@
 			make.width.mas_equalTo(80);
 		}];
 		
-		endLabel = [Tools creatLabelWithText:@"结束" textColor:[Tools themeColor] fontSize:20.f backgroundColor:nil textAlignment:1];
+		endLabel = [Tools creatLabelWithText:@"结束" textColor:[Tools theme] fontSize:20.f backgroundColor:nil textAlignment:1];
 		[self addSubview:endLabel];
 		[endLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(startLabel.mas_right).offset(55);
@@ -74,9 +74,9 @@
 			make.bottom.equalTo(self);
 			make.size.mas_equalTo(CGSizeMake(80, 0.5));
 		}];
-		startLine.backgroundColor = endLine.backgroundColor = [Tools themeColor];
+		startLine.backgroundColor = endLine.backgroundColor = [Tools theme];
 		
-		[Tools creatCALayerWithFrame:CGRectMake(119, selfHeight * 0.5 - 1, 15, 2) andColor:[Tools themeColor] inSuperView:self];
+		[Tools creatCALayerWithFrame:CGRectMake(119, selfHeight * 0.5 - 1, 15, 2) andColor:[Tools theme] inSuperView:self];
 		
 		if (reuseIdentifier != nil) {
 			[self setUpReuseCell];

@@ -88,7 +88,7 @@
 	}];
 	flickerLayer = [CALayer layer];
 	flickerLayer.frame = CGRectMake(0, 0, SCREEN_WIDTH - margin*2, 20);
-	flickerLayer.backgroundColor = [Tools themeColor].CGColor;
+	flickerLayer.backgroundColor = [Tools theme].CGColor;
 	[animatView.layer addSublayer:flickerLayer];
 	
 	sepLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 31, self.frame.size.width, 1)];
@@ -138,7 +138,7 @@
 	[scheduleView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"AYSpecialDayHeader"];
 	
     currentSign = [[UIView alloc] init];
-	currentSign.backgroundColor = [Tools themeColor];
+	currentSign.backgroundColor = [Tools theme];
     [sepLineView addSubview:currentSign];
     [currentSign mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(sepLineView);

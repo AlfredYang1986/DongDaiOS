@@ -64,7 +64,7 @@
 			if ([note_key isEqualToString:@"part_basic"]) {
 				basicSubView.isReady = [[back_args objectForKey:kAYServiceArgsImages] count] != 0 && [[back_args objectForKey:kAYServiceArgsDescription] length] != 0 && [[back_args objectForKey:kAYServiceArgsCharact] count] != 0;
 				
-				UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"预览" andTitleColor:[Tools themeColor] andFontSize:616.f andBackgroundColor:nil];
+				UIButton* bar_right_btn = [Tools creatBtnWithTitle:@"预览" titleColor:[Tools theme] fontSize:616.f backgroundColor:nil];
 				kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
 				
 			}
@@ -94,7 +94,7 @@
 		
 	if (basicSubView.isReady && locationSubView.isReady && capacitySubView.isReady && TMsSubView.isReady && noticeSubView.isReady) {
 		pushBtn.enabled = YES;
-		pushBtnBG.layer.shadowColor = [Tools themeColor].CGColor;
+		pushBtnBG.layer.shadowColor = [Tools theme].CGColor;
 		[unAbleGradi removeFromSuperlayer];
 		[pushBtn.layer addSublayer:ableGradi];
 		pushBtnTitle.text = @"发布服务";
@@ -333,7 +333,7 @@
 	UIImage* left = IMGRESOURCE(@"bar_left_black");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
 	
-	UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"预览" andTitleColor:[Tools themeColor] andFontSize:616.f andBackgroundColor:nil];
+	UIButton* bar_right_btn = [Tools creatBtnWithTitle:@"预览" titleColor:[Tools theme] fontSize:616.f backgroundColor:nil];
 //	UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"预览" andTitleColor:[Tools garyColor] andFontSize:616.f andBackgroundColor:nil];
 //	bar_right_btn.userInteractionEnabled = NO;
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)

@@ -77,8 +77,8 @@
         make.height.mas_equalTo(inpu_view.frame.size.height);
     }];
 	
-	UIButton *nextBtn = [Tools creatUIButtonWithTitle:@"提交" andTitleColor:[Tools whiteColor] andFontSize:318.f andBackgroundColor:[Tools themeColor]];
-	[Tools setViewBorder:nextBtn withRadius:22.5f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
+	UIButton *nextBtn = [Tools creatBtnWithTitle:@"提交" titleColor:[Tools whiteColor] fontSize:318.f backgroundColor:[Tools theme]];
+	[Tools setViewBorder:nextBtn withRadius:22.5f andBorderWidth:0 andBorderColor:nil andBackground:[Tools theme]];
 	[nextBtn addTarget:self action:@selector(rightBtnSelected) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:nextBtn];
 	[nextBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -254,7 +254,7 @@
 }
 
 - (id)setRightBtnEnabled {
-	UIButton *btn_right = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools themeColor] andFontSize:616.f andBackgroundColor:nil];
+	UIButton *btn_right = [Tools creatBtnWithTitle:@"下一步" titleColor:[Tools theme] fontSize:616.f backgroundColor:nil];
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &btn_right)
 	return nil;
 }

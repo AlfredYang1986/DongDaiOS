@@ -16,7 +16,7 @@
 - (instancetype)initWithTitle:(NSString*)titleStr {
 	if (self = [super init]) {
 		
-		[Tools setViewBorder:self withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
+		[Tools setViewBorder:self withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools theme]];
 		
 		titleLabel = [Tools creatLabelWithText:titleStr textColor:[Tools whiteColor] fontSize:617 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];

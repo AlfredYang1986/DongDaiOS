@@ -57,7 +57,7 @@
         
     }
     
-    UIButton *logout_btn = [Tools creatUIButtonWithTitle:@"退出登录" andTitleColor:[UIColor whiteColor] andFontSize:317.f andBackgroundColor:[Tools themeColor]];
+    UIButton *logout_btn = [Tools creatBtnWithTitle:@"退出登录" titleColor:[UIColor whiteColor] fontSize:317.f backgroundColor:[Tools theme]];
 	[Tools setViewBorder:logout_btn withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
     [logout_btn addTarget:self action:@selector(signOutSelected) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:logout_btn];

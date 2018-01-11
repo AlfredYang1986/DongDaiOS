@@ -74,14 +74,14 @@
 
 - (void)initialize {
 	
-	dayLabel = [Tools creatLabelWithText:@"Null" textColor:[Tools themeColor] fontSize:316.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+	dayLabel = [Tools creatLabelWithText:@"Null" textColor:[Tools theme] fontSize:316.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	[self addSubview:dayLabel];
 	[dayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(self);
 		make.centerY.equalTo(self);
 	}];
 	
-	todaySignLabel = [Tools creatLabelWithText:@"今天" textColor:[Tools themeColor] fontSize:8.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+	todaySignLabel = [Tools creatLabelWithText:@"今天" textColor:[Tools theme] fontSize:8.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	[self addSubview:todaySignLabel];
 	[todaySignLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(self);
@@ -89,7 +89,7 @@
 	}];
 	todaySignLabel.hidden = YES;
 	
-	selectedSignLabel = [Tools creatLabelWithText:@"已选" textColor:[Tools themeColor] fontSize:8.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+	selectedSignLabel = [Tools creatLabelWithText:@"已选" textColor:[Tools theme] fontSize:8.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	[self addSubview:selectedSignLabel];
 	[selectedSignLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(self);
@@ -98,7 +98,7 @@
 	selectedSignLabel.hidden = YES;
 	
 	abledSignView = [UIView new];
-	abledSignView.backgroundColor = [Tools themeColor];
+	abledSignView.backgroundColor = [Tools theme];
 	abledSignView.layer.cornerRadius = 2.5f;
 	abledSignView.clipsToBounds = YES;
 	[self addSubview:abledSignView];
@@ -113,7 +113,7 @@
 	UIView *circleView = [[UIView alloc] init];
 	[BgView addSubview:circleView];
 //	[Tools setViewBorder:circleView withRadius:4.f andBorderWidth:0.5f andBorderColor:[Tools themeColor] andBackground:nil];
-	[Tools setViewBorder:circleView withRadius:20 andBorderWidth:0.f andBorderColor:nil andBackground:[Tools themeColor]];
+	[Tools setViewBorder:circleView withRadius:20 andBorderWidth:0.f andBorderColor:nil andBackground:[Tools theme]];
 	[circleView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.center.equalTo(BgView);
 		make.size.mas_equalTo(CGSizeMake(40, 40));
@@ -154,7 +154,7 @@
 
 - (void)setEnAbleStates {
 	_isEnAbled = YES;
-	dayLabel.textColor = [Tools themeColor];
+	dayLabel.textColor = [Tools theme];
 	abledSignView.hidden = NO;
 }
 

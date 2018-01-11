@@ -32,7 +32,7 @@
 	self.backgroundColor = [UIColor whiteColor];
 	
 	radiuSignView = [[UIView alloc] init];
-	[Tools setViewBorder:radiuSignView withRadius:16 andBorderWidth:1 andBorderColor:[Tools themeColor] andBackground:[Tools whiteColor]];
+	[Tools setViewBorder:radiuSignView withRadius:16 andBorderWidth:1 andBorderColor:[Tools theme] andBackground:[Tools whiteColor]];
 	[self addSubview:radiuSignView];
 	[radiuSignView mas_makeConstraints:^(MASConstraintMaker *make) {
 //		make.edges.equalTo(self).insets(UIEdgeInsetsMake(8, 8, 8, 8));
@@ -47,7 +47,7 @@
 	}];
 	
 	dotSignView = [[UIView alloc] init];
-	[Tools setViewBorder:dotSignView withRadius:2 andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
+	[Tools setViewBorder:dotSignView withRadius:2 andBorderWidth:0 andBorderColor:nil andBackground:[Tools theme]];
 	[self addSubview:dotSignView];
 	[dotSignView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(self);
@@ -92,23 +92,23 @@
 			break;
 		case AYTMDayStateInServ:
 		{
-			titleLabel.textColor = [Tools themeColor];
+			titleLabel.textColor = [Tools theme];
 			radiuSignView.hidden = dotSignView.hidden = YES;
 		}
 			break;
 		case AYTMDayStateSpecial:
 		{
-			titleLabel.textColor = [Tools themeColor];
+			titleLabel.textColor = [Tools theme];
 			radiuSignView.hidden = YES;
 			dotSignView.hidden = NO;
 		}
 			break;
 		case AYTMDayStateOpenDay:
 		{
-			titleLabel.textColor = [Tools themeColor];
+			titleLabel.textColor = [Tools theme];
 			radiuSignView.hidden = NO;
 			dotSignView.hidden = YES;
-			[Tools setViewBorder:radiuSignView withRadius:16 andBorderWidth:1 andBorderColor:[Tools themeColor] andBackground:[Tools whiteColor]];
+			[Tools setViewBorder:radiuSignView withRadius:16 andBorderWidth:1 andBorderColor:[Tools theme] andBackground:[Tools whiteColor]];
 		}
 			break;
 		case AYTMDayStateSelect:
@@ -116,7 +116,7 @@
 			titleLabel.textColor = [Tools whiteColor];
 			radiuSignView.hidden = NO;
 			dotSignView.hidden = YES;
-			[Tools setViewBorder:radiuSignView withRadius:16 andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
+			[Tools setViewBorder:radiuSignView withRadius:16 andBorderWidth:0 andBorderColor:nil andBackground:[Tools theme]];
 		}
 			break;
 			

@@ -41,6 +41,22 @@
     
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere:)];
     [self.view addGestureRecognizer:tap];
+	
+	
+	/****** *****/
+	UIButton *pri_btn = [[UIButton alloc]init];
+	[self.view addSubview:pri_btn];
+	pri_btn.titleLabel.font = [UIFont systemFontOfSize:11.f];
+	[pri_btn setTitle:@"登录即代表我同意用户 服务条款 及 隐私协议" forState:UIControlStateNormal];
+	[pri_btn setTitleColor:[UIColor theme] forState:UIControlStateNormal];
+	pri_btn.clipsToBounds = YES;
+	[pri_btn addTarget:self action:@selector(pri_btnDidClick) forControlEvents:UIControlEventTouchUpInside];
+	[pri_btn mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(self.view);
+		make.bottom.equalTo(self.view.mas_bottom).offset(-24.5);
+		make.width.mas_equalTo(SCREEN_WIDTH - 30);
+		make.height.mas_equalTo(15);
+	}];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -70,6 +86,18 @@
 }
 
 #pragma mark -- actions
+- (void)pri_btnDidClick {
+	
+	id<AYCommand> UserAgree = DEFAULTCONTROLLER(@"UserAgree");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic setValue:UserAgree forKey:kAYControllerActionDestinationControllerKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	
+	id<AYCommand> cmd = PUSH;
+	[cmd performWithResult:&dic];
+}
+
 - (void)tapElseWhere:(UITapGestureRecognizer*)gusture {
     NSLog(@"tap esle where");
     id<AYViewBase> view = [self.views objectForKey:@"LandingInputCoder"];

@@ -154,11 +154,11 @@ static NSString* const defaultKeyIsHadSignedTips =      @"default_key_IsHadSigne
 
 - (void)setNavRightBtnEnableStatus {
 	if (selectedPhotos.count == 0 || !selectedPhotos) {
-		UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools garyColor] andFontSize:NavBarRightBtnFontSize andBackgroundColor:nil];
+		UIButton* bar_right_btn = [Tools creatBtnWithTitle:@"保存" titleColor:[Tools garyColor] fontSize:NavBarRightBtnFontSize backgroundColor:nil];
 		bar_right_btn.userInteractionEnabled = NO;
 		kAYViewsSendMessage(@"FakeNavBar", @"setRightBtnWithBtn:", &bar_right_btn)
 	} else {
-		UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:NavBarRightBtnFontSize andBackgroundColor:nil];
+		UIButton* bar_right_btn = [Tools creatBtnWithTitle:@"保存" titleColor:[Tools theme] fontSize:NavBarRightBtnFontSize backgroundColor:nil];
 		kAYViewsSendMessage(@"FakeNavBar", @"setRightBtnWithBtn:", &bar_right_btn)
 	}
 }

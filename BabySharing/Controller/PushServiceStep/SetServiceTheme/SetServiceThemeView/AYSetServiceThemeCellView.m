@@ -26,7 +26,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        titleLabel = [Tools creatLabelWithText:@"" textColor:[Tools themeColor] fontSize:618.f backgroundColor:nil textAlignment:0];
+        titleLabel = [Tools creatLabelWithText:@"" textColor:[Tools theme] fontSize:618.f backgroundColor:nil textAlignment:0];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(20);
@@ -42,7 +42,7 @@
             make.size.mas_equalTo(CGSizeMake(15, 15));
         }];
 		
-		subTitlelabel = [Tools creatLabelWithText:@"" textColor:[Tools themeColor] fontSize:316.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
+		subTitlelabel = [Tools creatLabelWithText:@"" textColor:[Tools theme] fontSize:316.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
 		[self addSubview:subTitlelabel];
 		[subTitlelabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.right.equalTo(access.mas_left).offset(-10);

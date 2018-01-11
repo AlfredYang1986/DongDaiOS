@@ -103,8 +103,8 @@
 					CGFloat btmView_height = 64.f;
 					BTMView.frame = CGRectMake(0, SCREEN_HEIGHT - btmView_height - HOME_IND_HEIGHT, SCREEN_WIDTH, btmView_height);
 					
-					UIButton *rejectBtn  = [Tools creatUIButtonWithTitle:@"拒绝" andTitleColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil];
-					[Tools setViewBorder:rejectBtn withRadius:0 andBorderWidth:1.f andBorderColor:[Tools themeColor] andBackground:nil];
+					UIButton *rejectBtn  = [Tools creatBtnWithTitle:@"拒绝" titleColor:[Tools theme] fontSize:14.f backgroundColor:nil];
+					[Tools setViewBorder:rejectBtn withRadius:0 andBorderWidth:1.f andBorderColor:[Tools theme] andBackground:nil];
 					[BTMView addSubview:rejectBtn];
 					[rejectBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 						make.left.equalTo(BTMView).offset(20);
@@ -113,7 +113,7 @@
 					}];
 					[rejectBtn addTarget:self action:@selector(didRejectBtnClick) forControlEvents:UIControlEventTouchUpInside];
 					
-					UIButton *acceptBtn  = [Tools creatUIButtonWithTitle:@"接受" andTitleColor:[Tools whiteColor] andFontSize:14.f andBackgroundColor:[Tools themeColor]];
+					UIButton *acceptBtn  = [Tools creatBtnWithTitle:@"接受" titleColor:[Tools whiteColor] fontSize:14.f backgroundColor:[Tools theme]];
 					[BTMView addSubview:acceptBtn];
 					[acceptBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 						make.right.equalTo(BTMView).offset(-20);
@@ -127,7 +127,7 @@
 					BTMView.frame = CGRectMake(0, SCREEN_HEIGHT - BOTTOM_HEIGHT - HOME_IND_HEIGHT, SCREEN_WIDTH, BOTTOM_HEIGHT);
 					
 					NSString *resonStr = [NSString stringWithFormat:@"拒绝原因:%@", [order_info objectForKey:kAYOrderArgsFurtherMessage]];
-					UILabel *tipsLabel = [Tools creatLabelWithText:resonStr textColor:[Tools themeColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+					UILabel *tipsLabel = [Tools creatLabelWithText:resonStr textColor:[Tools theme] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 					[BTMView addSubview:tipsLabel];
 					[tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 						make.left.equalTo(BTMView).offset(20);
@@ -143,14 +143,14 @@
 				if (status == OrderStatusAccepted) {
 					BTMView.frame = CGRectMake(0, SCREEN_HEIGHT - BOTTOM_HEIGHT - HOME_IND_HEIGHT, SCREEN_WIDTH, BOTTOM_HEIGHT);
 					
-					UIButton *gotoPayBtn = [Tools creatUIButtonWithTitle:@"去支付" andTitleColor:[Tools whiteColor] andFontSize:314.f andBackgroundColor:[Tools themeColor]];
+					UIButton *gotoPayBtn = [Tools creatBtnWithTitle:@"去支付" titleColor:[Tools whiteColor] fontSize:314.f backgroundColor:[Tools theme]];
 					[BTMView addSubview:gotoPayBtn];
 					[gotoPayBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 						make.edges.equalTo(BTMView);
 					}];
 					[gotoPayBtn addTarget:self action:@selector(didGoPayBtnClick) forControlEvents:UIControlEventTouchUpInside];
 					
-					UIButton *cancelBtn = [Tools creatUIButtonWithTitle:@"取消预订申请" andTitleColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
+					UIButton *cancelBtn = [Tools creatBtnWithTitle:@"取消预订申请" titleColor:[Tools garyColor] fontSize:14.f backgroundColor:[Tools whiteColor]];
 					[BTMView addSubview:cancelBtn];
 					[cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 						make.edges.equalTo(BTMView);
@@ -163,7 +163,7 @@
 					BTMView.frame = CGRectMake(0, SCREEN_HEIGHT - BOTTOM_HEIGHT - HOME_IND_HEIGHT, SCREEN_WIDTH, BOTTOM_HEIGHT);
 					
 					NSString *resonStr = [NSString stringWithFormat:@"取消原因:%@", [order_info objectForKey:kAYOrderArgsFurtherMessage]];
-					UILabel *tipsLabel = [Tools creatLabelWithText:resonStr textColor:[Tools themeColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+					UILabel *tipsLabel = [Tools creatLabelWithText:resonStr textColor:[Tools theme] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 					[BTMView addSubview:tipsLabel];
 					[tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 						make.left.equalTo(BTMView).offset(20);

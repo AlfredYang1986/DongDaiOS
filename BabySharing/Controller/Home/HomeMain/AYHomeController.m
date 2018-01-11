@@ -116,9 +116,12 @@ typedef void(^queryContentFinish)(void);
 	
 	CGFloat photoWidth = 36;
 	profilePhoto = [[UIImageView alloc] initWithFrame:CGRectMake(SCREEN_MARGIN_LR, (kHOMENAVHEIGHT-photoWidth)*0.5+kStatusBarH, photoWidth, photoWidth)];
+	profilePhoto.image = IMGRESOURCE(@"default_user");
 	[profilePhoto setRadius:photoWidth*0.5 borderWidth:0 borderColor:nil background:nil];
 	[HomeHeadView addSubview:profilePhoto];
-	[profilePhoto sd_setImageWithURL:[NSURL URLWithString:[kAYDongDaDownloadURL stringByAppendingString:photo_name] ] placeholderImage:IMGRESOURCE(@"default_user")];
+	if (photo_name) {
+		[profilePhoto sd_setImageWithURL:[NSURL URLWithString:[kAYDongDaDownloadURL stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"default_user")];
+	}
 	profilePhoto.userInteractionEnabled = YES;
 	[profilePhoto addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(profilePhotoTap)]];
 	
@@ -130,7 +133,7 @@ typedef void(^queryContentFinish)(void);
 		make.size.mas_equalTo(CGSizeMake(56, 24));
 	}];
 	
-	locationLabel = [UILabel creatLabelWithText:@"北京市" textColor:[UIColor black] fontSize:313.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	locationLabel = [UILabel creatLabelWithText:@"北京" textColor:[UIColor black] fontSize:313.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[HomeHeadView addSubview:locationLabel];
 	[locationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(dongda.mas_right).offset(7);
@@ -247,14 +250,10 @@ typedef void(^queryContentFinish)(void);
 #pragma mark -- actions
 - (void)locationLabelTap {
 	
-	if ([localityStr isEqualToString:@"北京市"]) {
-		NSString *title = @"咚哒目前只支持北京市,我们正在努力到达更多的城市";
-		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-	}
-	else {
-		NSString *title = [@"咚哒目前只支持北京市,我们正在努力到达" stringByAppendingString:localityStr];
-		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-	}
+//	if (![localityStr isEqualToString:@"北京市"] && ![localityStr isEqualToString:@"Beijing"]) {
+//	}
+	NSString *title = @"咚哒目前只支持北京市,我们正在努力到达更多的城市";
+	AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 }
 
 - (void)profilePhotoTap {
@@ -496,13 +495,22 @@ typedef void(^queryContentFinish)(void);
 
 - (id)willOpenMapMatch {
 	if (!loc) {
-		NSString *title;
+//		NSString *title;
 		if (isLocationAuth) {
-			title = @"正在定位，请稍等...";
+			NSString *title = @"正在定位，请稍等...";
+			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 		} else {
-			title = @"查看地图需要您授权使用定位功能";
+			NSString *title = @"查看地图需要您授权使用定位功能";
+			UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:title preferredStyle:UIAlertControllerStyleAlert];
+			
+			UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"好" style:UIAlertActionStyleCancel handler:nil];
+			UIAlertAction *certain = [UIAlertAction actionWithTitle:@"去设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+				[[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+			}];
+			[alert addAction:cancel];
+			[alert addAction:certain];
+			[self presentViewController:alert animated:YES completion:nil];
 		}
-		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 		return nil;
 	}
 	
@@ -651,6 +659,11 @@ typedef void(^queryContentFinish)(void);
 		if (!error) {
 			CLPlacemark *first = placemarks.firstObject;
 			localityStr = first.locality;
+			
+			if (![localityStr isEqualToString:@"北京市"] && ![localityStr isEqualToString:@"Beijing"]) {
+				NSString *title = @"咚哒目前只支持北京市,我们正在努力到达更多的城市";
+				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			}
 		}
 	}];
 	
@@ -672,7 +685,6 @@ typedef void(^queryContentFinish)(void);
 			isLocationAuth = NO;
 			loc = nil;
 			search_pin = nil;
-			locationLabel.text = @"无法定位";
 		}
 			break;
 		default:

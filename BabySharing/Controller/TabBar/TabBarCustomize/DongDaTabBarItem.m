@@ -117,7 +117,7 @@
 
     if (selected) {
         img_layer.contents = (id)_select_img.CGImage;
-        title_layer.foregroundColor = [Tools themeColor].CGColor;
+        title_layer.foregroundColor = [Tools theme].CGColor;
     } else {
         img_layer.contents = (id)_img.CGImage;
         title_layer.foregroundColor = [Tools RGB153GaryColor].CGColor;

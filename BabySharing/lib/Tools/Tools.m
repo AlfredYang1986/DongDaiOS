@@ -425,7 +425,7 @@
 	return [UIColor colorWithRed:RED / 255.0 green:GREEN / 255.0 blue:BLUE / 255.0 alpha:ALPHA];
 }
 
-+ (UIColor*)themeColor {
++ (UIColor*)theme {
     return [UIColor colorWithRed:89.0/255.0 green:213.0/255.0 blue:199.0/255.0 alpha:1.0];
 }
 + (UIColor*)themeBorderColor {
@@ -515,7 +515,7 @@
 /**
  *  设置btn的 title color fontSize(正常数值为细体,大于100为粗体,-负数为正常粗细) background align
  */
-+ (UIButton*)creatUIButtonWithTitle:(NSString*)title andTitleColor:(UIColor*)TitleColor andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor {
++ (UIButton*)creatBtnWithTitle:(NSString*)title titleColor:(UIColor*)TitleColor fontSize:(CGFloat)font backgroundColor:(UIColor*)backgroundColor {
     
     UIButton *btn = [UIButton new];
 	if (title) {

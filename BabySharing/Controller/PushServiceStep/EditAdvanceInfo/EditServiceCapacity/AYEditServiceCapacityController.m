@@ -67,7 +67,7 @@
         [cmd_delegate performWithResult:&obj];
     }
 	
-	UILabel *titleLabel = [Tools creatLabelWithText:@"描述" textColor:[Tools themeColor] fontSize:620.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatLabelWithText:@"描述" textColor:[Tools theme] fontSize:620.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(80);
@@ -102,7 +102,7 @@
     babyAgesTitle.userInteractionEnabled = YES;
     [babyAgesTitle addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editBabyAgesClick:)]];
     
-    agesNumbLabel = [Tools creatLabelWithText:@"0岁 - 0岁" textColor:[Tools themeColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
+    agesNumbLabel = [Tools creatLabelWithText:@"0岁 - 0岁" textColor:[Tools theme] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
     [tableView addSubview:agesNumbLabel];
     [agesNumbLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(babyAgesTitle).offset(-rightMargin);
@@ -127,7 +127,7 @@
         make.size.equalTo(babyAgesTitle);
     }];
     
-    UILabel *babyNumbSign = [Tools creatLabelWithText:@"个" textColor:[Tools themeColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
+    UILabel *babyNumbSign = [Tools creatLabelWithText:@"个" textColor:[Tools theme] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
     [tableView addSubview:babyNumbSign];
     [babyNumbSign mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(babyNumbTitle).offset(-rightMargin);
@@ -135,7 +135,7 @@
     }];
     
     babyNumb = [[UITextField alloc]init];
-    babyNumb.textColor = [Tools themeColor];
+    babyNumb.textColor = [Tools theme];
     babyNumb.font = kAYFontLight(14.f);
     babyNumb.textAlignment = NSTextAlignmentRight;
     babyNumb.keyboardType = UIKeyboardTypeNumberPad;
@@ -170,7 +170,7 @@
 	}];
 	[tableView sendSubviewToBack:servantBg];
     
-    UILabel *servantNumbSign = [Tools creatLabelWithText:@"个" textColor:[Tools themeColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
+    UILabel *servantNumbSign = [Tools creatLabelWithText:@"个" textColor:[Tools theme] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
     [tableView addSubview:servantNumbSign];
     [servantNumbSign mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(servantNumbTitle).offset(-rightMargin);
@@ -178,7 +178,7 @@
     }];
     
     servantNumb = [[UITextField alloc]init];
-    servantNumb.textColor  = [Tools themeColor];
+    servantNumb.textColor  = [Tools theme];
     servantNumb.font  = kAYFontLight(14.f);
     servantNumb.textAlignment  = NSTextAlignmentRight;
     servantNumb.keyboardType  = UIKeyboardTypeNumberPad;
@@ -295,7 +295,7 @@
 	UIImage* left = IMGRESOURCE(@"bar_left_theme");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
 	
-    UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil];
+    UIButton* bar_right_btn = [Tools creatBtnWithTitle:@"保存" titleColor:[Tools garyColor] fontSize:16.f backgroundColor:nil];
     bar_right_btn.userInteractionEnabled = NO;
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
     
@@ -351,7 +351,7 @@
 
 - (void)resetRightAbleStatus {
 	if (!isAlreadyEnable) {
-		UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
+		UIButton* bar_right_btn = [Tools creatBtnWithTitle:@"保存" titleColor:[Tools theme] fontSize:16.f backgroundColor:nil];
 		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
 		isAlreadyEnable = YES;
 	}

@@ -153,7 +153,7 @@
 //	view.layer.contents = (id) image.CGImage;    // 如果需要背景透明加上下面这句
 //	view.layer.backgroundColor = [UIColor clearColor].CGColor;
 //	rowAction.backgroundColor = [UIColor colorWithPatternImage:IMGRESOURCE(@"cell_delete")];
-	rowAction.backgroundColor = [Tools themeColor];
+	rowAction.backgroundColor = [Tools theme];
 	return @[rowAction];
 }
 

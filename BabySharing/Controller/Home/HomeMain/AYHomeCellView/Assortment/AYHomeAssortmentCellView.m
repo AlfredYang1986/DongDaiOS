@@ -52,7 +52,7 @@
 			make.top.equalTo(titleLabel.mas_bottom).offset(2);
 		}];
 		
-		UIButton *moreBtn = [Tools creatUIButtonWithTitle:@"查看更多" andTitleColor:[UIColor theme] andFontSize:313.f andBackgroundColor:nil];
+		UIButton *moreBtn = [Tools creatBtnWithTitle:@"查看更多" titleColor:[UIColor theme] fontSize:313.f backgroundColor:nil];
 		[self addSubview:moreBtn];
 		[moreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.right.equalTo(self).offset(-15);

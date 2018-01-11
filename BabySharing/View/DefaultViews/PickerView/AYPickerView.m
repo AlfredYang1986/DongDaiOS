@@ -40,7 +40,7 @@
     UIButton *save = [[UIButton alloc]init];
     [pickBgView addSubview:save];
     [save setTitle:@"保存" forState:UIControlStateNormal];
-    [save setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
+    [save setTitleColor:[Tools theme] forState:UIControlStateNormal];
     save.titleLabel.font = [UIFont systemFontOfSize:17.f];
     [save mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(pickBgView);

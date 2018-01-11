@@ -96,7 +96,7 @@
 	UIImage* left = IMGRESOURCE(@"bar_left_black");
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
     
-	UIButton *btn_right = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools RGB225GaryColor] andFontSize:316 andBackgroundColor:nil];
+	UIButton *btn_right = [Tools creatBtnWithTitle:@"保存" titleColor:[Tools RGB225GaryColor] fontSize:316 backgroundColor:nil];
 	btn_right.userInteractionEnabled = NO;
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &btn_right)
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
@@ -107,14 +107,14 @@
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
 	if (string.length != 0) {
 		if (!isEnable) {
-			UIButton *btn_right = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:316 andBackgroundColor:nil];
+			UIButton *btn_right = [Tools creatBtnWithTitle:@"保存" titleColor:[Tools theme] fontSize:316 backgroundColor:nil];
 			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &btn_right)
 			isEnable = YES;
 		}
 	} else {
 		if (textField.text.length == 1 || textField.text.length == 0) {
 			if (isEnable) {
-				UIButton *btn_right = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools RGB225GaryColor] andFontSize:316 andBackgroundColor:nil];
+				UIButton *btn_right = [Tools creatBtnWithTitle:@"保存" titleColor:[Tools RGB225GaryColor] fontSize:316 backgroundColor:nil];
 				btn_right.userInteractionEnabled = NO;
 				kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &btn_right)
 				isEnable = NO;

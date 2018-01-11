@@ -51,7 +51,7 @@
         
     }
     
-    UILabel *welcome = [Tools creatLabelWithText:@"最后一步，您的照片" textColor:[Tools themeColor] fontSize:22.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+    UILabel *welcome = [Tools creatLabelWithText:@"最后一步，您的照片" textColor:[Tools theme] fontSize:22.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
     [self.view addSubview:welcome];
     [welcome mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(WELCOMEY);
@@ -62,15 +62,15 @@
     UIView *photoView = (UIView*)photo_view;
     
     NSString *user_name = [login_attr objectForKey:@"screen_name"];
-    UILabel *nameLabel = [Tools creatLabelWithText:user_name textColor:[Tools themeColor] fontSize:620.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+    UILabel *nameLabel = [Tools creatLabelWithText:user_name textColor:[Tools theme] fontSize:620.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
     [self.view addSubview:nameLabel];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(photoView.mas_bottom).offset(16);
         make.centerX.equalTo(self.view);
     }];
 	
-	enterBtn = [Tools creatUIButtonWithTitle:@"进入咚哒" andTitleColor:[Tools whiteColor] andFontSize:318.f andBackgroundColor:[Tools themeColor]];
-	[Tools setViewBorder:enterBtn withRadius:22.5f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
+	enterBtn = [Tools creatBtnWithTitle:@"进入咚哒" titleColor:[Tools whiteColor] fontSize:318.f backgroundColor:[Tools theme]];
+	[Tools setViewBorder:enterBtn withRadius:22.5f andBorderWidth:0 andBorderColor:nil andBackground:[Tools theme]];
     [enterBtn addTarget:self action:@selector(updateUserProfile) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:enterBtn];
     [enterBtn mas_makeConstraints:^(MASConstraintMaker *make) {

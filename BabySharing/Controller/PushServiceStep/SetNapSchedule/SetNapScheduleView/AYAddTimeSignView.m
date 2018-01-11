@@ -84,7 +84,7 @@
 			break;
 			case AYAddTMSignStateEnable:
 		{
-			BGView.backgroundColor = [Tools themeColor];
+			BGView.backgroundColor = [Tools theme];
 			titleLabel.textColor = [Tools whiteColor];
 			addSignView.image = [UIImage imageNamed:@"add_icon_circle_white"];
 			coverBtmRadiusView.hidden = YES;

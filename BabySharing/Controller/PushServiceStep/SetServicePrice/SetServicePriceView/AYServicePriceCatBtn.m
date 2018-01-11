@@ -17,11 +17,11 @@
 	if (self = [super initWithFrame:frame]) {
 		[self setTitle:title forState:UIControlStateNormal];
 		[self setTitleColor:[Tools blackColor] forState:UIControlStateNormal];
-		[self setTitleColor:[Tools themeColor] forState:UIControlStateSelected];
+		[self setTitleColor:[Tools theme] forState:UIControlStateSelected];
 		
 		btmLayer = [[CALayer alloc] init];
 		btmLayer.frame = CGRectMake((frame.size.width-16)*0.5, frame.size.height-3, 16, 3);
-		btmLayer.backgroundColor = [Tools themeColor].CGColor;
+		btmLayer.backgroundColor = [Tools theme].CGColor;
 		
 	}
 	return  self;

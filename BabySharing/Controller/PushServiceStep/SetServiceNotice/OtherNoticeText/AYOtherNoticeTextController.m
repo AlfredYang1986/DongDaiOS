@@ -44,7 +44,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	UILabel *titleLabel = [Tools creatLabelWithText:@"其他守则" textColor:[Tools themeColor] fontSize:620.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatLabelWithText:@"其他守则" textColor:[Tools theme] fontSize:620.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(80);
@@ -77,7 +77,7 @@
 		placeHolder.hidden  = YES;
 	}
 	
-    countlabel = [Tools creatLabelWithText:[NSString stringWithFormat:@"还可以输入%lu个字符",LIMITNUMB - setedStr.length] textColor:[Tools themeColor] fontSize:12.f backgroundColor:nil textAlignment:0];
+    countlabel = [Tools creatLabelWithText:[NSString stringWithFormat:@"还可以输入%lu个字符",LIMITNUMB - setedStr.length] textColor:[Tools theme] fontSize:12.f backgroundColor:nil textAlignment:0];
     [self.view addSubview:countlabel];
     [countlabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(descTextView.mas_bottom).offset(-10);
@@ -106,7 +106,7 @@
 	UIImage* left = IMGRESOURCE(@"bar_left_theme");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
 	
-	UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil];
+	UIButton* bar_right_btn = [Tools creatBtnWithTitle:@"保存" titleColor:[Tools garyColor] fontSize:16.f backgroundColor:nil];
 	bar_right_btn.userInteractionEnabled = NO;
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
 	
@@ -120,7 +120,7 @@
 	placeHolder.hidden = count != 0;
 	
 	if (!isAlreadyEnable) {
-		UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
+		UIButton* bar_right_btn = [Tools creatBtnWithTitle:@"保存" titleColor:[Tools theme] fontSize:16.f backgroundColor:nil];
 		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
 		isAlreadyEnable = YES;
 	}

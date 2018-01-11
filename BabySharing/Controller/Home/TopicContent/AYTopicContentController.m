@@ -123,9 +123,9 @@
 									 NSShadowAttributeName:sdw};
 		
 		NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:categStr];
-		[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:22.f], NSForegroundColorAttributeName :[Tools themeColor]} range:NSMakeRange(0, 1)];
+		[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:22.f], NSForegroundColorAttributeName :[Tools theme]} range:NSMakeRange(0, 1)];
 		[attributedText setAttributes:shadowAttr range:NSMakeRange(1, categStr.length - 2)];
-		[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:22.f], NSForegroundColorAttributeName :[Tools themeColor]} range:NSMakeRange(categStr.length - 1, 1)];
+		[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:22.f], NSForegroundColorAttributeName :[Tools theme]} range:NSMakeRange(categStr.length - 1, 1)];
 		bannerTitle.attributedText = attributedText;
 	}
 	

@@ -74,7 +74,7 @@
         
         isShowDetail = [[UIButton alloc]init];
         [isShowDetail setTitle:@"查看详情" forState:UIControlStateNormal];
-        [isShowDetail setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
+        [isShowDetail setTitleColor:[Tools theme] forState:UIControlStateNormal];
         isShowDetail.titleLabel.font = kAYFontLight(15.f);
         isShowDetail.titleLabel.textAlignment = NSTextAlignmentRight;
         [isShowDetail sizeToFit];

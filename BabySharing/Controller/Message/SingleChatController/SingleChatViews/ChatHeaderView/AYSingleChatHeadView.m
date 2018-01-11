@@ -46,7 +46,7 @@
         make.left.equalTo(self).offset(20);
     }];
     
-    MoreBtn = [Tools creatUIButtonWithTitle:@"详情" andTitleColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil];
+    MoreBtn = [Tools creatBtnWithTitle:@"详情" titleColor:[Tools blackColor] fontSize:17.f backgroundColor:nil];
     [self addSubview:MoreBtn];
     [MoreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self).offset(-15);

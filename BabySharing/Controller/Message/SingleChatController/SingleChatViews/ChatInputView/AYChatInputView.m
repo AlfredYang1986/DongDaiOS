@@ -43,7 +43,7 @@
     sendBtn = [[UIButton alloc]init];
     [sendBtn setTitle:@"发送" forState:UIControlStateNormal];
     sendBtn.titleLabel.font = [UIFont systemFontOfSize:15.f];
-    [sendBtn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
+    [sendBtn setTitleColor:[Tools theme] forState:UIControlStateNormal];
     [sendBtn setTitleColor:[Tools colorWithRED:176 GREEN:241 BLUE:236 ALPHA:1.f] forState:UIControlStateDisabled];
     [sendBtn addTarget:self action:@selector(didSendMessageBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:sendBtn];

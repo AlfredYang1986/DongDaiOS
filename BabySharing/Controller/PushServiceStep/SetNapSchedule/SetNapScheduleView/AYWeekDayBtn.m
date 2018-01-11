@@ -52,13 +52,13 @@
         {
             [self setTitleColor:[Tools whiteColor] forState:UIControlStateNormal];
             self.layer.borderWidth = 0.f;
-            self.layer.backgroundColor = [Tools themeColor].CGColor;
+            self.layer.backgroundColor = [Tools theme].CGColor;
         }
             break;
 		case WeekDayBtnStateSeted:
 		{
-			[self setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
-			self.layer.borderColor = [Tools themeColor].CGColor;
+			[self setTitleColor:[Tools theme] forState:UIControlStateNormal];
+			self.layer.borderColor = [Tools theme].CGColor;
 			self.layer.borderWidth = 1.f;
 			self.layer.backgroundColor = [Tools whiteColor].CGColor;
 		}

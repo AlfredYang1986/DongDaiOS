@@ -105,7 +105,7 @@
 	if (section == 0) {
 		titleLabel.text = @"定位地址";
 		
-		UIButton *reLocationBtn = [Tools creatUIButtonWithTitle:@"重新定位" andTitleColor:[Tools themeColor] andFontSize:13.f andBackgroundColor:nil];
+		UIButton *reLocationBtn = [Tools creatBtnWithTitle:@"重新定位" titleColor:[Tools theme] fontSize:13.f backgroundColor:nil];
 		[headView addSubview:reLocationBtn];
 		[reLocationBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.right.equalTo(headView).offset(-15);

@@ -255,7 +255,7 @@
         endView.timeLabel.text = args;
     }
     
-	UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools themeColor] andFontSize:NavBarRightBtnFontSize andBackgroundColor:nil];
+	UIButton* bar_right_btn = [Tools creatBtnWithTitle:@"下一步" titleColor:[Tools theme] fontSize:NavBarRightBtnFontSize backgroundColor:nil];
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
     
     [self didCancelClick];

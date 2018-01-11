@@ -33,7 +33,7 @@
 }
 
 - (void)setSelectStatus {
-	[Tools setViewBorder:self withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
+	[Tools setViewBorder:self withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools theme]];
 	titleLabel.textColor = [Tools whiteColor];
 }
 

@@ -225,7 +225,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 	cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OptionalInfoCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &cell_name)
     
-    confirmSerBtn = [Tools creatUIButtonWithTitle:nil andTitleColor:[Tools whiteColor] andFontSize:16.f andBackgroundColor:[Tools themeColor]];
+    confirmSerBtn = [Tools creatBtnWithTitle:nil titleColor:[Tools whiteColor] fontSize:16.f backgroundColor:[Tools theme]];
     [self.view addSubview:confirmSerBtn];
     confirmSerBtn.hidden = YES;
     [confirmSerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -321,7 +321,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     UIImage* left = IMGRESOURCE(@"bar_left_theme");
     kAYViewsSendMessage(@"FakeNavBar", @"setLeftBtnImg:", &left)
     
-    UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"预览" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
+    UIButton* bar_right_btn = [Tools creatBtnWithTitle:@"预览" titleColor:[Tools theme] fontSize:16.f backgroundColor:nil];
     kAYViewsSendMessage(@"FakeNavBar", @"setRightBtnWithBtn:", &bar_right_btn);
     
     kAYViewsSendMessage(@"FakeNavBar", @"setBarBotLine", nil);

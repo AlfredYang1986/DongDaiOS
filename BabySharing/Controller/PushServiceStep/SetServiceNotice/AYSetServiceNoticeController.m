@@ -70,7 +70,7 @@
 	}];
 	
 	isALeaveSwitch = [[UISwitch alloc]init];
-	isALeaveSwitch.onTintColor = [Tools themeColor];
+	isALeaveSwitch.onTintColor = [Tools theme];
 	//    isALeaveSwitch.transform= CGAffineTransformMakeScale(0.69, 0.69);
 	[self.view addSubview:isALeaveSwitch];
 	[isALeaveSwitch mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -88,7 +88,7 @@
 	}];
 	
 	isHealth = [[UISwitch alloc]init];
-	isHealth.onTintColor = [Tools themeColor];
+	isHealth.onTintColor = [Tools theme];
 	//    isHealth.transform= CGAffineTransformMakeScale(0.69, 0.69);
 	[self.view addSubview:isHealth];
 	[isHealth mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -161,7 +161,7 @@
 	kAYViewsSendMessage(@"FakeNavBar", @"setLeftBtnImg:", &left)
 	
 //	UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:616.f andBackgroundColor:nil];
-	UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools garyColor] andFontSize:616.f andBackgroundColor:nil];
+	UIButton* bar_right_btn = [Tools creatBtnWithTitle:@"保存" titleColor:[Tools garyColor] fontSize:616.f backgroundColor:nil];
 	bar_right_btn.userInteractionEnabled = NO;
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
 //    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
@@ -181,7 +181,7 @@
 		placeHold.hidden = NO;
 		
 		if (!isValueChanged) {
-			UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools garyColor] andFontSize:616.f andBackgroundColor:nil];
+			UIButton* bar_right_btn = [Tools creatBtnWithTitle:@"保存" titleColor:[Tools garyColor] fontSize:616.f backgroundColor:nil];
 			bar_right_btn.userInteractionEnabled = NO;
 			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
 			isAlreadyEnable = NO;
@@ -198,7 +198,7 @@
 - (void)setNavRightBtnEnableStatus {
 	isFirstEnter = NO;
 	if (!isAlreadyEnable) {
-		UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:616.f andBackgroundColor:nil];
+		UIButton* bar_right_btn = [Tools creatBtnWithTitle:@"保存" titleColor:[Tools theme] fontSize:616.f backgroundColor:nil];
 		kAYViewsSendMessage(@"FakeNavBar", kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
 		isAlreadyEnable = YES;
 	}

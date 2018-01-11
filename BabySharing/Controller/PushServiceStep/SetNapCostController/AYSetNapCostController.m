@@ -74,7 +74,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	UILabel *titleLabel = [Tools creatLabelWithText:@"标题" textColor:[Tools themeColor] fontSize:620.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatLabelWithText:@"标题" textColor:[Tools theme] fontSize:620.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(80);
@@ -94,7 +94,7 @@
     costTextField = [[UITextField alloc]init];
     [self.view addSubview:costTextField];
     costTextField.font = [UIFont boldSystemFontOfSize:16.f];
-    costTextField.textColor = [Tools themeColor];
+    costTextField.textColor = [Tools theme];
     costTextField.textAlignment = NSTextAlignmentRight;
     costTextField.keyboardType = UIKeyboardTypeNumberPad;
     //    costTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -131,7 +131,7 @@
 		currentNumbCount = 1;
     }
     [plusBtn setTitle:[NSString stringWithFormat:@"%d",(int)currentNumbCount] forState:UIControlStateNormal];
-	[Tools setViewBorder:plusBtn withRadius:btnWH*0.5 andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
+	[Tools setViewBorder:plusBtn withRadius:btnWH*0.5 andBorderWidth:0 andBorderColor:nil andBackground:[Tools theme]];
     plusBtn.titleLabel.font = [UIFont systemFontOfSize:14.f];
     [plusBtn setTitleColor:[Tools whiteColor] forState:UIControlStateNormal];
     [self.view addSubview:plusBtn];
@@ -146,7 +146,7 @@
     CALayer *minusLayer = [CALayer layer];
     minusLayer.frame = CGRectMake(0, 0, btnWH * 0.6, 2);
     minusLayer.position = CGPointMake(btnWH * 0.5, btnWH * 0.5);
-    minusLayer.backgroundColor = [Tools themeColor].CGColor;
+    minusLayer.backgroundColor = [Tools theme].CGColor;
     [minusBtn.layer addSublayer:minusLayer];
     [self.view addSubview:minusBtn];
     [minusBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -175,7 +175,7 @@
 		timeTextField = [[UITextField alloc]init];
 		[self.view addSubview:timeTextField];
 		timeTextField.font = [UIFont boldSystemFontOfSize:16.f];
-		timeTextField.textColor = [Tools themeColor];
+		timeTextField.textColor = [Tools theme];
 		timeTextField.textAlignment = NSTextAlignmentRight;
 		timeTextField.keyboardType = UIKeyboardTypeNumberPad;
 		[timeTextField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -243,7 +243,7 @@
     UIImage* left = IMGRESOURCE(@"bar_left_black");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
     
-    UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
+    UIButton* bar_right_btn = [Tools creatBtnWithTitle:@"保存" titleColor:[Tools theme] fontSize:16.f backgroundColor:nil];
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
     
 //    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)

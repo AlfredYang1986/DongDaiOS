@@ -72,7 +72,7 @@
 		make.top.equalTo(bannerView);
 		make.size.mas_equalTo(CGSizeMake(137, 214));
 	}];
-	bannerTitle = [Tools creatLabelWithText:theTopCateg textColor:[Tools themeColor] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+	bannerTitle = [Tools creatLabelWithText:theTopCateg textColor:[Tools theme] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	[bannerView addSubview:bannerTitle];
 	[bannerTitle mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(choice_logo.mas_bottom).offset(5);
@@ -167,13 +167,13 @@
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
 	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
-	view.backgroundColor = [Tools themeColor];
+	view.backgroundColor = [Tools theme];
 	return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
 	view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
-	view.backgroundColor = [Tools themeColor];
+	view.backgroundColor = [Tools theme];
 	
 	NSString *title = @"咚哒严选";
 	navTitleLabel = [Tools creatLabelWithText:title textColor:[Tools whiteColor] fontSize:615.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];

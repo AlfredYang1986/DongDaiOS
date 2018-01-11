@@ -55,8 +55,8 @@
 			make.height.mas_equalTo(223);
 		}];
 		
-		themeLabel = [Tools creatLabelWithText:@"Theme" textColor:[Tools themeColor] fontSize:611.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
-		[Tools setViewBorder:themeLabel withRadius:4.f andBorderWidth:1.f andBorderColor:[Tools themeColor] andBackground:nil];
+		themeLabel = [Tools creatLabelWithText:@"Theme" textColor:[Tools theme] fontSize:611.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+		[Tools setViewBorder:themeLabel withRadius:4.f andBorderWidth:1.f andBorderColor:[Tools theme] andBackground:nil];
 		[self addSubview:themeLabel];
 		[themeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(coverImage);
@@ -64,8 +64,8 @@
 			make.size.mas_equalTo(CGSizeMake(72, 26));
 		}];
 		
-		ageBoundaryLabel = [Tools creatLabelWithText:@"0-0" textColor:[Tools themeColor] fontSize:611.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
-		[Tools setViewBorder:ageBoundaryLabel withRadius:4.f andBorderWidth:1.f andBorderColor:[Tools themeColor] andBackground:nil];
+		ageBoundaryLabel = [Tools creatLabelWithText:@"0-0" textColor:[Tools theme] fontSize:611.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+		[Tools setViewBorder:ageBoundaryLabel withRadius:4.f andBorderWidth:1.f andBorderColor:[Tools theme] andBackground:nil];
 		[self addSubview:ageBoundaryLabel];
 		[ageBoundaryLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(themeLabel.mas_right).offset(10);
@@ -99,7 +99,7 @@
 		}];
 		
 		
-		priceLabel = [Tools creatLabelWithText:@"¥Price/Unit" textColor:[Tools themeColor] fontSize:313.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		priceLabel = [Tools creatLabelWithText:@"¥Price/Unit" textColor:[Tools theme] fontSize:313.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:priceLabel];
 		[priceLabel sizeToFit];
 		[priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {

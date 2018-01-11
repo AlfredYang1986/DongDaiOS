@@ -128,7 +128,7 @@
 		desc = @"请选择";
 		subLabel.textColor = [Tools garyColor];
 	} else {
-		subLabel.textColor = [Tools themeColor];
+		subLabel.textColor = [Tools theme];
 	}
 	subLabel.text = desc;
 	

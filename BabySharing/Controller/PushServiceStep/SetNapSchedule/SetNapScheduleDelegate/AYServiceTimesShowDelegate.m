@@ -102,7 +102,7 @@
     }];
 
 //    rowAction.backgroundColor = [UIColor colorWithPatternImage:IMGRESOURCE(@"cell_delete")];
-	rowAction.backgroundColor = [Tools themeColor];
+	rowAction.backgroundColor = [Tools theme];
     return @[rowAction];
 }
 
