@@ -107,9 +107,13 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 #pragma mark - life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.layer.contents = (id)IMGRESOURCE(@"landing_bg").CGImage;
+//    self.view.layer.contents = (id)IMGRESOURCE(@"landing_bg").CGImage;
     self.view.backgroundColor = [UIColor theme];
 	
+	UIImageView *BGView = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"landing_bg")];
+	BGView.contentMode = UIViewContentModeScaleAspectFill;
+	[self.view addSubview:BGView];
+	BGView.frame = self.view.frame;
 	
 	// 状态栏(statusbar)
 	CGRect StatusRect = [[UIApplication sharedApplication] statusBarFrame];

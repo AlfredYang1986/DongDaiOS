@@ -108,7 +108,7 @@
 		}];
 		TAGsLabel.hidden = YES;
 		
-		showhideBtn = [UIButton creatButtonWithTitle:@"展开" titleColor:[UIColor gary] fontSize:15 backgroundColor:nil];
+		showhideBtn = [UIButton creatBtnWithTitle:@"展开" titleColor:[UIColor gary] fontSize:15 backgroundColor:nil];
 //		[showhideBtn setTitle:@"展开" forState:UIControlStateNormal];
 		[showhideBtn setTitle:@"收起" forState:UIControlStateSelected];
 		[self addSubview:showhideBtn];

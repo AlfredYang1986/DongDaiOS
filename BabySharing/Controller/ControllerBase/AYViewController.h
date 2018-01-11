@@ -14,6 +14,8 @@
 #import "AYViewBase.h"
 #import "AYFactoryManager.h"
 
+#import "AYBtmTipView.h"
+
 @protocol AYViewBase;
 @interface AYViewController : UIViewController <AYControllerBase>
 @property (nonatomic, weak) id<AYViewBase> loading;
@@ -23,6 +25,7 @@
 @property (nonatomic, strong) UIView *shotTopView;
 @property (nonatomic, strong) UIView *shotMidView;
 @property (nonatomic, strong) UIView *shotBtmView;
+
 
 - (void)clearController;
 - (void)BtmAlertOtherBtnClick;

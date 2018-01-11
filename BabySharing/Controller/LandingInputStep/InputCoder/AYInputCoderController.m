@@ -160,7 +160,7 @@
                 [show_cmd performWithResult:nil];
             }
 		} else {
-			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
+			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeCommon)
 		}
     }];
     return nil;
