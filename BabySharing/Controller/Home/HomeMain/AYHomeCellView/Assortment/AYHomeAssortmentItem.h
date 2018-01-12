@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AYFacadeBase.h"
+#import "AYRemoteCallCommand.h"
 
 @interface AYHomeAssortmentItem : UICollectionViewCell
 

@@ -7,13 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AYViewBase.h"
-#import "AYCommandDefines.h"
-#import "AYResourceManager.h"
-#import "AYViewCommand.h"
-#import "AYFacadeBase.h"
-#import "AYModelFacade.h"
-#import "AYViewController.h"
 
 @interface AYCollectServCellView : UITableViewCell <AYViewBase>
 

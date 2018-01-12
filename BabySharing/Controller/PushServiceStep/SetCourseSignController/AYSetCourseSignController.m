@@ -98,9 +98,9 @@
 	
 	id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"SetCourseSign"];
 	id obj = (id)cmd_notify;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDelegateMessage, &obj)
 	obj = (id)cmd_notify;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDatasourceMessage, &obj)
     
     NSString* cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SetCourseSignCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &cell_name)

@@ -53,13 +53,15 @@
 }
 
 - (id)changeScreenPhoto:(id)obj {
-    
+	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+	NSString *prefix = cmd.route;
     if ([obj isKindOfClass:[UIImage class]]) {
         UIImage* img = (UIImage*)obj;
         self.image = img;
     } else if ([obj isKindOfClass:[NSString class]]) {
         NSString* photo_name = (NSString*)obj;
-        [self sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name]]
+        [self sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", prefix, photo_name]]
                 placeholderImage:IMGRESOURCE(@"default_user")];
 	} else {
 		self.image = IMGRESOURCE(@"default_user");

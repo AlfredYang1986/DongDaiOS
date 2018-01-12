@@ -7,6 +7,14 @@
 //
 
 #import "AYCollectServCellView.h"
+#import "AYViewBase.h"
+#import "AYCommandDefines.h"
+#import "AYResourceManager.h"
+#import "AYViewCommand.h"
+#import "AYFacadeBase.h"
+#import "AYModelFacade.h"
+#import "AYViewController.h"
+#import "AYRemoteCallCommand.h"
 
 @implementation AYCollectServCellView {
 	
@@ -118,7 +126,11 @@
 	
 	NSString *photoName = [service_info objectForKey:kAYServiceArgsImage];
 	if (photoName) {
-		[coverImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photoName]] placeholderImage:IMGRESOURCE(@"default_image")];
+		
+		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+		AYRemoteCallCommand *cmd_load = [f.commands objectForKey:@"DownloadUserFiles"];
+		NSString *prefix = cmd_load.route;
+		[coverImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", prefix, photoName]] placeholderImage:IMGRESOURCE(@"default_image")];
 	}
 	
 	

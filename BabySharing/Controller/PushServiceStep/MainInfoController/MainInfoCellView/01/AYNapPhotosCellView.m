@@ -159,9 +159,14 @@
         photoCover.image = (UIImage*)args;
         
     } else if ([args isKindOfClass:[NSString class]]) {
+		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+		AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+		NSString *prefix = cmd.route;
 		
-        NSString* photo_name = (NSString*)args;
-        [photoCover sd_setImageWithURL:[NSURL URLWithString:[kAYDongDaDownloadURL stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"default_image")];
+		NSString* photo_name = (NSString*)args;
+		if (photo_name) {
+			[photoCover sd_setImageWithURL:[NSURL URLWithString:[prefix stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"default_image")];
+		}
         
     }
     

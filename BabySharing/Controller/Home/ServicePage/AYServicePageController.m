@@ -145,9 +145,9 @@
 	
     id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"ServicePage"];
     id obj = (id)cmd_recommend;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDatasourceMessage, &obj)
     obj = (id)cmd_recommend;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDelegateMessage, &obj)
 	
 	NSArray *cell_class_name_arr = @[@"ServiceTitleCell",
 									 @"ServiceOwnerInfoCell",

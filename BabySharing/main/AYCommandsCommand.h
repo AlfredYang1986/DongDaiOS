@@ -32,9 +32,9 @@ static NSString* const kAYNavBarSetRightBtnVisibilityMessage =  @"setRightBtnVis
 static NSString* const kAYNavBarSetBarBotLineMessage =          @"setBarBotLine";
 static NSString* const kAYNavBarHideBarBotLineMessage =			@"hideBarBotLine";
 
-//Table
-static NSString* const kAYTableRegisterDatasourceMessage =      @"registerDatasource:";
-static NSString* const kAYTableRegisterDelegateMessage =        @"registerDelegate:";
+//Table/Collection View
+static NSString* const kAYTCViewRegisterDatasourceMessage =		@"registerDatasource:";
+static NSString* const kAYTCViewRegisterDelegateMessage =		@"registerDelegate:";
 static NSString* const kAYTableRegisterCellWithClassMessage =   @"registerCellWithClass:";
 static NSString* const kAYTableRegisterCellWithNibMessage =     @"registerCellWithNib:";
 static NSString* const kAYTableRefreshMessage =                 @"refresh";

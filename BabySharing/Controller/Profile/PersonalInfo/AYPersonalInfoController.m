@@ -52,10 +52,10 @@
     
     id<AYDelegateBase> cmd_collect = [self.delegates objectForKey:@"PersonalInfo"];
     id obj = (id)cmd_collect;
-    kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
+    kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDatasourceMessage, &obj)
     
     obj = (id)cmd_collect;
-    kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
+    kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDelegateMessage, &obj)
 	
 	NSArray *claa_name_arr = @[@"PersonalInfoHeadCell", @"PersonalDescCell", @"PersonalValidateCell"];
 	NSString *cell_name;
@@ -81,11 +81,13 @@
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, userPhotoInitHeight));
     }];
     
-    NSString* photo_name = [personal_info objectForKey:@"screen_photo"];
     id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
     NSString *pre = cmd.route;
-    [coverImg sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"default_image")];
+	NSString* photo_name = [personal_info objectForKey:@"screen_photo"];
+	if (photo_name) {
+		[coverImg sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"default_image")];
+	}
 	
 	{
 		NSMutableDictionary* dic = [Tools getBaseRemoteData];

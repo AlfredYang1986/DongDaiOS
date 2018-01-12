@@ -142,9 +142,12 @@
 - (id)setCellInfo:(NSDictionary*)args{
 	service_info = args;
 	
+	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+	NSString *prefix = cmd.route;
     NSString* photo_name = [[args objectForKey:@"images"] objectAtIndex:0];
 	if (photo_name) {
-		[coverPhoto sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name]] placeholderImage:IMGRESOURCE(@"default_image")];
+		[coverPhoto sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", prefix, photo_name]] placeholderImage:IMGRESOURCE(@"default_image")];
 	}
 	
 	NSDictionary *data = [Tools montageServiceInfoWithServiceData:service_info];

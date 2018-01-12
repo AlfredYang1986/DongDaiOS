@@ -19,8 +19,11 @@
     NSLog(@"download user image to server: %@", args);
   
     NSString* photo_name = [args objectForKey:@"image"];
+	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+	NSString *prefix = cmd.route;
 	
-	[[SDWebImageDownloader sharedDownloader] downloadImageWithURL:[NSURL URLWithString:[kAYDongDaDownloadURL stringByAppendingString:photo_name]] options:SDWebImageDownloaderHighPriority progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+	[[SDWebImageDownloader sharedDownloader] downloadImageWithURL:[NSURL URLWithString:[prefix stringByAppendingString:photo_name]] options:SDWebImageDownloaderHighPriority progress:^(NSInteger receivedSize, NSInteger expectedSize) {
 		
 	} completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
 		if (finished) {

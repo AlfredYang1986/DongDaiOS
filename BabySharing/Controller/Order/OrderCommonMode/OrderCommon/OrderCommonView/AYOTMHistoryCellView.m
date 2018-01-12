@@ -198,8 +198,11 @@
 	
 	NSDictionary *order_info = [args objectForKey:kAYOrderArgsSelf];
 	
+	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+	NSString *prefix = cmd.route;
 	NSString *photo_name = [order_info objectForKey:kAYOrderArgsThumbs];
-	[photoIcon sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name]]
+	[photoIcon sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", prefix, photo_name]]
 				 placeholderImage:IMGRESOURCE(@"default_user")];
 	
 	NSString *compName = [order_info objectForKey:kAYOrderArgsTitle];

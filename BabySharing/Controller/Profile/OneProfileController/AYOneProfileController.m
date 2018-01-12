@@ -108,7 +108,10 @@
             
             NSString* photo_name = [info_prifole objectForKey:@"screen_photo"];
 			if(photo_name) {
-				[coverImg sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name]] placeholderImage:IMGRESOURCE(@"default_image")];
+				id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+				AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+				NSString *prefix = cmd.route;
+				[coverImg sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", prefix, photo_name]] placeholderImage:IMGRESOURCE(@"default_image")];
 			}
         }
     }];

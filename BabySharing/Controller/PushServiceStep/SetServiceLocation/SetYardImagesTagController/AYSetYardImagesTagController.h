@@ -7,6 +7,8 @@
 //
 
 #import "AYViewController.h"
+#import "AYFacadeBase.h"
+#import "AYRemoteCallCommand.h"
 
 #import "NewPagedFlowView.h"
 #import "PGIndexBannerSubiew.h"

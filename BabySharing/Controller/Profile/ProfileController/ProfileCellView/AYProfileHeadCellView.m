@@ -124,7 +124,10 @@
 -(id)setCellInfo:(NSDictionary*)args{
 	
 	NSString *screen_photo = [args objectForKey:kAYProfileArgsScreenPhoto];
-	[user_screen sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, screen_photo]] placeholderImage:IMGRESOURCE(@"default_user")];
+	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+	NSString *prefix = cmd.route;
+	[user_screen sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", prefix, screen_photo]] placeholderImage:IMGRESOURCE(@"default_user")];
     
     NSString *name = [args objectForKey:@"screen_name"];
     if (name && ![name isEqualToString:@""]) {

@@ -215,9 +215,9 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 	
     id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"MainInfo"];
     id obj = (id)cmd_notify;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDelegateMessage, &obj)
     obj = (id)cmd_notify;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDatasourceMessage, &obj)
 	
     NSString* cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapPhotosCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &cell_name)
@@ -560,11 +560,13 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         
         NSMutableArray *tmp = [[NSMutableArray alloc]init];
         NSArray *namesArr = [show_service_info objectForKey:kAYServiceArgsImages];
-        
+		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+		AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+		NSString *prefix = cmd.route;
         for (int i = 0; i < namesArr.count; ++i) {
 			
 			NSString* photo_name = namesArr[i];
-            [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:[NSURL URLWithString:[kAYDongDaDownloadURL stringByAppendingString:photo_name]] options:SDWebImageDownloaderHighPriority progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+            [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:[NSURL URLWithString:[prefix stringByAppendingString:photo_name]] options:SDWebImageDownloaderHighPriority progress:^(NSInteger receivedSize, NSInteger expectedSize) {
                 
             } completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
                 if (finished) {

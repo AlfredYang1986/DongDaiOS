@@ -190,7 +190,10 @@
 		if (success) {
 			themeLabel.text = [result objectForKey:kAYProfileArgsScreenName];
 			NSString *screen_photo = [result objectForKey:kAYProfileArgsScreenPhoto];
-			[themeImg sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, screen_photo]] placeholderImage:IMGRESOURCE(@"default_user") options:SDWebImageRefreshCached];
+			id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+			AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+			NSString *prefix = cmd.route;
+			[themeImg sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", prefix, screen_photo]] placeholderImage:IMGRESOURCE(@"default_user") options:SDWebImageRefreshCached];
 		}
 	}];
 	

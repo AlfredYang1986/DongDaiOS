@@ -79,15 +79,15 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
     
 	id<AYDelegateBase> dlg_pick = [self.delegates objectForKey:@"ServiceTimesPick"];
 	id obj = (id)dlg_pick;
-	kAYViewsSendMessage(kAYPickerView, kAYTableRegisterDelegateMessage, &obj)
+	kAYViewsSendMessage(kAYPickerView, kAYTCViewRegisterDelegateMessage, &obj)
 	obj = (id)dlg_pick;
-	kAYViewsSendMessage(kAYPickerView, kAYTableRegisterDatasourceMessage, &obj)
+	kAYViewsSendMessage(kAYPickerView, kAYTCViewRegisterDatasourceMessage, &obj)
 	
     id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"ServiceTimesShow"];
     obj = (id)cmd_notify;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDelegateMessage, &obj)
     obj = (id)cmd_notify;
-    kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
+    kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDatasourceMessage, &obj)
 	
     NSString* cell_name = @"AYServiceTimesCellView";
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &cell_name)

@@ -318,7 +318,10 @@
             
             NSString* photo_name = [result objectForKey:@"screen_photo"];
 			if (photo_name) {
-				[imgView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name]]
+				id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+				AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+				NSString *prefix = cmd.route;
+				[imgView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", prefix, photo_name]]
 						   placeholderImage:IMGRESOURCE(@"default_user")];
 			}
         }

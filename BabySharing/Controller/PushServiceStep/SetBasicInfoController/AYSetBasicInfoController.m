@@ -62,9 +62,9 @@ static NSString* const kSetBasicInfoDelegate =					@"SetBasicInfo";
 	
 	id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:kSetBasicInfoDelegate];
 	id obj = (id)cmd_notify;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDelegateMessage, &obj)
 	obj = (id)cmd_notify;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDatasourceMessage, &obj)
 	
 	NSArray *class_name_arr = @[@"AYSetServiceImagesCellView", @"AYSetServiceDescCellView", @"AYSetServiceCharactCellView"];
 	for (NSString *class_name in class_name_arr) {

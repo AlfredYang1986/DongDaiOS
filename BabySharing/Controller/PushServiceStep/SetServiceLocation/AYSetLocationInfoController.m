@@ -63,9 +63,9 @@ static NSString* const kTableDelegate =					@"SetLocationInfo";
 	
 	id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:kTableDelegate];
 	id obj = (id)cmd_notify;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDelegateMessage, &obj)
 	obj = (id)cmd_notify;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDatasourceMessage, &obj)
 	
 	NSArray *class_name_arr = @[@"AYSetServiceYardTypeCellView", @"AYSetServiceAddressCellView", @"AYSetServiceFacilityCellView", @"AYSetServiceYardImagesCellView"];
 	for (NSString *class_name in class_name_arr) {

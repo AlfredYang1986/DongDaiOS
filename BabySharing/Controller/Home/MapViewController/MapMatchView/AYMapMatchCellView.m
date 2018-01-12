@@ -178,8 +178,11 @@
 		addrLabel.text = addressStr;
 	}
 	
+	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+	NSString *prefix = cmd.route;
 	NSString* photo_name = [_service_info objectForKey:kAYServiceArgsImage];
-	NSString *urlStr = [NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name];
+	NSString *urlStr = [NSString stringWithFormat:@"%@%@", prefix, photo_name];
 	[coverImage sd_setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:IMGRESOURCE(@"default_image") /*options:SDWebImageRefreshCached*/];
 	
 	NSString *type = [_service_info objectForKey:kAYServiceArgsType];

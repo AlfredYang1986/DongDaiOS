@@ -150,9 +150,9 @@
 	
 	id<AYDelegateBase> delegate_found = [self.delegates objectForKey:@"TopicContent"];
 	id obj = (id)delegate_found;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDatasourceMessage, &obj)
 	obj = (id)delegate_found;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDelegateMessage, &obj)
 	
 	NSArray *arr_cell_name = @[@"AYTopicContentCellView"];
 	for (NSString *cell_name in arr_cell_name) {

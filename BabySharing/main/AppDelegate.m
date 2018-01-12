@@ -70,16 +70,16 @@ static NSString* const kAYEMAppKey = @"blackmirror#dongda";
 		self.window.rootViewController = rootVC;
 		
 	} else {
-//		id<AYCommand> cmd_home_init = COMMAND(@"HomeInit", @"HomeInit");
-//		AYViewController* des = nil;
-//		[cmd_home_init performWithResult:&des];
+		id<AYCommand> cmd_home_init = COMMAND(@"HomeInit", @"HomeInit");
+		AYViewController* rootContorller = nil;
+		[cmd_home_init performWithResult:&rootContorller];
 		
-		id<AYCommand> cmd = COMMAND(kAYFactoryManagerCommandTypeInit, kAYFactoryManagerCommandTypeInit);
-		AYViewController* controller = nil;
-		[cmd performWithResult:&controller];
-		
-		AYNavigationController * rootContorller = CONTROLLER(@"DefaultController", @"Navigation");
-		[rootContorller pushViewController:controller animated:NO];
+//		id<AYCommand> cmd = COMMAND(kAYFactoryManagerCommandTypeInit, kAYFactoryManagerCommandTypeInit);
+//		AYViewController* controller = nil;
+//		[cmd performWithResult:&controller];
+//		
+//		AYNavigationController * rootContorller = CONTROLLER(@"DefaultController", @"Navigation");
+//		[rootContorller pushViewController:controller animated:NO];
 		
 		self.window = [[UIWindow alloc] initWithFrame:screenBounds];
 		[self.window makeKeyAndVisible];

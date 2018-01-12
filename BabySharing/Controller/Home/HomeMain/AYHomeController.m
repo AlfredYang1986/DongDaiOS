@@ -41,7 +41,7 @@ typedef void(^queryContentFinish)(void);
 	CLLocation *loc;
 	NSString *localityStr;
 	NSDictionary *search_pin;
-	
+	NSArray *localityArr;
 	BOOL isLocationAuth;
 }
 
@@ -106,6 +106,7 @@ typedef void(^queryContentFinish)(void);
 	[defaults synchronize];
 	
 	serviceDataFound = [[NSMutableArray alloc] init];
+	localityArr = @[@"北京市", @"Beijing"];
 	
 	UIView *HomeHeadView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, kTABLEMARGINTOP)];
 	[self.view addSubview:HomeHeadView];
@@ -120,7 +121,10 @@ typedef void(^queryContentFinish)(void);
 	[profilePhoto setRadius:photoWidth*0.5 borderWidth:0 borderColor:nil background:nil];
 	[HomeHeadView addSubview:profilePhoto];
 	if (photo_name) {
-		[profilePhoto sd_setImageWithURL:[NSURL URLWithString:[kAYDongDaDownloadURL stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"default_user")];
+		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+		AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+		NSString *prefix = cmd.route;
+		[profilePhoto sd_setImageWithURL:[NSURL URLWithString:[prefix stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"default_user")];
 	}
 	profilePhoto.userInteractionEnabled = YES;
 	[profilePhoto addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(profilePhotoTap)]];
@@ -158,9 +162,9 @@ typedef void(^queryContentFinish)(void);
 		
 		id<AYDelegateBase> delegate_found = [self.delegates objectForKey:@"Home"];
 		id obj = (id)delegate_found;
-		kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
+		kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDatasourceMessage, &obj)
 		obj = (id)delegate_found;
-		kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
+		kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDelegateMessage, &obj)
 		
 		NSArray *arr_cell_name = @[@"AYHomeTopicsCellView", @"AYHomeAroundCellView", @"AYHomeAssortmentCellView"];
 		for (NSString *cell_name in arr_cell_name) {
@@ -343,7 +347,10 @@ typedef void(^queryContentFinish)(void);
 	CURRENPROFILE(user_info)
 	NSString* photo_name = [user_info objectForKey:kAYProfileArgsScreenPhoto];
 	if (photo_name) {
-		[profilePhoto sd_setImageWithURL:[NSURL URLWithString:[kAYDongDaDownloadURL stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"default_user")];
+		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+		AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+		NSString *prefix = cmd.route;
+		[profilePhoto sd_setImageWithURL:[NSURL URLWithString:[prefix stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"default_user")];
 	}
 	
 	NSDictionary* user = nil;
@@ -523,6 +530,7 @@ typedef void(^queryContentFinish)(void);
 	
 	NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
 	[args setValue:loc forKey:kAYServiceArgsLocationInfo];
+	[args setValue:[NSNumber numberWithBool:[localityArr containsObject:localityStr]] forKey:@"is_local"];
 	
 	[dic_show_module setValue:[args copy] forKey:kAYControllerChangeArgsKey];
 	

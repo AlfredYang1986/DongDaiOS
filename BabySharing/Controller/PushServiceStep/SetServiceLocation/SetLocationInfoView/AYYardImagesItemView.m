@@ -84,7 +84,11 @@
 	
 	id image = [[_itemInfo objectForKey:@"data_image"] objectForKey:kAYServiceArgsPic];
 	if ([image isKindOfClass:[NSString class]]) {
-		[coverImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, image]] placeholderImage:[UIImage imageNamed:@"default_image"] options:SDWebImageLowPriority];
+		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+		AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+		NSString *prefix = cmd.route;
+		
+		[coverImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", prefix, image]] placeholderImage:[UIImage imageNamed:@"default_image"] options:SDWebImageLowPriority];
 	} else if ([image isKindOfClass:[UIImage class]]) {
 		coverImageView.image = image;
 	}
