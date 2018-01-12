@@ -39,7 +39,7 @@
         CGFloat margin = 0;
 		[Tools creatCALayerWithFrame:CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
         
-        tipsTitleLabel = [Tools creatLabelWithText:@"Section Head" textColor:[Tools blackColor] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+        tipsTitleLabel = [Tools creatLabelWithText:@"Section Head" textColor:[Tools black] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 		[self addSubview:tipsTitleLabel];
 		[tipsTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self);
@@ -47,7 +47,7 @@
 			make.bottom.equalTo(self).offset(-85);
 		}];
 		
-		timeLabel = [Tools creatLabelWithText:@"最近可预定时间" textColor:[Tools blackColor] fontSize:15.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		timeLabel = [Tools creatLabelWithText:@"最近可预定时间" textColor:[Tools black] fontSize:15.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		timeLabel.numberOfLines = 0;
 		[self addSubview:timeLabel];
 		[timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {

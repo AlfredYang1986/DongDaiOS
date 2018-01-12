@@ -30,7 +30,7 @@
 - (instancetype)initWithFrame:(CGRect)frame andMode:(OrderMode)mode {
 	if (self = [super initWithFrame:frame]) {
 		NSString *titleStr = @"待确认";
-		UILabel *titleLabel = [Tools creatLabelWithText:titleStr textColor:[Tools blackColor] fontSize:625.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		UILabel *titleLabel = [Tools creatLabelWithText:titleStr textColor:[Tools black] fontSize:625.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(self.mas_top).offset(55 * 0.5);
@@ -67,21 +67,21 @@
 		}];
 //		noContentLabel.hidden = YES;
 		
-		userNameLabel = [Tools creatLabelWithText:@"User Name" textColor:[Tools blackColor] fontSize:615.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		userNameLabel = [Tools creatLabelWithText:@"User Name" textColor:[Tools black] fontSize:615.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:userNameLabel];
 		[userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(userPhotoView.mas_right).offset(20);
 			make.bottom.equalTo(userPhotoView.mas_centerY).offset(-3);
 		}];
 		
-		FBActionLabel = [Tools creatLabelWithText:@"Accept OR Reject" textColor:[Tools blackColor] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		FBActionLabel = [Tools creatLabelWithText:@"Accept OR Reject" textColor:[Tools black] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:FBActionLabel];
 		[FBActionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(userNameLabel.mas_right).offset(5);
 			make.centerY.equalTo(userNameLabel);
 		}];
 		
-		serviceTitleLabel = [Tools creatLabelWithText:@"The service's title" textColor:[Tools blackColor] fontSize:315.f backgroundColor:nil textAlignment:1];
+		serviceTitleLabel = [Tools creatLabelWithText:@"The service's title" textColor:[Tools black] fontSize:315.f backgroundColor:nil textAlignment:1];
 		[self addSubview:serviceTitleLabel];
 		[serviceTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(userPhotoView.mas_centerY).offset(3);

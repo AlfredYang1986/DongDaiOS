@@ -51,7 +51,7 @@
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    AYInsetLabel *h1 = [[AYInsetLabel alloc]initWithTitle:@"需要家长陪同" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
+    AYInsetLabel *h1 = [[AYInsetLabel alloc]initWithTitle:@"需要家长陪同" andTextColor:[Tools black] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
     h1.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
     [self.view addSubview:h1];
     [h1 mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -73,7 +73,7 @@
     optionBtn.selected = isAllowLeave;
     [optionBtn addTarget:self action:@selector(didYesBtnClick) forControlEvents:UIControlEventTouchUpInside];
     
-    AYInsetLabel *h2 = [[AYInsetLabel alloc]initWithTitle:@"其他守则" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
+    AYInsetLabel *h2 = [[AYInsetLabel alloc]initWithTitle:@"其他守则" andTextColor:[Tools black] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
     h2.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
     [self.view addSubview:h2];
     [h2 mas_makeConstraints:^(MASConstraintMaker *make) {

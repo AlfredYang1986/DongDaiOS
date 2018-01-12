@@ -137,7 +137,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 //    NSLog(@"systemName  %@",device.systemName);
 //    NSLog(@"systemVersion  %@",device.systemVersion);
     
-    UILabel *welTips = [UILabel creatLabelWithText:@"为孩子创造与众不同" textColor:[UIColor white] fontSize:315 backgroundColor:nil textAlignment:0];
+    UILabel *welTips = [UILabel creatLabelWithText:@"为 孩 子 创 造 与 众 不 同" textColor:[UIColor white] fontSize:315 backgroundColor:nil textAlignment:0];
     [self.view addSubview:welTips];
     [welTips mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(logo.mas_bottom).offset(13);

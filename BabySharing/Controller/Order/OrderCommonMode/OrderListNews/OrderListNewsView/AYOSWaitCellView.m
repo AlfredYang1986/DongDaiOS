@@ -51,28 +51,28 @@
 		//	photoIcon.userInteractionEnabled = YES;
 		//	[photoIcon addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ownerIconTap:)]];
 		
-		titleLabel = [Tools creatLabelWithText:@"Servant's Service With Theme" textColor:[Tools blackColor] fontSize:314.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		titleLabel = [Tools creatLabelWithText:@"Servant's Service With Theme" textColor:[Tools black] fontSize:314.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(photoIcon.mas_right).offset(10);
 			make.top.equalTo(photoIcon);
 		}];
 		
-		stateLabel = [Tools creatLabelWithText:@"Order state" textColor:[Tools blackColor] fontSize:314.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		stateLabel = [Tools creatLabelWithText:@"Order state" textColor:[Tools black] fontSize:314.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:stateLabel];
 		[stateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(titleLabel);
 			make.right.equalTo(self).offset(-20);
 		}];
 		
-		orderNoLabel = [Tools creatLabelWithText:@"Order NO" textColor:[Tools blackColor] fontSize:13.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		orderNoLabel = [Tools creatLabelWithText:@"Order NO" textColor:[Tools black] fontSize:13.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:orderNoLabel];
 		[orderNoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);
 			make.top.equalTo(titleLabel.mas_bottom).offset(10);
 		}];
 		
-		dateLabel = [Tools creatLabelWithText:@"01-01 00:00-00:00" textColor:[Tools blackColor] fontSize:13.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		dateLabel = [Tools creatLabelWithText:@"01-01 00:00-00:00" textColor:[Tools black] fontSize:13.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:dateLabel];
 		[dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(orderNoLabel);

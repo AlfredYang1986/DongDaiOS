@@ -70,7 +70,7 @@
 	UISearchBar *searchBar = [[UISearchBar alloc]initWithFrame:view.bounds];
 	[view addSubview:searchBar];
 	searchBar.placeholder = @"搜索全部服务";
-	searchBar.tintColor = [Tools blackColor];
+	searchBar.tintColor = [Tools black];
 	searchBar.barTintColor = [Tools garyBackgroundColor];
 	UIImageView* iv = [[UIImageView alloc] initWithImage:[Tools imageWithColor:[Tools garyBackgroundColor] size:CGSizeMake(searchBar.bounds.size.width, searchBar.bounds.size.height)]];
 	iv.tag = -1;

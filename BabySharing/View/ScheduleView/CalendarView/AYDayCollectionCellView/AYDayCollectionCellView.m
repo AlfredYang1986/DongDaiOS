@@ -21,7 +21,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
-    _dayDateLabel.textColor = [Tools blackColor];
+    _dayDateLabel.textColor = [Tools black];
     self.backgroundColor = [UIColor clearColor];
 }
 
@@ -32,7 +32,7 @@
 //    self.gregoiainDaylabel.text = gregoiainDay;
     
     self.dayDateLabel.text = gregoiainDay;
-    self.dayDateLabel.textColor = [Tools blackColor];
+    self.dayDateLabel.textColor = [Tools black];
     if (self.isGone) {
         self.dayDateLabel.textColor = [Tools lightGaryColor];
     }
@@ -43,7 +43,7 @@
 	if (isLightColor) {
 		self.dayDateLabel.textColor = [Tools theme];
 	} else {
-		self.dayDateLabel.textColor = [Tools blackColor];
+		self.dayDateLabel.textColor = [Tools black];
 	}
 }
 

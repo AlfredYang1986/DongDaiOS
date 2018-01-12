@@ -82,7 +82,7 @@
 	}];
 	
 	CGFloat insetLabelHeight = 64.f;
-    AYInsetLabel *h1 = [[AYInsetLabel alloc]initWithTitle:@"" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
+    AYInsetLabel *h1 = [[AYInsetLabel alloc]initWithTitle:@"" andTextColor:[Tools black] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
     h1.textInsets = UIEdgeInsetsMake(0, 5, 0, 0);
     [self.view addSubview:h1];
     [h1 mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -106,7 +106,7 @@
         costTextField.text = price;
     }
     
-    UILabel *RMBSign = [Tools creatLabelWithText:@"元" textColor:[Tools blackColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+    UILabel *RMBSign = [Tools creatLabelWithText:@"元" textColor:[Tools black] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
     [self.view addSubview:RMBSign];
     [RMBSign mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(h1);
@@ -114,11 +114,11 @@
     }];
     
     /***************************************/
-    AYInsetLabel *h3 = [[AYInsetLabel alloc]initWithTitle:@"单次最少预定时长" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
+    AYInsetLabel *h3 = [[AYInsetLabel alloc]initWithTitle:@"单次最少预定时长" andTextColor:[Tools black] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
     h3.textInsets = UIEdgeInsetsMake(0, 5, 0, 0);
     [self.view addSubview:h3];
 	
-	UILabel *iconLael = [Tools creatLabelWithText:@"小时" textColor:[Tools blackColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
+	UILabel *iconLael = [Tools creatLabelWithText:@"小时" textColor:[Tools black] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
     [self.view addSubview:iconLael];
     [iconLael mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(h3);
@@ -163,7 +163,7 @@
 		h1.text = @"单次课程价格";
 		titleStr = @"课程价格";
 		
-		AYInsetLabel *h2 = [[AYInsetLabel alloc]initWithTitle:@"课程时长" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
+		AYInsetLabel *h2 = [[AYInsetLabel alloc]initWithTitle:@"课程时长" andTextColor:[Tools black] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
 		h2.textInsets = UIEdgeInsetsMake(0, 5, 0, 0);
 		[self.view addSubview:h2];
 		[h2 mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -186,7 +186,7 @@
 			timeTextField.text = duration;
 		}
 		
-		UILabel *TIMESign = [Tools creatLabelWithText:@"分钟" textColor:[Tools blackColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
+		UILabel *TIMESign = [Tools creatLabelWithText:@"分钟" textColor:[Tools black] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
 		[self.view addSubview:TIMESign];
 		[TIMESign mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(h2);

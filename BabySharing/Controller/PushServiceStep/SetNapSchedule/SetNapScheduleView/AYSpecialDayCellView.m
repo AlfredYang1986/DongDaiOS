@@ -40,7 +40,7 @@
 		make.size.mas_equalTo(CGSizeMake(32, 32));
 	}];
 	
-	titleLabel = [Tools creatLabelWithText:@"0" textColor:[Tools blackColor] fontSize:315 backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+	titleLabel = [Tools creatLabelWithText:@"0" textColor:[Tools black] fontSize:315 backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	[self addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.center.equalTo(self);
@@ -80,13 +80,13 @@
 			break;
 		case AYTMDayStateNormal:
 		{
-			titleLabel.textColor = [Tools blackColor];
+			titleLabel.textColor = [Tools black];
 			radiuSignView.hidden = dotSignView.hidden = YES;
 		}
 			break;
 		case AYTMDayStateNoServ:
 		{
-			titleLabel.textColor = [Tools blackColor];
+			titleLabel.textColor = [Tools black];
 			radiuSignView.hidden = dotSignView.hidden = YES;
 		}
 			break;

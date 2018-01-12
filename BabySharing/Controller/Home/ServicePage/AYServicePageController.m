@@ -413,14 +413,14 @@
 	return nil;
 }
 
-- (id)showCansOrFacility {
+- (id)showOwnerInfo {
     
-    id<AYCommand> des = DEFAULTCONTROLLER(@"Facility");
+    id<AYCommand> des = DEFAULTCONTROLLER(@"OneProfile");
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
     [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic setValue:[service_info objectForKey:@"facility"] forKey:kAYControllerChangeArgsKey];
+    [dic setValue:[service_info objectForKey:kAYBrandArgsSelf] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd_show_module = SHOWMODULEUP;
     [cmd_show_module performWithResult:&dic];

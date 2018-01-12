@@ -294,7 +294,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     self.navigationItem.title = @"照片";
-    NSDictionary * dict = [NSDictionary dictionaryWithObject:[Tools blackColor] forKey:NSForegroundColorAttributeName];
+    NSDictionary * dict = [NSDictionary dictionaryWithObject:[Tools black] forKey:NSForegroundColorAttributeName];
     self.navigationController.navigationBar.titleTextAttributes = dict;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
     

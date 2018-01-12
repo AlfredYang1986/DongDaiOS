@@ -77,7 +77,7 @@
 	}];
 	
 	
-	titleLabel = [Tools creatLabelWithText:@"Service Belong to Servant" textColor:[Tools blackColor] fontSize:615.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	titleLabel = [Tools creatLabelWithText:@"Service Belong to Servant" textColor:[Tools black] fontSize:615.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	titleLabel.numberOfLines = 2;
 	[radiusView addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {

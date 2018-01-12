@@ -340,6 +340,7 @@
 		70490DEA1CA23B180093D5DA /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70490DE91CA23B180093D5DA /* MediaPlayer.framework */; };
 		704C9DA71D50573F00E84586 /* AYPushServiceInfoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 704C9DA61D50573F00E84586 /* AYPushServiceInfoCommand.m */; };
 		704CC94120074C9E007740EC /* AYBtmTipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 704CC94020074C9E007740EC /* AYBtmTipView.m */; };
+		704CC9462008AF7C007740EC /* AYOneProfileCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 704CC9452008AF7C007740EC /* AYOneProfileCellView.m */; };
 		704D48DA1DAE18AE00A69AF4 /* AYAboutDongdaDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 704D48D11DAE18AE00A69AF4 /* AYAboutDongdaDelegate.m */; };
 		704D48DB1DAE18AE00A69AF4 /* AYAboutDDController.m in Sources */ = {isa = PBXBuildFile; fileRef = 704D48D31DAE18AE00A69AF4 /* AYAboutDDController.m */; };
 		704D48DC1DAE18AE00A69AF4 /* AYUserAgreeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 704D48D61DAE18AE00A69AF4 /* AYUserAgreeController.m */; };
@@ -358,8 +359,6 @@
 		705361531D5C9A53006BB95E /* AYOneProfileDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 705361521D5C9A53006BB95E /* AYOneProfileDelegate.m */; };
 		7053E9761F70FC57006CBB1B /* AYSetCapacityOptView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7053E9751F70FC57006CBB1B /* AYSetCapacityOptView.m */; };
 		7053E9791F711107006CBB1B /* AYSetAgeBoundaryDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7053E9781F711107006CBB1B /* AYSetAgeBoundaryDelegate.m */; };
-		7053F4CC1D62E4B700947F0C /* AYOneProfileContentCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7053F4CA1D62E4B700947F0C /* AYOneProfileContentCellView.m */; };
-		7053F4CD1D62E4B700947F0C /* AYOneProfileContentCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7053F4CB1D62E4B700947F0C /* AYOneProfileContentCellView.xib */; };
 		7053F4D01D62E5AF00947F0C /* AYOneProfileAboutCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7053F4CF1D62E5AF00947F0C /* AYOneProfileAboutCellView.m */; };
 		7056B9171F1F29F900386E3A /* AYHomeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7056B90A1F1F29F900386E3A /* AYHomeController.m */; };
 		7056B91A1F1F29F900386E3A /* AYHomeDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7056B9111F1F29F900386E3A /* AYHomeDelegate.m */; };
@@ -1536,6 +1535,8 @@
 		704C9DA61D50573F00E84586 /* AYPushServiceInfoCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPushServiceInfoCommand.m; sourceTree = "<group>"; };
 		704CC93F20074C9E007740EC /* AYBtmTipView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYBtmTipView.h; sourceTree = "<group>"; };
 		704CC94020074C9E007740EC /* AYBtmTipView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AYBtmTipView.m; sourceTree = "<group>"; };
+		704CC9442008AF7C007740EC /* AYOneProfileCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYOneProfileCellView.h; sourceTree = "<group>"; };
+		704CC9452008AF7C007740EC /* AYOneProfileCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AYOneProfileCellView.m; sourceTree = "<group>"; };
 		704D48D01DAE18AE00A69AF4 /* AYAboutDongdaDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAboutDongdaDelegate.h; sourceTree = "<group>"; };
 		704D48D11DAE18AE00A69AF4 /* AYAboutDongdaDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAboutDongdaDelegate.m; sourceTree = "<group>"; };
 		704D48D21DAE18AE00A69AF4 /* AYAboutDDController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAboutDDController.h; sourceTree = "<group>"; };
@@ -1572,9 +1573,6 @@
 		7053E9751F70FC57006CBB1B /* AYSetCapacityOptView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetCapacityOptView.m; sourceTree = "<group>"; };
 		7053E9771F711107006CBB1B /* AYSetAgeBoundaryDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetAgeBoundaryDelegate.h; sourceTree = "<group>"; };
 		7053E9781F711107006CBB1B /* AYSetAgeBoundaryDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetAgeBoundaryDelegate.m; sourceTree = "<group>"; };
-		7053F4C91D62E4B700947F0C /* AYOneProfileContentCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOneProfileContentCellView.h; sourceTree = "<group>"; };
-		7053F4CA1D62E4B700947F0C /* AYOneProfileContentCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOneProfileContentCellView.m; sourceTree = "<group>"; };
-		7053F4CB1D62E4B700947F0C /* AYOneProfileContentCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AYOneProfileContentCellView.xib; sourceTree = "<group>"; };
 		7053F4CE1D62E5AF00947F0C /* AYOneProfileAboutCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOneProfileAboutCellView.h; sourceTree = "<group>"; };
 		7053F4CF1D62E5AF00947F0C /* AYOneProfileAboutCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOneProfileAboutCellView.m; sourceTree = "<group>"; };
 		7054897A1D34DABE007FCDA1 /* AYBabyInfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYBabyInfoController.h; sourceTree = "<group>"; };
@@ -5461,11 +5459,10 @@
 		7053614C1D5C8929006BB95E /* OneProfileCellView */ = {
 			isa = PBXGroup;
 			children = (
-				7053F4C91D62E4B700947F0C /* AYOneProfileContentCellView.h */,
-				7053F4CA1D62E4B700947F0C /* AYOneProfileContentCellView.m */,
-				7053F4CB1D62E4B700947F0C /* AYOneProfileContentCellView.xib */,
 				7053F4CE1D62E5AF00947F0C /* AYOneProfileAboutCellView.h */,
 				7053F4CF1D62E5AF00947F0C /* AYOneProfileAboutCellView.m */,
+				704CC9442008AF7C007740EC /* AYOneProfileCellView.h */,
+				704CC9452008AF7C007740EC /* AYOneProfileCellView.m */,
 			);
 			path = OneProfileCellView;
 			sourceTree = "<group>";
@@ -9207,7 +9204,6 @@
 				702E7AB51CA169A40097867E /* font.xml in Resources */,
 				7056B9EB1F1F2BF400386E3A /* AYOrderContactCellView.xib in Resources */,
 				702E7AB11CA166E90097867E /* controller.xml in Resources */,
-				7053F4CD1D62E4B700947F0C /* AYOneProfileContentCellView.xib in Resources */,
 				705E71DA1FFB7780003E9646 /* MJRefresh.bundle in Resources */,
 				7056B9ED1F1F2BF400386E3A /* AYOrderDateCellView.xib in Resources */,
 				70C41F1F1DBA190F00C77B10 /* privacy.html in Resources */,
@@ -9785,6 +9781,7 @@
 				70CDF60F1CBCBD8C00311841 /* AYAlbumTableCellView.m in Sources */,
 				8086A2551CCE983B006186D4 /* AYUserSearchRemoteFacade.m in Sources */,
 				707ABD101D55CEF10042332A /* AYQueryApplyOrdersCommand.m in Sources */,
+				704CC9462008AF7C007740EC /* AYOneProfileCellView.m in Sources */,
 				7053E9761F70FC57006CBB1B /* AYSetCapacityOptView.m in Sources */,
 				7024EB8A1F735B8100FFE20F /* AYEditServiceCapacityDelegate.m in Sources */,
 				70F57E5F1D8693CC003D493E /* MBProgressHUD.m in Sources */,
@@ -9875,7 +9872,6 @@
 				7015249F1CBFA7E1005B4C5B /* AYRefrashHomeQueryDataCommand.m in Sources */,
 				700BE5EC1CBA6E5800A09B3A /* AYRemoteCallCommand.m in Sources */,
 				70EAD8091CA65B0C007965D2 /* UIGifView.m in Sources */,
-				7053F4CC1D62E4B700947F0C /* AYOneProfileContentCellView.m in Sources */,
 				701B9C401E5EBA33001B0517 /* AYSetCourseSignDelegate.m in Sources */,
 				7056B9F81F1F2BF400386E3A /* AYAppliFBListDelegate.m in Sources */,
 				70C41EE31DBA122500C77B10 /* TZPhotoPickerController.m in Sources */,

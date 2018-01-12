@@ -50,7 +50,7 @@
     NSString *title = [args objectForKey:@"title"];
     NSNumber *set_y = [args objectForKey:@"set_y"];
     
-    UILabel *titleLabel = [Tools creatLabelWithText:title textColor:[Tools blackColor] fontSize:12.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+    UILabel *titleLabel = [Tools creatLabelWithText:title textColor:[Tools black] fontSize:12.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
     [titleLabel sizeToFit];
      CGSize titleSize = titleLabel.frame.size;
     [self addSubview:titleLabel];

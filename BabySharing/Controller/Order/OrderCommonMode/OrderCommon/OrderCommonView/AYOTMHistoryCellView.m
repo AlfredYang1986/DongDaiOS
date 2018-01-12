@@ -57,7 +57,7 @@
 			make.top.equalTo(self);
 		}];
 		
-		dayLabel = [Tools creatLabelWithText:@"01" textColor:[Tools blackColor] fontSize:616.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+		dayLabel = [Tools creatLabelWithText:@"01" textColor:[Tools black] fontSize:616.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 		[self addSubview:dayLabel];
 		[dayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(mouthLabel.mas_bottom).offset(3);

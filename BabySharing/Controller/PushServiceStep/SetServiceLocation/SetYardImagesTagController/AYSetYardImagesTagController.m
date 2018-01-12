@@ -43,7 +43,7 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
-	UILabel *titleLabel = [Tools creatLabelWithText:@"场地标签" textColor:[Tools blackColor] fontSize:622.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatLabelWithText:@"场地标签" textColor:[Tools black] fontSize:622.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(kStatusAndNavBarH+20);

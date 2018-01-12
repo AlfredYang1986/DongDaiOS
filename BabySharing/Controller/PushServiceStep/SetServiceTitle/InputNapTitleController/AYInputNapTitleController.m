@@ -46,7 +46,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	UILabel *titleLabel = [Tools creatLabelWithText:@"Servant' Servcie" textColor:[Tools blackColor] fontSize:622.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatLabelWithText:@"Servant' Servcie" textColor:[Tools black] fontSize:622.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(80);
@@ -77,7 +77,7 @@
     inputTitleTextView = [[UITextView alloc]init];
     [self.view addSubview:inputTitleTextView];
     inputTitleTextView.font = [UIFont systemFontOfSize:15.f];
-    inputTitleTextView.textColor = [Tools blackColor];
+    inputTitleTextView.textColor = [Tools black];
     inputTitleTextView.delegate = self;
     [inputTitleTextView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(titleLabel.mas_bottom).offset(40);

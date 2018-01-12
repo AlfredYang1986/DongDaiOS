@@ -16,25 +16,22 @@
 #import "AYSelfSettingCellDefines.h"
 #import "AYSelfSettingCellView.h"
 
-#define SHOW_OFFSET_Y							SCREEN_HEIGHT - 196
-static NSString* const descInitStr =			@"描述一下自己的经历";
+static NSString* const descInitStr =			@"一句话很短，高调的夸一夸自己";
 
 @implementation AYPersonalSettingController {
     
     NSMutableDictionary* profile_dic;
-    
     UIImage *changeOwnerImage;
     NSString *changeImageName;
-    BOOL isUserPhotoChanged;
 	
+    BOOL isUserPhotoChanged;
 	BOOL isChangedAlready;
     
     UIImageView *user_photo;
     UITextField *nameTextField;
     UILabel *descLabel;
-//    UIView *pickerView;
+	
 }
-
 
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
@@ -98,25 +95,25 @@ static NSString* const descInitStr =			@"描述一下自己的经历";
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
     NSString *pre = cmd.route;
     [user_photo sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:[profile_dic objectForKey:@"screen_photo"]]] placeholderImage:IMGRESOURCE(@"default_image")];
-    UILabel *nameLabel = [Tools creatLabelWithText:@"姓名" textColor:[Tools blackColor] fontSize:17.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+    UILabel *nameLabel = [Tools creatLabelWithText:@"昵称" textColor:[UIColor gary] fontSize:315 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
     [mainView addSubview:nameLabel];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(user_photo.mas_bottom).offset(20);
-        make.left.equalTo(mainView).offset(20);
+        make.top.equalTo(user_photo.mas_bottom).offset(45);
+        make.left.equalTo(mainView).offset(SCREEN_MARGIN_LR);
     }];
     
     nameTextField = [[UITextField alloc]init];
-    nameTextField.font = kAYFontLight(14.f);
-    nameTextField.textColor = [Tools garyColor];
+    nameTextField.font = [UIFont systemFontOfSize:15];
+    nameTextField.textColor = [UIColor black];
     nameTextField.placeholder = @"请输入姓名";
     nameTextField.delegate = self;
     nameTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
     [mainView addSubview:nameTextField];
     [nameTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(mainView).offset(20);
+        make.left.equalTo(mainView).offset(SCREEN_MARGIN_LR);
 //        make.right.equalTo(mainView).offset(-20);
-        make.width.mas_equalTo(SCREEN_WIDTH - 40);
-        make.top.equalTo(nameLabel.mas_bottom).offset(15);
+        make.width.mas_equalTo(SCREEN_WIDTH - SCREEN_MARGIN_LR*2);
+        make.top.equalTo(nameLabel.mas_bottom).offset(20);
     }];
     NSString *nameStr = [profile_dic objectForKey:@"screen_name"];
     nameTextField.text = nameStr;
@@ -125,38 +122,48 @@ static NSString* const descInitStr =			@"描述一下自己的经历";
     separtor.backgroundColor = [Tools garyLineColor];
     [mainView addSubview:separtor];
     [separtor mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(nameTextField.mas_bottom).offset(20);
-//        make.centerX.equalTo(mainView);
-        make.left.equalTo(mainView).offset(15);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 30, 1));
+        make.top.equalTo(nameTextField.mas_bottom).offset(15);
+        make.left.equalTo(mainView).offset(SCREEN_MARGIN_LR);
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - SCREEN_MARGIN_LR*2, 1));
     }];
     
-    UILabel *descTitleLabel = [Tools creatLabelWithText:@"关于我" textColor:[Tools blackColor] fontSize:17.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+    UILabel *descTitleLabel = [Tools creatLabelWithText:@"关于我" textColor:[UIColor gary] fontSize:315 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
     [mainView addSubview:descTitleLabel];
     [descTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(separtor.mas_bottom).offset(20);
+        make.top.equalTo(separtor.mas_bottom).offset(45);
         make.left.equalTo(nameLabel);
     }];
     
-    descLabel = [Tools creatLabelWithText:nil textColor:[Tools garyColor] fontSize:14.f backgroundColor:nil textAlignment:0];
+    descLabel = [Tools creatLabelWithText:nil textColor:[UIColor black] fontSize:315 backgroundColor:nil textAlignment:0];
     descLabel.numberOfLines = 0;
     [mainView addSubview:descLabel];
     [descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(descTitleLabel.mas_bottom).offset(15);
+        make.top.equalTo(descTitleLabel.mas_bottom).offset(20);
         make.left.equalTo(nameLabel);
 //        make.right.equalTo(mainView).offset(-20);
-        make.width.mas_equalTo(SCREEN_WIDTH - 40);
+        make.width.mas_equalTo(SCREEN_WIDTH - SCREEN_MARGIN_LR*2);
         make.height.mas_greaterThanOrEqualTo(30);
     }];
     
     NSString *descStr = [profile_dic objectForKey:kAYProfileArgsDescription];
-    if (descStr && ![descStr isEqualToString:@""]) {
+    if (descStr.length != 0) {
         descLabel.text = descStr;
-    } else
-        descLabel.text = descInitStr;
+	} else {
+		descLabel.textColor = [UIColor gary];
+		descLabel.text = descInitStr;
+	}
     descLabel.userInteractionEnabled = YES;
     [descLabel addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didDescLabelTap:)]];
-    
+	
+	UIView *separtorBtm = [UIView new];
+	separtorBtm.backgroundColor = [Tools garyLineColor];
+	[mainView addSubview:separtorBtm];
+	[separtorBtm mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(descLabel.mas_bottom).offset(15);
+		make.left.equalTo(mainView).offset(SCREEN_MARGIN_LR);
+		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - SCREEN_MARGIN_LR*2, 1));
+	}];
+	
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere:)];
     [self.view addGestureRecognizer:tap];
 }

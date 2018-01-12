@@ -33,6 +33,28 @@
 @synthesize commands = _commands;
 @synthesize notifies = _notiyies;
 
+#pragma mark -- commands
+- (void)postPerform {
+	
+}
+
+- (void)performWithResult:(NSObject**)obj {
+	
+}
+
+- (NSString*)getViewType {
+	return kAYFactoryManagerCatigoryView;
+}
+
+- (NSString*)getViewName {
+	return [NSString stringWithUTF8String:object_getClassName([self class])];
+}
+
+- (NSString*)getCommandType {
+	return kAYFactoryManagerCatigoryView;
+}
+
+#pragma mark -- life cycle
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
@@ -137,28 +159,8 @@
 	}
 }
 
-#pragma mark -- life cycle
 
-#pragma mark -- commands
-- (void)postPerform {
-	
-}
 
-- (void)performWithResult:(NSObject**)obj {
-	
-}
-
-- (NSString*)getViewType {
-	return kAYFactoryManagerCatigoryView;
-}
-
-- (NSString*)getViewName {
-	return [NSString stringWithUTF8String:object_getClassName([self class])];
-}
-
-- (NSString*)getCommandType {
-	return kAYFactoryManagerCatigoryView;
-}
 
 #pragma mark -- actions
 - (void)didAssortmentMoreBtnClick {

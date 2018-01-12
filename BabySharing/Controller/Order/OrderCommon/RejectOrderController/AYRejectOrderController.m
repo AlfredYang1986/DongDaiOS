@@ -84,7 +84,7 @@
     seasonOfTextView.scrollEnabled = NO;
     seasonOfTextView.showsHorizontalScrollIndicator = NO;
     seasonOfTextView.font = kAYFontLight(14.f);
-    seasonOfTextView.textColor = [Tools blackColor];
+    seasonOfTextView.textColor = [Tools black];
     seasonOfTextView.contentInset = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
     seasonOfTextView.delegate = self;
     [seasonOfTextView mas_makeConstraints:^(MASConstraintMaker *make) {

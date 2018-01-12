@@ -41,14 +41,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-    UILabel *title = [Tools creatLabelWithText:@"实名认证" textColor:[Tools blackColor] fontSize:622.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+    UILabel *title = [Tools creatLabelWithText:@"实名认证" textColor:[Tools black] fontSize:622.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
     [self.view addSubview:title];
     [title mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(kStatusAndNavBarH+28);
         make.left.equalTo(self.view).offset(20);
     }];
 	
-	UILabel *nameLabel = [Tools creatLabelWithText:@"姓名" textColor:[Tools blackColor] fontSize:313.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	UILabel *nameLabel = [Tools creatLabelWithText:@"姓名" textColor:[Tools black] fontSize:313.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:nameLabel];
 	[nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(title);
@@ -61,7 +61,7 @@
 	
     nameTextField = [[UITextField alloc]init];
     nameTextField.font = kAYFontMedium(17.f);
-    nameTextField.textColor = [Tools blackColor];
+    nameTextField.textColor = [Tools black];
 	nameTextField.delegate = self;
     [self.view addSubview:nameTextField];
     [nameTextField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -71,7 +71,7 @@
     }];
     [Tools creatCALayerWithFrame:CGRectMake(0, inputTextFieldHeight - 1, inputTextFieldWidth, 1) andColor:[Tools garyLineColor] inSuperView:nameTextField];
 	
-	UILabel *socialLabel = [Tools creatLabelWithText:@"身份证号" textColor:[Tools blackColor] fontSize:313.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	UILabel *socialLabel = [Tools creatLabelWithText:@"身份证号" textColor:[Tools black] fontSize:313.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:socialLabel];
 	[socialLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(nameLabel);
@@ -80,7 +80,7 @@
 	
     coderTextField = [[UITextField alloc]init];
     coderTextField.font = kAYFontMedium(22.f);
-    coderTextField.textColor = [Tools blackColor];
+    coderTextField.textColor = [Tools black];
 	coderTextField.delegate = self;
 //	coderTextField.keyboardType = UIKeyboardTypeNumberPad;		// X
     [self.view addSubview:coderTextField];

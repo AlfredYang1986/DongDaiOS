@@ -23,7 +23,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         _titleLabel = [[UILabel alloc]init];
-        _titleLabel.textColor = [Tools blackColor];
+        _titleLabel.textColor = [Tools black];
         [self addSubview:_titleLabel];
         [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self);

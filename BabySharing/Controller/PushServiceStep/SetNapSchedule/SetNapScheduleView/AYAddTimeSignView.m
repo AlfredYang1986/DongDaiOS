@@ -67,7 +67,7 @@
 		case AYAddTMSignStateHead:
 			{
 				BGView.backgroundColor = [Tools whiteColor];
-				titleLabel.textColor = [Tools blackColor];
+				titleLabel.textColor = [Tools black];
 				addSignView.image = [UIImage imageNamed:@"add_icon_circle"];
 				coverBtmRadiusView.hidden = NO;
 				self.userInteractionEnabled = YES;

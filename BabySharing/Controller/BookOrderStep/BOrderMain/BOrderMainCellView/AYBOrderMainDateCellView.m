@@ -31,7 +31,7 @@
 		
 //		[Tools creatCALayerWithFrame:CGRectMake(0, 84.5, SCREEN_WIDTH, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
         
-        dateLabel =  [Tools creatLabelWithText:@"Service Date" textColor:[Tools blackColor] fontSize:17.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+        dateLabel =  [Tools creatLabelWithText:@"Service Date" textColor:[Tools black] fontSize:17.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
         [self addSubview:dateLabel];
 		[dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(15);

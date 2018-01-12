@@ -92,7 +92,7 @@
     
     UIButton *rejectBtn = [[UIButton alloc]init];
     [self.view addSubview:rejectBtn];
-    rejectBtn.backgroundColor = [Tools blackColor];
+    rejectBtn.backgroundColor = [Tools black];
     [rejectBtn setTitle:@"拒绝" forState:UIControlStateNormal];
     rejectBtn.titleLabel.font = [UIFont systemFontOfSize:16.f];
     [rejectBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];

@@ -36,14 +36,14 @@
 	if (self) {
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		
-		titleLabel = [Tools creatLabelWithText:@"Servant's Service With Theme" textColor:[Tools blackColor] fontSize:317.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		titleLabel = [Tools creatLabelWithText:@"Servant's Service With Theme" textColor:[Tools black] fontSize:317.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(15);
 			make.top.equalTo(self).offset(15);
 		}];
 		
-		orderNoLabel = [Tools creatLabelWithText:@"Order NO" textColor:[Tools blackColor] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		orderNoLabel = [Tools creatLabelWithText:@"Order NO" textColor:[Tools black] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:orderNoLabel];
 		[orderNoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);
@@ -70,7 +70,7 @@
 			make.size.mas_equalTo(CGSizeMake(13, 13));
 		}];
 		
-		addressLabel = [Tools creatLabelWithText:@"Services position address info" textColor:[Tools blackColor] fontSize:13.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		addressLabel = [Tools creatLabelWithText:@"Services position address info" textColor:[Tools black] fontSize:13.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:addressLabel];
 		[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(positionImage.mas_right).offset(15);

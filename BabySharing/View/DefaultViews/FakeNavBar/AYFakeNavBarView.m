@@ -51,7 +51,7 @@
 		[rightBtn addTarget:self action:@selector(didSelectRightBtn) forControlEvents:UIControlEventTouchUpInside];
     }
 	
-	titleView = [Tools creatLabelWithText:@"" textColor:[Tools blackColor] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+	titleView = [Tools creatLabelWithText:@"" textColor:[Tools black] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	[self addSubview:titleView];
 	[titleView mas_remakeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(self);

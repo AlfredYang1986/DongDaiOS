@@ -97,7 +97,7 @@
 	headView.backgroundColor = [Tools whiteColor];
 	
 	NSString *titleStr = @"全部订单";
-	UILabel *titleLabel = [Tools creatLabelWithText:titleStr textColor:[Tools blackColor] fontSize:625.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatLabelWithText:titleStr textColor:[Tools black] fontSize:625.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[headView addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(headView);

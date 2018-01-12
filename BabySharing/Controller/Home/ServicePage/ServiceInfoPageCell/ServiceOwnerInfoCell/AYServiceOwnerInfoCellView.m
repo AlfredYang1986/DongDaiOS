@@ -91,6 +91,8 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
             make.size.mas_equalTo(CGSizeMake(photoWidth, photoWidth));
         }];
 		
+		[userPhoto addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userPhotoTap)]];
+		
 		brandTagLabel = [UILabel creatLabelWithText:@"-" textColor:[UIColor white] fontSize:620 backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 		brandTagLabel.font = [UIFont boldSystemFontOfSize:20];
 		[self addSubview:brandTagLabel];
@@ -133,6 +135,9 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 
 
 #pragma mark -- actions
+- (void)userPhotoTap {
+	[(AYViewController*)self.controller performSel:@"showOwnerInfo" withResult:nil];
+}
 
 #pragma mark -- notifies
 - (id)setCellInfo:(id)args {

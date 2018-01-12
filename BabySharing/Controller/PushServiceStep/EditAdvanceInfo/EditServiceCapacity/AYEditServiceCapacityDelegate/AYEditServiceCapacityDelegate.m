@@ -89,7 +89,7 @@
 
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view {
     UILabel *myView = nil;
-    myView = [Tools creatLabelWithText:nil textColor:[Tools blackColor] fontSize:17.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+    myView = [Tools creatLabelWithText:nil textColor:[Tools black] fontSize:17.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
     
     if (component == 0) {
         myView.text = [baby_ages objectAtIndex:row];

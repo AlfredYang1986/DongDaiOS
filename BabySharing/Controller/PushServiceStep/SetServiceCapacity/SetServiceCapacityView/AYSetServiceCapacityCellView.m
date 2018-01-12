@@ -35,7 +35,7 @@
         separator.backgroundColor = [Tools whiteColor].CGColor;
         [self.layer addSublayer:separator];
         
-        titleLabel = [Tools creatLabelWithText:@"" textColor:[Tools blackColor] fontSize:16.f backgroundColor:nil textAlignment:0];
+        titleLabel = [Tools creatLabelWithText:@"" textColor:[Tools black] fontSize:16.f backgroundColor:nil textAlignment:0];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self);

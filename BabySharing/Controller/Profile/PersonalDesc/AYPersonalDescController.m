@@ -55,7 +55,7 @@
         inputTitleTextView.text = setedTitleString;
     }
     inputTitleTextView.font = [UIFont systemFontOfSize:14.f];
-    inputTitleTextView.textColor = [Tools blackColor];
+    inputTitleTextView.textColor = [Tools black];
     inputTitleTextView.delegate = self;
     [inputTitleTextView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(kStatusAndNavBarH+20);

@@ -18,14 +18,14 @@
 		
 		[Tools setViewBorder:self withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools garyBackgroundColor]];
 		
-		titleLabel = [Tools creatLabelWithText:titleStr textColor:[Tools blackColor] fontSize:617 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		titleLabel = [Tools creatLabelWithText:titleStr textColor:[Tools black] fontSize:617 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(self);
 			make.left.equalTo(self).offset(15);
 		}];
 		
-		UILabel *andtionLabel = [Tools creatLabelWithText:args textColor:[Tools blackColor] fontSize:313 backgroundColor:nil textAlignment:NSTextAlignmentRight];
+		UILabel *andtionLabel = [Tools creatLabelWithText:args textColor:[Tools black] fontSize:313 backgroundColor:nil textAlignment:NSTextAlignmentRight];
 		[self addSubview:andtionLabel];
 		[andtionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.right.equalTo(self).offset(-15);

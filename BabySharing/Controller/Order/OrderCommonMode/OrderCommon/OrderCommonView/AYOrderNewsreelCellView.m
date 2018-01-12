@@ -62,14 +62,14 @@
 			make.size.mas_equalTo(CGSizeMake(10, 10));
 		}];
 		
-		dateLabel = [Tools creatLabelWithText:@"今天" textColor:[Tools blackColor] fontSize:318.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+		dateLabel = [Tools creatLabelWithText:@"今天" textColor:[Tools black] fontSize:318.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 		[self addSubview:dateLabel];
 		[dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self.mas_left).offset(marginLeft * 0.5);
 			make.centerY.equalTo(pointSignView);
 		}];
 		
-		titleLabel = [Tools creatLabelWithText:@"service title" textColor:[Tools blackColor] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		titleLabel = [Tools creatLabelWithText:@"service title" textColor:[Tools black] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(marginLeft+15);
@@ -100,17 +100,17 @@
 		
 		startTimeIcon = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"remind_time")];
 		[self addSubview:startTimeIcon];
-		startTimeLabel = [Tools creatLabelWithText:@"00:00 Start Olcok" textColor:[Tools blackColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		startTimeLabel = [Tools creatLabelWithText:@"00:00 Start Olcok" textColor:[Tools black] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:startTimeLabel];
 		
 		endTimeIcon = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"remind_time")];
 		[self addSubview:endTimeIcon];
-		endTimeLabel = [Tools creatLabelWithText:@"00:00 End Olcok" textColor:[Tools blackColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		endTimeLabel = [Tools creatLabelWithText:@"00:00 End Olcok" textColor:[Tools black] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:endTimeLabel];
 		
 		positionIcon = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"remind_position")];
 		[self addSubview:positionIcon];
-		positionLabel = [Tools creatLabelWithText:@"service position address info" textColor:[Tools blackColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		positionLabel = [Tools creatLabelWithText:@"service position address info" textColor:[Tools black] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		positionLabel.numberOfLines = 2;
 		[self addSubview:positionLabel];
 		

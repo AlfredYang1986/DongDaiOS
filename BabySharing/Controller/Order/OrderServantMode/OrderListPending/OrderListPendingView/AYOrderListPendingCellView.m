@@ -54,21 +54,21 @@
 		//	photoIcon.userInteractionEnabled = YES;
 		//	[photoIcon addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ownerIconTap:)]];
 		
-		titleLabel = [Tools creatLabelWithText:@"Servant's Service With Theme" textColor:[Tools blackColor] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		titleLabel = [Tools creatLabelWithText:@"Servant's Service With Theme" textColor:[Tools black] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(photoIcon.mas_right).offset(20);
 			make.centerY.equalTo(photoIcon);
 		}];
 		
-		userNameLabel = [Tools creatLabelWithText:@"Order NO:" textColor:[Tools blackColor] fontSize:615.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		userNameLabel = [Tools creatLabelWithText:@"Order NO:" textColor:[Tools black] fontSize:615.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:userNameLabel];
 		[userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);
 			make.bottom.equalTo(titleLabel.mas_top).offset(-3);
 		}];
 		
-		orderNoLabel = [Tools creatLabelWithText:@"Order NO:" textColor:[Tools blackColor] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		orderNoLabel = [Tools creatLabelWithText:@"Order NO:" textColor:[Tools black] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:orderNoLabel];
 		[orderNoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);

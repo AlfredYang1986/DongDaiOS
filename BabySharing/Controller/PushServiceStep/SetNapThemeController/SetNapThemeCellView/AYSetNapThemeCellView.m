@@ -43,7 +43,7 @@
         btm_line.backgroundColor = [Tools garyBackgroundColor].CGColor;
         [self.layer addSublayer:btm_line];
         
-        titleLabel = [Tools creatLabelWithText:nil textColor:[Tools blackColor] fontSize:14.f backgroundColor:nil textAlignment:0];
+        titleLabel = [Tools creatLabelWithText:nil textColor:[Tools black] fontSize:14.f backgroundColor:nil textAlignment:0];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(20);
@@ -147,7 +147,7 @@
     
     NSNumber *cell_index = [args objectForKey:@"index"];
     if (cell_index) {
-        titleLabel.textColor = [Tools blackColor];
+        titleLabel.textColor = [Tools black];
         NSInteger index_tag = cell_index.integerValue;
         optionBtn.tag = index_tag;
         NSInteger notePow = ((NSNumber*)[args objectForKey:@"cans"]).integerValue;

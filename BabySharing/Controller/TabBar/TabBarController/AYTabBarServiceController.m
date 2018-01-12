@@ -68,7 +68,7 @@
 	[self controller:service Title:@"服务" tabBarImageName:@"tab_service"];
 	[self controller:profile Title:@"我的" tabBarImageName:@"tab_profile_white"];
 	
-	[[UITabBar appearance] setBarTintColor:[Tools blackColor]];
+	[[UITabBar appearance] setBarTintColor:[Tools black]];
 	[UITabBar appearance].translucent = NO;
 	
 	

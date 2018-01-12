@@ -41,21 +41,21 @@
     return [NSString stringWithUTF8String:object_getClassName([self class])];
 }
 
-- (id)changeQueryData:(id)array{
+- (id)changeQueryData:(id)array {
     querydata = (NSDictionary*)array;
     return nil;
 }
 
 #pragma mark -- table
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
-}
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+//    return 2;
+//}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    return querydata.count;
-    if (section == 0 || section == 1) {
-        return 1;
-    } else return 4;
+	return 1;
+//    if (section == 0 || section == 1) {
+//        return 1;
+//    } else return 4;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -64,11 +64,11 @@
     id<AYViewBase> cell;
     if (indexPath.section == 0) {
         
-        class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"PersonalInfoHeadCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        class_name = @"AYPersonalDescCellView";
         cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
         
         id tmp = [querydata copy];
-        kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+        [(UITableViewCell*)cell performMethod:kAYCellSetInfoMessage withResult:&tmp];
         
     } else if (indexPath.section == 1) {
         class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"PersonalDescCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
@@ -98,52 +98,52 @@
     return (UITableViewCell*)cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        return 100;
-    } else if (indexPath.section == 1) {
-		
-		NSString *descStr = [querydata objectForKey:kAYProfileArgsDescription];
-		if (!descStr || [descStr isEqualToString:@""]) {
-			return 110;
-		} else {
-			NSString *descStr = [querydata objectForKey:kAYProfileArgsDescription];
-			CGSize filtSize = [Tools sizeWithString:descStr withFont:kAYFontLight(14.f) andMaxSize:CGSizeMake(SCREEN_WIDTH - 30, CGFLOAT_MAX)];
-			return filtSize.height + 60;
-			//			return 135;
-		}
-//        return 135;
-    } else {
-        if (indexPath.row == 0) {
-            return 64;
-        } else if (indexPath.row == 1) {
-            
-            NSNumber *has_comment = [querydata objectForKey:@"has_comment"];
-            return has_comment.boolValue?64:0.001;
-            
-        } else if (indexPath.row == 2) {
-            
-            NSNumber *has_phone = [querydata objectForKey:kAYProfileArgsIsHasPhone];
-            return has_phone.boolValue?64:0.001;
-        } else {
-            
-            NSNumber *is_real_name_cert = [querydata objectForKey:kAYProfileArgsIsProvider];
-            return is_real_name_cert.boolValue ? 64:0.001;
-        }
-    }
-}
-
-- (UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    UIView *separtor = [UIView new];
-    separtor.backgroundColor = [Tools garyBackgroundColor];
-    return separtor;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (section != 2) {
-        return 5.f;
-    } else return 0.001f;
-}
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    if (indexPath.section == 0) {
+//        return 100;
+//    } else if (indexPath.section == 1) {
+//
+//		NSString *descStr = [querydata objectForKey:kAYProfileArgsDescription];
+//		if (!descStr || [descStr isEqualToString:@""]) {
+//			return 110;
+//		} else {
+//			NSString *descStr = [querydata objectForKey:kAYProfileArgsDescription];
+//			CGSize filtSize = [Tools sizeWithString:descStr withFont:kAYFontLight(14.f) andMaxSize:CGSizeMake(SCREEN_WIDTH - 30, CGFLOAT_MAX)];
+//			return filtSize.height + 60;
+//			//			return 135;
+//		}
+////        return 135;
+//    } else {
+//        if (indexPath.row == 0) {
+//            return 64;
+//        } else if (indexPath.row == 1) {
+//
+//            NSNumber *has_comment = [querydata objectForKey:@"has_comment"];
+//            return has_comment.boolValue?64:0.001;
+//
+//        } else if (indexPath.row == 2) {
+//
+//            NSNumber *has_phone = [querydata objectForKey:kAYProfileArgsIsHasPhone];
+//            return has_phone.boolValue?64:0.001;
+//        } else {
+//
+//            NSNumber *is_real_name_cert = [querydata objectForKey:kAYProfileArgsIsProvider];
+//            return is_real_name_cert.boolValue ? 64:0.001;
+//        }
+//    }
+//}
+//
+//- (UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+//    UIView *separtor = [UIView new];
+//    separtor.backgroundColor = [Tools garyBackgroundColor];
+//    return separtor;
+//}
+//
+//- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+//    if (section != 2) {
+//        return 5.f;
+//    } else return 0.001f;
+//}
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
     return NO;
@@ -154,12 +154,6 @@
     CGFloat offset = scrollView.contentOffset.y;
     NSNumber *offset_y = [NSNumber numberWithFloat:offset];
     [cmd performWithResult:&offset_y];
-    if (fabs(offset) < 450) {
-        
-    } else {
-        //        static CGFloat set = scrollView.contentOffset.y;
-        //        scrollView.contentOffset = CGPointMake(0, -450);
-    }
 }
 
 @end

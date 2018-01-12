@@ -33,14 +33,14 @@
 		
 		self.backgroundColor = [UIColor clearColor];
 		CGFloat marginContent = 20.f;
-		UILabel *titleLabel = [Tools creatLabelWithText:@"提醒" textColor:[Tools blackColor] fontSize:625.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		UILabel *titleLabel = [Tools creatLabelWithText:@"提醒" textColor:[Tools black] fontSize:625.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(marginContent);
 			make.top.equalTo(self).offset(30);
 		}];
 		
-		subTitleLabel = [Tools creatLabelWithText:@"没有任何提醒" textColor:[Tools blackColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		subTitleLabel = [Tools creatLabelWithText:@"没有任何提醒" textColor:[Tools black] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:subTitleLabel];
 		[subTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);
@@ -56,7 +56,7 @@
 		}];
 		olockView.hidden = YES;
 		
-		countRemindLabel = [Tools creatLabelWithText:@"0 个" textColor:[Tools blackColor] fontSize:14.f backgroundColor:nil textAlignment:1];
+		countRemindLabel = [Tools creatLabelWithText:@"0 个" textColor:[Tools black] fontSize:14.f backgroundColor:nil textAlignment:1];
 		[self addSubview:countRemindLabel];
 		[countRemindLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(marginContent);
@@ -143,7 +143,7 @@
 		int length = (int)tmp.length;
 		
 		NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:tmp];
-		[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:25.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, length-2)];
+		[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:25.f], NSForegroundColorAttributeName :[Tools black]} range:NSMakeRange(0, length-2)];
 		countRemindLabel.attributedText = attributedText;
 		
 	}

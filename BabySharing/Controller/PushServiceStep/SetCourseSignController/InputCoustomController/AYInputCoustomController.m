@@ -47,7 +47,7 @@
 	
 	coustomField = [[UITextField alloc] init];
 	coustomField.font = [UIFont systemFontOfSize:17.f];
-	coustomField.textColor = [Tools blackColor];
+	coustomField.textColor = [Tools black];
 	coustomField.placeholder = @"创建标签";
 	coustomField.delegate = self;
 	[self.view addSubview:coustomField];

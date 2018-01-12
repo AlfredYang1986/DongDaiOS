@@ -52,7 +52,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [Tools whiteColor];
 	
-	UILabel *titleLabel = [Tools creatLabelWithText:@"服务描述" textColor:[Tools blackColor] fontSize:622 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatLabelWithText:@"服务描述" textColor:[Tools black] fontSize:622 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(kStatusAndNavBarH+20);
@@ -73,7 +73,7 @@
     descTextView = [[UITextView alloc]init];
     [self.view addSubview:descTextView];
     descTextView.font = [UIFont systemFontOfSize:14.f];
-    descTextView.textColor = [Tools blackColor];
+    descTextView.textColor = [Tools black];
 	descTextView.scrollEnabled = NO;
     descTextView.delegate = self;
     [descTextView mas_makeConstraints:^(MASConstraintMaker *make) {

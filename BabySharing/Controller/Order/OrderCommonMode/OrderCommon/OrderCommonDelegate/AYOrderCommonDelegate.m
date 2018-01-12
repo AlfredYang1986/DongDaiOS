@@ -137,7 +137,7 @@ typedef enum : NSUInteger {
 	UIView *headView = [[UIView alloc] init];
 	headView.backgroundColor = [Tools whiteColor];
 	
-	UIButton *allNewsBtn  = [Tools creatBtnWithTitle:@"全部订单" titleColor:[Tools blackColor] fontSize:14.f backgroundColor:nil];
+	UIButton *allNewsBtn  = [Tools creatBtnWithTitle:@"全部订单" titleColor:[Tools black] fontSize:14.f backgroundColor:nil];
 	[headView addSubview:allNewsBtn];
 	[allNewsBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(headView.mas_top).offset(22);
@@ -153,7 +153,7 @@ typedef enum : NSUInteger {
 	[TOPView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showAppliFeedback)]];
 	
 	NSString *titleStr = @"日程";
-	UILabel *titleLabel = [Tools creatLabelWithText:titleStr textColor:[Tools blackColor] fontSize:625.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatLabelWithText:titleStr textColor:[Tools black] fontSize:625.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[headView addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.bottom.equalTo(headView).offset(-12);

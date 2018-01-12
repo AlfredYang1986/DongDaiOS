@@ -50,7 +50,7 @@
 	}];
 	
 	
-	priceLabel = [Tools creatLabelWithText:@"Price 0f Serv" textColor:[Tools blackColor] fontSize:314.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	priceLabel = [Tools creatLabelWithText:@"Price 0f Serv" textColor:[Tools black] fontSize:314.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self addSubview:priceLabel];
 	[priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(_chatBtn.mas_right).offset((SCREEN_WIDTH - kBookBtnWidth - kChatBtnWidth) * 0.5);
@@ -101,7 +101,7 @@
 	NSString *priceStr = [NSString stringWithFormat:@"¥%@/%@", tmp, unitCat];
 	
 	NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:priceStr];
-	[attributedText setAttributes:@{NSFontAttributeName:kAYFontMedium(18.f), NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, length+1)];
+	[attributedText setAttributes:@{NSFontAttributeName:kAYFontMedium(18.f), NSForegroundColorAttributeName :[Tools black]} range:NSMakeRange(0, length+1)];
 	[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11.f], NSForegroundColorAttributeName :[Tools garyColor]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
 	priceLabel.attributedText = attributedText;
 	

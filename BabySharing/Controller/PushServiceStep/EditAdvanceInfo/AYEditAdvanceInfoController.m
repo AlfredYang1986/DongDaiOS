@@ -86,7 +86,7 @@
 		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 50));
 	}];
 	
-	UILabel *positionLabel = [Tools creatLabelWithText:@"位置" textColor:[Tools blackColor] fontSize:316.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	UILabel *positionLabel = [Tools creatLabelWithText:@"位置" textColor:[Tools black] fontSize:316.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	positionTitle = [[AYAdvanceOptView alloc] initWithTitle:positionLabel];
 	[tableView addSubview:positionTitle];
 	[positionTitle mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -104,7 +104,7 @@
 		positionTitle.subTitleLabel.text = @"场地地址";
 	}
 	
-	UILabel *facilityLabel = [Tools creatLabelWithText:@"场地友好性" textColor:[Tools blackColor] fontSize:316.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	UILabel *facilityLabel = [Tools creatLabelWithText:@"场地友好性" textColor:[Tools black] fontSize:316.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	AYAdvanceOptView *facilityTitle = [[AYAdvanceOptView alloc] initWithTitle:facilityLabel];
     [tableView addSubview:facilityTitle];
     [facilityTitle mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -125,7 +125,7 @@
 		make.size.equalTo(placeTitle);
     }];
 	
-    UILabel *infoLabel = [Tools creatLabelWithText:@"服务详情" textColor:[Tools blackColor] fontSize:316.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+    UILabel *infoLabel = [Tools creatLabelWithText:@"服务详情" textColor:[Tools black] fontSize:316.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	AYAdvanceOptView *infoTitle = [[AYAdvanceOptView alloc]initWithTitle:infoLabel];
     [tableView addSubview:infoTitle];
     [infoTitle mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -123,7 +123,7 @@
 	
 	NSArray *weekdayTitle = @[@"周日", @"周一", @"周二", @"周三", @"周四", @"周五", @"周六"];
 	for (int i = 0; i < weekdayTitle.count; ++i) {
-		UILabel *itemLabel = [Tools creatLabelWithText:[weekdayTitle objectAtIndex:i] textColor:[Tools blackColor] fontSize:311.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+		UILabel *itemLabel = [Tools creatLabelWithText:[weekdayTitle objectAtIndex:i] textColor:[Tools black] fontSize:311.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 		[self.view addSubview:itemLabel];
 		[itemLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(dateShowLabel.mas_bottom).offset(20);

@@ -22,7 +22,7 @@
 		CGFloat margin = 10.f;
 		[Tools creatCALayerWithFrame:CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
 		
-		dateLabel =  [Tools creatLabelWithText:@"Service Date" textColor:[Tools blackColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		dateLabel =  [Tools creatLabelWithText:@"Service Date" textColor:[Tools black] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:dateLabel];
 		[dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(15);

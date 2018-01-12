@@ -157,7 +157,7 @@
 	[self.view addSubview:sloganView];
 	[Tools setViewBorder:sloganView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools whiteColor]];
 	
-	UILabel *titleLabel = [Tools creatLabelWithText:@"Servant' Servcie" textColor:[Tools blackColor] fontSize:617 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatLabelWithText:@"Servant' Servcie" textColor:[Tools black] fontSize:617 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[sloganView addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(sloganView).offset(kBETWEENMARGIN);
@@ -165,7 +165,7 @@
 		make.centerX.equalTo(sloganView);
 	}];
 	
-	UILabel *sloganLabel = [Tools creatLabelWithText:@"Servant' Servcie" textColor:[Tools blackColor] fontSize:313 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	UILabel *sloganLabel = [Tools creatLabelWithText:@"Servant' Servcie" textColor:[Tools black] fontSize:313 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[sloganView addSubview:sloganLabel];
 	[sloganLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.bottom.equalTo(sloganView).offset(-kBETWEENMARGIN);

@@ -86,7 +86,7 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
 	
 	CGFloat labelWidth = (SCREEN_WIDTH - margin * 2)/7;
 	for (int i = 0; i<7; i++) {
-		UILabel *label = [Tools creatLabelWithText:[titleArr objectAtIndex:i] textColor:[Tools blackColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+		UILabel *label = [Tools creatLabelWithText:[titleArr objectAtIndex:i] textColor:[Tools black] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 		[self addSubview:label];
 		[label mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self.mas_left).offset((margin+labelWidth*0.5)+labelWidth*i);
@@ -252,7 +252,7 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
 //			BgView.layer.contents = (id)IMGRESOURCE(@"date_today_sign").CGImage;
 			UIView *circleView = [[UIView alloc] init];
 			[BgView addSubview:circleView];
-			[Tools setViewBorder:circleView withRadius:15 andBorderWidth:0.5f andBorderColor:[Tools blackColor] andBackground:[UIColor clearColor]];
+			[Tools setViewBorder:circleView withRadius:15 andBorderWidth:0.5f andBorderColor:[Tools black] andBackground:[UIColor clearColor]];
 			[circleView mas_makeConstraints:^(MASConstraintMaker *make) {
 				make.center.equalTo(BgView);
 				make.size.mas_equalTo(CGSizeMake(30, 30));
@@ -305,7 +305,7 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
         UILabel *label = [headerView viewWithTag:119];
         if (label == nil) {
             //添加日期
-            label = [Tools creatLabelWithText:nil textColor:[Tools blackColor] fontSize:620.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+            label = [Tools creatLabelWithText:nil textColor:[Tools black] fontSize:620.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
             label.tag = 119;
             [headerView addSubview:label];
             [label mas_makeConstraints:^(MASConstraintMaker *make) {

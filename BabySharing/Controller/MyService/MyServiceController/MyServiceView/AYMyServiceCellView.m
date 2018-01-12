@@ -105,7 +105,7 @@
 			make.size.mas_equalTo(CGSizeMake(60, 26));
 		}];
 		
-		titleLabel = [Tools creatLabelWithText:@"Service Belong to Servant" textColor:[Tools blackColor] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		titleLabel = [Tools creatLabelWithText:@"Service Belong to Servant" textColor:[Tools black] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		titleLabel.numberOfLines = 1;
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -14,7 +14,7 @@
     self = [super init];
     if (self) {
         [self setTitle:title forState:UIControlStateNormal];
-        [self setTitleColor:[Tools blackColor] forState:UIControlStateNormal];
+        [self setTitleColor:[Tools black] forState:UIControlStateNormal];
         self.titleLabel.font = kAYFontMedium(15);
         
         self.layer.cornerRadius = 30 * 0.5;
@@ -32,7 +32,7 @@
     switch (states) {
 		case WeekDayBtnStateNormal:
 		{
-			[self setTitleColor:[Tools blackColor] forState:UIControlStateNormal];
+			[self setTitleColor:[Tools black] forState:UIControlStateNormal];
 			self.layer.borderWidth = 0.f;
 			self.layer.backgroundColor = [UIColor clearColor].CGColor;
 			self.titleLabel.font = kAYFontMedium(15);
@@ -40,7 +40,7 @@
 			break;
 		case WeekDayBtnStateNormalAnimat:
 		{
-			[self setTitleColor:[Tools blackColor] forState:UIControlStateNormal];
+			[self setTitleColor:[Tools black] forState:UIControlStateNormal];
 			self.layer.borderWidth = 0.f;
 			self.layer.backgroundColor = [UIColor clearColor].CGColor;
 			[UIView animateWithDuration:0.5 animations:^{
@@ -64,7 +64,7 @@
 		}
 			break;case WeekDayBtnStateSmall:
 		{
-			[self setTitleColor:[Tools blackColor] forState:UIControlStateNormal];
+			[self setTitleColor:[Tools black] forState:UIControlStateNormal];
 			self.layer.borderWidth = 0.f;
 			self.layer.backgroundColor = [Tools whiteColor].CGColor;
 //			[UIView animateWithDuration:0.5 animations:^{

@@ -62,7 +62,7 @@
 		topicsArr = kAY_home_album_titles;
 		subTopicsArr = kAY_home_album_titles_sub;
 		
-		titleLabel = [UILabel creatLabelWithText:@"简单描述" textColor:[Tools blackColor] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		titleLabel = [UILabel creatLabelWithText:@"简单描述" textColor:[Tools black] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(15);

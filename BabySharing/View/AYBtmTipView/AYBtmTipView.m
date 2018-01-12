@@ -28,7 +28,7 @@
 		}];
 		
 		
-		titleLabel = [Tools creatLabelWithText:@"title" textColor:[Tools blackColor] fontSize:614.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		titleLabel = [Tools creatLabelWithText:@"title" textColor:[Tools black] fontSize:614.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		titleLabel.numberOfLines = 0;
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {

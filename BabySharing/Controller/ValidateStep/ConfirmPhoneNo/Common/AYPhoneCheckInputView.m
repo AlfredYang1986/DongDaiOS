@@ -54,7 +54,7 @@
 	self.bounds = CGRectMake(0, 0, 0, 190);
     self.backgroundColor = [UIColor clearColor];
 	
-	UILabel *phoneLabel = [Tools creatLabelWithText:@"手机号" textColor:[Tools blackColor] fontSize:313.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	UILabel *phoneLabel = [Tools creatLabelWithText:@"手机号" textColor:[Tools black] fontSize:313.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self addSubview:phoneLabel];
 	[phoneLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(self);
@@ -106,7 +106,7 @@
 		make.size.mas_equalTo(CGSizeMake(110, 38));
 	}];
 	
-	UILabel *codeLabel = [Tools creatLabelWithText:@"验证码" textColor:[Tools blackColor] fontSize:313.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	UILabel *codeLabel = [Tools creatLabelWithText:@"验证码" textColor:[Tools black] fontSize:313.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self addSubview:codeLabel];
 	[codeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(self);

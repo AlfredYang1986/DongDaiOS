@@ -19,6 +19,8 @@
 #define WIDTH               SCREEN_WIDTH - 15*2
 
 @implementation AYPersonalDescCellView {
+	
+	UILabel *userNameLabel;
     UILabel *titleLabel;
     UILabel *descLabel;
 }
@@ -28,88 +30,62 @@
 @synthesize commands = _commands;
 @synthesize notifies = _notiyies;
 
+#pragma mark -- commands
+- (void)postPerform {
+	
+}
+
+- (void)performWithResult:(NSObject**)obj {
+	
+}
+
+- (NSString*)getViewType {
+	return kAYFactoryManagerCatigoryView;
+}
+
+- (NSString*)getViewName {
+	return [NSString stringWithUTF8String:object_getClassName([self class])];
+}
+
+- (NSString*)getCommandType {
+	return kAYFactoryManagerCatigoryView;
+}
+
+#pragma mark -- life cycle
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        
-        titleLabel = [Tools creatLabelWithText:@"关于我" textColor:[Tools blackColor] fontSize:17.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		
+		userNameLabel = [UILabel creatLabelWithText:@"User Name" textColor:[UIColor black] fontSize:626 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		[self addSubview:userNameLabel];
+		[userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
+			make.top.equalTo(self).offset(50);
+		}];
+		
+        titleLabel = [UILabel creatLabelWithText:@"关于我" textColor:[UIColor black] fontSize:615 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self).offset(10);
-            make.left.equalTo(self).offset(15);
+			make.left.equalTo(userNameLabel);
+			make.top.equalTo(userNameLabel.mas_bottom).offset(28);
         }];
         
-        descLabel = [Tools creatLabelWithText:@"向咚哒社区其他年轻家庭和孩子们介绍您自己，让交流感到轻松有趣" textColor:[Tools blackColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+        descLabel = [UILabel creatLabelWithText:@"向咚哒社区其他年轻家庭和孩子们介绍您自己，让交流感到轻松有趣" textColor:[UIColor black] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
         descLabel.numberOfLines = 0;
         [self addSubview:descLabel];
         [descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(titleLabel.mas_bottom).offset(10);
-            make.left.equalTo(titleLabel);
-            make.right.equalTo(self).offset(-15);
+			make.left.equalTo(userNameLabel);
+			make.top.equalTo(titleLabel.mas_bottom).offset(4);
+			make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
+			make.bottom.equalTo(self).offset(-30);
         }];
 		
-//        CGFloat margin = 0;
-//		[Tools creatCALayerWithFrame:CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
-        
-        if (reuseIdentifier != nil) {
-            [self setUpReuseCell];
-        }
     }
     
     return self;
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-}
 
-#pragma mark -- life cycle
-- (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(@"PersonalDescCell", @"PersonalDescCell");
-    
-    NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
-    for (NSString* name in cell.commands.allKeys) {
-        AYViewCommand* cmd = [cell.commands objectForKey:name];
-        AYViewCommand* c = [[AYViewCommand alloc]init];
-        c.view = self;
-        c.method_name = cmd.method_name;
-        c.need_args = cmd.need_args;
-        [arr_commands setValue:c forKey:name];
-    }
-    self.commands = [arr_commands copy];
-    
-    NSMutableDictionary* arr_notifies = [[NSMutableDictionary alloc]initWithCapacity:cell.notifies.count];
-    for (NSString* name in cell.notifies.allKeys) {
-        AYViewNotifyCommand* cmd = [cell.notifies objectForKey:name];
-        AYViewNotifyCommand* c = [[AYViewNotifyCommand alloc]init];
-        c.view = self;
-        c.method_name = cmd.method_name;
-        c.need_args = cmd.need_args;
-        [arr_notifies setValue:c forKey:name];
-    }
-    self.notifies = [arr_notifies copy];
-}
-
-#pragma mark -- commands
-- (void)postPerform {
-    
-}
-
-- (void)performWithResult:(NSObject**)obj {
-    
-}
-
-- (NSString*)getViewType {
-    return kAYFactoryManagerCatigoryView;
-}
-
-- (NSString*)getViewName {
-    return [NSString stringWithUTF8String:object_getClassName([self class])];
-}
-
-- (NSString*)getCommandType {
-    return kAYFactoryManagerCatigoryView;
-}
 
 #pragma mark -- actions
 - (void)didServiceDetailClick:(UIGestureRecognizer*)tap {
@@ -117,27 +93,20 @@
     [cmd performWithResult:nil];
 }
 
--(void)didPushInfo {
-    id<AYCommand> cmd = [self.notifies objectForKey:@"didPushInfo"];
-    [cmd performWithResult:nil];
-}
-
 #pragma mark -- messages
 - (id)setCellInfo:(id)args {
-    
-    NSDictionary *info = nil;
-    CURRENUSER(info);
-    NSString *user_id = [args objectForKey:@"user_id"];
-    
-    if (user_id && ![user_id isEqualToString:[info objectForKey:@"user_id"]]) {
-        NSString *nameStr = [args objectForKey:@"screen_name"];
-        titleLabel.text = [NSString stringWithFormat:@"关于%@",nameStr];
-    }
+	
+    NSString *user_name = [args objectForKey:kAYProfileArgsScreenName];
+	userNameLabel.text = user_name;
+	
     
     NSString *descStr = [args objectForKey:kAYProfileArgsDescription];
-    if (descStr && ![descStr isEqualToString:@""]) {
+    if (descStr.length != 0) {
         descLabel.text = descStr;
-    }
+	} else {
+		descLabel.text = @"一句话很短，高调的夸一夸自己";
+		descLabel.textColor = [UIColor RGB225Gary];
+	}
     
     return nil;
 }

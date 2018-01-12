@@ -116,7 +116,7 @@
     self.navigationItem.titleView = titleSearch;
     self.navigationItem.hidesBackButton = YES;
     
-    AYInsetLabel *h1 = [[AYInsetLabel alloc]initWithTitle:@"建议搜索" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
+    AYInsetLabel *h1 = [[AYInsetLabel alloc]initWithTitle:@"建议搜索" andTextColor:[Tools black] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
     h1.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
     [self.view addSubview:h1];
     [h1 mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -16,7 +16,7 @@
 	
 	if (self = [super initWithFrame:frame]) {
 		[self setTitle:title forState:UIControlStateNormal];
-		[self setTitleColor:[Tools blackColor] forState:UIControlStateNormal];
+		[self setTitleColor:[Tools black] forState:UIControlStateNormal];
 		[self setTitleColor:[Tools theme] forState:UIControlStateSelected];
 		
 		btmLayer = [[CALayer alloc] init];

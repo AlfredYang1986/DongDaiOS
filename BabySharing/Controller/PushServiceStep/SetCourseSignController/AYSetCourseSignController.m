@@ -56,7 +56,7 @@
 	[self.view addSubview:coustomView];
 	coustomView.clipsToBounds = YES;
 	
-	UILabel *tipCoustomLabel = [Tools creatLabelWithText:@"创建新的标签" textColor:[Tools blackColor] fontSize:617 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	UILabel *tipCoustomLabel = [Tools creatLabelWithText:@"创建新的标签" textColor:[Tools black] fontSize:617 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[coustomView addSubview:tipCoustomLabel];
 	[tipCoustomLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(coustomView).offset(20);

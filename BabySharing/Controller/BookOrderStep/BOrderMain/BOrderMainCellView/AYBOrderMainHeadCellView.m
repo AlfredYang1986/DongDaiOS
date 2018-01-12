@@ -43,7 +43,7 @@
 			make.height.equalTo(self);
 		}];
 		
-        titleLabel = [Tools creatLabelWithText:@"Service Title" textColor:[Tools blackColor] fontSize:316.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+        titleLabel = [Tools creatLabelWithText:@"Service Title" textColor:[Tools black] fontSize:316.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(15);
@@ -51,7 +51,7 @@
             make.right.lessThanOrEqualTo(coverPhoto.mas_left).offset(-30);
         }];
         
-        priceLabel = [Tools creatLabelWithText:@"Service Price" textColor:[Tools blackColor] fontSize:615.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+        priceLabel = [Tools creatLabelWithText:@"Service Price" textColor:[Tools black] fontSize:615.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
         [self addSubview:priceLabel];
         [priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(titleLabel.mas_bottom).offset(15);

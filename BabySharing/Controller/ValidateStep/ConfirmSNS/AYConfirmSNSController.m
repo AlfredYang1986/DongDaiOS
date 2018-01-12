@@ -58,7 +58,7 @@
     id<AYViewBase> view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
     [view_nav addSubview:(UIView*)view_title];
     
-    UILabel *title = [Tools creatLabelWithText:@"确认社交账号" textColor:[Tools blackColor] fontSize:16.f backgroundColor:nil textAlignment:1];
+    UILabel *title = [Tools creatLabelWithText:@"确认社交账号" textColor:[Tools black] fontSize:16.f backgroundColor:nil textAlignment:1];
     [self.view addSubview:title];
     [title mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(160);

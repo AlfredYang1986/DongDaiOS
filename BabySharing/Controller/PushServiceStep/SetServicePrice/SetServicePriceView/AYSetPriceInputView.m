@@ -50,7 +50,7 @@
 			make.height.mas_equalTo(1);
 		}];
 		
-		UILabel *signLabel = [Tools creatLabelWithText:sign textColor:[Tools blackColor] fontSize:315 backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+		UILabel *signLabel = [Tools creatLabelWithText:sign textColor:[Tools black] fontSize:315 backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 		[self addSubview:signLabel];
 		[signLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self);

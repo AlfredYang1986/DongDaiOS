@@ -56,7 +56,7 @@
     descTextView = [[UITextView alloc]init];
     [self.view addSubview:descTextView];
     descTextView.font = [UIFont systemFontOfSize:14.f];
-    descTextView.textColor = [Tools blackColor];
+    descTextView.textColor = [Tools black];
     descTextView.delegate = self;
     [descTextView mas_makeConstraints:^(MASConstraintMaker *make) {
 //        make.top.equalTo(self.view).offset(84);

@@ -52,7 +52,7 @@
     UIButton *cancel = [[UIButton alloc]init];
     [pickBgView addSubview:cancel];
     [cancel setTitle:@"取消" forState:UIControlStateNormal];
-    [cancel setTitleColor:[Tools blackColor] forState:UIControlStateNormal];
+    [cancel setTitleColor:[Tools black] forState:UIControlStateNormal];
     cancel.titleLabel.font = [UIFont systemFontOfSize:17.f];
     [cancel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(pickBgView);

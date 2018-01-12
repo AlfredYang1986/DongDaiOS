@@ -35,21 +35,21 @@
 		/*******************************/
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		
-		unitPriceLabel = [Tools creatLabelWithText:@"$100 * 1 Uint" textColor:[Tools blackColor] fontSize:13.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		unitPriceLabel = [Tools creatLabelWithText:@"$100 * 1 Uint" textColor:[Tools black] fontSize:13.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:unitPriceLabel];
 		[unitPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.right.equalTo(self).offset(-15);
 			make.bottom.equalTo(self.mas_bottom).offset(-15);
 		}];
 		
-		sumPriceLabel = [Tools creatLabelWithText:@"$100" textColor:[Tools blackColor] fontSize:13.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		sumPriceLabel = [Tools creatLabelWithText:@"$100" textColor:[Tools black] fontSize:13.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:sumPriceLabel];
 		[sumPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.right.equalTo(unitPriceLabel);
 			make.bottom.equalTo(unitPriceLabel.mas_top).offset(-10);
 		}];
 		
-		UILabel *priceTitle = [Tools creatLabelWithText:@"价格" textColor:[Tools blackColor] fontSize:13.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		UILabel *priceTitle = [Tools creatLabelWithText:@"价格" textColor:[Tools black] fontSize:13.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:priceTitle];
 		[priceTitle mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(15);
@@ -143,8 +143,8 @@
 	NSString *totalFeeStr = [NSString stringWithFormat:@"¥%.f", totalFee];
 	
 	NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:totalFeeStr];
-	[attributedText setAttributes:@{NSFontAttributeName:kAYFontLight(13.f), NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, 1)];
-	[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:15.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(1, totalFeeStr.length - 1)];
+	[attributedText setAttributes:@{NSFontAttributeName:kAYFontLight(13.f), NSForegroundColorAttributeName :[Tools black]} range:NSMakeRange(0, 1)];
+	[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:15.f], NSForegroundColorAttributeName :[Tools black]} range:NSMakeRange(1, totalFeeStr.length - 1)];
 	sumPriceLabel.attributedText = attributedText;
 	
 	NSString *unitCat = @"UNIT";

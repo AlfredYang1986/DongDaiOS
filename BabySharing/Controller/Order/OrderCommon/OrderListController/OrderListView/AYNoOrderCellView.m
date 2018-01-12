@@ -29,7 +29,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        UILabel *titleLabel = [Tools creatLabelWithText:@"没有预定申请" textColor:[Tools blackColor] fontSize:16.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+        UILabel *titleLabel = [Tools creatLabelWithText:@"没有预定申请" textColor:[Tools black] fontSize:16.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(15);

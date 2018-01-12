@@ -434,7 +434,7 @@
 		
 		UILabel *label = [headerView viewWithTag:119];
 		if (label == nil) {
-			label = [Tools creatLabelWithText:nil textColor:[Tools blackColor] fontSize:616.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+			label = [Tools creatLabelWithText:nil textColor:[Tools black] fontSize:616.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 			label.tag = 119;
 			[headerView addSubview:label];
 			[label mas_makeConstraints:^(MASConstraintMaker *make) {

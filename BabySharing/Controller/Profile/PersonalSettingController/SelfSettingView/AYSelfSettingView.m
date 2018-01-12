@@ -39,7 +39,7 @@
     user_name.clearButtonMode = UITextFieldViewModeWhileEditing;
     user_name.placeholder = @"请输入姓名";
     user_name.font = [UIFont systemFontOfSize:14.f];
-    user_name.textColor = [Tools blackColor];
+    user_name.textColor = [Tools black];
     user_name.delegate = self;
     [user_name mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(nameLabel);
@@ -70,7 +70,7 @@
 //    address.clearButtonMode = UITextFieldViewModeWhileEditing;
 //    address.placeholder = @"请输入地址";
     address.font = [UIFont systemFontOfSize:14.f];
-    address.textColor = [Tools blackColor];
+    address.textColor = [Tools black];
 //    address.delegate = self;
     [address mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(addressLabel);
@@ -100,7 +100,7 @@
         make.height.mas_equalTo(14);
     }];
 	
-    boby = [Tools creatLabelWithText:@"2岁9个月男宝宝，2岁9个月男宝宝，2岁9个月男宝宝" textColor:[Tools blackColor] fontSize:14.f backgroundColor:nil textAlignment:0];
+    boby = [Tools creatLabelWithText:@"2岁9个月男宝宝，2岁9个月男宝宝，2岁9个月男宝宝" textColor:[Tools black] fontSize:14.f backgroundColor:nil textAlignment:0];
 	[self addSubview:boby];
     boby.numberOfLines = 0;
     [boby mas_makeConstraints:^(MASConstraintMaker *make) {

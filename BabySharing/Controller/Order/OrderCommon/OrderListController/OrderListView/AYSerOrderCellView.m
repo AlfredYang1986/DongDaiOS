@@ -47,14 +47,14 @@
             make.size.mas_equalTo(CGSizeMake(60, 60));
         }];
         
-        orderDateLabel = [Tools creatLabelWithText:@"" textColor:[Tools blackColor] fontSize:17.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+        orderDateLabel = [Tools creatLabelWithText:@"" textColor:[Tools black] fontSize:17.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
         [self addSubview:orderDateLabel];
         [orderDateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(pushUserImageview);
             make.left.equalTo(pushUserImageview.mas_right).offset(15);
         }];
         
-        detailInfoLabel = [Tools creatLabelWithText:@"" textColor:[Tools blackColor] fontSize:15.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+        detailInfoLabel = [Tools creatLabelWithText:@"" textColor:[Tools black] fontSize:15.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
         detailInfoLabel.numberOfLines = 2;
         [self addSubview:detailInfoLabel];
         [detailInfoLabel mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -91,7 +91,7 @@
 	CGFloat setLabelHeight = 45.f;
 	CGFloat rightMargin = 5.f;
 	
-    AYInsetLabel *babyAgesTitle = [[AYInsetLabel alloc]initWithTitle:@"接纳孩子年龄" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
+    AYInsetLabel *babyAgesTitle = [[AYInsetLabel alloc]initWithTitle:@"接纳孩子年龄" andTextColor:[Tools black] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
     babyAgesTitle.textInsets = labelInset;
     [tableView addSubview:babyAgesTitle];
     [babyAgesTitle mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -118,7 +118,7 @@
     }
     
     /*capacity*/
-    AYInsetLabel *babyNumbTitle = [[AYInsetLabel alloc]initWithTitle:@"最多接受孩子数量" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
+    AYInsetLabel *babyNumbTitle = [[AYInsetLabel alloc]initWithTitle:@"最多接受孩子数量" andTextColor:[Tools black] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
     babyNumbTitle.textInsets = labelInset;
     [tableView addSubview:babyNumbTitle];
     [babyNumbTitle mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -151,7 +151,7 @@
 	babyNumb.text = [NSString stringWithFormat:@"%d", capacityNumb.intValue];
 	
     /*servant*/
-    AYInsetLabel *servantNumbTitle = [[AYInsetLabel alloc]initWithTitle:@"服务者数量" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
+    AYInsetLabel *servantNumbTitle = [[AYInsetLabel alloc]initWithTitle:@"服务者数量" andTextColor:[Tools black] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
     servantNumbTitle.textInsets = labelInset;
     [tableView addSubview:servantNumbTitle];
     [servantNumbTitle mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -193,7 +193,7 @@
 	servantNumb.text = [NSString stringWithFormat:@"%d", servant_no.intValue];
     
     /*categary*/
-    AYInsetLabel *serviceCatTitle = [[AYInsetLabel alloc]initWithTitle:@"服务类型" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
+    AYInsetLabel *serviceCatTitle = [[AYInsetLabel alloc]initWithTitle:@"服务类型" andTextColor:[Tools black] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
     serviceCatTitle.textInsets = labelInset;
     [tableView addSubview:serviceCatTitle];
     [serviceCatTitle mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -220,7 +220,7 @@
 	[tableView sendSubviewToBack:serviceCatBg];
 	
     /*theme*/
-    AYInsetLabel *serviceThemeTitle = [[AYInsetLabel alloc]initWithTitle:@"服务主题" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
+    AYInsetLabel *serviceThemeTitle = [[AYInsetLabel alloc]initWithTitle:@"服务主题" andTextColor:[Tools black] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
     serviceThemeTitle.textInsets = labelInset;
     [tableView addSubview:serviceThemeTitle];
     [serviceThemeTitle mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -105,7 +105,7 @@
 		titleStr = @"参数设置错误";
 	}
 	
-	UILabel *titleLabel = [Tools creatLabelWithText:titleStr textColor:[Tools blackColor] fontSize:630.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+	UILabel *titleLabel = [Tools creatLabelWithText:titleStr textColor:[Tools black] fontSize:630.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	titleLabel.numberOfLines = 0;
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {

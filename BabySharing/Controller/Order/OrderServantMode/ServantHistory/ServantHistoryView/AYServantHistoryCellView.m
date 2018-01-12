@@ -42,28 +42,28 @@
 			make.size.mas_equalTo(CGSizeMake(imageWidth, imageWidth));
 		}];
 		
-		userNameLabel = [Tools creatLabelWithText:@"User Name" textColor:[Tools blackColor] fontSize:615.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		userNameLabel = [Tools creatLabelWithText:@"User Name" textColor:[Tools black] fontSize:615.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:userNameLabel];
 		[userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(userPhotoView.mas_right).offset(20);
 			make.bottom.equalTo(userPhotoView.mas_centerY);
 		}];
 		
-		UILabel *startTitleLabel = [Tools creatLabelWithText:@"申请预定" textColor:[Tools blackColor] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		UILabel *startTitleLabel = [Tools creatLabelWithText:@"申请预定" textColor:[Tools black] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:startTitleLabel];
 		[startTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(userNameLabel.mas_right).offset(5);
 			make.centerY.equalTo(userNameLabel);
 		}];
 		
-		serviceTitleLabel = [Tools creatLabelWithText:@"The service's title" textColor:[Tools blackColor] fontSize:315.f backgroundColor:nil textAlignment:1];
+		serviceTitleLabel = [Tools creatLabelWithText:@"The service's title" textColor:[Tools black] fontSize:315.f backgroundColor:nil textAlignment:1];
 		[self addSubview:serviceTitleLabel];
 		[serviceTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(userPhotoView.mas_centerY);
 			make.left.equalTo(userNameLabel);
 		}];
 		
-		statesLabel = [Tools creatLabelWithText:@"申请状态" textColor:[Tools blackColor] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		statesLabel = [Tools creatLabelWithText:@"申请状态" textColor:[Tools black] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:statesLabel];
 		[statesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(serviceTitleLabel.mas_bottom).offset(3);

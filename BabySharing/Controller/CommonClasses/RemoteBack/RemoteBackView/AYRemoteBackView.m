@@ -36,7 +36,7 @@
 		make.size.mas_equalTo(CGSizeMake(30, 30));
 	}];
 	
-	tipsLabel = [Tools creatLabelWithText:@"This is Tips Context" textColor:[Tools blackColor] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+	tipsLabel = [Tools creatLabelWithText:@"This is Tips Context" textColor:[Tools black] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	[self addSubview:tipsLabel];
 	[tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(self);

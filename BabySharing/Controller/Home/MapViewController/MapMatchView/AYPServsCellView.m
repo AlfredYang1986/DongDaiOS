@@ -33,7 +33,7 @@
 			make.size.mas_equalTo(CGSizeMake(68, 45));
 		}];
 		
-		titleLabel = [Tools creatLabelWithText:@"服务妈妈的主题服务" textColor:[Tools blackColor] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		titleLabel = [Tools creatLabelWithText:@"服务妈妈的主题服务" textColor:[Tools black] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self);

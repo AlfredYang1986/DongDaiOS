@@ -70,7 +70,7 @@ static CGSize AssetGridThumbnailSize;
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = _model.name;
     
-    UIColor * color = [Tools blackColor];
+    UIColor * color = [Tools black];
     NSDictionary * dict=[NSDictionary dictionaryWithObject:color forKey:NSForegroundColorAttributeName];
     self.navigationController.navigationBar.titleTextAttributes = dict;
     

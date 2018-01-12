@@ -31,7 +31,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        titleLabel = [Tools creatLabelWithText:nil textColor:[Tools blackColor] fontSize:317.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+        titleLabel = [Tools creatLabelWithText:nil textColor:[Tools black] fontSize:317.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self);

@@ -30,7 +30,7 @@
 	
 	self.bounds = CGRectMake(0, 0, 0, 200);
 	
-    title = [Tools creatLabelWithText:@"手机号验证" textColor:[Tools blackColor] fontSize:320.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+    title = [Tools creatLabelWithText:@"手机号验证" textColor:[Tools black] fontSize:320.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
     [self addSubview:title];
     [title mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self).offset(20);
@@ -38,7 +38,7 @@
     }];
 	
 	//    我们要求每一位妈妈在预订服务前验证手机号码\n您只需要验证一次
-	des = [Tools creatLabelWithText:@"第一次预订服务需要您验证手机号码\n以便和服务者及时沟通" textColor:[Tools blackColor] fontSize:16.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	des = [Tools creatLabelWithText:@"第一次预订服务需要您验证手机号码\n以便和服务者及时沟通" textColor:[Tools black] fontSize:16.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	des.numberOfLines = 0;
 	[self addSubview:des];
 	[des mas_makeConstraints:^(MASConstraintMaker *make) {

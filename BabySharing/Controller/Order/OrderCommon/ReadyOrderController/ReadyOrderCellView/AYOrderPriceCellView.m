@@ -34,14 +34,14 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        UILabel *titleLabel = [Tools creatLabelWithText:@"价格" textColor:[Tools blackColor] fontSize:17.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+        UILabel *titleLabel = [Tools creatLabelWithText:@"价格" textColor:[Tools black] fontSize:17.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(25);
             make.left.equalTo(self).offset(15);
         }];
 		
-        priceLabel = [Tools creatLabelWithText:@"￥ 000" textColor:[Tools blackColor] fontSize:30.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
+        priceLabel = [Tools creatLabelWithText:@"￥ 000" textColor:[Tools black] fontSize:30.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
         [self addSubview:priceLabel];
         [priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(titleLabel);

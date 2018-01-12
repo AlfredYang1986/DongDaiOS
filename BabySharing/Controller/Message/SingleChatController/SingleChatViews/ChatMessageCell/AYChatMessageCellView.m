@@ -84,7 +84,7 @@
     }
     
     if (content == nil) {
-        content = [Tools creatLabelWithText:@"chat message content" textColor:[Tools blackColor] fontSize:15.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+        content = [Tools creatLabelWithText:@"chat message content" textColor:[Tools black] fontSize:15.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
         content.numberOfLines = 0;
         [self addSubview:content];
         
@@ -281,7 +281,7 @@
             make.size.mas_equalTo(CGSizeMake(IMG_WIDTH, IMG_WIDTH));
         }];
         
-        content.textColor = time_label.textColor = [Tools blackColor];
+        content.textColor = time_label.textColor = [Tools black];
         [content mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(imgView.mas_right).offset(30);
             make.top.equalTo(imgView).offset(MarginTop);
@@ -294,7 +294,7 @@
             make.top.equalTo(content.mas_bottom).offset(TimeMarginTop);
         }];
         
-        content.textColor =  [Tools blackColor];
+        content.textColor =  [Tools black];
         time_label.textColor = [Tools garyColor];
         UIImage *bg = IMGRESOURCE(@"message_bg_one");
         bg = [bg resizableImageWithCapInsets:UIEdgeInsetsMake(15, 15, 10, 10) resizingMode:UIImageResizingModeStretch];

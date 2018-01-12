@@ -48,6 +48,7 @@ static NSString* const kAYBrandArgsSelf =					@"brand";
 static NSString* const kAYBrandArgsID =						@"brand_id";
 static NSString* const kAYBrandArgsName =					@"brand_name";
 static NSString* const kAYBrandArgsTag =					@"brand_tag";
+static NSString* const kAYBrandArgsAbout =					@"about_brand";
 
 //service args
 static NSString* const kAYServiceArgsType =					@"service_type";

@@ -74,7 +74,7 @@
 		NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 		[dic setValue:tmp forKey:kAYGroupListCellContentKey];
 		[dic setValue:cell forKey:kAYGroupListCellCellKey];
-		kAYViewSendMessage(cell, kAYDelegateSetCellInfoMessage, &dic)
+		kAYViewSendMessage(cell, kAYCellSetInfoMessage, &dic)
 		
 		return (UITableViewCell*)cell;
 	}
@@ -85,7 +85,7 @@
     UIView* reVal = [[UIView alloc]init];
     reVal.backgroundColor = [UIColor whiteColor];
     
-    UILabel* label = [Tools creatLabelWithText:@"消息" textColor:[Tools blackColor] fontSize:624.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+    UILabel* label = [Tools creatLabelWithText:@"消息" textColor:[Tools black] fontSize:624.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
     [reVal addSubview:label];
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(reVal).offset(20);

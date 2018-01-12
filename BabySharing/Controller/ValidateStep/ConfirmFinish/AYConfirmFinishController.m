@@ -70,7 +70,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [Tools whiteColor];
     
-    UILabel *tips = [Tools creatLabelWithText:@"恭喜您！认证成功" textColor:[Tools blackColor] fontSize:320.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+    UILabel *tips = [Tools creatLabelWithText:@"恭喜您！认证成功" textColor:[Tools black] fontSize:320.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
     [self.view addSubview:tips];
     [tips mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(SCREEN_HEIGHT * 190/667);

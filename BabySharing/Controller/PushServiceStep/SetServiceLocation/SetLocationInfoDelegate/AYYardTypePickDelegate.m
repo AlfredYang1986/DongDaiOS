@@ -69,7 +69,7 @@
 
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view {
 	
-	UILabel *customLabel = [Tools creatLabelWithText:nil textColor:[Tools blackColor] fontSize:17.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+	UILabel *customLabel = [Tools creatLabelWithText:nil textColor:[Tools black] fontSize:17.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	customLabel.text = [yardTypeArr objectAtIndex: row];
 	return customLabel;
 }

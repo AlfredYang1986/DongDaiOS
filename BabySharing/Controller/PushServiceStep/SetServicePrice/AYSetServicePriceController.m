@@ -59,7 +59,7 @@
 	CGFloat marginScreen = 40.f;
 	CGFloat itemBtnHeight = 40;
 	
-	titleLabel = [Tools creatLabelWithText:@"价格设定" textColor:[Tools blackColor] fontSize:630.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	titleLabel = [Tools creatLabelWithText:@"价格设定" textColor:[Tools black] fontSize:630.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	titleLabel.numberOfLines = 0;
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
