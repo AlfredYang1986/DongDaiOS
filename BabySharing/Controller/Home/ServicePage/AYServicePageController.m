@@ -229,9 +229,11 @@
 //		[self.view bringSubviewToFront:btmView];
 //		[btmView.bookBtn addTarget:self action:@selector(didBookBtnClick) forControlEvents:UIControlEventTouchUpInside];
 //		[btmView.chatBtn addTarget:self action:@selector(didChatBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-		
+		NSDictionary* user = nil;
+		CURRENUSER(user);
 		NSMutableDictionary *dic_detail = [Tools getBaseRemoteData];
 		[[dic_detail objectForKey:kAYCommArgsCondition] setValue:service_id forKey:kAYServiceArgsID];
+		[[dic_detail objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
 		
 		id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
 		AYRemoteCallCommand* cmd_search = [f_search.commands objectForKey:@"QueryServiceDetail"];
