@@ -121,9 +121,11 @@
 
 #pragma mark -- actions
 - (void)loadNewData {
-	
+	NSDictionary *user;
+	CURRENUSER(user);
 	NSMutableDictionary *dic_search = [Tools getBaseRemoteData];
 	[[dic_search objectForKey:kAYCommArgsCondition] setValue:@"看顾" forKey:kAYServiceArgsCategoryInfo];
+	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
 	
 	id<AYFacadeBase> f_choice = [self.facades objectForKey:@"ChoiceRemote"];
 	AYRemoteCallCommand *cmd_search = [f_choice.commands objectForKey:@"ChoiceSearch"];
