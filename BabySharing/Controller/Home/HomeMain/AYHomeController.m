@@ -355,9 +355,9 @@ typedef void(^queryContentFinish)(void);
 	
 	NSDictionary* user = nil;
 	CURRENUSER(user);
+	NSMutableDictionary *dic_search = [Tools getBaseRemoteData];
+	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
 	
-	NSMutableDictionary *dic_search = [[NSMutableDictionary alloc] init];;
-	[dic_search setValue:[user objectForKey:kAYCommArgsToken] forKey:kAYCommArgsToken];
 	
 	/*condition*/
 	NSMutableDictionary *dic_condt = [[NSMutableDictionary alloc] init];
