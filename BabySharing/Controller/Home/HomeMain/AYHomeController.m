@@ -358,18 +358,15 @@ typedef void(^queryContentFinish)(void);
 	NSMutableDictionary *dic_search = [Tools getBaseRemoteData];
 	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
 	
-	
 	/*condition*/
-	NSMutableDictionary *dic_condt = [[NSMutableDictionary alloc] init];
 	NSMutableArray *catsArr = [NSMutableArray array];
 	NSArray *cats = @[@"看顾",@"艺术",@"运动",@"科学"];
 	for (NSString *cat in cats) {
 		NSDictionary *dic = @{@"service_type":cat, @"count":[NSNumber numberWithInt:6]};
 		[catsArr addObject:dic];
 	}
-	[dic_condt setValue:[catsArr copy] forKey:@"service_type_list"];
+	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[catsArr copy] forKey:@"service_type_list"];
 	
-	[dic_search setValue:dic_condt forKey:kAYCommArgsCondition];
 	
 	id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
 	AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"HomeQuery"];
