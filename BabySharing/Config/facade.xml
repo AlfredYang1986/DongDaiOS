@@ -270,5 +270,6 @@
 		<command type="Remote" name="ChoiceSearch" />
 		<command type="Remote" name="ChoicePush" />
 		<command type="Remote" name="ChoicePop" />
+        <command type="Remote" name="ChoiceMapSearch" />
 	</facade>
 </facades>

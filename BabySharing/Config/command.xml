@@ -248,6 +248,7 @@
 	<command type="Remote" name="ChoicePush"			route="al/selected/push" factory="AYRemoteCallFactory" />
 	<command type="Remote" name="ChoicePop"				route="al/selected/pop" factory="AYRemoteCallFactory" />
 	<command type="Remote" name="ChoiceSearch"			route="al/service/search" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="ChoiceMapSearch"       route="al/location/near" factory="AYRemoteCallFactory" />
 	
 	<command type="Remote" name="TMsUpdate"				route="al/tm/update" factory="AYRemoteCallFactory" />
 	<command type="Remote" name="TMsQuery"				route="al/tm/query" factory="AYRemoteCallFactory" />

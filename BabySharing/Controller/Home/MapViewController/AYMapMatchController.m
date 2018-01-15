@@ -76,12 +76,12 @@
 	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"MapMatchCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	[cmd_cell performWithResult:&class_name];
 	
-	if (is_local) {
-		NSString *title = @"咚哒目前仅支持北京市，\n我们正在努力到达更多的城市！";
-		AYShowBtmAlertView(title, BtmAlertViewTypeCommon)
-	} else {
+    if (!is_local) {
+        NSString *title = @"咚哒目前仅支持北京市，\n我们正在努力到达更多的城市！";
+        AYShowBtmAlertView(title, BtmAlertViewTypeCommon)
+    } else {
 		[self loadNewData];
-	}
+    }
 	
 }
 
@@ -128,7 +128,7 @@
 	[[dic_search objectForKey:kAYCommArgsCondition] setValue:dic_pin forKey:kAYServiceArgsPin];
 	
 	id<AYFacadeBase> f_choice = [self.facades objectForKey:@"ChoiceRemote"];
-	AYRemoteCallCommand *cmd_search = [f_choice.commands objectForKey:@"ChoiceSearch"];
+	AYRemoteCallCommand *cmd_search = [f_choice.commands objectForKey:@"ChoiceMapSearch"];
 	[cmd_search performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		if (success) {
 			
