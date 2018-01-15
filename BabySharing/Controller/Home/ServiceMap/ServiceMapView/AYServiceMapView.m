@@ -49,6 +49,7 @@
 	}];
 	[showMyself addTarget:self action:@selector(didShowMyselfBtnClick) forControlEvents:UIControlEventTouchUpInside];
 	
+	self.showsUserLocation = YES;
 }
 
 #pragma mark -- commands
@@ -90,9 +91,9 @@
 	
 	loc = tp_location;
 	
-	NSDictionary *info_categ = [service_info objectForKey:kAYServiceArgsCategoryInfo];
-	NSString *serviceCat = [info_categ objectForKey:kAYServiceArgsCat];
-	NSString *cansCat = [info_categ objectForKey:kAYServiceArgsCatSecondary];
+//	NSDictionary *info_categ = [service_info objectForKey:kAYServiceArgsCategoryInfo];
+	NSString *serviceCat = [service_info objectForKey:kAYServiceArgsCat];
+	NSString *cansCat = [service_info objectForKey:kAYServiceArgsType];
 	NSString *pre_map_icon_name;
 	NSArray *optios_title_arr;
 	if ([serviceCat isEqualToString:kAYStringCourse]) {

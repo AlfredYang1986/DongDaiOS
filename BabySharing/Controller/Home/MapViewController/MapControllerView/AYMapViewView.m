@@ -96,26 +96,21 @@
 		anno.title = annoTitle;
 		anno.index = i;
 		
-//		NSDictionary *info_categ = [service_info objectForKey:kAYServiceArgsCategoryInfo];
-//		NSString *serviceCat = [info_categ objectForKey:kAYServiceArgsCat];
-//		NSString *cansCat = [info_categ objectForKey:kAYServiceArgsCatSecondary];
-//		NSString *pre_map_icon_name;
-//		NSArray *optios_title_arr;
-//		if ([serviceCat isEqualToString:kAYStringCourse]) {
-//			pre_map_icon_name = @"map_icon_course";
-//			optios_title_arr = kAY_service_options_title_course;
-//
-//		} else if([serviceCat isEqualToString:kAYStringNursery]) {
-//			pre_map_icon_name = @"map_icon_nursery";
-//			optios_title_arr = kAY_service_options_title_nursery;
-//		}
+		NSString *serviceCat = [service_info objectForKey:kAYServiceArgsCat];
+		NSString *cansCat = [service_info objectForKey:kAYServiceArgsType];
+		NSString *pre_map_icon_name;
+		NSArray *optios_title_arr;
+		if ([serviceCat isEqualToString:kAYStringCourse]) {
+			pre_map_icon_name = @"map_icon_course";
+			optios_title_arr = kAY_service_options_title_course;
+
+		} else if([serviceCat isEqualToString:kAYStringNursery]) {
+			pre_map_icon_name = @"map_icon_nursery";
+			optios_title_arr = kAY_service_options_title_nursery;
+		}
 		
-//		anno.imageName_normal = [NSString stringWithFormat:@"%@_%ld_normal",pre_map_icon_name, [optios_title_arr indexOfObject:cansCat]];
-//		anno.imageName_select = [NSString stringWithFormat:@"%@_%ld_select",pre_map_icon_name, [optios_title_arr indexOfObject:cansCat]];
-		
-		anno.imageName_normal = @"map_icon_course_0_normal";
-		anno.imageName_select = @"map_icon_course_0_select";
-		
+		anno.imageName_normal = [NSString stringWithFormat:@"%@_%ld_normal",pre_map_icon_name, [optios_title_arr indexOfObject:cansCat]];
+		anno.imageName_select = [NSString stringWithFormat:@"%@_%ld_select",pre_map_icon_name, [optios_title_arr indexOfObject:cansCat]];
 		
         [self addAnnotation:anno];
         [annoArray addObject:anno];

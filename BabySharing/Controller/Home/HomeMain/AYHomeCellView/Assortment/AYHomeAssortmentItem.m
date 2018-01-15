@@ -105,25 +105,57 @@
 		[_coverImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", prefix, photoName]] placeholderImage:IMGRESOURCE(@"default_image")];
 	}
 	
+	likeBtn.selected = [[_itemInfo objectForKey:kAYServiceArgsIsCollect] boolValue];
 	
 	NSString *district = [_itemInfo objectForKey:kAYServiceArgsAddress];
 	district = [district substringToIndex:3];
 	addrlabel.text = district;
 	
-	NSString *tag = [[_itemInfo objectForKey:kAYServiceArgsTags] firstObject];
-	if (tag.length == 0) {
-		tag = @"没有标签";
-	}
-	tagLabel.text = tag;
-	
 	NSString *brand_name = [_itemInfo objectForKey:kAYBrandArgsName];
-	NSString *operation = [[_itemInfo objectForKey:kAYServiceArgsOperation] firstObject];
 	NSString *leaf = [_itemInfo objectForKey:kAYServiceArgsLeaf];
-	if (![leaf hasSuffix:@"看顾"]) {
-		leaf = [leaf stringByAppendingString:@"课程"];
+	NSArray *operations = [_itemInfo objectForKey:kAYServiceArgsOperation];
+	NSArray *tags = [_itemInfo objectForKey:kAYServiceArgsTags];
+	
+	NSString *tag;
+	NSString *operation;
+	NSString *categ = [_itemInfo objectForKey:kAYServiceArgsCat];
+	if ([categ isEqualToString:kAYStringCourse]) {
+		for (NSString *ope in operations) {
+			if ([kAY_operation_fileters_tag_course containsObject:ope]) {
+				tag = ope;
+			}
+			if ([kAY_operation_fileters_title_course containsObject:ope]) {
+				operation = ope;
+			}
+		}
+		
+		if (tag.length == 0) {
+			tag = @"没有标签";
+		}
+		if (operation.length == 0) {
+			operation = @"";
+		}
+		
+		titleLabel.text = [NSString stringWithFormat:@"%@的%@%@课程", brand_name, operation, leaf];
+	}
+	else if([categ isEqualToString:kAYStringNursery]) {
+		tag = [tags firstObject];
+		if (tag.length == 0) {
+			tag = @"没有标签";
+		}
+		
+		for (NSString *ope in operations) {
+			if ([kAY_operation_fileters_title_nursery containsObject:ope]) {
+				operation = ope;
+			}
+		}
+		if (operation.length == 0) {
+			operation = @"";
+		}
+		titleLabel.text = [NSString stringWithFormat:@"%@的%@%@", brand_name, operation, leaf];
 	}
 	
-	titleLabel.text = [NSString stringWithFormat:@"%@的%@%@", brand_name, operation, leaf];
+	tagLabel.text = tag;
 }
 
 @end

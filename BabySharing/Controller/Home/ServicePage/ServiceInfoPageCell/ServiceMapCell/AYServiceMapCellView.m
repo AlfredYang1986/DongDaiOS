@@ -167,7 +167,8 @@
 
 #pragma mark -- actions
 - (void)didMapTap {
-	kAYViewSendNotify(self, @"showP2PMap", nil)
+	
+	[(AYViewController*)self.controller performSel:@"showP2PMap" withResult:nil];
 }
 
 @end

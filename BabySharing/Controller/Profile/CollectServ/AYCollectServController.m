@@ -133,7 +133,7 @@
     
     NSDictionary* user = nil;
     CURRENUSER(user)
-    NSMutableDictionary *dic = [Tools getBaseRemoteData];
+	NSMutableDictionary *dic = [Tools getBaseRemoteData:user];
     [[dic objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:@"user_id"] forKey:@"user_id"];
     
     id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];

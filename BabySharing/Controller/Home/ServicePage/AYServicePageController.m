@@ -120,12 +120,10 @@
 			
 			if (x_min - offSet.x <= 0) {
 				[TAGScrollView scrollRectToVisible:view.frame animated:YES];
-				
 //				TAGScrollView.contentOffset = CGPointMake(view.frame.origin.x, 0);
 				
 			} else if (x_max - offSet.x >= SCREEN_WIDTH) {
 				[TAGScrollView scrollRectToVisible:view.frame animated:YES];
-				
 //				TAGScrollView.contentOffset = CGPointMake(view.frame.origin.x - (SCREEN_WIDTH-view.frame.size.width), 0);
 				
 			} else {
@@ -231,7 +229,7 @@
 //		[btmView.chatBtn addTarget:self action:@selector(didChatBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 		NSDictionary* user = nil;
 		CURRENUSER(user);
-		NSMutableDictionary *dic_detail = [Tools getBaseRemoteData];
+		NSMutableDictionary *dic_detail = [Tools getBaseRemoteData:user];
 		[[dic_detail objectForKey:kAYCommArgsCondition] setValue:service_id forKey:kAYServiceArgsID];
 		[[dic_detail objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
 		
@@ -460,7 +458,15 @@
 
 #pragma mark -- actions
 - (void)layoutServicePageBannerImages {
-	serviceImages = [service_info objectForKey:kAYServiceArgsImages];
+	NSArray *images_service = [service_info objectForKey:kAYServiceArgsImages];
+	NSArray *images_location = [[service_info objectForKey:kAYServiceArgsLocationInfo] objectForKey:@"location_images"];
+	
+	NSMutableArray *tmp_images = [images_service mutableCopy];
+	for (NSMutableDictionary *info_img in tmp_images) {
+		[info_img setValue:@"时刻" forKey:@"tag"];
+	}
+	[tmp_images addObjectsFromArray:images_location];
+	serviceImages = [tmp_images copy];
 	
 	NSMutableArray *tagsArr = [NSMutableArray array];
 	for (NSDictionary *info_img in serviceImages) {

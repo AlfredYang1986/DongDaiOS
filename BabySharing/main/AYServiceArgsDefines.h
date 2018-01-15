@@ -102,7 +102,7 @@ static NSString* const kAYServiceArgsEnd =					@"end";
 static NSString* const kAYServiceArgsNotice =				@"other_words";
 static NSString* const kAYServiceArgsAllowLeave =			@"allow_leaves";
 static NSString* const kAYServiceArgsIsHealth =				@"health";
-static NSString* const kAYServiceArgsIsCollect =			@"isCollections";
+static NSString* const kAYServiceArgsIsCollect =			@"is_collected";
 static NSString* const kAYServiceArgsPoints =				@"points";
 
 static NSString* const kAYServiceArgsDetailInfo =			@"detail";

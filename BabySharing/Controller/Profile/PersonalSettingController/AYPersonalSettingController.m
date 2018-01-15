@@ -295,14 +295,9 @@ static NSString* const descInitStr =			@"一句话很短，高调的夸一夸自
 	
     NSDictionary* user = nil;
     CURRENUSER(user);
-	
-	NSMutableDictionary* dic_update = [[NSMutableDictionary alloc] init];
-	[dic_update setValue:[user objectForKey:kAYCommArgsToken] forKey:kAYCommArgsToken];
-	
-	NSMutableDictionary *condition = [[NSMutableDictionary alloc] init];
-	[condition setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
-	[dic_update setValue:condition forKey:kAYCommArgsCondition];
-	
+	NSMutableDictionary* dic_update = [Tools getBaseRemoteData:user];
+	[[dic_update objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+
 	NSMutableDictionary *profile = [[NSMutableDictionary alloc] init];
 	if (![screenName isEqualToString:nameTextField.text]) {
 		[profile setValue:nameTextField.text forKey:kAYProfileArgsScreenName];
@@ -310,7 +305,6 @@ static NSString* const descInitStr =			@"一句话很短，高调的夸一夸自
 	if (![description isEqualToString:descLabel.text] && ![descInitStr isEqualToString:descLabel.text]) {
 		[profile setValue:descLabel.text forKey:kAYProfileArgsDescription];
 	}
-	
 	[profile setValue:changeImageName forKey:kAYProfileArgsScreenPhoto];
 	
 	[dic_update setValue:profile forKey:@"profile"];
@@ -326,10 +320,8 @@ static NSString* const descInitStr =			@"一句话很短，高调的夸一夸自
             id<AYCommand> cmd_profle = [facade.commands objectForKey:@"UpdateLocalCurrentUserProfile"];
             [cmd_profle performWithResult:&tmp];
 			
-//			[self setRightBtnUnable];
-			
             NSString *title = @"个人信息修改成功";
-            [self popToRootVCWithTip:title];
+            [self popVCWithTip:title];
         } else {
             
             NSString *title = @"保存用户信息失败";
@@ -338,15 +330,15 @@ static NSString* const descInitStr =			@"一句话很短，高调的夸一夸自
     }];
 }
 
-- (void)popToPreviousWithSave {
+- (void)popVCWithTip:(NSString*)tip {
     
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
-    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic setValue:[NSNumber numberWithBool:YES] forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd = POPTOROOT;
-    [cmd performWithResult:&dic];
+	NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
+	[dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+	[dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
+	[dic_pop setValue:tip forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd = POP;
+	[cmd performWithResult:&dic_pop];
 }
 
 - (void)popToRootVCWithTip:(NSString*)tip {

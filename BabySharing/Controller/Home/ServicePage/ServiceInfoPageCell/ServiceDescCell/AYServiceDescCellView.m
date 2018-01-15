@@ -135,11 +135,24 @@
 
 
 #pragma mark -- actions
--(CGFloat)getAttrStrHeight:(NSAttributedString*)str width:(CGFloat)width {
+-(CGFloat)getAttrStrHeight:(NSString*)str width:(CGFloat)width {
 	
-	CGSize size = [str boundingRectWithSize:CGSizeMake(width,MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin context:nil].size;
+//	CGSize size = [str boundingRectWithSize:CGSizeMake(width,MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin context:nil].size;
+	CGSize size = [str boundingRectWithSize:CGSizeMake(width, MAXFLOAT) options: NSStringDrawingUsesLineFragmentOrigin attributes:dic_attr context:nil].size;
 	return size.height;
 }
+
+//-(CGFloat)getSpaceLabelHeightwithSpeace:(CGFloat)lineSpeace withFont:(UIFont*)font withWidth:(CGFloat)width {
+//	NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
+//	//    paraStyle.lineBreakMode = NSLineBreakByCharWrapping;
+//	/** 行高 */
+//	paraStyle.lineSpacing = lineSpeace;
+//	// NSKernAttributeName字体间距
+//	NSDictionary *dic = @{NSFontAttributeName:font, NSParagraphStyleAttributeName:paraStyle, NSKernAttributeName:@1.5f
+//						  };
+//	CGSize size = [self boundingRectWithSize:CGSizeMake(width,MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:dic context:nil].size;
+//	return size.height;
+//}
 
 
 - (void)didShowhideBtnClick {
@@ -204,10 +217,10 @@
 		TAGsLabel.hidden = NO;
 	}
 	
-	CGFloat textHeight = [self getAttrStrHeight:descLabel.attributedText width:SCREEN_WIDTH - SCREEN_MARGIN_LR*2];
+	CGFloat textHeight = [self getAttrStrHeight:descStr width:SCREEN_WIDTH - SCREEN_MARGIN_LR*2];
 	NSNumber *expend_args = [service_info objectForKey:@"is_expend"];
 
-	if (textHeight < 88) {
+	if (textHeight < 60) {
 		showhideBtn.hidden = YES;
 		[descLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);

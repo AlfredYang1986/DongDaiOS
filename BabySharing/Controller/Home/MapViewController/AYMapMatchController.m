@@ -117,12 +117,15 @@
 
 #pragma mark -- actions
 - (void)loadNewData {
-	NSMutableDictionary *dic_search = [Tools getBaseRemoteData];
-	//
-	//	NSMutableDictionary *dic_pin = [[NSMutableDictionary alloc] init];
-	//	[dic_pin setValue:[NSNumber numberWithDouble:loc.coordinate.latitude] forKey:kAYServiceArgsLatitude];
-	//	[dic_pin setValue:[NSNumber numberWithDouble:loc.coordinate.longitude] forKey:kAYServiceArgsLongtitude];
-	//	[[dic_search objectForKey:kAYCommArgsCondition] setValue:dic_pin forKey:kAYServiceArgsPin];
+	NSDictionary *user;
+	CURRENUSER(user)
+	NSMutableDictionary *dic_search = [Tools getBaseRemoteData:user];
+	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+	
+	NSMutableDictionary *dic_pin = [[NSMutableDictionary alloc] init];
+	[dic_pin setValue:[NSNumber numberWithDouble:loc.coordinate.latitude] forKey:kAYServiceArgsLatitude];
+	[dic_pin setValue:[NSNumber numberWithDouble:loc.coordinate.longitude] forKey:kAYServiceArgsLongtitude];
+	[[dic_search objectForKey:kAYCommArgsCondition] setValue:dic_pin forKey:kAYServiceArgsPin];
 	
 	id<AYFacadeBase> f_choice = [self.facades objectForKey:@"ChoiceRemote"];
 	AYRemoteCallCommand *cmd_search = [f_choice.commands objectForKey:@"ChoiceSearch"];

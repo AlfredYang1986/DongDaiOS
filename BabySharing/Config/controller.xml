@@ -100,17 +100,13 @@
     
     <controller type="DefaultController" name="Profile" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="ProfileRemote" />
-<!--        <facade type="DefaultFacade" name="ContentQueryRemote" />-->
         <facade type="DefaultFacade" name="OwnerQueryModel" />
         <facade type="DefaultFacade" name="OwnerQueryPushModel" />
         
         <view type="FakeStatusBar"      name="FakeStatusBar" />
         <view type="FakeNavBar"         name="FakeNavBar" />
-<!--        <view type="Loading"            name="Loading" />-->
         <view type="Table"              name="Table" />
 
-<!--        <delegate type="TableViewDelegateAndDatasource" name="ProfilePublish" />-->
-<!--        <delegate type="TableViewDelegateAndDatasource" name="ProfilePush" />-->
         <delegate type="TableViewDelegateAndDatasource" name="Profile" />
     </controller>
     
@@ -118,9 +114,9 @@
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
 		<facade type="DefaultFacade" name="ProfileRemote" />
         <facade type="DefaultFacade" name="LoginModel" notification="true"/>
-        
-<!--        <view type="FakeStatusBar"      name="FakeStatusBar" />-->
-<!--        <view type="FakeNavBar"         name="FakeNavBar" />-->
+        <facade type="DefaultFacade" name="LandingRemote" />
+		<facade type="DefaultFacade" name="EM" />
+		
         <view type="Table"              name="Table" />
         
         <delegate type="TableViewDelegateAndDatasource" name="PersonalInfo" />
@@ -134,12 +130,9 @@
     <controller type="DefaultController" name="OneProfile" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="ExposeRemote" />
         <facade type="DefaultFacade" name="ProfileRemote" />
-<!--        <facade type="DefaultFacade" name="ContentQueryRemote" />-->
         <facade type="DefaultFacade" name="OwnerQueryModel" />
         <facade type="DefaultFacade" name="OwnerQueryPushModel" />
-        
-<!--        <view type="FakeStatusBar"      name="FakeStatusBar" />-->
-<!--        <view type="FakeNavBar"         name="FakeNavBar" />-->
+		
         <view type="Table"              name="Table" />
         
         <delegate type="TableViewDelegateAndDatasource" name="OneProfile" />

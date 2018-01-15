@@ -22,12 +22,8 @@
     
     NSDictionary *personal_info;
     UIImageView *coverImg;
-}
-
-- (void)postPerform {
-	NSDictionary *user_info = nil;
-	CURRENPROFILE(user_info)
-	personal_info = user_info;
+	
+	BOOL isUpdateProfileInfo;
 }
 
 #pragma mark -- commands
@@ -39,21 +35,23 @@
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-        NSDictionary *tmp = [dic objectForKey:kAYControllerChangeArgsKey];
-        
-        kAYDelegatesSendMessage(@"PersonalInfo", @"changeQueryData:", &tmp)
-        kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+		
+		NSString *tmp = [dic objectForKey:kAYControllerChangeArgsKey];
+		if ([tmp isEqualToString:@"个人信息修改成功"]) {
+			isUpdateProfileInfo = YES;
+			
+			[self setupUIData];
+		}
+		
     }
 }
 
 - (void)viewDidLoad {
-    
     [super viewDidLoad];
     
     id<AYDelegateBase> cmd_collect = [self.delegates objectForKey:@"PersonalInfo"];
     id obj = (id)cmd_collect;
     kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDatasourceMessage, &obj)
-    
     obj = (id)cmd_collect;
     kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDelegateMessage, &obj)
 	
@@ -64,10 +62,7 @@
 		cell_name = [class_name copy];
 		kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &cell_name)
 	}
-    
-    NSDictionary *tmp = [personal_info copy];
-    kAYDelegatesSendMessage(@"PersonalInfo", @"changeQueryData:", &tmp)
-    
+	
     id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
     UITableView *tableView = (UITableView*)view_table;
     coverImg = [[UIImageView alloc]init];
@@ -111,32 +106,6 @@
 	[self.view sendSubviewToBack:tableView];
 	[self.view bringSubviewToFront:editBtn];
 	
-    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-    NSString *pre = cmd.route;
-	NSString* photo_name = [personal_info objectForKey:@"screen_photo"];
-	if (photo_name) {
-		[coverImg sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"default_image")];
-	}
-	
-	{
-		NSMutableDictionary* dic = [Tools getBaseRemoteData];
-		//	NSString* owner_id = [[service_info objectForKey:@"owner"] objectForKey:kAYCommArgsUserID];
-		[[dic objectForKey:kAYCommArgsCondition] setValue:[personal_info objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
-		
-		id<AYFacadeBase> facade = [self.facades objectForKey:@"ProfileRemote"];
-		AYRemoteCallCommand* cmd = [facade.commands objectForKey:@"QueryUserProfile"];
-		[cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary* result) {
-			if (success) {
-				personal_info = [result objectForKey:kAYProfileArgsSelf];
-				NSDictionary *tmp = [personal_info copy];
-				kAYDelegatesSendMessage(@"PersonalInfo", @"changeQueryData:", &tmp)
-				kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
-			}
-		}];
-	}
-	
-	
 	UIButton *closeBtn = [[UIButton alloc]init];
 	[closeBtn setImage:IMGRESOURCE(@"map_icon_close") forState:UIControlStateNormal];
 	[self.view addSubview:closeBtn];
@@ -155,14 +124,8 @@
 		make.size.mas_equalTo(CGSizeMake(70, 30));
 	}];
 	[loginOut addTarget:self action:@selector(loginOutClick) forControlEvents:UIControlEventTouchUpInside];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
+	
+	[self setupUIData];
 }
 
 #pragma mark -- layouts
@@ -173,7 +136,6 @@
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-    
     view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
     view.backgroundColor = [UIColor whiteColor];
     
@@ -182,23 +144,6 @@
     
     NSString *title = @"个人资料";
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
-    
-    NSDictionary* info = nil;
-    CURRENUSER(info)
-    NSString *user_id = [personal_info objectForKey:@"user_id"];
-    
-    if ([user_id isEqualToString:[info objectForKey:@"user_id"]]) {
-        
-        UIButton* bar_right_btn = [Tools creatBtnWithTitle:@"编辑" titleColor:[Tools black] fontSize:316.f backgroundColor:nil];
-        [bar_right_btn sizeToFit];
-        bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
-        kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
-    } else {
-        
-        NSNumber* left_hidden = [NSNumber numberWithBool:YES];
-        kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &left_hidden)
-    }
-    
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
     return nil;
 }
@@ -211,12 +156,43 @@
     return nil;
 }
 
-- (id)LoadingLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    return nil;
+#pragma mark -- actions
+- (void)setupUIData {
+	
+	NSDictionary *user_info = nil;
+	id<AYFacadeBase> f_login_model = LOGINMODEL;
+	id<AYCommand> cmd = [f_login_model.commands objectForKey:@"QueryCurrentUserProfile"];
+	[cmd performWithResult:&user_info];
+	
+	personal_info = user_info;
+	
+	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+	AYRemoteCallCommand* cmd_load = [f.commands objectForKey:@"DownloadUserFiles"];
+	NSString *pre = cmd_load.route;
+	NSString* photo_name = [personal_info objectForKey:@"screen_photo"];
+	if (photo_name) {
+		[coverImg sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"default_image")];
+	}
+	
+	NSDictionary *tmp = [personal_info copy];
+	kAYDelegatesSendMessage(@"PersonalInfo", @"changeQueryData:", &tmp)
+	kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+	
+//	NSMutableDictionary* dic = [Tools getBaseRemoteData:user_info];
+//	[[dic objectForKey:kAYCommArgsCondition] setValue:[personal_info objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+//	id<AYFacadeBase> facade = [self.facades objectForKey:@"ProfileRemote"];
+//	AYRemoteCallCommand* cmd = [facade.commands objectForKey:@"QueryUserProfile"];
+//	[cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary* result) {
+//		if (success) {
+//			personal_info = [result objectForKey:kAYProfileArgsSelf];
+//			NSDictionary *tmp = [personal_info copy];
+//			kAYDelegatesSendMessage(@"PersonalInfo", @"changeQueryData:", &tmp)
+//			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+//		}
+//	}];
+	
 }
 
-#pragma mark -- actions
 - (void)loginOutClick {
 	NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
 	[notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
@@ -228,28 +204,56 @@
 	id<AYFacadeBase> f = LOGINMODEL;
 	[f performWithResult:&notify];
 }
-
+- (id)LogoutCurrentUser {
+	
+	NSDictionary* current_login_user = nil;
+	CURRENUSER(current_login_user);
+	
+	id<AYFacadeBase> f_login_remote = [self.facades objectForKey:@"LandingRemote"];
+	AYRemoteCallCommand* cmd_sign_out = [f_login_remote.commands objectForKey:@"AuthSignOut"];
+	[cmd_sign_out performWithResult:current_login_user andFinishBlack:^(BOOL success, NSDictionary * result) {
+		NSLog(@"login out %@", result);
+		
+		AYFacade* f_em = [self.facades objectForKey:@"EM"];
+		id<AYCommand> cmd_xmpp_logout = [f_em.commands objectForKey:@"LogoutEM"];
+		[cmd_xmpp_logout performWithResult:nil];
+		
+		AYFacade* f_login = LOGINMODEL;
+		id<AYCommand> cmd_sign_out_local = [f_login.commands objectForKey:@"SignOutLocal"];
+		[cmd_sign_out_local performWithResult:nil];
+		
+	}];
+	
+	return nil;
+}
 #pragma mark -- notifies
 - (id)leftBtnSelected {
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
+	if (isUpdateProfileInfo) {
+		[dic setValue:@"个人信息更新" forKey:kAYControllerChangeArgsKey];
+	}
+	
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic];
     return nil;
 }
 
 - (id)rightBtnSelected {
-    
+//	NSDictionary *user_info = nil;
+//	id<AYFacadeBase> f_login_model = LOGINMODEL;
+//	id<AYCommand> cmd = [f_login_model.commands objectForKey:@"QueryCurrentUserProfile"];
+//	[cmd performWithResult:&user_info];
+	
     AYViewController* des = DEFAULTCONTROLLER(@"PersonalSetting");
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
     [dic_push setValue:[personal_info copy] forKey:kAYControllerChangeArgsKey];
-    
+
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
     return nil;

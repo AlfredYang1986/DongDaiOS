@@ -71,8 +71,21 @@ typedef void(^queryContentFinish)(void);
         id backArgs = [dic objectForKey:kAYControllerChangeArgsKey];
 		
 		if ([backArgs isKindOfClass:[NSString class]]) {
-//			NSString *title = (NSString*)backArgs;
+			NSString *title = (NSString*)backArgs;
 //			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			if ([title isEqualToString:@"个人信息更新"]) {
+				
+				NSDictionary *user_info = nil;
+				CURRENPROFILE(user_info)
+				NSString* photo_name = [user_info objectForKey:kAYProfileArgsScreenPhoto];
+				if (photo_name) {
+					id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+					AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+					NSString *prefix = cmd.route;
+					[profilePhoto sd_setImageWithURL:[NSURL URLWithString:[prefix stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"default_user")];
+				}
+			}
+			
 		}
 		else if ([backArgs isKindOfClass:[NSDictionary class]]) {
 			NSString *key = [backArgs objectForKey:@"key"];
@@ -343,19 +356,9 @@ typedef void(^queryContentFinish)(void);
 
 - (void)loadNewData {
 	
-	NSDictionary *user_info = nil;
-	CURRENPROFILE(user_info)
-	NSString* photo_name = [user_info objectForKey:kAYProfileArgsScreenPhoto];
-	if (photo_name) {
-		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-		AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-		NSString *prefix = cmd.route;
-		[profilePhoto sd_setImageWithURL:[NSURL URLWithString:[prefix stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"default_user")];
-	}
-	
 	NSDictionary* user = nil;
 	CURRENUSER(user);
-	NSMutableDictionary *dic_search = [Tools getBaseRemoteData];
+	NSMutableDictionary *dic_search = [Tools getBaseRemoteData:user];
 	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
 	
 	/*condition*/

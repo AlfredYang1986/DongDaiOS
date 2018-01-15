@@ -803,4 +803,15 @@
 	return dic_remote;
 }
 
++ (NSMutableDictionary*)getBaseRemoteData:(NSDictionary*)user {
+	NSMutableDictionary *dic_remote = [[NSMutableDictionary alloc] init];;
+	[dic_remote setValue:[user objectForKey:kAYCommArgsToken] forKey:kAYCommArgsToken];
+	/*condition*/
+	NSMutableDictionary *condition = [[NSMutableDictionary alloc] init];
+	//	[condition setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+	[dic_remote setValue:condition forKey:kAYCommArgsCondition];
+	
+	return dic_remote;
+}
+
 @end
