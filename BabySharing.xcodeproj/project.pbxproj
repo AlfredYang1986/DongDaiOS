@@ -555,6 +555,7 @@
 		70882D261E07CD3D00513AA2 /* AYInsetLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 70882D251E07CD3D00513AA2 /* AYInsetLabel.m */; };
 		708DE24F1FDEA53E00171357 /* AYPushAnimateCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 708DE24E1FDEA53E00171357 /* AYPushAnimateCommand.m */; };
 		708DE2521FDEA55100171357 /* AYPopAnimateCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 708DE2511FDEA55100171357 /* AYPopAnimateCommand.m */; };
+		70948B62200CB1A60077DBE8 /* AYChoiceMapSearchCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70948B61200CB1A60077DBE8 /* AYChoiceMapSearchCommand.m */; };
 		709768AE1D2262E7005554DB /* AYEMQueryGroupMemberLstCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 709768AD1D2262E7005554DB /* AYEMQueryGroupMemberLstCommand.m */; };
 		709768B11D226FA4005554DB /* Targets+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 709768B01D226FA4005554DB /* Targets+CoreDataProperties.m */; };
 		709949B01CC2A31600078A5B /* AYFakeStatusBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 709949AF1CC2A31600078A5B /* AYFakeStatusBarView.m */; };
@@ -1965,6 +1966,8 @@
 		708DE24E1FDEA53E00171357 /* AYPushAnimateCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AYPushAnimateCommand.m; sourceTree = "<group>"; };
 		708DE2501FDEA55100171357 /* AYPopAnimateCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYPopAnimateCommand.h; sourceTree = "<group>"; };
 		708DE2511FDEA55100171357 /* AYPopAnimateCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AYPopAnimateCommand.m; sourceTree = "<group>"; };
+		70948B60200CB1A60077DBE8 /* AYChoiceMapSearchCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYChoiceMapSearchCommand.h; sourceTree = "<group>"; };
+		70948B61200CB1A60077DBE8 /* AYChoiceMapSearchCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYChoiceMapSearchCommand.m; sourceTree = "<group>"; };
 		709768AC1D2262E7005554DB /* AYEMQueryGroupMemberLstCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYEMQueryGroupMemberLstCommand.h; sourceTree = "<group>"; };
 		709768AD1D2262E7005554DB /* AYEMQueryGroupMemberLstCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYEMQueryGroupMemberLstCommand.m; sourceTree = "<group>"; };
 		709768AF1D226FA4005554DB /* Targets+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Targets+CoreDataProperties.h"; sourceTree = "<group>"; };
@@ -6472,6 +6475,7 @@
 		706CA9741F414502005B168F /* Choice */ = {
 			isa = PBXGroup;
 			children = (
+				70948B5F200CB1A60077DBE8 /* ChoiceMapSearch */,
 				706CA9751F4145BC005B168F /* ChoicePop */,
 				706CA9761F4145BC005B168F /* ChoicePush */,
 				706CA9771F4145BC005B168F /* ChoiceSearch */,
@@ -6964,6 +6968,15 @@
 				7023BF941FECD8DF001FF435 /* AYPushAnimateView.m */,
 			);
 			path = ServicePagePushPop;
+			sourceTree = "<group>";
+		};
+		70948B5F200CB1A60077DBE8 /* ChoiceMapSearch */ = {
+			isa = PBXGroup;
+			children = (
+				70948B60200CB1A60077DBE8 /* AYChoiceMapSearchCommand.h */,
+				70948B61200CB1A60077DBE8 /* AYChoiceMapSearchCommand.m */,
+			);
+			path = ChoiceMapSearch;
 			sourceTree = "<group>";
 		};
 		709768AB1D2262C5005554DB /* EMQueryGroupMemberLst */ = {
@@ -9487,6 +9500,7 @@
 				7045EFEF1E08F3E800341E14 /* AYFilterLocationController.m in Sources */,
 				7056BA111F1F2BF400386E3A /* AYMoreAppliController.m in Sources */,
 				7024EB7A1F735B2F00FFE20F /* AYSetServiceFacilityDelegate.m in Sources */,
+				70948B62200CB1A60077DBE8 /* AYChoiceMapSearchCommand.m in Sources */,
 				703B89661CBF2AEC002EBB18 /* AYSendRemoteFacade.m in Sources */,
 				702C3B991EAF25AB007F3303 /* AYOTMNurseCellView.m in Sources */,
 				7056BA071F1F2BF400386E3A /* AYOrderListNewsController.m in Sources */,

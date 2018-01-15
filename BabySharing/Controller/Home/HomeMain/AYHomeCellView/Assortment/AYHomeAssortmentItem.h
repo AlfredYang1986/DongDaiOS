@@ -10,9 +10,15 @@
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
 
+typedef void(^didLikeBtnClick)(NSDictionary*);
+
+
 @interface AYHomeAssortmentItem : UICollectionViewCell
+
+@property (nonatomic, strong) didLikeBtnClick likeBtnClick;
 
 @property (nonatomic, strong) UIImageView *coverImage;
 @property (nonatomic, strong) NSDictionary *itemInfo;
+@property (nonatomic, strong) UIButton *likeBtn;
 
 @end

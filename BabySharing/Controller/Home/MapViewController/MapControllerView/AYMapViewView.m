@@ -199,8 +199,8 @@
 			}
 			
 			NSDictionary *service_info = fiteResultData[index.longValue];
-			NSDictionary *info_location = [service_info objectForKey:kAYServiceArgsLocationInfo];
-			NSDictionary *dic_loc = [info_location objectForKey:kAYServiceArgsPin];
+//			NSDictionary *info_location = [service_info objectForKey:kAYServiceArgsLocationInfo];
+			NSDictionary *dic_loc = [service_info objectForKey:kAYServiceArgsPin];
 			NSNumber *latitude = [dic_loc objectForKey:kAYServiceArgsLatitude];
 			NSNumber *longitude = [dic_loc objectForKey:kAYServiceArgsLongtitude];
 			if (latitude && longitude) {

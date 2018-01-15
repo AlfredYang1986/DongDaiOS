@@ -18,7 +18,10 @@
 
 @implementation AYNursaryListController {
 	
-	NSMutableArray *resultArr;
+	NSMutableArray *serviceData;
+	NSInteger skipedCount;
+	NSNumber *timeIntervalNode;
+	
 }
 
 #pragma mark -- commands
@@ -44,11 +47,11 @@
 				NSString *service_id = [service_info objectForKey:kAYServiceArgsID];
 				
 				NSPredicate *pre_id = [NSPredicate predicateWithFormat:@"self.%@=%@", kAYServiceArgsID, service_id];
-				NSArray *result = [resultArr filteredArrayUsingPredicate:pre_id];
+				NSArray *result = [serviceData filteredArrayUsingPredicate:pre_id];
 				if (result.count == 1) {
-					NSInteger index = [resultArr indexOfObject:result.firstObject];
-					[resultArr removeObject:result.firstObject];
-					id tmp = [resultArr copy];
+					NSInteger index = [serviceData indexOfObject:result.firstObject];
+					[serviceData removeObject:result.firstObject];
+					id tmp = [serviceData copy];
 					kAYDelegatesSendMessage(@"NursaryList", kAYDelegateChangeDataMessage, &tmp)
 					UITableView *view_table = [self.views objectForKey:kAYTableView];
 					[view_table deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
@@ -63,7 +66,7 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
-	resultArr = [NSMutableArray array];
+	serviceData = [NSMutableArray array];
 	
 	id<AYViewBase> view_table = [self.views objectForKey:kAYTableView];
 	id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
@@ -82,6 +85,7 @@
 	
 	UITableView *tableView = (UITableView*)view_table;
 	tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+	tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
 	[self loadNewData];
 }
 
@@ -123,7 +127,7 @@
 - (void)loadNewData {
 	NSDictionary *user;
 	CURRENUSER(user);
-	NSMutableDictionary *dic_search = [Tools getBaseRemoteData];
+	NSMutableDictionary *dic_search = [Tools getBaseRemoteData:user];
 	[[dic_search objectForKey:kAYCommArgsCondition] setValue:@"看顾" forKey:kAYServiceArgsCategoryInfo];
 	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
 	
@@ -131,9 +135,9 @@
 	AYRemoteCallCommand *cmd_search = [f_choice.commands objectForKey:@"ChoiceSearch"];
 	[cmd_search performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		if (success) {
-			
+			timeIntervalNode = [result objectForKey:kAYCommArgsRemoteDate];
 			NSArray *data = [result objectForKey:@"services"];
-			resultArr = [data mutableCopy];
+			serviceData = [data mutableCopy];
 			kAYDelegatesSendMessage(@"NursaryList", @"changeQueryData:", &data)
 			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 		}
@@ -146,6 +150,41 @@
 	}];
 }
 
+- (void)loadMoreData {
+	NSDictionary *user;
+	CURRENUSER(user);
+	NSMutableDictionary *dic_search = [Tools getBaseRemoteData:user];
+	[[dic_search objectForKey:kAYCommArgsCondition] setValue:@"看顾" forKey:kAYServiceArgsCategoryInfo];
+	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+	[dic_search setValue:timeIntervalNode forKey:kAYCommArgsRemoteDate];
+	[dic_search setValue:[NSNumber numberWithInteger:serviceData.count] forKey:kAYCommArgsRemoteDataSkip];
+	
+	id<AYFacadeBase> f_choice = [self.facades objectForKey:@"ChoiceRemote"];
+	AYRemoteCallCommand *cmd_search = [f_choice.commands objectForKey:@"ChoiceSearch"];
+	[cmd_search performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+		if (success) {
+			
+			NSArray *data = [result objectForKey:@"services"];
+			if (data.count == 0) {
+				NSString *title = @"别扯啦，没有更多服务了";
+				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			} else {
+				[serviceData addObjectsFromArray:data];
+				id tmp = [serviceData copy];
+				kAYDelegatesSendMessage(@"NursaryList", @"changeQueryData:", &tmp)
+				kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+			}
+		}
+		else {
+			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
+		}
+		
+		id<AYViewBase> view_table = [self.views objectForKey:kAYTableView];
+		[((UITableView*)view_table).mj_footer endRefreshing];
+	}];
+}
+
+
 - (id)ownerIconTap:(id)args {
 	return nil;
 }
@@ -157,7 +196,7 @@
 	UIButton *likeBtn = [args objectForKey:@"btn"];
 	
 	NSPredicate *pre_id = [NSPredicate predicateWithFormat:@"self.%@=%@", kAYServiceArgsID, service_id];
-	NSArray *result_pred = [resultArr filteredArrayUsingPredicate:pre_id];
+	NSArray *result_pred = [serviceData filteredArrayUsingPredicate:pre_id];
 	if (result_pred.count != 1) {
 		return nil;
 	}
@@ -195,9 +234,9 @@
 			AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"UnCollectService"];
 			[cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 				if (success) {
-					NSInteger row = [resultArr indexOfObject:result_pred.firstObject];
-					[resultArr removeObject:result_pred.firstObject];
-					id data = [resultArr copy];
+					NSInteger row = [serviceData indexOfObject:result_pred.firstObject];
+					[serviceData removeObject:result_pred.firstObject];
+					id data = [serviceData copy];
 					kAYDelegatesSendMessage(@"CollectServ", @"changeQueryData:", &data)
 					//					kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 					dispatch_async(dispatch_get_main_queue(), ^{

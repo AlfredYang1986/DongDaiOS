@@ -14,7 +14,7 @@
 	UILabel *titleLabel;
 	UILabel *addrlabel;
 	UILabel *tagLabel;
-	UIButton *likeBtn;
+	
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -52,16 +52,16 @@
 		make.bottom.equalTo(self).offset(-130);
 	}];
 	
-	likeBtn  = [[UIButton alloc] init];
-	[likeBtn setImage:IMGRESOURCE(@"home_icon_love_normal") forState:UIControlStateNormal];
-	[likeBtn setImage:IMGRESOURCE(@"home_icon_love_select") forState:UIControlStateSelected];
-	[self addSubview:likeBtn];
-	[likeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+	_likeBtn  = [[UIButton alloc] init];
+	[_likeBtn setImage:IMGRESOURCE(@"home_icon_love_normal") forState:UIControlStateNormal];
+	[_likeBtn setImage:IMGRESOURCE(@"home_icon_love_select") forState:UIControlStateSelected];
+	[self addSubview:_likeBtn];
+	[_likeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.right.equalTo(_coverImage).offset(-10);
 		make.top.top.equalTo(_coverImage).offset(10);
 		make.size.mas_equalTo(CGSizeMake(40, 40));
 	}];
-	[likeBtn addTarget:self action:@selector(didLikeBtnClick) forControlEvents:UIControlEventTouchUpInside];
+	[_likeBtn addTarget:self action:@selector(didLikeBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 	
 	tagLabel = [UILabel creatLabelWithText:@"*TAG" textColor:[UIColor tag] fontSize:615 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self addSubview:tagLabel];
@@ -90,8 +90,11 @@
 	
 }
 
-- (void)didLikeBtnClick {
-	
+- (void)didLikeBtnClick:(UIButton*)btn {
+	NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+	[dic setValue:btn forKey:@"btn"];
+	[dic setValue:[_itemInfo copy] forKey:kAYServiceArgsInfo];
+	_likeBtnClick([dic copy]);
 }
 
 - (void)setItemInfo:(NSDictionary *)itemInfo {
@@ -105,7 +108,7 @@
 		[_coverImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", prefix, photoName]] placeholderImage:IMGRESOURCE(@"default_image")];
 	}
 	
-	likeBtn.selected = [[_itemInfo objectForKey:kAYServiceArgsIsCollect] boolValue];
+	_likeBtn.selected = [[_itemInfo objectForKey:kAYServiceArgsIsCollect] boolValue];
 	
 	NSString *district = [_itemInfo objectForKey:kAYServiceArgsAddress];
 	district = [district substringToIndex:3];

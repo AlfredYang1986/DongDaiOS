@@ -148,8 +148,8 @@
 }
 
 #pragma mark -- messages
-- (id)setCellInfo:(NSDictionary*)dic_args {
-	service_info = dic_args;
+- (id)setCellInfo:(id)args {
+	service_info = args;
 	
 	NSString* photo_name = [service_info objectForKey:kAYServiceArgsImage];
 	if (photo_name) {

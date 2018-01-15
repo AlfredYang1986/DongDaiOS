@@ -59,12 +59,13 @@
 	}];
 	
 	engLabel = [UILabel creatLabelWithText:@"Service" textColor:[UIColor white] fontSize:622.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	engLabel.numberOfLines = 1;
 	engLabel.textColor = [UIColor colorWithWhite:1 alpha:0.3];
 	[self addSubview:engLabel];
 	[engLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
 		make.centerY.equalTo(self.mas_top).offset(18);
-		make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
+//		make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
 	}];
 	
 	UIView *leftView = [[UIView alloc] init];
@@ -92,23 +93,21 @@
 		make.size.equalTo(leftView);
 	}];
 	leftView.backgroundColor = rightView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.3];
+	leftView.hidden = rightView.hidden = YES;
 	
 	themeLabel = [UILabel creatLabelWithText:@"Theme" textColor:[UIColor white] fontSize:615.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
-	themeLabel.numberOfLines = 2;
+	themeLabel.numberOfLines = 1;
 	[self addSubview:themeLabel];
 	[themeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
-		make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
+		make.right.equalTo(self).offset(-5);
 		make.top.equalTo(titleLabel.mas_bottom).offset(14);
 	}];
 	
+	engLabel.hidden = titleLabel.hidden = themeLabel.hidden = YES;
 }
 
 #pragma mark - actions
-- (void)layoutSubviews {
-	[super layoutSubviews];
-}
-
 - (void)setItemInfo:(NSDictionary*)itemInfo {
 	
 	NSString *eng = [itemInfo objectForKey:@"eng"];

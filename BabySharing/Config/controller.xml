@@ -240,6 +240,7 @@
 	
 	<controller type="DefaultController" name="TopicContent" factory="AYDefaultControllerFactoy" >
 		<facade type="DefaultFacade" name="ChoiceRemote" />
+		<facade type="DefaultFacade" name="KidNapRemote" />
 		
 		<view type="FakeStatusBar"  name="FakeStatusBar" />
 		<view type="FakeNavBar"     name="FakeNavBar" />

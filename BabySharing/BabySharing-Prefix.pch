@@ -127,7 +127,7 @@ typedef enum : int {
 
 #define kAY_service_options_title_facilities	@[@"新风系统", @"实时监控", @"空气净化器", @"安全护栏", @"安全插座", @"安全桌角", @"防摔地板", @"加湿器", @"无线WI-FI", @"急救包"]
 #define kAY_home_album_titles					@[@"蒙特梭利", @"浸入式双语", @"极限运动", @"修身养性", @"STEAM"];
-#define kAY_home_album_titles_sub				@[@"准备好爱与耐心，自律才能自由", @"Native Speaker用心创造双语环境", @"跳出温室，体验非凡的张力", @"触摸与众不同的艺术范", @"身临其境，感受科学的力量"];
+#define kAY_home_album_titles_sub				@[@"准备好爱与耐心,自律才能自由", @"语言,是一种思考方式", @"跳出温室,体验非凡的张力", @"触摸与众不同的感受", @"身临其境,体验科学的力量"];
 
 #define kAY_operation_fileters_tag_course		@[@"明星", @"冠军", @"艺术家", @"名校团队", @"自主教研"]
 #define kAY_operation_fileters_title_nursery	@[@"低龄"]

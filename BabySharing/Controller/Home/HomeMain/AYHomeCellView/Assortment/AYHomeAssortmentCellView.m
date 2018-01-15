@@ -121,10 +121,12 @@
 	} else {
 		
 		AYHomeAssortmentItem *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AYHomeAssortmentItem" forIndexPath:indexPath];
-		
 		NSMutableDictionary *tmp = [[serviceData objectAtIndex:indexPath.row] copy];
-//		[tmp setValue:[serviceData objectAtIndex:indexPath.row] forKey:kAYServiceArgsSelf];
 		cell.itemInfo = [tmp copy];
+		cell.likeBtnClick = ^(NSDictionary *service_info) {
+			id ser = [service_info copy];
+			[(AYViewController*)self.controller performSel:@"willCollectWithRow:" withResult:&ser];
+		};
 		return cell;
 	}
 	

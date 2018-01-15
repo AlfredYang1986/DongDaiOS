@@ -402,22 +402,22 @@ typedef void(^queryContentFinish)(void);
 #pragma mark -- notifies
 - (id)willCollectWithRow:(id)args {
 	
-	NSString *service_id = [args objectForKey:kAYServiceArgsID];
+	NSDictionary *service_info = [args objectForKey:kAYServiceArgsInfo];
 	UIButton *likeBtn = [args objectForKey:@"btn"];
 	
-	NSPredicate *pre_id = [NSPredicate predicateWithFormat:@"self.%@=%@", kAYServiceArgsID, service_id];
-	NSArray *resultArr = [serviceDataFound filteredArrayUsingPredicate:pre_id];
-	if (resultArr.count != 1) {
-		return nil;
-	}
-	id service_data = resultArr.firstObject;
+//	NSPredicate *pre_id = [NSPredicate predicateWithFormat:@"self.%@=%@", kAYServiceArgsID, service_id];
+//	NSArray *resultArr = [serviceDataFound filteredArrayUsingPredicate:pre_id];
+//	if (resultArr.count != 1) {
+//		return nil;
+//	}
+//	id service_data = resultArr.firstObject;
 	
 	NSDictionary *user = nil;
 	CURRENUSER(user);
-	NSMutableDictionary *dic = [Tools getBaseRemoteData];
+	NSMutableDictionary *dic = [Tools getBaseRemoteData:user];
 	
 	NSMutableDictionary *dic_collect = [[NSMutableDictionary alloc] init];
-	[dic_collect setValue:[service_data objectForKey:kAYServiceArgsID] forKey:kAYServiceArgsID];
+	[dic_collect setValue:[service_info objectForKey:kAYServiceArgsID] forKey:kAYServiceArgsID];
 	[dic_collect setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
 	[dic setValue:dic_collect forKey:@"collections"];
 	
@@ -430,7 +430,7 @@ typedef void(^queryContentFinish)(void);
 		[cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 			if (success) {
 				likeBtn.selected = YES;
-				[resultArr.firstObject setValue:[NSNumber numberWithBool:YES] forKey:kAYServiceArgsIsCollect];
+//				[resultArr.firstObject setValue:[NSNumber numberWithBool:YES] forKey:kAYServiceArgsIsCollect];
 			} else {
 				NSString *title = @"收藏失败!请检查网络链接是否正常";
 				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
@@ -441,7 +441,7 @@ typedef void(^queryContentFinish)(void);
 		[cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 			if (success) {
 				likeBtn.selected = NO;
-				[resultArr.firstObject setValue:[NSNumber numberWithBool:NO] forKey:kAYServiceArgsIsCollect];
+//				[resultArr.firstObject setValue:[NSNumber numberWithBool:NO] forKey:kAYServiceArgsIsCollect];
 			} else {
 				NSString *title = @"取消收藏失败!请检查网络链接是否正常";
 				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
