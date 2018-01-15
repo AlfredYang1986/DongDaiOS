@@ -41,6 +41,8 @@
 			isUpdateProfileInfo = YES;
 			
 			[self setupUIData];
+			
+			AYShowBtmAlertView(tmp, BtmAlertViewTypeHideWithTimer)
 		}
 		
     }
@@ -76,6 +78,8 @@
         make.centerX.equalTo(tableView);
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, userPhotoInitHeight));
     }];
+	
+	[self setupUIData];
 	
 	CGFloat editBtnWidth = 52;
 	UIView *btnShadowView = [[UIView alloc] init];
@@ -125,7 +129,6 @@
 	}];
 	[loginOut addTarget:self action:@selector(loginOutClick) forControlEvents:UIControlEventTouchUpInside];
 	
-	[self setupUIData];
 }
 
 #pragma mark -- layouts
@@ -194,18 +197,6 @@
 }
 
 - (void)loginOutClick {
-	NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
-	[notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
-	[notify setValue:kAYNotifyCurrentUserLogout forKey:kAYNotifyFunctionKey];
-	
-	NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
-	[notify setValue:[args copy] forKey:kAYNotifyArgsKey];
-	
-	id<AYFacadeBase> f = LOGINMODEL;
-	[f performWithResult:&notify];
-}
-- (id)LogoutCurrentUser {
-	
 	NSDictionary* current_login_user = nil;
 	CURRENUSER(current_login_user);
 	
@@ -223,6 +214,20 @@
 		[cmd_sign_out_local performWithResult:nil];
 		
 	}];
+	
+//	NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+//	[notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+//	[notify setValue:kAYNotifyCurrentUserLogout forKey:kAYNotifyFunctionKey];
+//
+//	NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+//	[notify setValue:[args copy] forKey:kAYNotifyArgsKey];
+//
+//	id<AYFacadeBase> f = LOGINMODEL;
+//	[f performWithResult:&notify];
+}
+- (id)LogoutCurrentUser {
+	
+	
 	
 	return nil;
 }

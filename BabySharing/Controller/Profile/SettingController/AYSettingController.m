@@ -112,14 +112,21 @@
 - (id)LogoutCurrentUser {
     NSLog(@"current user logout");
     //    [_lm signOutCurrentUser];
+	
     
-    NSDictionary* current_login_user = nil;
-    CURRENUSER(current_login_user);
-    
-    id<AYFacadeBase> f_login_remote = [self.facades objectForKey:@"LandingRemote"];
-    AYRemoteCallCommand* cmd_sign_out = [f_login_remote.commands objectForKey:@"AuthSignOut"];
-    [cmd_sign_out performWithResult:current_login_user andFinishBlack:^(BOOL success, NSDictionary * result) {
-        NSLog(@"login out %@", result);
+    return nil;
+}
+
+#pragma mark -- actions
+- (void)signOutSelected {
+	
+	NSDictionary* current_login_user = nil;
+	CURRENUSER(current_login_user);
+	
+	id<AYFacadeBase> f_login_remote = [self.facades objectForKey:@"LandingRemote"];
+	AYRemoteCallCommand* cmd_sign_out = [f_login_remote.commands objectForKey:@"AuthSignOut"];
+	[cmd_sign_out performWithResult:current_login_user andFinishBlack:^(BOOL success, NSDictionary * result) {
+		NSLog(@"login out %@", result);
 		
 		AYFacade* f_em = [self.facades objectForKey:@"EM"];
 		id<AYCommand> cmd_xmpp_logout = [f_em.commands objectForKey:@"LogoutEM"];
@@ -129,21 +136,6 @@
 		id<AYCommand> cmd_sign_out_local = [f_login.commands objectForKey:@"SignOutLocal"];
 		[cmd_sign_out_local performWithResult:nil];
 		
-    }];
-    
-    return nil;
-}
-
-#pragma mark -- actions
-- (void)signOutSelected {
-    NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
-    [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
-    [notify setValue:kAYNotifyCurrentUserLogout forKey:kAYNotifyFunctionKey];
-    
-    NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
-    [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
-    
-    id<AYFacadeBase> f = LOGINMODEL;
-    [f performWithResult:&notify];
+	}];
 }
 @end

@@ -111,9 +111,9 @@
     </controller>
     
     <controller type="DefaultController" name="PersonalInfo" factory="AYDefaultControllerFactoy" >
-        <facade type="DefaultFacade" name="FileRemote" notification="true" />
-		<facade type="DefaultFacade" name="ProfileRemote" />
-        <facade type="DefaultFacade" name="LoginModel" notification="true"/>
+<!--        <facade type="DefaultFacade" name="FileRemote" notification="true" />-->
+<!--		<facade type="DefaultFacade" name="ProfileRemote" />-->
+<!--        <facade type="DefaultFacade" name="LoginModel" notification="true"/>-->
         <facade type="DefaultFacade" name="LandingRemote" />
 		<facade type="DefaultFacade" name="EM" />
 		
@@ -121,6 +121,23 @@
         
         <delegate type="TableViewDelegateAndDatasource" name="PersonalInfo" />
     </controller>
+	
+	<controller type="DefaultController" name="PersonalSetting" factory="AYDefaultControllerFactoy" >
+		<command type="Module" name="OpenUIImagePickerCamera" />
+		<command type="Module" name="OpenUIImagePickerPicRoll" />
+		<command type="Module" name="GernarateImgUUID" />
+		<command type="Module" name="SaveImgLocal" />
+		<command type="Module" name="LocalImageWithName" />
+		
+		<facade type="DefaultFacade" name="ProfileRemote" notification="true" />
+		
+		<view type="FakeStatusBar"      name="FakeStatusBar" />
+		<view type="FakeNavBar"         name="FakeNavBar" />
+		<view type="Picker"             name="Picker" />
+		
+		<delegate type="PickerViewDelegateAndDatasource" name="NapArea" />
+		<delegate type="TableViewDelegateAndDatasource" name="SelfSetting" />
+	</controller>
     
     <controller type="DefaultController" name="PersonalDesc" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
@@ -328,26 +345,8 @@
         <view type="Table"              name="Table" />
         <view type="ChatInput"          name="ChatInput" />
 
-<!--        <delegate type="TableViewDelegateAndDatasource" name="GroupChatUserInfo" />-->
         <delegate type="TextViewDelegate" name="ChatGroupInput" />
         <delegate type="TableViewDelegateAndDatasource" name="GroupChatMessages" />
-    </controller>
-    
-    <controller type="DefaultController" name="PersonalSetting" factory="AYDefaultControllerFactoy" >
-        <command type="Module" name="OpenUIImagePickerCamera" />
-        <command type="Module" name="OpenUIImagePickerPicRoll" />
-        <command type="Module" name="GernarateImgUUID" />
-        <command type="Module" name="SaveImgLocal" />
-        <command type="Module" name="LocalImageWithName" />
-        
-        <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
-
-        <view type="FakeStatusBar"      name="FakeStatusBar" />
-        <view type="FakeNavBar"         name="FakeNavBar" />
-        <view type="Picker"             name="Picker" />
-        
-        <delegate type="PickerViewDelegateAndDatasource" name="NapArea" />
-        <delegate type="TableViewDelegateAndDatasource" name="SelfSetting" />
     </controller>
 
     <controller type="DefaultController" name="Fiter" factory="AYDefaultControllerFactoy" >

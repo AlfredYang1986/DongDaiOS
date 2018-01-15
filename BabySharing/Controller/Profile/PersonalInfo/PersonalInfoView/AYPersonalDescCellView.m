@@ -97,8 +97,9 @@
 - (id)setCellInfo:(id)args {
 	
     NSString *user_name = [args objectForKey:kAYProfileArgsScreenName];
-	userNameLabel.text = user_name;
-	
+	if (user_name.length != 0) {
+		userNameLabel.text = user_name;
+	}
     
     NSString *descStr = [args objectForKey:kAYProfileArgsDescription];
     if (descStr.length != 0) {

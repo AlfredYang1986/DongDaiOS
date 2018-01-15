@@ -6761,12 +6761,12 @@
 		707E79C41D06733100DFC198 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				705D66F61F220BF10069BF42 /* TopicContent */,
 				705E71E01FFB9337003E9646 /* NursaryList */,
+				70228D4A1F25C3EF0099B028 /* Assortment */,
 				70305FA71F4AE33500E402A7 /* SortServiceList */,
 				705035361F28726200B3119A /* ChoiceContent */,
 				70228D651F25D8170099B028 /* SearchSKU */,
-				70228D4A1F25C3EF0099B028 /* Assortment */,
-				705D66F61F220BF10069BF42 /* TopicContent */,
 				70A3336C1E095BE800C1517C /* FilterTheme */,
 				7045EFE41E08ED9D00341E14 /* FilterLocation */,
 				70D5BC771D7829190046B4BC /* FacilityController */,

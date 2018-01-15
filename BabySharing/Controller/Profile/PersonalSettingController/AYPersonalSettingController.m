@@ -56,7 +56,7 @@ static NSString* const descInitStr =			@"一句话很短，高调的夸一夸自
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+	
     UIScrollView *mainView = [[UIScrollView alloc]init];
     mainView.contentSize = CGSizeMake(SCREEN_WIDTH, 555.f);
     mainView.showsVerticalScrollIndicator = NO;

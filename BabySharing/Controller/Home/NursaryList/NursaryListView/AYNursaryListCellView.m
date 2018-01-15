@@ -129,20 +129,29 @@
 	district = [district substringToIndex:3];
 	addrlabel.text = district;
 	
-	NSString *tag = [[service_info objectForKey:kAYServiceArgsTags] firstObject];
+	NSString *brand_name = [service_info objectForKey:kAYBrandArgsName];
+	NSString *leaf = [service_info objectForKey:kAYServiceArgsLeaf];
+	NSArray *operations = [service_info objectForKey:kAYServiceArgsOperation];
+	NSArray *tags = [service_info objectForKey:kAYServiceArgsTags];
+	
+	NSString *tag = [tags firstObject];
 	if (tag.length == 0) {
 		tag = @"没有标签";
 	}
 	tagLabel.text = tag;
 	
-	NSString *brand_name = [service_info objectForKey:kAYBrandArgsName];
-	NSString *operation = [[service_info objectForKey:kAYServiceArgsOperation] firstObject];
-	NSString *leaf = [service_info objectForKey:kAYServiceArgsLeaf];
-	if (![leaf hasSuffix:@"看顾"]) {
-		leaf = [leaf stringByAppendingString:@"课程"];
+	NSString *operation;
+	for (NSString *ope in operations) {
+		if ([kAY_operation_fileters_title_nursery containsObject:ope]) {
+			operation = ope;
+		}
 	}
-	
+	if (operation.length == 0) {
+		operation = @"";
+	}
 	titleLabel.text = [NSString stringWithFormat:@"%@的%@%@", brand_name, operation, leaf];
+	
+	likeBtn.selected = [[service_info objectForKey:kAYServiceArgsIsCollect] boolValue];
 	
 	return nil;
 }
