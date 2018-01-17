@@ -69,8 +69,8 @@
 		[likeBtn setImage:IMGRESOURCE(@"home_icon_love_select") forState:UIControlStateSelected];
 		[self addSubview:likeBtn];
 		[likeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.right.equalTo(coverImage).offset(-10);
-			make.top.top.equalTo(coverImage).offset(10);
+			make.right.equalTo(coverImage).offset(0);
+			make.top.top.equalTo(coverImage).offset(5);
 			make.size.mas_equalTo(CGSizeMake(40, 40));
 		}];
 		[likeBtn addTarget:self action:@selector(didLikeBtnClick) forControlEvents:UIControlEventTouchUpInside];

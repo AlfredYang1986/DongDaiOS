@@ -22,7 +22,7 @@
 		[self addSubview:icon];
 		[icon mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self);
-			make.top.equalTo(self);
+			make.top.equalTo(self).offset(7);
 			make.size.mas_equalTo(CGSizeMake(23, 23));
 		}];
 		
@@ -37,7 +37,7 @@
 		[self addSubview:infoLabel];
 		[infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self);
-			make.top.equalTo(label.mas_bottom).offset(15);
+			make.top.equalTo(label.mas_bottom).offset(10);
 		}];
 	}
 	return self;

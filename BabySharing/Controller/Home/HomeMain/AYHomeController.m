@@ -165,8 +165,8 @@ typedef void(^queryContentFinish)(void);
 	[HomeHeadView addSubview:collesBtn];
 	[collesBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(profilePhoto);
-		make.right.equalTo(HomeHeadView).offset(-10);
-		make.size.mas_equalTo(CGSizeMake(30, 30));
+		make.right.equalTo(HomeHeadView).offset(0);
+		make.size.mas_equalTo(CGSizeMake(44, 44));
 	}];
 	[collesBtn addTarget:self action:@selector(didCollectBtnClick) forControlEvents:UIControlEventTouchUpInside];
 	
@@ -179,7 +179,7 @@ typedef void(^queryContentFinish)(void);
 		obj = (id)delegate_found;
 		kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDelegateMessage, &obj)
 		
-		NSArray *arr_cell_name = @[@"AYHomeTopicsCellView", @"AYHomeAroundCellView", @"AYHomeAssortmentCellView"];
+		NSArray *arr_cell_name = @[@"AYHomeTopicsCellView", @"AYNurseryCellView", @"AYHomeAssortmentCellView"];
 		for (NSString *cell_name in arr_cell_name) {
 			id class_name = [cell_name copy];
 			kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name);

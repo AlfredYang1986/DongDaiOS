@@ -276,6 +276,11 @@
 		703CCDBF1CC9D71000CF4563 /* AYQueryNotificationsCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 703CCDBE1CC9D71000CF4563 /* AYQueryNotificationsCommand.m */; };
 		703CCDC41CC9D96F00CF4563 /* AYRemoveNotificationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 703CCDC31CC9D96F00CF4563 /* AYRemoveNotificationCommand.m */; };
 		703CCDC71CC9D9E400CF4563 /* AYClearNotificationsCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 703CCDC61CC9D9E400CF4563 /* AYClearNotificationsCommand.m */; };
+		703E6072200DDB9100145889 /* AYNurseryCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 703E606D200DDB9000145889 /* AYNurseryCellView.m */; };
+		703E6073200DDB9100145889 /* AYNurseryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 703E606F200DDB9000145889 /* AYNurseryItem.m */; };
+		703E6074200DDB9100145889 /* AYNurseryMoreItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 703E6071200DDB9000145889 /* AYNurseryMoreItem.m */; };
+		703E6077200DEE0700145889 /* AYTopicImageCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 703E6076200DEE0700145889 /* AYTopicImageCellView.m */; };
+		703E607A200DEE3400145889 /* AYTopicDescCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 703E6079200DEE3300145889 /* AYTopicDescCellView.m */; };
 		7040C3961EB08B5000A4226D /* AYOTMCourseCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7040C3951EB08B4F00A4226D /* AYOTMCourseCellView.m */; };
 		704336321CF5D88600F9B73B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 704336311CF5D88600F9B73B /* Assets.xcassets */; };
 		7043BD221F8CC8440096F3FB /* AYSetServicePriceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7043BD211F8CC8440096F3FB /* AYSetServicePriceController.m */; };
@@ -1417,6 +1422,16 @@
 		703CCDC31CC9D96F00CF4563 /* AYRemoveNotificationCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYRemoveNotificationCommand.m; sourceTree = "<group>"; };
 		703CCDC51CC9D9E400CF4563 /* AYClearNotificationsCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYClearNotificationsCommand.h; sourceTree = "<group>"; };
 		703CCDC61CC9D9E400CF4563 /* AYClearNotificationsCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYClearNotificationsCommand.m; sourceTree = "<group>"; };
+		703E606C200DDB9000145889 /* AYNurseryCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNurseryCellView.h; sourceTree = "<group>"; };
+		703E606D200DDB9000145889 /* AYNurseryCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNurseryCellView.m; sourceTree = "<group>"; };
+		703E606E200DDB9000145889 /* AYNurseryItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNurseryItem.h; sourceTree = "<group>"; };
+		703E606F200DDB9000145889 /* AYNurseryItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNurseryItem.m; sourceTree = "<group>"; };
+		703E6070200DDB9000145889 /* AYNurseryMoreItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNurseryMoreItem.h; sourceTree = "<group>"; };
+		703E6071200DDB9000145889 /* AYNurseryMoreItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNurseryMoreItem.m; sourceTree = "<group>"; };
+		703E6075200DEE0700145889 /* AYTopicImageCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYTopicImageCellView.h; sourceTree = "<group>"; };
+		703E6076200DEE0700145889 /* AYTopicImageCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AYTopicImageCellView.m; sourceTree = "<group>"; };
+		703E6078200DEE3300145889 /* AYTopicDescCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYTopicDescCellView.h; sourceTree = "<group>"; };
+		703E6079200DEE3300145889 /* AYTopicDescCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AYTopicDescCellView.m; sourceTree = "<group>"; };
 		7040C3941EB08B4F00A4226D /* AYOTMCourseCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOTMCourseCellView.h; sourceTree = "<group>"; };
 		7040C3951EB08B4F00A4226D /* AYOTMCourseCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOTMCourseCellView.m; sourceTree = "<group>"; };
 		704336311CF5D88600F9B73B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -4641,7 +4656,7 @@
 			isa = PBXGroup;
 			children = (
 				704CC93E20074C75007740EC /* AYBtmTipView */,
-				70EE2D762004731C001CEDE8 /* ThirdView */,
+				70EE2D762004731C001CEDE8 /* ThirdView+Extension */,
 				7043BD231F8CD65A0096F3FB /* ShadowView */,
 				706319071F79311E00109ACE /* OnceTip */,
 				70F9675E1E287E0E00B3805B /* NoContentCell */,
@@ -4975,6 +4990,19 @@
 				703CCDC31CC9D96F00CF4563 /* AYRemoveNotificationCommand.m */,
 			);
 			path = RemoveNotification;
+			sourceTree = "<group>";
+		};
+		703E606B200DDB9000145889 /* Nursery */ = {
+			isa = PBXGroup;
+			children = (
+				703E606C200DDB9000145889 /* AYNurseryCellView.h */,
+				703E606D200DDB9000145889 /* AYNurseryCellView.m */,
+				703E606E200DDB9000145889 /* AYNurseryItem.h */,
+				703E606F200DDB9000145889 /* AYNurseryItem.m */,
+				703E6070200DDB9000145889 /* AYNurseryMoreItem.h */,
+				703E6071200DDB9000145889 /* AYNurseryMoreItem.m */,
+			);
+			path = Nursery;
 			sourceTree = "<group>";
 		};
 		7043BD1D1F8CC8040096F3FB /* SetServicePrice */ = {
@@ -5527,6 +5555,7 @@
 		7056B9051F1F29F900386E3A /* AYHomeCellView */ = {
 			isa = PBXGroup;
 			children = (
+				703E606B200DDB9000145889 /* Nursery */,
 				7048AEA11F209E7000C7BE8D /* Assortment */,
 				7048AE9D1F208C6200C7BE8D /* Topics */,
 				7048AE931F208A0300C7BE8D /* Banner */,
@@ -6267,6 +6296,10 @@
 		705D66F81F220BF10069BF42 /* TopicContentView */ = {
 			isa = PBXGroup;
 			children = (
+				703E6075200DEE0700145889 /* AYTopicImageCellView.h */,
+				703E6076200DEE0700145889 /* AYTopicImageCellView.m */,
+				703E6078200DEE3300145889 /* AYTopicDescCellView.h */,
+				703E6079200DEE3300145889 /* AYTopicDescCellView.m */,
 				7057DC431FFF346100D0D66E /* AYTopicContentCellView.h */,
 				7057DC441FFF346100D0D66E /* AYTopicContentCellView.m */,
 			);
@@ -8244,12 +8277,12 @@
 			path = PageControl;
 			sourceTree = "<group>";
 		};
-		70EE2D762004731C001CEDE8 /* ThirdView */ = {
+		70EE2D762004731C001CEDE8 /* ThirdView+Extension */ = {
 			isa = PBXGroup;
 			children = (
 				70EE2D772004731C001CEDE8 /* MXSRefreshHeader+MJRefrsh */,
 			);
-			path = ThirdView;
+			path = "ThirdView+Extension";
 			sourceTree = "<group>";
 		};
 		70EE2D772004731C001CEDE8 /* MXSRefreshHeader+MJRefrsh */ = {
@@ -9412,6 +9445,7 @@
 				7025FE5D1DF660A200044CD9 /* AYOtherNoticeTextController.m in Sources */,
 				702D84DF1F42E9C900418D8D /* AYQueryOrderDetailCommand.m in Sources */,
 				70D657091D1D410F003D1D7D /* AYExposeRemoteFacade.m in Sources */,
+				703E6072200DDB9100145889 /* AYNurseryCellView.m in Sources */,
 				700693141CC4A3AF00B511FF /* DropDownItem.m in Sources */,
 				70360B501E56F0A300D5332F /* AYNewVersionNavController.m in Sources */,
 				70F34D7D1CA549B900CEF7C1 /* AYLandingAreaCodeCommand.m in Sources */,
@@ -9513,6 +9547,7 @@
 				702EBB021F43E8F000CD2783 /* AYTMsUpdateCommand.m in Sources */,
 				70C41EDB1DBA122500C77B10 /* AYMainInfoDelegate.m in Sources */,
 				80D5E7E91CCCD09600A82117 /* AYFollowedBtnView.m in Sources */,
+				703E6073200DDB9100145889 /* AYNurseryItem.m in Sources */,
 				70EAD8051CA64B7B007965D2 /* AYLoadingView.m in Sources */,
 				705EC8831CE4BC1D0008D5EA /* AYTagContentModelFacade.m in Sources */,
 				708235C91CA2563400658531 /* AYDefaultControllerFactoy.m in Sources */,
@@ -9606,6 +9641,7 @@
 				7056BA151F1F2BF400386E3A /* AYOrderListPendingDelegate.m in Sources */,
 				70F369AA1CC362950067B62E /* AYAlbumDelegate.m in Sources */,
 				7056B9EE1F1F2BF400386E3A /* AYOrderHeadCellView.m in Sources */,
+				703E6074200DDB9100145889 /* AYNurseryMoreItem.m in Sources */,
 				7012C9731E16156800C8F510 /* AYOrderTimesDelegate.m in Sources */,
 				70C41EE91DBA122500C77B10 /* TZTestCell.m in Sources */,
 				702C3B9F1EAF27C6007F3303 /* AYAddOTimeCellView.m in Sources */,
@@ -9756,6 +9792,7 @@
 				702BE9031EC1E4C400F20E41 /* AYRemoteBackController.m in Sources */,
 				7082360C1CA2D09E00658531 /* AYDefaultModuleFactory.m in Sources */,
 				7050353E1F2872C400B3119A /* AYChoiceContentDelegate.m in Sources */,
+				703E6077200DEE0700145889 /* AYTopicImageCellView.m in Sources */,
 				706E46131CFC107A00CC7C53 /* AYLandingController.m in Sources */,
 				70EC72381D190D6F0012B123 /* SDCollectionViewCell.m in Sources */,
 				70125A171E0AAC030082C76B /* AYMapMatchCellView.m in Sources */,
@@ -9802,6 +9839,7 @@
 				70160F131ECECDA800D1CF6D /* AYCancelOrderCommand.m in Sources */,
 				70EBBC621DEC361D00968083 /* AYLocationAuthCommand.m in Sources */,
 				70D46B641CEEB14A0093D50F /* InsetsLabel.m in Sources */,
+				703E607A200DEE3400145889 /* AYTopicDescCellView.m in Sources */,
 				7056B9F41F1F2BF400386E3A /* AYReadyOrderDelegate.m in Sources */,
 				70B3C3271F724B0700805151 /* AYSetServiceYardImagesCellView.m in Sources */,
 				7021834A1EC561CF00059124 /* AYServicePageDelegate.m in Sources */,

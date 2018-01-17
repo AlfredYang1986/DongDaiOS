@@ -277,7 +277,7 @@
     [timer setFireDate:[NSDate distantPast]];
     
     [self hideKeyboard];
-    
+	
 	NSString *title = @"正在为您发送动态密码，请稍等...";
 	AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 	

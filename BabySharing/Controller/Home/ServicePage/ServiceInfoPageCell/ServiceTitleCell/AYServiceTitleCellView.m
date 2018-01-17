@@ -59,8 +59,8 @@
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(self).offset(28);
-			make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
-			make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
+			make.left.equalTo(self).offset(SERVICEPAGE_MARGIN_LR);
+			make.right.equalTo(self).offset(-SERVICEPAGE_MARGIN_LR-55);
 		}];
 		
 		themeLabel = [UILabel creatLabelWithText:@"Theme" textColor:[UIColor black] fontSize:622.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
@@ -82,8 +82,8 @@
 		[self addSubview:bottom_view];
 		[bottom_view mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(tagLabel.mas_bottom).offset(30);
-			make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
-			make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
+			make.left.equalTo(self).offset(SERVICEPAGE_MARGIN_LR);
+			make.right.equalTo(self).offset(-SERVICEPAGE_MARGIN_LR);
 			make.bottom.equalTo(self);
 			make.height.mas_equalTo(0.5);
 		}];
@@ -103,7 +103,7 @@
 	
 	NSString *themeStr;
 	if ([service_cat isEqualToString:kAYStringNursery]) {
-		themeStr = service_type;
+		themeStr = service_leaf;
 		
 	} else if ([service_cat isEqualToString:kAYStringCourse]) {
 		themeStr = [NSString stringWithFormat:@"%@·%@%@", service_type, service_leaf, kAYStringCourse];

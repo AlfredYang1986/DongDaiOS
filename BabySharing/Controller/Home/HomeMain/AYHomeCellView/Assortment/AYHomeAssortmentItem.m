@@ -57,13 +57,13 @@
 	[_likeBtn setImage:IMGRESOURCE(@"home_icon_love_select") forState:UIControlStateSelected];
 	[self addSubview:_likeBtn];
 	[_likeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.right.equalTo(_coverImage).offset(-10);
-		make.top.top.equalTo(_coverImage).offset(10);
+		make.right.equalTo(_coverImage).offset(0);
+		make.top.top.equalTo(_coverImage).offset(5);
 		make.size.mas_equalTo(CGSizeMake(40, 40));
 	}];
 	[_likeBtn addTarget:self action:@selector(didLikeBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 	
-	tagLabel = [UILabel creatLabelWithText:@"*TAG" textColor:[UIColor tag] fontSize:615 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	tagLabel = [UILabel creatLabelWithText:@"*TAG" textColor:[UIColor tag] fontSize:613 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self addSubview:tagLabel];
 	[tagLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(_coverImage.mas_bottom).offset(10);
@@ -72,7 +72,7 @@
 //		make.centerY.equalTo(addrlabel);
 	}];
 	
-	titleLabel = [UILabel creatLabelWithText:@"Service title" textColor:[UIColor black] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	titleLabel = [UILabel creatLabelWithText:@"Service title" textColor:[UIColor black] fontSize:615 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	titleLabel.numberOfLines = 2;
 	[self addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -81,7 +81,7 @@
 		make.right.equalTo(_coverImage);
 	}];
 	
-	addrlabel = [UILabel creatLabelWithText:@"Address s" textColor:[UIColor gary] fontSize:315 backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+	addrlabel = [UILabel creatLabelWithText:@"Address s" textColor:[UIColor gary] fontSize:313 backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	[self addSubview:addrlabel];
 	[addrlabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(titleLabel.mas_bottom).offset(6);

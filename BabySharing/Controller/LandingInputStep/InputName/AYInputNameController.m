@@ -51,6 +51,7 @@
 #pragma mark -- views layouts
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusAndNavBarH);
+	view.backgroundColor = [UIColor clearColor];
 	
 	UIImage* left = IMGRESOURCE(@"bar_left_theme");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)

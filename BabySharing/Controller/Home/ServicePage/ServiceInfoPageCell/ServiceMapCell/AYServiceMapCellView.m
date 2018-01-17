@@ -75,7 +75,7 @@
 		[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);
 			make.top.equalTo(titleLabel.mas_bottom).offset(20);
-			make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
+			make.right.equalTo(self).offset(-SERVICEPAGE_MARGIN_LR);
 		}];
 		
 		orderMapView = [[MAMapView alloc] init];
@@ -83,7 +83,7 @@
 		[orderMapView mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(addressLabel.mas_bottom).offset(14);
 			make.centerX.equalTo(self);
-			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - SCREEN_MARGIN_LR*2, 118));
+			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - SERVICEPAGE_MARGIN_LR*2, 118));
 			make.bottom.equalTo(self).offset(-20);
 		}];
 		orderMapView.delegate = self;

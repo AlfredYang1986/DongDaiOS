@@ -68,8 +68,7 @@
 
 @implementation AYHomeDelegate {
     NSArray *servicesData;
-	
-	NSIndexPath *autoIndexPath;
+	NSArray *cellNameArr;
 }
 
 #pragma mark -- command
@@ -79,7 +78,7 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-	
+	cellNameArr = @[@"AYHomeTopicsCellView", @"AYNurseryCellView", @"AYHomeAssortmentCellView"];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -111,23 +110,16 @@
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	id<AYViewBase> cell ;
+	NSString* class_name = [cellNameArr objectAtIndex:indexPath.row > 2 ? 2 :indexPath.row];
+	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 	if (indexPath.row == 0) {
-		NSString* class_name = @"AYHomeTopicsCellView";
-		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-	}
-//	else if (indexPath.row == 1) {
-//		NSString* class_name = @"AYHomeAroundCellView";
-//		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-//	}
-	else {
-		NSString* class_name = @"AYHomeAssortmentCellView";
-		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+		
+	} else {
 		
 		NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
 		[tmp setValue:[servicesData objectAtIndex:indexPath.row - 1] forKey:@"service"];
 		[tmp setValue:[NSNumber numberWithInteger:indexPath.row - 1] forKey:@"index"];
-		[(UITableViewCell*)cell performMethod:@"setCellInfo:" withResult:&tmp];
+		[(UITableViewCell*)cell performMethod:kAYCellSetInfoMessage withResult:&tmp];
 	}
 	
 	cell.controller = self.controller;
@@ -136,13 +128,13 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
-		return 410;
+		return 463;
 	}
 //	else if (indexPath.row == 1) {
 //		return 110;
 //	}
 	else if (indexPath.row == 1) {
-		return 390;
+		return 385;
 	}
 	else
 		return 320;

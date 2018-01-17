@@ -44,6 +44,9 @@
 + (UIColor*)garyLine {
 	return [UIColor colorWithRed:242.f / 255.f green:242.f / 255.f blue:242.f / 255.f alpha:1.f];
 }
++ (UIColor*)gary250 {
+	return [UIColor colorWithRed:250.f / 255.f green:250.f / 255.f blue:250.f / 255.f alpha:1.f];
+}
 + (UIColor*)RGB153Gary {
 	return [UIColor colorWithRed:153.f / 255.f green:153.f / 255.f blue:153.f / 255.f alpha:1.f];
 }

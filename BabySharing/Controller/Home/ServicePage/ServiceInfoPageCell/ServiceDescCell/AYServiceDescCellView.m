@@ -40,7 +40,7 @@
 	NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
 	paraStyle.lineBreakMode = NSLineBreakByCharWrapping;
 	paraStyle.alignment = NSTextAlignmentLeft;
-	paraStyle.lineSpacing = 8.f;
+	paraStyle.minimumLineHeight = 22;
 	
 	dic_attr = @{ NSParagraphStyleAttributeName:paraStyle,
 				  NSForegroundColorAttributeName:[UIColor gary],
@@ -77,7 +77,7 @@
 		tipsTitleLabel = [UILabel creatLabelWithText:@"服务介绍" textColor:[UIColor black] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:tipsTitleLabel];
 		[tipsTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
+			make.left.equalTo(self).offset(SERVICEPAGE_MARGIN_LR);
 			make.top.equalTo(self).offset(30);
 		}];
 
@@ -102,7 +102,7 @@
 		TAGsLabel = [UILabel creatLabelWithText:@"##" textColor:[UIColor gary] fontSize:316.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:TAGsLabel];
 		[TAGsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
+			make.left.equalTo(self).offset(SERVICEPAGE_MARGIN_LR);
 			make.centerY.equalTo(descLabel.mas_bottom).offset(30);
 //			make.bottom.equalTo(self).offset(20);
 		}];
@@ -114,7 +114,7 @@
 		[self addSubview:showhideBtn];
 		[showhideBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(tipsTitleLabel);
-			make.right.equalTo(self).offset(-SCREEN_MARGIN_LR+5);
+			make.right.equalTo(self).offset(-SERVICEPAGE_MARGIN_LR+5);
 			make.size.mas_equalTo(CGSizeMake(40, 40));
 		}];
 		[showhideBtn addTarget:self action:@selector(didShowhideBtnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -124,8 +124,8 @@
 		[self addSubview:bottom_view];
 		[bottom_view mas_makeConstraints:^(MASConstraintMaker *make) {
 			//			make.top.equalTo(userPhoto.mas_bottom).offset(30);
-			make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
-			make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
+			make.left.equalTo(self).offset(SERVICEPAGE_MARGIN_LR);
+			make.right.equalTo(self).offset(-SERVICEPAGE_MARGIN_LR);
 			make.bottom.equalTo(self);
 			make.height.mas_equalTo(0.5);
 		}];
@@ -135,10 +135,10 @@
 
 
 #pragma mark -- actions
--(CGFloat)getAttrStrHeight:(NSString*)str width:(CGFloat)width {
+-(CGFloat)getAttrStrHeight:(NSAttributedString*)str width:(CGFloat)width {
 	
-//	CGSize size = [str boundingRectWithSize:CGSizeMake(width,MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin context:nil].size;
-	CGSize size = [str boundingRectWithSize:CGSizeMake(width, MAXFLOAT) options: NSStringDrawingUsesLineFragmentOrigin attributes:dic_attr context:nil].size;
+	CGSize size = [str boundingRectWithSize:CGSizeMake(width,MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil].size;
+//	CGSize size = [str boundingRectWithSize:CGSizeMake(width, MAXFLOAT) options: NSStringDrawingUsesLineFragmentOrigin attributes:dic_attr context:nil].size;
 	return size.height;
 }
 
@@ -217,15 +217,15 @@
 		TAGsLabel.hidden = NO;
 	}
 	
-	CGFloat textHeight = [self getAttrStrHeight:descStr width:SCREEN_WIDTH - SCREEN_MARGIN_LR*2];
+	CGFloat textHeight = [self getAttrStrHeight:descAttri width:SCREEN_WIDTH - SERVICEPAGE_MARGIN_LR*2];
 	NSNumber *expend_args = [service_info objectForKey:@"is_expend"];
 
-	if (textHeight < 60) {
+	if (textHeight < 50) {
 		showhideBtn.hidden = YES;
 		[descLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
-			make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
-			make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
+			make.left.equalTo(self).offset(SERVICEPAGE_MARGIN_LR);
+			make.right.equalTo(self).offset(-SERVICEPAGE_MARGIN_LR);
 			make.bottom.equalTo(self).offset(- marginBtm);
 		}];
 	} else {
@@ -234,8 +234,8 @@
 			showhideBtn.selected = YES;
 			[descLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
 				make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
-				make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
-				make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
+				make.left.equalTo(self).offset(SERVICEPAGE_MARGIN_LR);
+				make.right.equalTo(self).offset(-SERVICEPAGE_MARGIN_LR);
 				make.bottom.equalTo(self).offset(-marginBtm);
 			}];
 		} else {
@@ -244,8 +244,8 @@
 			descLabel.numberOfLines = 4;
 			[descLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
 				make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
-				make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
-				make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
+				make.left.equalTo(self).offset(SERVICEPAGE_MARGIN_LR);
+				make.right.equalTo(self).offset(-SERVICEPAGE_MARGIN_LR);
 				make.bottom.equalTo(self).offset(-marginBtm);
 			}];
 		}

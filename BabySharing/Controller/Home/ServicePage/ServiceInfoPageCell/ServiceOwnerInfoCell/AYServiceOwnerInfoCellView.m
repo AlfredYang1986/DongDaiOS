@@ -85,7 +85,7 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 //        userPhoto.layer.borderWidth = 2.f;
         [self addSubview:userPhoto];
         [userPhoto mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
+            make.right.equalTo(self).offset(-SERVICEPAGE_MARGIN_LR);
             make.top.equalTo(self).offset(30);
 			make.bottom.equalTo(self).offset(-30);
             make.size.mas_equalTo(CGSizeMake(photoWidth, photoWidth));
@@ -105,7 +105,7 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 		[self addSubview:userName];
 		[userName mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(userPhoto).offset(2);
-			make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
+			make.left.equalTo(self).offset(SERVICEPAGE_MARGIN_LR);
 			make.right.equalTo(userPhoto.mas_left).offset(-20);
 		}];
 		userJob = [UILabel creatLabelWithText:@"UserJob" textColor:[UIColor gary] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
@@ -123,8 +123,8 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 		[self addSubview:bottom_view];
 		[bottom_view mas_makeConstraints:^(MASConstraintMaker *make) {
 //			make.top.equalTo(userPhoto.mas_bottom).offset(30);
-			make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
-			make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
+			make.left.equalTo(self).offset(SERVICEPAGE_MARGIN_LR);
+			make.right.equalTo(self).offset(-SERVICEPAGE_MARGIN_LR);
 			make.bottom.equalTo(self);
 			make.height.mas_equalTo(0.5);
 		}];

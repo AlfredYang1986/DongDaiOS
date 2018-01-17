@@ -24,8 +24,6 @@
 	UICollectionView *CollectionView;
 	NSArray *serviceData;
 	
-	CGSize itemSizeData;
-	
 }
 
 @synthesize para = _para;
@@ -74,11 +72,11 @@
 			make.top.equalTo(titleLabel.mas_bottom).offset(2);
 		}];
 		
-		UIButton *moreBtn = [Tools creatBtnWithTitle:@"查看更多" titleColor:[UIColor theme] fontSize:313.f backgroundColor:nil];
+		UIButton *moreBtn = [Tools creatBtnWithTitle:@"查看更多" titleColor:[UIColor theme] fontSize:615 backgroundColor:nil];
 		[self addSubview:moreBtn];
 		[moreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.right.equalTo(self).offset(-15);
-			make.bottom.equalTo(titleLabel);
+			make.centerY.equalTo(subTitleLabel);
 			make.size.mas_equalTo(CGSizeMake(60, 20));
 		}];
 		[moreBtn addTarget:self action:@selector(didAssortmentMoreBtnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -153,16 +151,13 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-	if (serviceData.count == indexPath.row && itemSizeData.height == 320) {
+	if (serviceData.count == indexPath.row) {
 		
-		return CGSizeMake(106+SCREEN_MARGIN_LR, itemSizeData.height);
+		return CGSizeMake(106+SCREEN_MARGIN_LR, 250);
 	} else {
-		return itemSizeData;
+		return CGSizeMake(160, 250);
 	}
 }
-
-
-
 
 #pragma mark -- actions
 - (void)didAssortmentMoreBtnClick {
@@ -172,24 +167,11 @@
 
 #pragma mark -- messages
 - (id)setCellInfo:(id)args {
-	NSString *cat = [[args objectForKey:@"service"] objectForKey:@"service_type"];
-	itemSizeData = CGSizeMake(160, 250);
-	NSString *subStr;
-	if ([cat isEqualToString:@"看顾"]) {
-		itemSizeData = CGSizeMake(320, 320);
-		subStr = @"看顾看顾看顾";
-	}
-	else if ([cat isEqualToString:@"艺术"]) {
-		subStr = @"看顾看顾看顾";
-	}
-	else if ([cat isEqualToString:@"运动"]) {
-		subStr = @"看顾看顾看顾";
-	}
-	else {
-		subStr = @"科学看顾看顾";
-	}
 	
+	NSString *cat = [[args objectForKey:@"service"] objectForKey:@"service_type"];
 	titleLabel.text = cat;
+	
+	NSString *subStr = [kAY_home_assortment_subtitle objectForKey:cat];
 	subTitleLabel.text = subStr;
 	
 	serviceData = [[args objectForKey:@"service"] objectForKey:@"services"];

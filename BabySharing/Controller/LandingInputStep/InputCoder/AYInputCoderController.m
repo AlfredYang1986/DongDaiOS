@@ -66,7 +66,8 @@
 #pragma mark -- views layouts
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusAndNavBarH);
-//    view.backgroundColor = [Tools themeColor];
+    view.backgroundColor = [UIColor clearColor];
+	
 //	NSString *title = @"确认信息";
 //	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
 	

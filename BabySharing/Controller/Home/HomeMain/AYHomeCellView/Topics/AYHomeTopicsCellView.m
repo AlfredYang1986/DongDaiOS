@@ -62,7 +62,7 @@
 		topicsArr = kAY_home_album_titles;
 		subTopicsArr = kAY_home_album_titles_sub;
 		
-		titleLabel = [UILabel creatLabelWithText:@"简单描述" textColor:[Tools black] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		titleLabel = [UILabel creatLabelWithText:@"精选主题" textColor:[Tools black] fontSize:628 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(15);
@@ -82,7 +82,7 @@
 		flowLayout.minimumInteritemSpacing = 0;
 		flowLayout.minimumLineSpacing = 16;
 		
-		collectionView = [[UICollectionView  alloc]initWithFrame:CGRectMake(0, 70, SCREEN_WIDTH, 330) collectionViewLayout:flowLayout];
+		collectionView = [[UICollectionView  alloc]initWithFrame:CGRectMake(0, 90, SCREEN_WIDTH, 330) collectionViewLayout:flowLayout];
 		collectionView.delegate = self;
 		collectionView.dataSource = self;
 		collectionView.showsVerticalScrollIndicator = NO;

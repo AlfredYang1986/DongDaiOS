@@ -65,7 +65,12 @@
 		[self addSubview:shadowView];
 		[self sendSubviewToBack:shadowView];
 		[shadowView mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.edges.equalTo(self).insets(UIEdgeInsetsMake(0, SCREEN_MARGIN_LR, 48, SCREEN_MARGIN_LR));
+//			make.edges.equalTo(self).insets(UIEdgeInsetsMake(0, SCREEN_MARGIN_LR, 48, SCREEN_MARGIN_LR));
+			make.top.equalTo(self);
+			make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
+			make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
+			make.height.equalTo(@342);
+			make.bottom.equalTo(self).offset(-45);
 		}];
 		
 		UIView *conterView = [[UIView alloc] init];

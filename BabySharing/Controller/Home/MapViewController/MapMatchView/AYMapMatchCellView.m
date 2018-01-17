@@ -147,7 +147,7 @@
 	
 	positionSignView = [[UIImageView alloc]init];
 	[self addSubview:positionSignView];
-	positionSignView.image = IMGRESOURCE(@"home_icon_location_theme");
+	positionSignView.image = IMGRESOURCE(@"map_icon_location_sign");
 	[positionSignView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(bgView).offset(15);
 		make.top.equalTo(separView.mas_bottom).offset(20);

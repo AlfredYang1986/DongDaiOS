@@ -25,7 +25,7 @@
 		TAGsLabel = [UILabel creatLabelWithText:@"##" textColor:[UIColor gary] fontSize:316.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:TAGsLabel];
 		[TAGsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
+			make.left.equalTo(self).offset(SERVICEPAGE_MARGIN_LR);
 			make.top.equalTo(self).offset(18);
 			make.bottom.equalTo(self).offset(20);
 		}];

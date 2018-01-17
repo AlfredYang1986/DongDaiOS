@@ -258,11 +258,12 @@
 	</controller>
 	<controller type="DefaultController" name="Assortment" factory="AYDefaultControllerFactoy" >
 		<facade type="DefaultFacade" name="ChoiceRemote" />
+		<facade type="DefaultFacade" name="KidNapRemote" />
 		
 		<view type="FakeStatusBar"  name="FakeStatusBar" />
 		<view type="FakeNavBar"     name="FakeNavBar" />
 <!--		<view type="Table"          name="Table" />-->
-<!--		-->
+
 <!--		<delegate type="TableViewDelegateAndDatasource" name="Assortment" />-->
 	</controller>
 	

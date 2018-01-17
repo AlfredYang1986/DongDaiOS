@@ -105,6 +105,7 @@
 	</delegate>
 	<delegate type="TableViewDelegateAndDatasource" name="TopicContent" factory="AYDefaultDelegateFactory" >
 		<command type="message" message="changeQueryData:" />
+		<command type="message" message="TransfromExpend:" />
 		<command type="notify"  message="scrollViewDidScroll:" />
 	</delegate>
 	

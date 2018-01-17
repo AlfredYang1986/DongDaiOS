@@ -58,8 +58,8 @@
 		bottom_view.backgroundColor = [UIColor garyLine];
 		[self addSubview:bottom_view];
 		[bottom_view mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
-			make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
+			make.left.equalTo(self).offset(SERVICEPAGE_MARGIN_LR);
+			make.right.equalTo(self).offset(-SERVICEPAGE_MARGIN_LR);
 			make.bottom.equalTo(self);
 			make.height.mas_equalTo(0.5);
 		}];
@@ -137,7 +137,7 @@
 		AYPlayItemsView *facilityItem = [[AYPlayItemsView alloc] initWithTitle:title andIconName:[NSString stringWithFormat:@"detail_facility_%d", index]];
 		[ScrollView addSubview:facilityItem];
 		CGSize labelSize = [title sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]}];
-		facilityItem.frame = CGRectMake(SCREEN_MARGIN_LR + i==0? 0 : lineSpacing + preMaxX, 8, labelSize.width, itemHeight);
+		facilityItem.frame = CGRectMake(SERVICEPAGE_MARGIN_LR + i==0? 0 : lineSpacing + preMaxX, 8, labelSize.width, itemHeight);
 		
 		preMaxX = facilityItem.frame.origin.x + labelSize.width;
 	}

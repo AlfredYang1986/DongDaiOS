@@ -8,7 +8,7 @@
 
 #import "AYTopicContentController.h"
 
-#define kCOLLECTIONVIEWTOP			(kStatusAndNavBarH + 141)
+#define kCOLLECTIONVIEWTOP			(kStatusBarH + 161)
 
 @interface AYTopicContentController ()
 
@@ -19,13 +19,12 @@
 	
 	UIView *bannerView;
 	UILabel *bannerTitle;
-	UILabel *bannerCount;
 	UIButton *navLeftBtn;
 	
 	UILabel *navTitleLabel;
 	UILabel *navCountLabel;
 	
-	NSString *sortCateg;
+	NSString *albumCateg;
 	NSInteger skipedCount;
 	NSMutableArray *remoteDataArr;
 }
@@ -64,7 +63,7 @@
 	
 	NSDictionary* dic = (NSDictionary*)*obj;
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-		sortCateg = [dic objectForKey:kAYControllerChangeArgsKey];
+		albumCateg = [dic objectForKey:kAYControllerChangeArgsKey];
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
@@ -76,25 +75,22 @@
 	[super viewDidLoad];
 	skipedCount = 0;
 	
-	bannerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, kCOLLECTIONVIEWTOP + 30)];
+	bannerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 303)];
 	[self.view addSubview:bannerView];
 	[self.view bringSubviewToFront:bannerView];
-	UIImageView *cover = [[UIImageView alloc] initWithFrame:bannerView.bounds];
+	UIImageView *cover = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 303)];
 	
-	NSArray *assortmentArr = kAY_home_album_titles;
-	NSString *coverImgName = [NSString stringWithFormat:@"topsort_list_%ld", [assortmentArr indexOfObject:sortCateg]];
+	NSString *coverImgName = [NSString stringWithFormat:@"album_content_bg_%ld", [kAY_home_album_titles indexOfObject:albumCateg]];
 	cover.image = IMGRESOURCE(coverImgName);
 	[bannerView addSubview:cover];
 	
 	UIView *navBar = [self.views objectForKey:kAYFakeNavBarView];
 	UIView *statusBar = [self.views objectForKey:kAYFakeStatusBarView];
-	[self.view bringSubviewToFront:navBar];
-	[self.view bringSubviewToFront:statusBar];
 	
 	navLeftBtn = [[UIButton alloc] init];
 	[navLeftBtn setImage:IMGRESOURCE(@"bar_left_black") forState:UIControlStateNormal];
 	[navLeftBtn setImage:IMGRESOURCE(@"bar_left_white") forState:UIControlStateSelected];
-	[self.view addSubview:navLeftBtn];
+	[navBar addSubview:navLeftBtn];
 	[navLeftBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(navBar).offset(10.5);
 		make.centerY.equalTo(navBar);
@@ -103,47 +99,30 @@
 	navLeftBtn.selected = YES;
 	[navLeftBtn addTarget:self action:@selector(leftBtnSelected) forControlEvents:UIControlEventTouchUpInside];
 	
-	bannerTitle = [Tools creatLabelWithText:@"# The Topic #" textColor:[Tools whiteColor] fontSize:622.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
-	[bannerView addSubview:bannerTitle];
+	bannerTitle = [UILabel creatLabelWithText:albumCateg textColor:[UIColor white] fontSize:317 backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+	[navBar addSubview:bannerTitle];
 	[bannerTitle mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(bannerView).offset(15);
-		make.top.equalTo(bannerView).offset(kStatusAndNavBarH+20);
+//		make.left.equalTo(bannerView).offset(15);
+//		make.top.equalTo(bannerView).offset(kStatusAndNavBarH+20);
+		make.center.equalTo(navBar);
 	}];
 	
-	NSShadow *sdw = [[NSShadow alloc] init];
-	sdw.shadowColor = [Tools colorWithRED:173 GREEN:186 BLUE:222 ALPHA:1.f];
-	sdw.shadowOffset = CGSizeMake(1, 1);
-	sdw.shadowBlurRadius = 2.f;
-	
-	if (sortCateg) {
-		NSString *categStr = [NSString stringWithFormat:@"#%@#", sortCateg];
-		
-		NSDictionary *shadowAttr = @{NSFontAttributeName:[UIFont boldSystemFontOfSize:22.f],
-									 NSForegroundColorAttributeName :[Tools whiteColor],
-									 NSShadowAttributeName:sdw};
-		
-		NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:categStr];
-		[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:22.f], NSForegroundColorAttributeName :[Tools theme]} range:NSMakeRange(0, 1)];
-		[attributedText setAttributes:shadowAttr range:NSMakeRange(1, categStr.length - 2)];
-		[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:22.f], NSForegroundColorAttributeName :[Tools theme]} range:NSMakeRange(categStr.length - 1, 1)];
-		bannerTitle.attributedText = attributedText;
-	}
-	
-	bannerCount = [UILabel creatLabelWithText:nil textColor:[Tools whiteColor] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
-	bannerCount.numberOfLines = 0;
-	NSString *countstr = @"为您准备了6个儿童服务,为您准备了6个儿童服务,为您准备了6个儿童服务为您准备了6个儿童服务,为您准备了6个儿童服务,为您准备了6个儿童服务.";
-	NSDictionary *shadowAttr = @{NSFontAttributeName:[UIFont boldSystemFontOfSize:15.f],
-								 NSForegroundColorAttributeName :[Tools whiteColor],
-								 NSShadowAttributeName:sdw};
-	
-	NSAttributedString *countAttrStr = [[NSAttributedString alloc] initWithString:countstr attributes:shadowAttr];
-	bannerCount.attributedText = countAttrStr;
-	[bannerView addSubview:bannerCount];
-	[bannerCount mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(bannerTitle);
-		make.right.equalTo(bannerView.mas_right).offset(-15);
-		make.top.equalTo(bannerTitle.mas_bottom).offset(15);
-	}];
+////	NSDictionary *shadowAttr = @{NSFontAttributeName:[UIFont boldSystemFontOfSize:15.f],NSForegroundColorAttributeName :[UIColor white],NSShadowAttributeName:sdw};
+//	NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
+//	paraStyle.lineBreakMode = NSLineBreakByCharWrapping;
+//	paraStyle.alignment = NSTextAlignmentLeft;
+//	paraStyle.minimumLineHeight = 23;
+//
+//	NSDictionary *dic_attr = @{ NSParagraphStyleAttributeName:paraStyle,
+//				  NSForegroundColorAttributeName:[UIColor white],
+//				  NSFontAttributeName:[UIFont systemFontOfSize:15]
+//				  };
+//
+//	NSAttributedString *countAttrStr = [[NSAttributedString alloc] initWithString:albumDesc attributes:dic_attr];
+//
+//
+//	CGSize size = [countAttrStr boundingRectWithSize:CGSizeMake(SCREEN_WIDTH-SCREEN_MARGIN_LR*2,MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin context:nil].size;
+//	NSLog(@"%f-%f", size.width, size.height);
 	
 	
 	UITableView *tableView = [self.views objectForKey:kAYTableView];
@@ -154,13 +133,19 @@
 	obj = (id)delegate_found;
 	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDelegateMessage, &obj)
 	
-	NSArray *arr_cell_name = @[@"AYTopicContentCellView"];
+	NSArray *arr_cell_name = @[@"AYTopicDescCellView", @"AYTopicContentCellView"];
 	for (NSString *cell_name in arr_cell_name) {
 		id class_name = [cell_name copy];
 		kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name);
 	}
 	
 	[self.view bringSubviewToFront:tableView];
+	[self.view bringSubviewToFront:navBar];
+	[self.view bringSubviewToFront:statusBar];
+	
+	NSString *albumDesc = [kAY_home_album_desc_dic objectForKey:albumCateg];
+	NSDictionary *tmp = @{@"desc":albumDesc};
+	kAYDelegatesSendMessage(@"TopicContent", kAYDelegateChangeDataMessage, &tmp)
 	
 //	tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
 	tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
@@ -173,7 +158,7 @@
 	NSDictionary *user;
 	CURRENUSER(user);
 	NSMutableDictionary *dic_search = [Tools getBaseRemoteData:user];
-	[[dic_search objectForKey:kAYCommArgsCondition] setValue:sortCateg forKey:kAYServiceArgsAlbumInfo];
+	[[dic_search objectForKey:kAYCommArgsCondition] setValue:albumCateg forKey:kAYServiceArgsAlbumInfo];
 	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
 //	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[NSNumber numberWithLongLong:([NSDate date].timeIntervalSince1970 * 1000)] forKey:kAYCommArgsRemoteDate];
 	
@@ -185,7 +170,7 @@
 			remoteDataArr = [[result objectForKey:@"services"] mutableCopy];
 			skipedCount = remoteDataArr.count;
 			
-			id tmp = [remoteDataArr copy];
+			id tmp = @{kAYServiceArgsInfo:[remoteDataArr copy]};
 			kAYDelegatesSendMessage(@"TopicContent", kAYDelegateChangeDataMessage, &tmp)
 			[tableView reloadData];
 		} else {
@@ -201,7 +186,7 @@
 	CURRENUSER(user);
 	NSMutableDictionary *dic_search = [Tools getBaseRemoteData];
 	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
-	[[dic_search objectForKey:kAYCommArgsCondition] setValue:sortCateg forKey:kAYServiceArgsCategoryInfo];
+	[[dic_search objectForKey:kAYCommArgsCondition] setValue:albumCateg forKey:kAYServiceArgsCategoryInfo];
 //	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[NSNumber numberWithLong:([NSDate date].timeIntervalSince1970 * 1000)] forKey:kAYCommArgsRemoteDate];
 	[dic_search setValue:[NSNumber numberWithInteger:skipedCount] forKey:kAYCommArgsRemoteDataSkip];
 	
@@ -235,52 +220,37 @@
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
 	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
-	view.backgroundColor = [Tools whiteColor];
-	view.alpha = 0;
+	view.backgroundColor = [UIColor colorWithWhite:1 alpha: 0];
+//	view.alpha = 0;
 	return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
 	view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
-	view.backgroundColor = [Tools whiteColor];
-	view.alpha = 0;
+	view.backgroundColor = [UIColor colorWithWhite:1 alpha: 0];
+//	view.alpha = 0;
 	
-	NSString *title = sortCateg;
+	NSString *title = @"";
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
-	
-	//	UIImage* left = IMGRESOURCE(@"bar_left_black");
-	//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
-	
-	//	navTitleLabel = [Tools creatUILabelWithText:title andTextColor:[Tools blackColor] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-	//	[view addSubview:navTitleLabel];
-	//	[navTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-	//		make.bottom.equalTo(view.mas_centerY).offset(0);
-	//		make.centerX.equalTo(view);
-	//	}];
-	//
-	//	navCountLabel = [Tools creatUILabelWithText:@"6个服务" andTextColor:[Tools blackColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-	//	[view addSubview:navCountLabel];
-	//	[navCountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-	//		make.top.equalTo(view.mas_centerY).offset(0);
-	//		make.centerX.equalTo(view);
-	//	}];
 	
 	NSNumber *is_hidden = [NSNumber numberWithBool:YES];
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &is_hidden)
 	is_hidden = [NSNumber numberWithBool:YES];
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnVisibilityMessage, &is_hidden)
-	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
+//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
 	
-	view.layer.shadowColor = [Tools garyColor].CGColor;
-	view.layer.shadowOffset = CGSizeMake(0, 3);
-	view.layer.shadowOpacity = 0.25f;
+//	view.layer.shadowColor = [Tools garyColor].CGColor;
+//	view.layer.shadowOffset = CGSizeMake(0, 3);
+//	view.layer.shadowOpacity = 0.25f;
 	return nil;
 }
 
 - (id)TableLayout:(UIView*)view {
-	view.frame = CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH);
+	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 	view.backgroundColor = [UIColor clearColor];
-	((UITableView*)view).contentInset = UIEdgeInsetsMake(141, 0, 0, 0);
+//	((UITableView*)view).contentInset = UIEdgeInsetsMake(kCOLLECTIONVIEWTOP - kStatusAndNavBarH, 0, 0, 0);
+	((UITableView*)view).estimatedRowHeight = 300;
+	((UITableView*)view).rowHeight = UITableViewAutomaticDimension;
 	return nil;
 }
 
@@ -295,6 +265,14 @@
 	[cmd performWithResult:&dic];
 	return nil;
 }
+
+- (id)showHideDetail:(NSNumber*)args {
+	UITableView *table = [self.views objectForKey:kAYTableView];
+	kAYDelegatesSendMessage(@"TopicContent", @"TransfromExpend:", &args)
+	[table reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+	return nil;
+}
+
 
 - (id)willCollectWithRow:(id)args {
 	
@@ -349,20 +327,22 @@
 
 #pragma scroll delegate
 - (id)scrollViewDidScroll:(id)args {
-	CGFloat offset_y = [args floatValue];
+	CGFloat offset_y = [args floatValue]+20;
 	
 	UIView *navBar = [self.views objectForKey:@"FakeNavBar"];
 	UIView *statusBar = [self.views objectForKey:@"FakeStatusBar"];
-	
-	if (offset_y < 0 ) {
+	NSLog(@"offset_y : %f", offset_y);
+	if (offset_y > 0 ) {
 		
-		CGFloat alp = fabs(offset_y) / (kCOLLECTIONVIEWTOP - kStatusAndNavBarH);		// UP -> small
+		CGFloat alp = ((60+kStatusBarH) - fabs(offset_y)) / (60+kStatusBarH);		// UP -> small
 		if (alp > 0.7) {
 			navLeftBtn.selected = YES;
+			bannerTitle.textColor = [UIColor white];
 			statusStyle = UIStatusBarStyleLightContent;
 			[self setNeedsStatusBarAppearanceUpdate];
 		} else if (alp < 0.7) {
 			navLeftBtn.selected = NO;
+			bannerTitle.textColor = [UIColor black];
 			statusStyle = UIStatusBarStyleDefault;
 			[self setNeedsStatusBarAppearanceUpdate];
 		}
@@ -370,7 +350,8 @@
 			alp = 1.f;
 		NSLog(@"alp : %f", alp);
 		
-		navBar.alpha = statusBar.alpha = 1 - alp;
+//		navBar.alpha = statusBar.alpha = 1 - alp;
+		navBar.backgroundColor = statusBar.backgroundColor = [UIColor colorWithWhite:1 alpha: 1-alp];
 		bannerView.alpha = alp;
 	}
 	

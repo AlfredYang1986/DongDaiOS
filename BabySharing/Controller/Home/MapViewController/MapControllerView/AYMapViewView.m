@@ -40,11 +40,11 @@
     annoArray = [[NSMutableArray alloc]init];
 	
 	UIButton *showMyself = [[UIButton alloc]init];
-	[showMyself setImage:IMGRESOURCE(@"position_myself") forState:UIControlStateNormal];
+	[showMyself setImage:IMGRESOURCE(@"map_position_user") forState:UIControlStateNormal];
 	[self addSubview:showMyself];
 	[showMyself mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.right.equalTo(self).offset(-20);
-		make.bottom.equalTo(self).offset(-220);
+		make.left.equalTo(self).offset(20);
+		make.bottom.equalTo(self).offset(-195);
 		make.size.mas_equalTo(CGSizeMake(42, 42));
 	}];
 	[showMyself addTarget:self action:@selector(didShowMyselfBtnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -120,7 +120,7 @@
 //    [self regionThatFits:MACoordinateRegionMake(loc.coordinate, MACoordinateSpanMake(loc.coordinate.latitude,loc.coordinate.longitude))];
 	[self setCenterCoordinate:loc.coordinate animated:NO];
 	self.showsUserLocation = YES;
-//	self.centerCoordinate = self.userLocation.location.coordinate;
+	[self zoomToMapAnnotations:annoArray];
 	
     return nil;
 }
@@ -128,6 +128,21 @@
 #pragma mark -- actios
 - (void)didShowMyselfBtnClick {
 	[self setCenterCoordinate:loc.coordinate animated:YES];
+}
+
+- (void)zoomToMapAnnotations:(NSArray*)annotations {
+	double minLat = 360.0f, maxLat = -360.0f;
+	double minLon = 360.0f, maxLon = -360.0f;
+	for (AYAnnonation *annotation in annotations) {
+		if ( annotation.coordinate.latitude  < minLat ) minLat = annotation.coordinate.latitude;
+		if ( annotation.coordinate.latitude  > maxLat ) maxLat = annotation.coordinate.latitude;
+		if ( annotation.coordinate.longitude < minLon ) minLon = annotation.coordinate.longitude;
+		if ( annotation.coordinate.longitude > maxLon ) maxLon = annotation.coordinate.longitude;
+	}
+	CLLocationCoordinate2D center = CLLocationCoordinate2DMake((minLat + maxLat) / 2.0, (minLon + maxLon) / 2.0);
+	MACoordinateSpan span = MACoordinateSpanMake((maxLat - minLat)*1.2, (maxLon - minLon)*1.2);
+	MACoordinateRegion region = MACoordinateRegionMake(center, span);
+	[self setRegion:region animated:YES];
 }
 
 #pragma mark -- MKMapViewDelegate
