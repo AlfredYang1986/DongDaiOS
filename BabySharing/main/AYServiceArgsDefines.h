@@ -58,7 +58,7 @@ static NSString* const kAYServiceArgsLeaf =					@"service_leaf";
 static NSString* const kAYServiceArgsLocationID =			@"location_id";
 static NSString* const kAYServiceArgsPunchline =			@"punchline";
 static NSString* const kAYServiceArgsLocationImages =		@"location_images";
-
+static NSString* const kAYServiceArgsAlbum =				@"album";
 
 static NSString* const kAYServiceArgsSelf =					@"service";
 static NSString* const kAYServiceArgsInfo =					@"service_info";

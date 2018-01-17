@@ -43,7 +43,7 @@
 	paraStyle.minimumLineHeight = 22;
 	
 	dic_attr = @{ NSParagraphStyleAttributeName:paraStyle,
-				  NSForegroundColorAttributeName:[UIColor gary],
+				  NSForegroundColorAttributeName:[UIColor black13],
 				  NSFontAttributeName:[UIFont systemFontOfSize:16.f]
 				  };
 	
@@ -74,14 +74,14 @@
 		self.clipsToBounds = YES;
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		
-		tipsTitleLabel = [UILabel creatLabelWithText:@"服务介绍" textColor:[UIColor black] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		tipsTitleLabel = [UILabel creatLabelWithText:@"服务介绍" textColor:[UIColor black13] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:tipsTitleLabel];
 		[tipsTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(SERVICEPAGE_MARGIN_LR);
-			make.top.equalTo(self).offset(30);
+			make.top.equalTo(self).offset(20);
 		}];
 
-		descLabel = [UILabel creatLabelWithText:@"" textColor:[UIColor gary] fontSize:15 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		descLabel = [UILabel creatLabelWithText:@"" textColor:[UIColor black] fontSize:315 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:descLabel];
 //		[descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 //			make.left.equalTo(tipsTitleLabel);
@@ -99,7 +99,7 @@
 		}];
 		maskView.hidden = YES;
 		
-		TAGsLabel = [UILabel creatLabelWithText:@"##" textColor:[UIColor gary] fontSize:316.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		TAGsLabel = [UILabel creatLabelWithText:@"##" textColor:[UIColor gary166] fontSize:316.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:TAGsLabel];
 		[TAGsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(SERVICEPAGE_MARGIN_LR);
@@ -108,7 +108,7 @@
 		}];
 		TAGsLabel.hidden = YES;
 		
-		showhideBtn = [UIButton creatBtnWithTitle:@"展开" titleColor:[UIColor gary] fontSize:15 backgroundColor:nil];
+		showhideBtn = [UIButton creatBtnWithTitle:@"展开" titleColor:[UIColor gary166] fontSize:615 backgroundColor:nil];
 //		[showhideBtn setTitle:@"展开" forState:UIControlStateNormal];
 		[showhideBtn setTitle:@"收起" forState:UIControlStateSelected];
 		[self addSubview:showhideBtn];
@@ -201,19 +201,22 @@
 	NSAttributedString *descAttri = [[NSAttributedString alloc] initWithString:descStr attributes:dic_attr];
 	descLabel.attributedText = descAttri;
 	
-	CGFloat marginBtm = 30;
-	NSArray *tags = [service_info objectForKey:kAYServiceArgsTags];
-	if (tags.count != 0) {
-		marginBtm = 60;
-		NSString *tagStr = @"#";
-		for (NSString *tag in tags) {
-			if (tags.lastObject == tag) {
-				tagStr = [[tagStr stringByAppendingString:tag] stringByAppendingString:@"#"];
-			} else
-				tagStr = [[tagStr stringByAppendingString:tag] stringByAppendingString:@"# #"];
-		}
-		NSAttributedString *tsgsAttri = [[NSAttributedString alloc] initWithString:tagStr attributes:dic_attr];
-		TAGsLabel.attributedText = tsgsAttri;
+	CGFloat marginBtm = 20;
+	NSString *album = [service_info objectForKey:kAYServiceArgsAlbum];
+	if (album.length != 0) {
+		marginBtm = 62;
+//		NSString *tagStr = @"#";
+//		for (NSString *tag in tags) {
+//			if (tags.lastObject == tag) {
+//				tagStr = [[tagStr stringByAppendingString:tag] stringByAppendingString:@"#"];
+//			} else
+//				tagStr = [[tagStr stringByAppendingString:tag] stringByAppendingString:@"# #"];
+//		}
+		album = [[@"#" stringByAppendingString:album] stringByAppendingString:@"#"];
+//		NSAttributedString *tsgsAttri = [[NSAttributedString alloc] initWithString:album attributes:dic_attr];
+//		TAGsLabel.attributedText = tsgsAttri;
+		
+		TAGsLabel.text = album;
 		TAGsLabel.hidden = NO;
 	}
 	

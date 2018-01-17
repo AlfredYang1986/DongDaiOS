@@ -61,7 +61,7 @@
 		titleLabel = [Tools creatLabelWithText:@"分类" textColor:[UIColor black] fontSize:622 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(self).offset(15);
+			make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
 			make.top.equalTo(self).offset(0);
 		}];
 		
@@ -71,13 +71,14 @@
 			make.left.equalTo(titleLabel);
 			make.top.equalTo(titleLabel.mas_bottom).offset(2);
 		}];
+		subTitleLabel.hidden = YES;
 		
 		UIButton *moreBtn = [Tools creatBtnWithTitle:@"查看更多" titleColor:[UIColor theme] fontSize:615 backgroundColor:nil];
 		[self addSubview:moreBtn];
 		[moreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.right.equalTo(self).offset(-15);
-			make.centerY.equalTo(subTitleLabel);
-			make.size.mas_equalTo(CGSizeMake(60, 20));
+			make.right.equalTo(self).offset(-8);
+			make.bottom.equalTo(titleLabel).offset(4);
+			make.size.mas_equalTo(CGSizeMake(80, 30));
 		}];
 		[moreBtn addTarget:self action:@selector(didAssortmentMoreBtnClick) forControlEvents:UIControlEventTouchUpInside];
 		
@@ -86,18 +87,18 @@
 		flowLayout.minimumInteritemSpacing = 8;
 		flowLayout.minimumLineSpacing = 8;
 		
-		CollectionView = [[UICollectionView  alloc]initWithFrame:CGRectMake(0, 65, SCREEN_WIDTH, 250) collectionViewLayout:flowLayout];
+		CollectionView = [[UICollectionView  alloc]initWithFrame:CGRectZero collectionViewLayout:flowLayout];
 		CollectionView.delegate = self;
 		CollectionView.dataSource = self;
 		CollectionView.showsVerticalScrollIndicator = NO;
 		CollectionView.showsHorizontalScrollIndicator = NO;
-		CollectionView.contentInset = UIEdgeInsetsMake(0, 15, 0, 0);
+		CollectionView.contentInset = UIEdgeInsetsMake(0, SCREEN_MARGIN_LR, 0, SCREEN_MARGIN_LR);
 		[CollectionView setBackgroundColor:[UIColor clearColor]];
 		[CollectionView registerClass:NSClassFromString(@"AYNurseryItem") forCellWithReuseIdentifier:@"AYNurseryItem"];
 		[CollectionView registerClass:NSClassFromString(@"AYNurseryMoreItem") forCellWithReuseIdentifier:@"AYNurseryMoreItem"];
 		[self addSubview:CollectionView];
 		[CollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(self).offset(65);
+			make.top.equalTo(self).offset(45);
 			make.left.equalTo(self);
 			make.right.equalTo(self);
 			make.bottom.equalTo(self);
@@ -108,54 +109,32 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-	return serviceData.count + 1;
+	return serviceData.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 	
-	if (indexPath.row == serviceData.count) {
-		AYNurseryMoreItem *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AYNurseryMoreItem" forIndexPath:indexPath];
-		return cell;
-	} else {
-		
-		AYHomeAssortmentItem *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AYNurseryItem" forIndexPath:indexPath];
-		NSMutableDictionary *tmp = [[serviceData objectAtIndex:indexPath.row] copy];
-		cell.itemInfo = [tmp copy];
-		cell.likeBtnClick = ^(NSDictionary *service_info) {
-			id ser = [service_info copy];
-			[(AYViewController*)self.controller performSel:@"willCollectWithRow:" withResult:&ser];
-		};
-		return cell;
-	}
-	
+	AYHomeAssortmentItem *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AYNurseryItem" forIndexPath:indexPath];
+	NSMutableDictionary *tmp = [[serviceData objectAtIndex:indexPath.row] copy];
+	cell.itemInfo = [tmp copy];
+	cell.likeBtnClick = ^(NSDictionary *service_info) {
+		id ser = [service_info copy];
+		[(AYViewController*)self.controller performSel:@"willCollectWithRow:" withResult:&ser];
+	};
+	return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	
 	NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-	
-	if (indexPath.row == serviceData.count) {
-		NSString *title = titleLabel.text;
-		[(AYViewController*)self.controller performSel:@"didAssortmentMoreBtnClick:" withResult:&title];
-		return;
-	} else {
-		
-//		AYHomeAssortmentItem *item = (AYHomeAssortmentItem*)[collectionView cellForItemAtIndexPath:indexPath];
-//		UIImageView *cover = item.coverImage;
-//		[dic setValue:cover forKey:@"cover"];
-		[dic setValue:[serviceData objectAtIndex:indexPath.row] forKey:kAYServiceArgsSelf];
-	}
-	
+	[dic setValue:[serviceData objectAtIndex:indexPath.row] forKey:kAYServiceArgsSelf];
 	id tmp = [dic copy];
 	[(AYViewController*)self.controller performSel:@"didSelectAssortmentAtIndex:" withResult:&tmp];
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-	if (serviceData.count == indexPath.row) {
-		return CGSizeMake(106+SCREEN_MARGIN_LR, 320);
-	} else {
-		return CGSizeMake(320, 320);
-	}
+	CGFloat height = HOME_NURSERY_CELL_HEIGHT - 45;
+	return CGSizeMake(319, height);
 }
 
 #pragma mark -- actions

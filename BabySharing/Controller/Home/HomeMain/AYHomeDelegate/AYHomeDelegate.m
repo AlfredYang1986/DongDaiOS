@@ -128,16 +128,13 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
-		return 463;
+		return 443;
 	}
-//	else if (indexPath.row == 1) {
-//		return 110;
-//	}
 	else if (indexPath.row == 1) {
-		return 385;
+		return 376;
 	}
 	else
-		return 320;
+		return 297;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -3883,8 +3883,8 @@
 			isa = PBXGroup;
 			children = (
 				7021832E1EC561CF00059124 /* ServiceNotiCell */,
-				709BEE811EE010DE006987D1 /* ServiceFacilityCell */,
 				7021832B1EC561CF00059124 /* ServiceMapCell */,
+				709BEE811EE010DE006987D1 /* ServiceFacilityCell */,
 				7021831F1EC561CF00059124 /* ServiceCalendarCell */,
 				7046517A1FFCFDDA0086B350 /* ServiceTAGCell */,
 				702183251EC561CF00059124 /* ServiceDescCell */,

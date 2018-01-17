@@ -74,7 +74,9 @@
 	[super placeSubviews];
 //	self.backgroundColor = [UIColor gary];
 	// indicator的中心点
-	CGRect subFrame = CGRectMake((SCREEN_WIDTH-20)*0.5, (MJRefreshHeaderHeight-20), 20, 20);
+	
+	
+	CGRect subFrame = CGRectMake((self.mj_w-20)*0.5, (MJRefreshHeaderHeight-20)-self.scrollViewOriginalInset.top, 20, 20);
 	self.progressIndicatorView.frame = subFrame;
 	
 	// 圈圈

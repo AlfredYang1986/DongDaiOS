@@ -201,6 +201,7 @@
 	
 	<controller type="DefaultController" name="NursaryList" factory="AYDefaultControllerFactoy" >
 		<facade type="DefaultFacade"        name="ChoiceRemote" />
+		<facade type="DefaultFacade"        name="KidNapRemote" />
 		
 		<view type="FakeStatusBar"  name="FakeStatusBar" />
 		<view type="FakeNavBar"     name="FakeNavBar" />

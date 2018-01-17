@@ -42,14 +42,14 @@
 	_coverImage = [[UIImageView alloc] init];
 	_coverImage.contentMode = UIViewContentModeScaleAspectFill;
 	_coverImage.image = IMGRESOURCE(@"default_image");
-	[Tools setViewBorder:_coverImage withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
+	[Tools setViewBorder:_coverImage withRadius:2.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
 	[self addSubview:_coverImage];
 	[_coverImage mas_makeConstraints:^(MASConstraintMaker *make) {
 //		make.edges.equalTo(self);
 		make.left.equalTo(self).offset(0);
 		make.right.equalTo(self);
 		make.top.equalTo(self);
-		make.bottom.equalTo(self).offset(-130);
+		make.height.mas_equalTo(104);
 	}];
 	
 	_likeBtn  = [[UIButton alloc] init];
@@ -58,7 +58,7 @@
 	[self addSubview:_likeBtn];
 	[_likeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.right.equalTo(_coverImage).offset(0);
-		make.top.top.equalTo(_coverImage).offset(5);
+		make.top.top.equalTo(_coverImage).offset(0);
 		make.size.mas_equalTo(CGSizeMake(40, 40));
 	}];
 	[_likeBtn addTarget:self action:@selector(didLikeBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -76,7 +76,7 @@
 	titleLabel.numberOfLines = 2;
 	[self addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(tagLabel.mas_bottom).offset(5);
+		make.top.equalTo(tagLabel.mas_bottom).offset(4);
 		make.left.equalTo(_coverImage);
 		make.right.equalTo(_coverImage);
 	}];
@@ -84,7 +84,7 @@
 	addrlabel = [UILabel creatLabelWithText:@"Address s" textColor:[UIColor gary] fontSize:313 backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	[self addSubview:addrlabel];
 	[addrlabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(titleLabel.mas_bottom).offset(6);
+		make.top.equalTo(titleLabel.mas_bottom).offset(9);
 		make.left.equalTo(_coverImage);
 	}];
 	

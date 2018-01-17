@@ -40,6 +40,7 @@
 	
 	
     UIButton *bar_like_btn;
+	UIButton *bar_back_btn;
     UIView *flexibleView;
 	UIScrollView *TAGScrollView;
 	NSMutableArray *imageTagsView;
@@ -295,21 +296,35 @@
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
 	
-    UIImage* left = IMGRESOURCE(@"bar_left_white");
-	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
+//    UIImage* left = IMGRESOURCE(@"detail_icon_back_white");
+//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
 	
-    id right = [NSNumber numberWithBool:YES];
-	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &right)
+	bar_back_btn = [[UIButton alloc]init];
+	[bar_back_btn setImage:IMGRESOURCE(@"detail_icon_back_white") forState:UIControlStateNormal];
+	[bar_back_btn setImage:IMGRESOURCE(@"detail_icon_back_black") forState:UIControlStateSelected];
+	[bar_back_btn addTarget:self action:@selector(leftBtnSelected) forControlEvents:UIControlEventTouchUpInside];
+	[view addSubview:bar_back_btn];
+	[bar_back_btn mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(view).offset(-5);
+		make.top.equalTo(view).offset(6);
+		make.size.mas_equalTo(CGSizeMake(36, 36));
+	}];
+	
+    id hidden = [NSNumber numberWithBool:YES];
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &hidden)
+	hidden = [NSNumber numberWithBool:YES];
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnVisibilityMessage, &hidden)
 	
     bar_like_btn = [[UIButton alloc]init];
-    [bar_like_btn setImage:IMGRESOURCE(@"details_icon_love_normal") forState:UIControlStateNormal];
-    [bar_like_btn setImage:IMGRESOURCE(@"details_icon_love_select") forState:UIControlStateSelected];
+    [bar_like_btn setImage:IMGRESOURCE(@"home_icon_love_normal") forState:UIControlStateNormal];
+    [bar_like_btn setImage:IMGRESOURCE(@"home_icon_love_select") forState:UIControlStateSelected];
+	[bar_like_btn setImage:IMGRESOURCE(@"home_icon_love_black") forState:UIControlStateHighlighted];
     [bar_like_btn addTarget:self action:@selector(didCollectionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:bar_like_btn];
     [bar_like_btn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(view).offset(-20);
-        make.centerY.equalTo(view);
-        make.size.mas_equalTo(CGSizeMake(27, 27));
+        make.right.equalTo(view).offset(-8);
+        make.top.equalTo(view).offset(7);
+        make.size.mas_equalTo(CGSizeMake(40, 40));
     }];
 	
     return nil;
@@ -357,8 +372,11 @@
 		
 		CGFloat alp = (kStatusAndNavBarH*2 + offset_y) / (kStatusAndNavBarH);
 		if (alp > 0.5 && !isBlackLeftBtn) {
-			UIImage* left = IMGRESOURCE(@"bar_left_black");
-			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
+			bar_back_btn.selected = YES;
+			if (!bar_like_btn.selected) {
+				bar_like_btn.highlighted = YES;
+			}
+			
 			isBlackLeftBtn = YES;
 			NSString *titleStr = @"服务详情";
 			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &titleStr)
@@ -366,8 +384,11 @@
 			[self setNeedsStatusBarAppearanceUpdate];
 			
 		} else if (alp <  0.5 && isBlackLeftBtn) {
-			UIImage* left = IMGRESOURCE(@"bar_left_white");
-			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
+			bar_back_btn.selected = NO;
+			if (!bar_like_btn.selected) {
+				bar_like_btn.highlighted = NO;
+			}
+			
 			isBlackLeftBtn = NO;
 			NSString *titleStr = @"";
 			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &titleStr)

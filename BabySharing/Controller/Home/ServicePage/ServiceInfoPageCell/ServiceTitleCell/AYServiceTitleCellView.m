@@ -55,33 +55,33 @@
     if (self) {
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		
-		titleLabel = [UILabel creatLabelWithText:@"Service title is not set" textColor:[UIColor gary] fontSize:22 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		titleLabel = [UILabel creatLabelWithText:@"Service title is not set" textColor:[UIColor gary115] fontSize:20 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(self).offset(28);
+			make.top.equalTo(self).offset(32);
 			make.left.equalTo(self).offset(SERVICEPAGE_MARGIN_LR);
 			make.right.equalTo(self).offset(-SERVICEPAGE_MARGIN_LR-55);
 		}];
 		
-		themeLabel = [UILabel creatLabelWithText:@"Theme" textColor:[UIColor black] fontSize:622.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		themeLabel = [UILabel creatLabelWithText:@"Theme" textColor:[UIColor black13] fontSize:618 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview: themeLabel];
 		[themeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);
-			make.top.equalTo(titleLabel.mas_bottom).offset(20);
+			make.top.equalTo(titleLabel.mas_bottom).offset(9);
 		}];
 		
 		tagLabel = [UILabel creatLabelWithText:@"TAG" textColor:[UIColor tag] fontSize:616.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview: tagLabel];
 		[tagLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);
-			make.top.equalTo(themeLabel.mas_bottom).offset(5);
+			make.top.equalTo(themeLabel.mas_bottom).offset(2);
 		}];
 		
 		UIView *bottom_view = [[UIView alloc] init];
 		bottom_view.backgroundColor = [UIColor garyLine];
 		[self addSubview:bottom_view];
 		[bottom_view mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(tagLabel.mas_bottom).offset(30);
+			make.top.equalTo(tagLabel.mas_bottom).offset(21);
 			make.left.equalTo(self).offset(SERVICEPAGE_MARGIN_LR);
 			make.right.equalTo(self).offset(-SERVICEPAGE_MARGIN_LR);
 			make.bottom.equalTo(self);

@@ -61,9 +61,9 @@
 		[self addSubview:ageView];
 		[ageView mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self);
-			make.top.equalTo(self).offset(8);
-			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH/3, 96));
-			make.bottom.equalTo(self).offset(-7);
+			make.top.equalTo(self).offset(18);
+			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH/3, 73));
+			make.bottom.equalTo(self).offset(-17);
 		}];
 		
 		//capacity_icon
@@ -114,12 +114,12 @@
 	if ( teacher <= 0) {	//no teacher
 		if (class <= 0) {	//no class
 			[ageView mas_updateConstraints:^(MASConstraintMaker *make) {
-				make.size.mas_equalTo(CGSizeMake(101, 96));
+				make.size.mas_equalTo(CGSizeMake(101, 73));
 			}];
 			classView.hidden = teacherView.hidden = YES;
 		} else {
 			[ageView mas_updateConstraints:^(MASConstraintMaker *make) {
-				make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH*0.5, 96));
+				make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH*0.5, 73));
 			}];
 			[classView mas_updateConstraints:^(MASConstraintMaker *make) {
 				make.size.equalTo(ageView);

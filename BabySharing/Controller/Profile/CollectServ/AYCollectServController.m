@@ -90,7 +90,7 @@
     }];
     tipsLabel.hidden = YES;
     
-    tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+    tableView.mj_header = [MXSRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
     [self loadNewData];
 }
 

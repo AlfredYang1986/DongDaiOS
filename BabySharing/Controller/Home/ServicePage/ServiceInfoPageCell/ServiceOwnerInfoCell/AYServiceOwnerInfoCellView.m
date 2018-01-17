@@ -76,18 +76,16 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 		
 		CGFloat photoWidth = 55;
         userPhoto = [[UIImageView alloc] init];
-//        userPhoto.image = IMGRESOURCE(@"default_user");
+		userPhoto.image = IMGRESOURCE(@"avatar_0");
 		userPhoto.backgroundColor = [UIColor theme];
         userPhoto.contentMode = UIViewContentModeScaleAspectFill;
         userPhoto.clipsToBounds = YES;
         userPhoto.layer.cornerRadius = photoWidth*0.5;
-//        userPhoto.layer.borderColor = [Tools borderAlphaColor].CGColor;
-//        userPhoto.layer.borderWidth = 2.f;
         [self addSubview:userPhoto];
         [userPhoto mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(self).offset(-SERVICEPAGE_MARGIN_LR);
-            make.top.equalTo(self).offset(30);
-			make.bottom.equalTo(self).offset(-30);
+            make.top.equalTo(self).offset(16);
+			make.bottom.equalTo(self).offset(-16);
             make.size.mas_equalTo(CGSizeMake(photoWidth, photoWidth));
         }];
 		
@@ -100,19 +98,19 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 			make.center.equalTo(userPhoto);
 		}];
 		
-		userName = [UILabel creatLabelWithText:@"UserName" textColor:[UIColor black] fontSize:617.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		userName = [UILabel creatLabelWithText:@"UserName" textColor:[UIColor black13] fontSize:617.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		userName.numberOfLines = 1;
 		[self addSubview:userName];
 		[userName mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(userPhoto).offset(2);
+			make.top.equalTo(userPhoto).offset(7);
 			make.left.equalTo(self).offset(SERVICEPAGE_MARGIN_LR);
 			make.right.equalTo(userPhoto.mas_left).offset(-20);
 		}];
-		userJob = [UILabel creatLabelWithText:@"UserJob" textColor:[UIColor gary] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		userJob = [UILabel creatLabelWithText:@"UserJob" textColor:[UIColor gary115] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		userJob.numberOfLines = 1;
 		[self addSubview:userJob];
 		[userJob mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.bottom.equalTo(userPhoto).offset(-2);
+			make.bottom.equalTo(userPhoto).offset(-4);
 			make.left.equalTo(userName);
 			make.right.equalTo(userName);
 		}];

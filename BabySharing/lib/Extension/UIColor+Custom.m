@@ -47,6 +47,19 @@
 + (UIColor*)gary250 {
 	return [UIColor colorWithRed:250.f / 255.f green:250.f / 255.f blue:250.f / 255.f alpha:1.f];
 }
++ (UIColor*)gary115 {
+	return [UIColor colorWithRed:115 / 255.f green:115 / 255.f blue:115 / 255.f alpha:1.f];
+}
++ (UIColor*)gary166 {
+	return [UIColor colorWithRed:166 / 255.f green:166 / 255.f blue:166 / 255.f alpha:1.f];
+}
++ (UIColor*)black13 {
+	return [UIColor colorWithRed:13/255.0 green:13/255.0 blue:13/255.0 alpha:1.0];
+}
++ (UIColor*)black64 {
+	return [UIColor colorWithRed:64.0/255.0 green:64.0/255.0 blue:64.0/255.0 alpha:1.0];
+}
+
 + (UIColor*)RGB153Gary {
 	return [UIColor colorWithRed:153.f / 255.f green:153.f / 255.f blue:153.f / 255.f alpha:1.f];
 }

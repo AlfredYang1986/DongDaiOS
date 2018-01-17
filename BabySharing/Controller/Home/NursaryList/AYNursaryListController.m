@@ -84,17 +84,9 @@
 	[cmd_search performWithResult:&class_name];
 	
 	UITableView *tableView = (UITableView*)view_table;
-	tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+	tableView.mj_header = [MXSRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
 	tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
 	[self loadNewData];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
 }
 
 #pragma mark -- layouts
@@ -195,19 +187,19 @@
 	NSString *service_id = [args objectForKey:kAYServiceArgsID];
 	UIButton *likeBtn = [args objectForKey:@"btn"];
 	
-	NSPredicate *pre_id = [NSPredicate predicateWithFormat:@"self.%@=%@", kAYServiceArgsID, service_id];
-	NSArray *result_pred = [serviceData filteredArrayUsingPredicate:pre_id];
-	if (result_pred.count != 1) {
-		return nil;
-	}
-	id service_data = result_pred.firstObject;
+//	NSPredicate *pre_id = [NSPredicate predicateWithFormat:@"self.%@=%@", kAYServiceArgsID, service_id];
+//	NSArray *result_pred = [serviceData filteredArrayUsingPredicate:pre_id];
+//	if (result_pred.count != 1) {
+//		return nil;
+//	}
+//	id service_data = result_pred.firstObject;
 	
 	NSDictionary *user = nil;
 	CURRENUSER(user);
-	NSMutableDictionary *dic = [Tools getBaseRemoteData];
+	NSMutableDictionary *dic = [Tools getBaseRemoteData:user];
 	
 	NSMutableDictionary *dic_collect = [[NSMutableDictionary alloc] init];
-	[dic_collect setValue:[service_data objectForKey:kAYServiceArgsID] forKey:kAYServiceArgsID];
+	[dic_collect setValue:service_id forKey:kAYServiceArgsID];
 	[dic_collect setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
 	[dic setValue:dic_collect forKey:@"collections"];
 	
@@ -227,32 +219,15 @@
 		}];
 	} else {
 		
-		UIAlertController *alertController= [UIAlertController alertControllerWithTitle:@"取消收藏" message:@"您确认要从我心仪的服务中移除\n当前服务吗？" preferredStyle:UIAlertControllerStyleAlert];
-		UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-		UIAlertAction *certainAction = [UIAlertAction actionWithTitle:@"移除" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-			
-			AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"UnCollectService"];
-			[cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-				if (success) {
-					NSInteger row = [serviceData indexOfObject:result_pred.firstObject];
-					[serviceData removeObject:result_pred.firstObject];
-					id data = [serviceData copy];
-					kAYDelegatesSendMessage(@"CollectServ", @"changeQueryData:", &data)
-					//					kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
-					dispatch_async(dispatch_get_main_queue(), ^{
-						UITableView *view_table = [self.views objectForKey:kAYTableView];
-						[view_table deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
-					});
-				} else {
-					NSString *title = @"取消收藏失败!请检查网络链接是否正常";
-					AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-				}
-			}];
-			
+		AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"UnCollectService"];
+		[cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+			if (success) {
+				likeBtn.selected = NO;
+			} else {
+				NSString *title = @"取消收藏失败!请检查网络链接是否正常";
+				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			}
 		}];
-		[alertController addAction:cancelAction];
-		[alertController addAction:certainAction];
-		[self presentViewController:alertController animated:YES completion:nil];
 		
 	}
 	return nil;

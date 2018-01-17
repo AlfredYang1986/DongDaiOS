@@ -22,7 +22,7 @@
 		[self addSubview:icon];
 		[icon mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self);
-			make.top.equalTo(self).offset(7);
+			make.top.equalTo(self).offset(0);
 			make.size.mas_equalTo(CGSizeMake(23, 23));
 		}];
 		
@@ -30,14 +30,14 @@
 		[self addSubview:label];
 		[label mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self);
-			make.top.equalTo(icon.mas_bottom).offset(8);
+			make.top.equalTo(icon.mas_bottom).offset(7);
 		}];
 		
-		infoLabel = [UILabel creatLabelWithText:@"-" textColor:[UIColor black] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+		infoLabel = [UILabel creatLabelWithText:@"-" textColor:[UIColor black] fontSize:616.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 		[self addSubview:infoLabel];
 		[infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self);
-			make.top.equalTo(label.mas_bottom).offset(10);
+			make.top.equalTo(label.mas_bottom).offset(7);
 		}];
 	}
 	return self;

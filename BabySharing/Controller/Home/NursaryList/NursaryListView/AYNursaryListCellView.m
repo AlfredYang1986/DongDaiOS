@@ -70,7 +70,7 @@
 		[self addSubview:likeBtn];
 		[likeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.right.equalTo(coverImage).offset(0);
-			make.top.top.equalTo(coverImage).offset(5);
+			make.top.top.equalTo(coverImage).offset(0);
 			make.size.mas_equalTo(CGSizeMake(40, 40));
 		}];
 		[likeBtn addTarget:self action:@selector(didLikeBtnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -109,7 +109,7 @@
 	[dic setValue:likeBtn forKey:@"btn"];
 	[dic setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
 	
-	kAYViewSendNotify(self, @"willCollectWithRow:", &dic)
+	[(AYViewController*)self.controller performSel:@"willCollectWithRow:" withResult:&dic];
 }
 
 #pragma mark -- messages

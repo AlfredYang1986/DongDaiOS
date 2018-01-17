@@ -65,7 +65,7 @@
 		titleLabel = [UILabel creatLabelWithText:@"精选主题" textColor:[Tools black] fontSize:628 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(self).offset(15);
+			make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
 			make.top.equalTo(self).offset(15);
 		}];
 		
@@ -75,6 +75,7 @@
 			make.left.equalTo(titleLabel);
 			make.top.equalTo(titleLabel.mas_bottom).offset(2);
 		}];
+		subTitleLabel.hidden = YES;
 		
 		UICollectionViewFlowLayout *flowLayout = [UICollectionViewFlowLayout new];
 		flowLayout.itemSize  = CGSizeMake(235, 310);
@@ -82,12 +83,12 @@
 		flowLayout.minimumInteritemSpacing = 0;
 		flowLayout.minimumLineSpacing = 16;
 		
-		collectionView = [[UICollectionView  alloc]initWithFrame:CGRectMake(0, 90, SCREEN_WIDTH, 330) collectionViewLayout:flowLayout];
+		collectionView = [[UICollectionView  alloc] initWithFrame:CGRectMake(0, 15+45, SCREEN_WIDTH, 330) collectionViewLayout:flowLayout];
 		collectionView.delegate = self;
 		collectionView.dataSource = self;
 		collectionView.showsVerticalScrollIndicator = NO;
 		collectionView.showsHorizontalScrollIndicator = NO;
-		collectionView.contentInset = UIEdgeInsetsMake(5, 15, 0, 0);
+		collectionView.contentInset = UIEdgeInsetsMake(5, SCREEN_MARGIN_LR, 15, SCREEN_MARGIN_LR);
 		[collectionView setBackgroundColor:[UIColor clearColor]];
 		[collectionView registerClass:NSClassFromString(@"AYHomeTopicItem") forCellWithReuseIdentifier:@"AYHomeTopicItem"];
 		[self addSubview:collectionView];

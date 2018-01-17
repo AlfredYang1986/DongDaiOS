@@ -96,17 +96,17 @@
 	layout.minimumInteritemSpacing = 8.f;
 	layout.minimumLineSpacing = 8.f;
 	
-	servCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(SCREEN_MARGIN_LR, kStatusAndNavBarH+10, SCREEN_WIDTH-SCREEN_MARGIN_LR*2, SCREEN_HEIGHT-kStatusAndNavBarH) collectionViewLayout:layout];
+	servCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(SCREEN_MARGIN_LR, kStatusAndNavBarH, SCREEN_WIDTH-SCREEN_MARGIN_LR*2, SCREEN_HEIGHT-kStatusAndNavBarH) collectionViewLayout:layout];
 	servCollectionView.delegate = self;
 	servCollectionView.dataSource = self;
 	servCollectionView.backgroundColor = [UIColor clearColor];
 	servCollectionView.showsVerticalScrollIndicator = NO;
 	
-	servCollectionView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+	servCollectionView.contentInset = UIEdgeInsetsMake(15, 0, 0, 0);
 	[self.view addSubview:servCollectionView];
 	[servCollectionView registerClass:NSClassFromString(@"AYHomeAssortmentItem") forCellWithReuseIdentifier:@"AYHomeAssortmentItem"];
 	
-	servCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+	servCollectionView.mj_header = [MXSRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
 	servCollectionView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
 	
 	[self loadNewData];
@@ -116,7 +116,7 @@
 - (void)loadNewData {
 	NSDictionary *user;
 	CURRENUSER(user);
-	NSMutableDictionary *dic_search = [Tools getBaseRemoteData];
+	NSMutableDictionary *dic_search = [Tools getBaseRemoteData:user];
 	[[dic_search objectForKey:kAYCommArgsCondition] setValue:sortCateg forKey:kAYServiceArgsServiceTypeInfo];
 	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
 //	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[NSNumber numberWithLongLong:([NSDate date].timeIntervalSince1970 * 1000)] forKey:kAYCommArgsRemoteDate];
@@ -141,7 +141,7 @@
 	
 	NSDictionary *user;
 	CURRENUSER(user);
-	NSMutableDictionary *dic_search = [Tools getBaseRemoteData];
+	NSMutableDictionary *dic_search = [Tools getBaseRemoteData:user];
 	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
 	[[dic_search objectForKey:kAYCommArgsCondition] setValue:sortCateg forKey:kAYServiceArgsServiceTypeInfo];
 	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[NSNumber numberWithLong:([NSDate date].timeIntervalSince1970 * 1000)] forKey:kAYCommArgsRemoteDate];

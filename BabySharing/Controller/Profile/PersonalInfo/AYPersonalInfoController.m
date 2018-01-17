@@ -197,23 +197,34 @@
 }
 
 - (void)loginOutClick {
-	NSDictionary* current_login_user = nil;
-	CURRENUSER(current_login_user);
 	
-	id<AYFacadeBase> f_login_remote = [self.facades objectForKey:@"LandingRemote"];
-	AYRemoteCallCommand* cmd_sign_out = [f_login_remote.commands objectForKey:@"AuthSignOut"];
-	[cmd_sign_out performWithResult:current_login_user andFinishBlack:^(BOOL success, NSDictionary * result) {
-		NSLog(@"login out %@", result);
+	UIAlertController *alertController= [UIAlertController alertControllerWithTitle:@"提示" message:@"确认退出账户？" preferredStyle:UIAlertControllerStyleAlert];
+	UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+	UIAlertAction *certainAction = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 		
-		AYFacade* f_em = [self.facades objectForKey:@"EM"];
-		id<AYCommand> cmd_xmpp_logout = [f_em.commands objectForKey:@"LogoutEM"];
-		[cmd_xmpp_logout performWithResult:nil];
+		NSDictionary* current_login_user = nil;
+		CURRENUSER(current_login_user);
 		
-		AYFacade* f_login = LOGINMODEL;
-		id<AYCommand> cmd_sign_out_local = [f_login.commands objectForKey:@"SignOutLocal"];
-		[cmd_sign_out_local performWithResult:nil];
+		id<AYFacadeBase> f_login_remote = [self.facades objectForKey:@"LandingRemote"];
+		AYRemoteCallCommand* cmd_sign_out = [f_login_remote.commands objectForKey:@"AuthSignOut"];
+		[cmd_sign_out performWithResult:current_login_user andFinishBlack:^(BOOL success, NSDictionary * result) {
+			NSLog(@"login out %@", result);
+			
+			AYFacade* f_em = [self.facades objectForKey:@"EM"];
+			id<AYCommand> cmd_xmpp_logout = [f_em.commands objectForKey:@"LogoutEM"];
+			[cmd_xmpp_logout performWithResult:nil];
+			
+			AYFacade* f_login = LOGINMODEL;
+			id<AYCommand> cmd_sign_out_local = [f_login.commands objectForKey:@"SignOutLocal"];
+			[cmd_sign_out_local performWithResult:nil];
+			
+		}];
 		
 	}];
+	[alertController addAction:cancelAction];
+	[alertController addAction:certainAction];
+	[self presentViewController:alertController animated:YES completion:nil];
+	
 	
 //	NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
 //	[notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];

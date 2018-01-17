@@ -51,7 +51,7 @@
 	[super viewDidLoad];
 	
 	UIButton *closeBtn = [[UIButton alloc]init];
-	[closeBtn setImage:IMGRESOURCE(@"map_cancel") forState:UIControlStateNormal];
+	[closeBtn setImage:IMGRESOURCE(@"map_icon_close") forState:UIControlStateNormal];
 	[self.view addSubview:closeBtn];
 	[closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(25);

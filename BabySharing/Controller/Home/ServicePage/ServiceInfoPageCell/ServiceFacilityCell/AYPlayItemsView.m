@@ -22,15 +22,15 @@
 		iconBtn.userInteractionEnabled = NO;
 		[self addSubview:iconBtn];
         [iconBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self).offset(5);
+            make.top.equalTo(self).offset(4);
             make.centerX.equalTo(self);
             make.size.mas_equalTo(CGSizeMake(25, 25));
         }];
         
-        UILabel *titleLabel = [Tools creatLabelWithText:title textColor:[Tools garyColor] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+        UILabel *titleLabel = [UILabel creatLabelWithText:title textColor:[UIColor gary115] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(iconBtn.mas_bottom).offset(15);
+            make.bottom.equalTo(self).offset(-4);
             make.centerX.equalTo(self);
         }];
     }

@@ -96,38 +96,25 @@
 
 - (id)rightBtnSelected {
 	
-    id<AYViewBase> view = [self.views objectForKey:@"LandingInputName"];
-    id<AYCommand> cmd_hiden = [view.commands objectForKey:@"hideKeyboard"];
-    [cmd_hiden performWithResult:nil];
-    
-    id<AYViewBase> coder_view = [self.views objectForKey:@"LandingInputName"];
-    id<AYCommand> cmd_coder = [coder_view.commands objectForKey:@"queryInputName:"];
-    NSString* input_name = nil;
-    [cmd_coder performWithResult:&input_name];
-    
-    if ([Tools bityWithStr:input_name] < 4 || [Tools bityWithStr:input_name] > 32) {
-        NSString *title = @"4-32个字符(汉字／大写字母长度为2)\n*仅限中英文";
-        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-        return nil;
-    }
-    
-    [login_attr setValue:@"未设置角色名" forKey:@"role_tag"];
-    [login_attr setValue:input_name forKey:kAYProfileArgsScreenName];
-    
-    id<AYCommand> destin = DEFAULTCONTROLLER(@"Welcome");
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:4];
-    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic setValue:destin forKey:kAYControllerActionDestinationControllerKey];
-    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic setValue:login_attr forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd_push = PUSH;
-    [cmd_push performWithResult:&dic];
     return nil;
 }
 
--(id)queryCurUserName:(NSString*)args{
-    return userName;
+- (id)queryCurUserName:(NSString*)args {
+	
+	[login_attr setValue:@"未设置角色名" forKey:@"role_tag"];
+	[login_attr setValue:args forKey:kAYProfileArgsScreenName];
+	
+	id<AYCommand> destin = DEFAULTCONTROLLER(@"Welcome");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:4];
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic setValue:destin forKey:kAYControllerActionDestinationControllerKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	[dic setValue:login_attr forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd_push = PUSH;
+	[cmd_push performWithResult:&dic];
+	
+	return nil;
 }
 
 - (BOOL)prefersStatusBarHidden{

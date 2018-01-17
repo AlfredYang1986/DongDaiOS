@@ -33,15 +33,15 @@
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		self.clipsToBounds = YES;
 		
-		titleLabel = [UILabel creatLabelWithText:@"场地安全友好性" textColor:[UIColor black] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+		titleLabel = [UILabel creatLabelWithText:@"场地安全友好性" textColor:[UIColor black13] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(self).offset(20);
-			make.top.equalTo(self).offset(30);
+			make.left.equalTo(self).offset(SERVICEPAGE_MARGIN_LR);
+			make.top.equalTo(self).offset(20);
 			make.bottom.equalTo(self).offset(-100);
 		}];
 		
-		ScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 60, SCREEN_WIDTH, 80)];
+		ScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 63, SCREEN_WIDTH, 62)];
 		ScrollView.showsVerticalScrollIndicator = NO;
 		ScrollView.showsHorizontalScrollIndicator = NO;
 		[self addSubview:ScrollView];
@@ -125,8 +125,8 @@
 	NSArray *facilities = [[service_info objectForKey:kAYServiceArgsLocationInfo] objectForKey:@"friendliness"];;
 	NSArray *detail_imgs_name = kAY_service_options_title_facilities;
 	
-	CGFloat itemHeight = 64;
-	CGFloat lineSpacing = 25;
+	CGFloat itemHeight = 62;
+	CGFloat lineSpacing = 38;
 	CGFloat preMaxX = 0;
 	
 	for (int i = 0; i < facilities.count; ++i) {
@@ -137,11 +137,11 @@
 		AYPlayItemsView *facilityItem = [[AYPlayItemsView alloc] initWithTitle:title andIconName:[NSString stringWithFormat:@"detail_facility_%d", index]];
 		[ScrollView addSubview:facilityItem];
 		CGSize labelSize = [title sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]}];
-		facilityItem.frame = CGRectMake(SERVICEPAGE_MARGIN_LR + i==0? 0 : lineSpacing + preMaxX, 8, labelSize.width, itemHeight);
+		facilityItem.frame = CGRectMake(SERVICEPAGE_MARGIN_LR + i==0? 0 : lineSpacing + preMaxX, 0, labelSize.width, itemHeight);
 		
 		preMaxX = facilityItem.frame.origin.x + labelSize.width;
 	}
-	ScrollView.contentSize = CGSizeMake(preMaxX+25, 80);
+	ScrollView.contentSize = CGSizeMake(preMaxX+25, 62);
 	
 //	NSString *service_cat = [service_info objectForKey:kAYServiceArgsCat];
 //	if ([service_cat isEqualToString:kAYStringNursery]) {
