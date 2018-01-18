@@ -331,29 +331,26 @@
 	
 	UIView *navBar = [self.views objectForKey:@"FakeNavBar"];
 	UIView *statusBar = [self.views objectForKey:@"FakeStatusBar"];
-	NSLog(@"offset_y : %f", offset_y);
-	if (offset_y > 0 ) {
-		
-		CGFloat alp = ((60+kStatusBarH) - fabs(offset_y)) / (60+kStatusBarH);		// UP -> small
-		if (alp > 0.7) {
-			navLeftBtn.selected = YES;
-			bannerTitle.textColor = [UIColor white];
-			statusStyle = UIStatusBarStyleLightContent;
-			[self setNeedsStatusBarAppearanceUpdate];
-		} else if (alp < 0.7) {
-			navLeftBtn.selected = NO;
-			bannerTitle.textColor = [UIColor black];
-			statusStyle = UIStatusBarStyleDefault;
-			[self setNeedsStatusBarAppearanceUpdate];
-		}
-		else if (alp >= 1)
-			alp = 1.f;
-		NSLog(@"alp : %f", alp);
-		
-//		navBar.alpha = statusBar.alpha = 1 - alp;
-		navBar.backgroundColor = statusBar.backgroundColor = [UIColor colorWithWhite:1 alpha: 1-alp];
-		bannerView.alpha = alp;
+
+	CGFloat alp = ((60+kStatusBarH) - offset_y) / (60+kStatusBarH);		// UP -> small
+	if (alp > 0.7) {
+		navLeftBtn.selected = YES;
+		bannerTitle.textColor = [UIColor white];
+		statusStyle = UIStatusBarStyleLightContent;
+		[self setNeedsStatusBarAppearanceUpdate];
+	} else if (alp < 0.7) {
+		navLeftBtn.selected = NO;
+		bannerTitle.textColor = [UIColor black];
+		statusStyle = UIStatusBarStyleDefault;
+		[self setNeedsStatusBarAppearanceUpdate];
 	}
+	else if (alp >= 1)
+		alp = 1.f;
+	NSLog(@"alp : %f", alp);
+	
+	//		navBar.alpha = statusBar.alpha = 1 - alp;
+	navBar.backgroundColor = statusBar.backgroundColor = [UIColor colorWithWhite:1 alpha: 1-alp];
+	bannerView.alpha = alp;
 	
 	return nil;
 }

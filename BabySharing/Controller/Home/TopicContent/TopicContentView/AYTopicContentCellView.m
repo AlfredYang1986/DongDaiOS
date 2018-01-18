@@ -93,7 +93,7 @@
 		}];
 		
 		
-		themeLabel = [Tools creatLabelWithText:@"Theme" textColor:[UIColor tag] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		themeLabel = [Tools creatLabelWithText:@"Theme" textColor:[UIColor black13] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:themeLabel];
 		[themeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(coverImage.mas_bottom).offset(14);
@@ -101,7 +101,7 @@
 			make.right.equalTo(conterView).offset(-SCREEN_MARGIN_LR);
 		}];
 		
-		titleLabel = [Tools creatLabelWithText:@"Service Belong to Servant" textColor:[UIColor black] fontSize:16 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		titleLabel = [UILabel creatLabelWithText:@"Service Belong to Servant" textColor:[UIColor black] fontSize:16 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		titleLabel.numberOfLines = 2;
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -112,14 +112,14 @@
 		
 		positionSignView = [[UIImageView alloc]init];
 		[self addSubview:positionSignView];
-		positionSignView.image = IMGRESOURCE(@"home_icon_location");
+		positionSignView.image = IMGRESOURCE(@"map_icon_location_sign");
 		[positionSignView mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);
 			make.top.equalTo(titleLabel.mas_bottom).offset(15);
 			make.size.mas_equalTo(CGSizeMake(11, 13));
 		}];
 		
-		addressLabel = [Tools creatLabelWithText:@"Address Info" textColor:[Tools RGB153GaryColor] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		addressLabel = [UILabel creatLabelWithText:@"Address Info" textColor:[UIColor gary115] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:addressLabel];
 		[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(positionSignView);

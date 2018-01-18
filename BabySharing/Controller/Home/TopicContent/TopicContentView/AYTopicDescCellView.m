@@ -52,23 +52,24 @@
 		contentLabel.numberOfLines = 3;
 		[self addSubview:contentLabel];
 		[contentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(self).offset(80);
+			make.top.equalTo(self).offset(kStatusAndNavBarH+8);
 			make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
 			make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
 		}];
 		contentLabel.userInteractionEnabled = YES;
 		[contentLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showHideLabelTap)]];
 		
-		showHideBtn = [UIButton creatBtnWithTitle:@"更多" titleColor:[UIColor white] fontSize:613 backgroundColor:nil];
+		showHideBtn = [UIButton creatBtnWithTitle:@"查看全部" titleColor:[UIColor colorWithWhite:1 alpha:0.6] fontSize:613 backgroundColor:nil];
 		[showHideBtn setTitle:@"收起" forState:UIControlStateSelected];
+		[showHideBtn setTitleColor:[UIColor colorWithWhite:1 alpha:0.6] forState:UIControlStateSelected];
 		[showHideBtn setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
 		[self addSubview:showHideBtn];
 		[showHideBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(contentLabel);
 //			make.right.equalTo(contentLabel);
 			make.size.mas_equalTo(CGSizeMake(60, 13));
-			make.top.equalTo(contentLabel.mas_bottom).offset(5);
-			make.bottom.equalTo(self).offset(-22);
+			make.top.equalTo(contentLabel.mas_bottom).offset(4);
+			make.bottom.equalTo(self).offset(-24);
 		}];
 		[showHideBtn addTarget:self action:@selector(showHideLabelTap) forControlEvents:UIControlEventTouchUpInside];
 	}
@@ -88,15 +89,17 @@
 	
 	NSString *countstr = [args objectForKey:@"desc"];
 	//	NSDictionary *shadowAttr = @{NSFontAttributeName:[UIFont boldSystemFontOfSize:15.f],NSForegroundColorAttributeName :[UIColor white],NSShadowAttributeName:sdw};
-	NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
-	paraStyle.lineBreakMode = NSLineBreakByCharWrapping;
-	paraStyle.alignment = NSTextAlignmentLeft;
-	paraStyle.minimumLineHeight = 23;
 	
-	NSDictionary *dic_attr = @{ NSParagraphStyleAttributeName:paraStyle,
-								NSKernAttributeName:@(2),
+//	NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
+//	paraStyle.lineBreakMode = NSLineBreakByCharWrapping;
+//	paraStyle.alignment = NSTextAlignmentLeft;
+//	paraStyle.minimumLineHeight = 22;
+	
+	NSDictionary *dic_attr = @{
+//							   NSParagraphStyleAttributeName:paraStyle,
+								NSKernAttributeName:@(0.3),
 								NSForegroundColorAttributeName:[UIColor white],
-								NSFontAttributeName:[UIFont systemFontOfSize:15]
+								NSFontAttributeName:[UIFont systemFontOfSize:14]
 								};
 	
 	NSAttributedString *countAttrStr = [[NSAttributedString alloc] initWithString:countstr attributes:dic_attr];
