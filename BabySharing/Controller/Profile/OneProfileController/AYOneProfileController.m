@@ -74,7 +74,8 @@
     id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
     UITableView *tableView = (UITableView*)view_table;
     coverImg = [[UIImageView alloc]init];
-    coverImg.image = [UIImage imageNamed:@"default_image"];
+	NSString *img = [NSString stringWithFormat:@"avatar_%d", arc4random()%10];
+	coverImg.image = IMGRESOURCE(img);
     coverImg.backgroundColor = [UIColor lightGrayColor];
     coverImg.contentMode = UIViewContentModeScaleAspectFill;
     coverImg.clipsToBounds = YES;
@@ -84,6 +85,16 @@
         make.centerX.equalTo(tableView);
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, userPhotoInitHeight));
     }];
+	
+	CGFloat tagWidth = 72;
+	NSString *tag = [brandData objectForKey:kAYBrandArgsTag];
+	UILabel *BrandTagLabel = [UILabel creatLabelWithText:tag textColor:[UIColor white] fontSize:635 backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+	[BrandTagLabel setRadius:72*0.5 borderWidth:2 borderColor:[UIColor colorWithWhite:1 alpha:0.28] background:[UIColor clearColor]];
+	[tableView addSubview:BrandTagLabel];
+	[BrandTagLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.center.equalTo(coverImg);
+		make.size.mas_equalTo(CGSizeMake(tagWidth, tagWidth));
+	}];
 	
 	id tmp = [brandData copy];
 	kAYDelegatesSendMessage(@"OneProfile", @"changeQueryData:", &tmp)

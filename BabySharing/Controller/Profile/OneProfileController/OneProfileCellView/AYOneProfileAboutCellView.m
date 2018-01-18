@@ -97,14 +97,14 @@
 }
 
 #pragma mark -- actions
-- (void)didServiceDetailClick:(UIGestureRecognizer*)tap{
+- (void)didServiceDetailClick:(UIGestureRecognizer*)tap {
     id<AYCommand> cmd = [self.notifies objectForKey:@"didServiceDetailClick"];
     [cmd performWithResult:nil];
     
 }
 
 #pragma mark -- messages
-- (id)setCellInfo:(NSDictionary*)dic_args{
+- (id)setCellInfo:(NSDictionary*)dic_args {
     NSString *single = [dic_args objectForKey:@"validate"];
     if (single) {
         UILabel *title = [Tools creatLabelWithText:@"已验证的身份" textColor:[Tools black] fontSize:15.f backgroundColor:nil textAlignment:0];

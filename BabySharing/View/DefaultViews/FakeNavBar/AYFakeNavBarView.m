@@ -29,9 +29,9 @@
         [self addSubview:leftBtn];
         [leftBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self);
-            make.left.equalTo(self.mas_left).offset(10.5f);
-            make.width.equalTo(@30);
-            make.height.equalTo(@30);
+            make.left.equalTo(self).offset(-4);
+            make.width.equalTo(@36);
+            make.height.equalTo(@36);
         }];
 		
 		[leftBtn addTarget:self action:@selector(didSelectLeftBtn) forControlEvents:UIControlEventTouchUpInside];

@@ -55,30 +55,9 @@
 		self.backgroundColor = [UIColor clearColor];
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		
-		UIView *shadowView = [[UIView alloc] init];
-		shadowView.backgroundColor = [UIColor whiteColor];
-		shadowView.layer.cornerRadius = 4.f;
-		shadowView.layer.shadowColor = [Tools colorWithRED:43 GREEN:65 BLUE:114 ALPHA:1].CGColor;//shadowColor阴影颜色
-		shadowView.layer.shadowOffset = CGSizeMake(0,0);//shadowOffset阴影偏移，默认(0, -3),这个跟shadowRadius配合使用
-		shadowView.layer.shadowOpacity = 0.18f;//阴影透明度，默认0
-		shadowView.layer.shadowRadius = 4;//阴影半径，默认3
-		[self addSubview:shadowView];
-		[self sendSubviewToBack:shadowView];
-		[shadowView mas_makeConstraints:^(MASConstraintMaker *make) {
-//			make.edges.equalTo(self).insets(UIEdgeInsetsMake(0, SCREEN_MARGIN_LR, 48, SCREEN_MARGIN_LR));
-			make.top.equalTo(self);
-			make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
-			make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
-			make.height.equalTo(@342);
-			make.bottom.equalTo(self).offset(-45);
-		}];
-		
 		UIView *conterView = [[UIView alloc] init];
 		[conterView setRadius:4 borderWidth:0 borderColor:nil background:nil];
 		[self addSubview:conterView];
-		[conterView mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.edges.equalTo(shadowView);
-		}];
 		
 		coverImage = [[UIImageView alloc]init];
 		coverImage.image = IMGRESOURCE(@"default_image");
@@ -86,12 +65,11 @@
 		coverImage.clipsToBounds = YES;
 		[conterView addSubview:coverImage];
 		[coverImage mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(conterView);
-			make.left.equalTo(conterView);
-			make.right.equalTo(conterView);
+			make.top.equalTo(self);
+			make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
+			make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
 			make.height.mas_equalTo(210);
 		}];
-		
 		
 		themeLabel = [Tools creatLabelWithText:@"Theme" textColor:[UIColor black13] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:themeLabel];
@@ -117,6 +95,7 @@
 			make.left.equalTo(titleLabel);
 			make.top.equalTo(titleLabel.mas_bottom).offset(15);
 			make.size.mas_equalTo(CGSizeMake(11, 13));
+			make.bottom.equalTo(self).offset(-18-45);
 		}];
 		
 		addressLabel = [UILabel creatLabelWithText:@"Address Info" textColor:[UIColor gary115] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
@@ -138,6 +117,28 @@
 		}];
 		[likeBtn addTarget:self action:@selector(didLikeBtnClick) forControlEvents:UIControlEventTouchUpInside];
 		
+		
+		[conterView mas_makeConstraints:^(MASConstraintMaker *make) {
+//			make.edges.equalTo(shadowView);
+			make.top.equalTo(coverImage);
+			make.left.equalTo(coverImage);
+			make.right.equalTo(coverImage);
+			make.bottom.equalTo(positionSignView).offset(18);
+		}];
+		
+		UIView *shadowView = [[UIView alloc] init];
+		shadowView.backgroundColor = [UIColor whiteColor];
+		shadowView.layer.cornerRadius = 4.f;
+		shadowView.layer.shadowColor = [Tools colorWithRED:43 GREEN:65 BLUE:114 ALPHA:1].CGColor;//shadowColor阴影颜色
+		shadowView.layer.shadowOffset = CGSizeMake(0,3);//shadowOffset阴影偏移，默认(0, -3),这个跟shadowRadius配合使用
+		shadowView.layer.shadowOpacity = 0.18f;//阴影透明度，默认0
+		shadowView.layer.shadowRadius = 4;//阴影半径，默认3
+		[self addSubview:shadowView];
+		[self sendSubviewToBack:shadowView];
+		[shadowView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.edges.equalTo(conterView);
+		}];
+		[self sendSubviewToBack:shadowView];
 	}
 	return self;
 }
@@ -149,7 +150,8 @@
 	[dic setValue:likeBtn forKey:@"btn"];
 	[dic setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
 	
-	kAYViewSendNotify(self, @"willCollectWithRow:", &dic)
+	[(AYViewController*)self.controller performSel:@"willCollectWithRow:" withResult:&dic];
+	
 }
 
 #pragma mark -- messages

@@ -58,7 +58,7 @@
 		titleLabel = [UILabel creatLabelWithText:@"Service title is not set" textColor:[UIColor gary115] fontSize:20 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(self).offset(32);
+			make.top.equalTo(self).offset(24);
 			make.left.equalTo(self).offset(SERVICEPAGE_MARGIN_LR);
 			make.right.equalTo(self).offset(-SERVICEPAGE_MARGIN_LR-55);
 		}];
@@ -67,21 +67,21 @@
 		[self addSubview: themeLabel];
 		[themeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);
-			make.top.equalTo(titleLabel.mas_bottom).offset(9);
+			make.top.equalTo(titleLabel.mas_bottom).offset(16);
 		}];
 		
 		tagLabel = [UILabel creatLabelWithText:@"TAG" textColor:[UIColor tag] fontSize:616.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview: tagLabel];
 		[tagLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);
-			make.top.equalTo(themeLabel.mas_bottom).offset(2);
+			make.top.equalTo(themeLabel.mas_bottom).offset(0);
+			make.bottom.equalTo(self).offset(-24);
 		}];
 		
 		UIView *bottom_view = [[UIView alloc] init];
 		bottom_view.backgroundColor = [UIColor garyLine];
 		[self addSubview:bottom_view];
 		[bottom_view mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(tagLabel.mas_bottom).offset(21);
 			make.left.equalTo(self).offset(SERVICEPAGE_MARGIN_LR);
 			make.right.equalTo(self).offset(-SERVICEPAGE_MARGIN_LR);
 			make.bottom.equalTo(self);

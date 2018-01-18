@@ -76,7 +76,7 @@
 	titleLabel.numberOfLines = 2;
 	[self addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(tagLabel.mas_bottom).offset(4);
+		make.top.equalTo(tagLabel.mas_bottom).offset(1);
 		make.left.equalTo(_coverImage);
 		make.right.equalTo(_coverImage);
 	}];
@@ -134,6 +134,10 @@
 		
 		if (tag.length == 0) {
 			tag = @"没有标签";
+			tagLabel.hidden = YES;
+			[titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+				make.top.equalTo(_coverImage.mas_bottom).offset(10);
+			}];
 		}
 		if (operation.length == 0) {
 			operation = @"";
@@ -145,6 +149,10 @@
 		tag = [tags firstObject];
 		if (tag.length == 0) {
 			tag = @"没有标签";
+			tagLabel.hidden = YES;
+			[titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+				make.top.equalTo(_coverImage.mas_bottom).offset(10);
+			}];
 		}
 		
 		for (NSString *ope in operations) {

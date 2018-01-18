@@ -16,4 +16,5 @@
 
 
 - (void)setRadius:(CGFloat)radius borderWidth:(CGFloat)width borderColor:(UIColor*)color background:(UIColor*)backColor;
+- (void)setImgContentMode;
 @end

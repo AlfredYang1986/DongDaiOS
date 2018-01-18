@@ -44,5 +44,9 @@
 	}
 }
 
+- (void)setImgContentMode {
+	self.clipsToBounds = YES;
+	self.contentMode = UIViewContentModeScaleAspectFill;
+}
 
 @end

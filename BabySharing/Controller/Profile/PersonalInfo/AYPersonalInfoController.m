@@ -110,22 +110,23 @@
 	[self.view sendSubviewToBack:tableView];
 	[self.view bringSubviewToFront:editBtn];
 	
-	UIButton *closeBtn = [[UIButton alloc]init];
+	UIButton *closeBtn = [[UIButton alloc] init];
 	[closeBtn setImage:IMGRESOURCE(@"map_icon_close") forState:UIControlStateNormal];
 	[self.view addSubview:closeBtn];
 	[closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(25);
-		make.left.equalTo(self.view).offset(10);
+		make.left.equalTo(self.view).offset(0);
 		make.size.mas_equalTo(CGSizeMake(51, 51));
 	}];
 	[closeBtn addTarget:self action:@selector(leftBtnSelected) forControlEvents:UIControlEventTouchUpInside];
 	
-	UIButton *loginOut = [UIButton creatBtnWithTitle:@"退出登录" titleColor:[UIColor white] fontSize:617 backgroundColor:nil];
+	UIButton *loginOut = [[UIButton alloc] init];
+	[loginOut setImage:IMGRESOURCE(@"profile_icon_loginout") forState:UIControlStateNormal];
 	[self.view addSubview:loginOut];
 	[loginOut mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.right.equalTo(self.view).offset(-SCREEN_MARGIN_LR);
+		make.right.equalTo(self.view).offset(-5);
 		make.centerY.equalTo(closeBtn);
-		make.size.mas_equalTo(CGSizeMake(70, 30));
+		make.size.mas_equalTo(CGSizeMake(90, 36));
 	}];
 	[loginOut addTarget:self action:@selector(loginOutClick) forControlEvents:UIControlEventTouchUpInside];
 	
