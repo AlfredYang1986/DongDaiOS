@@ -27,6 +27,29 @@
 @synthesize commands = _commands;
 @synthesize notifies = _notiyies;
 
+
+#pragma mark -- commands
+- (void)postPerform {
+	
+}
+
+- (void)performWithResult:(NSObject**)obj {
+	
+}
+
+- (NSString*)getViewType {
+	return kAYFactoryManagerCatigoryView;
+}
+
+- (NSString*)getViewName {
+	return [NSString stringWithUTF8String:object_getClassName([self class])];
+}
+
+- (NSString*)getCommandType {
+	return kAYFactoryManagerCatigoryView;
+}
+
+#pragma mark -- life cycle
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
@@ -67,53 +90,6 @@
     return self;
 }
 
-#pragma mark -- life cycle
-- (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(@"ServiceFacilityCell", @"ServiceFacilityCell");
-    NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
-    for (NSString* name in cell.commands.allKeys) {
-        AYViewCommand* cmd = [cell.commands objectForKey:name];
-        AYViewCommand* c = [[AYViewCommand alloc]init];
-        c.view = self;
-        c.method_name = cmd.method_name;
-        c.need_args = cmd.need_args;
-        [arr_commands setValue:c forKey:name];
-    }
-    self.commands = [arr_commands copy];
-    
-    NSMutableDictionary* arr_notifies = [[NSMutableDictionary alloc]initWithCapacity:cell.notifies.count];
-    for (NSString* name in cell.notifies.allKeys) {
-        AYViewNotifyCommand* cmd = [cell.notifies objectForKey:name];
-        AYViewNotifyCommand* c = [[AYViewNotifyCommand alloc]init];
-        c.view = self;
-        c.method_name = cmd.method_name;
-        c.need_args = cmd.need_args;
-        [arr_notifies setValue:c forKey:name];
-    }
-    self.notifies = [arr_notifies copy];
-}
-
-#pragma mark -- commands
-- (void)postPerform {
-    
-}
-
-- (void)performWithResult:(NSObject**)obj {
-    
-}
-
-- (NSString*)getViewType {
-    return kAYFactoryManagerCatigoryView;
-}
-
-- (NSString*)getViewName {
-    return [NSString stringWithUTF8String:object_getClassName([self class])];
-}
-
-- (NSString*)getCommandType {
-    return kAYFactoryManagerCatigoryView;
-}
-
 #pragma mark -- actions
 - (void)didFacalityBtnClick {
     kAYViewSendNotify(self, @"showCansOrFacility", nil)
@@ -137,11 +113,11 @@
 		AYPlayItemsView *facilityItem = [[AYPlayItemsView alloc] initWithTitle:title andIconName:[NSString stringWithFormat:@"detail_facility_%d", index]];
 		[ScrollView addSubview:facilityItem];
 		CGSize labelSize = [title sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]}];
-		facilityItem.frame = CGRectMake(SERVICEPAGE_MARGIN_LR + i==0? 0 : lineSpacing + preMaxX, 0, labelSize.width, itemHeight);
+		facilityItem.frame = CGRectMake((i==0?SERVICEPAGE_MARGIN_LR:lineSpacing) + preMaxX, 0, labelSize.width, itemHeight);
 		
 		preMaxX = facilityItem.frame.origin.x + labelSize.width;
 	}
-	ScrollView.contentSize = CGSizeMake(preMaxX+25, 62);
+	ScrollView.contentSize = CGSizeMake(preMaxX+25, itemHeight);
 	
 //	NSString *service_cat = [service_info objectForKey:kAYServiceArgsCat];
 //	if ([service_cat isEqualToString:kAYStringNursery]) {

@@ -127,7 +127,7 @@
 
 #pragma mark -- messages
 - (id)setCellInfo:(id)args {
-	
+	[collectionView setContentOffset:CGPointMake(-SCREEN_MARGIN_LR, -5)];
 	return nil;
 }
 

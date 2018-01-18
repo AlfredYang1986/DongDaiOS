@@ -113,7 +113,8 @@
 	NSString* class_name = [cellNameArr objectAtIndex:indexPath.row > 2 ? 2 :indexPath.row];
 	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 	if (indexPath.row == 0) {
-		
+		id tmp;
+		[(UITableViewCell*)cell performMethod:kAYCellSetInfoMessage withResult:&tmp];
 	} else {
 		
 		NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];

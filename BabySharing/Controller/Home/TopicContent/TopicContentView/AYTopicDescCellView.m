@@ -61,11 +61,12 @@
 		
 		showHideBtn = [UIButton creatBtnWithTitle:@"更多" titleColor:[UIColor white] fontSize:613 backgroundColor:nil];
 		[showHideBtn setTitle:@"收起" forState:UIControlStateSelected];
+		[showHideBtn setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
 		[self addSubview:showHideBtn];
 		[showHideBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(contentLabel);
 //			make.right.equalTo(contentLabel);
-			make.size.mas_equalTo(CGSizeMake(27, 13));
+			make.size.mas_equalTo(CGSizeMake(60, 13));
 			make.top.equalTo(contentLabel.mas_bottom).offset(5);
 			make.bottom.equalTo(self).offset(-22);
 		}];
@@ -93,6 +94,7 @@
 	paraStyle.minimumLineHeight = 23;
 	
 	NSDictionary *dic_attr = @{ NSParagraphStyleAttributeName:paraStyle,
+								NSKernAttributeName:@(2),
 								NSForegroundColorAttributeName:[UIColor white],
 								NSFontAttributeName:[UIFont systemFontOfSize:15]
 								};

@@ -76,7 +76,8 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 		
 		CGFloat photoWidth = 55;
         userPhoto = [[UIImageView alloc] init];
-		userPhoto.image = IMGRESOURCE(@"avatar_0");
+		NSString *img = [NSString stringWithFormat:@"avatar_%d", arc4random()%10];
+		userPhoto.image = IMGRESOURCE(img);
 		userPhoto.backgroundColor = [UIColor theme];
         userPhoto.contentMode = UIViewContentModeScaleAspectFill;
         userPhoto.clipsToBounds = YES;

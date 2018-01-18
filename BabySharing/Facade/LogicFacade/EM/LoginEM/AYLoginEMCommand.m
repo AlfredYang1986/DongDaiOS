@@ -73,7 +73,9 @@ static NSString* const kAYEMDongdaCommonPassword = @"PassW0rd";
                     [((AYFacade*)EMCLIENT) performWithResult:&notify];
                 });
 			} else {
-				NSLog(@"环信: 登陆失败");
+				
+				NSLog(@"环信登陆失败: Error:%@", aError.errorDescription);
+				
 				NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
 				[notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
 				[notify setValue:kAYNotifyLoginEMFaild forKey:kAYNotifyFunctionKey];

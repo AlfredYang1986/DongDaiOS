@@ -35,7 +35,6 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     CGFloat modify;
     CGFloat diff;
 	
-    UIButton* pri_btn;
     UIButton *phoneNoLogin;
     UIButton *weChatLogin;
     BOOL isWXInstall;
@@ -207,18 +206,6 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 }
 
 #pragma mark - actions
--(void)pri_btnDidClick {
-    NSLog(@"push to suer privacy");
-    id<AYCommand> UserAgree = DEFAULTCONTROLLER(@"UserAgree");
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
-    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic setValue:UserAgree forKey:kAYControllerActionDestinationControllerKey];
-    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic];
-}
-
 -(void)pushInputPhoneNo{
     id<AYCommand> des = DEFAULTCONTROLLER(@"InputCoder");
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
@@ -242,18 +229,16 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     
     switch (_landing_status) {
         case RemoteControllerStatusReady: {
-            phoneNoLogin.hidden = NO;
-            weChatLogin.hidden = !isWXInstall;
-            pri_btn.hidden = NO;
-            [super endRemoteCall:nil];
+				phoneNoLogin.hidden = NO;
+				weChatLogin.hidden = !isWXInstall;
+				[super endRemoteCall:nil];
             }
             break;
         case RemoteControllerStatusPrepare:
         case RemoteControllerStatusLoading: {
-            phoneNoLogin.hidden = YES;
-            weChatLogin.hidden = YES;
-            pri_btn.hidden = YES;
-            [super startRemoteCall:nil];
+				phoneNoLogin.hidden = YES;
+				weChatLogin.hidden = YES;
+				[super startRemoteCall:nil];
             }
             break;
         default:

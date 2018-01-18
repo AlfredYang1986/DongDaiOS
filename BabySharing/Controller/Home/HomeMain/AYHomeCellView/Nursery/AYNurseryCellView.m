@@ -146,6 +146,8 @@
 #pragma mark -- messages
 - (id)setCellInfo:(id)args {
 	
+	[CollectionView setContentOffset:CGPointMake(-SCREEN_MARGIN_LR, 0)];
+	
 	NSString *cat = [[args objectForKey:@"service"] objectForKey:@"service_type"];
 	titleLabel.text = cat;
 	

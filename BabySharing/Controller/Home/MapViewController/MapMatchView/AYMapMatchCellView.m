@@ -111,7 +111,7 @@
 	coverImage.image = IMGRESOURCE(@"default_image");
 	coverImage.contentMode = UIViewContentModeScaleAspectFill;
 	coverImage.clipsToBounds = YES;
-	[Tools setViewBorder:coverImage withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
+//	[Tools setViewBorder:coverImage withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
 	[self addSubview:coverImage];
 	[coverImage mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(bgView).offset(15);
@@ -119,18 +119,18 @@
 		make.size.mas_equalTo(CGSizeMake(117, 72));
 	}];
 	
-	tagLabel = [Tools creatLabelWithText:@"TAG" textColor:[Tools garyColor] fontSize:13.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	tagLabel = [UILabel creatLabelWithText:@"TAG" textColor:[UIColor gary115] fontSize:315 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self addSubview:tagLabel];
 	[tagLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(coverImage.mas_right).offset(15);
 		make.top.equalTo(coverImage);
 	}];
 	
-	descLabel = [Tools creatLabelWithText:@"Service description" textColor:[Tools RGB89GaryColor] fontSize:615.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	descLabel = [UILabel creatLabelWithText:@"Service description" textColor:[UIColor black] fontSize:617.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	descLabel.numberOfLines = 2;
 	[self addSubview:descLabel];
 	[descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(tagLabel.mas_bottom).offset(8);
+		make.top.equalTo(tagLabel.mas_bottom).offset(5);
 		make.left.equalTo(tagLabel);
 		make.right.equalTo(bgView).offset(-15);
 	}];
@@ -154,10 +154,10 @@
 		make.size.mas_equalTo(CGSizeMake(11, 13));
 	}];
 	
-	distanceLabel = [Tools creatLabelWithText:@"00m" textColor:[Tools RGB127GaryColor] fontSize:314.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
+	distanceLabel = [UILabel creatLabelWithText:@"00m" textColor:[UIColor gary115] fontSize:314.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
 	[self addSubview:distanceLabel];
 	
-	addrLabel = [Tools creatLabelWithText:@"服务妈妈的主题服务" textColor:[Tools RGB127GaryColor] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	addrLabel = [Tools creatLabelWithText:@"服务妈妈的主题服务" textColor:[UIColor black] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	addrLabel.numberOfLines = 1;
 	[self addSubview:addrLabel];
 	[addrLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -178,18 +178,51 @@
 		addrLabel.text = addressStr;
 	}
 	
-	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-	NSString *prefix = cmd.route;
 	NSString* photo_name = [_service_info objectForKey:kAYServiceArgsImage];
-	NSString *urlStr = [NSString stringWithFormat:@"%@%@", prefix, photo_name];
-	[coverImage sd_setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:IMGRESOURCE(@"default_image") /*options:SDWebImageRefreshCached*/];
+	if (photo_name) {
+		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+		AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+		NSString *prefix = cmd.route;
+		
+		NSString *urlStr = [NSString stringWithFormat:@"%@%@", prefix, photo_name];
+		[coverImage sd_setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:IMGRESOURCE(@"default_image") /*options:SDWebImageRefreshCached*/];
+	}
 	
 	NSString *type = [_service_info objectForKey:kAYServiceArgsType];
 	tagLabel.text = type;
 	
-	NSString *desc = [_service_info objectForKey:kAYServiceArgsPunchline];
-	descLabel.text = desc;
+	
+	NSString *brand_name = [_service_info objectForKey:kAYBrandArgsName];
+	NSString *leaf = [_service_info objectForKey:kAYServiceArgsLeaf];
+	NSArray *operations = [_service_info objectForKey:kAYServiceArgsOperation];
+	
+	NSString *operation;
+	NSString *categ = [_service_info objectForKey:kAYServiceArgsCat];
+	if ([categ isEqualToString:kAYStringCourse]) {
+		for (NSString *ope in operations) {
+			if ([kAY_operation_fileters_title_course containsObject:ope]) {
+				operation = ope;
+			}
+		}
+		
+		if (operation.length == 0) {
+			operation = @"";
+		}
+		
+		descLabel.text = [NSString stringWithFormat:@"%@的%@%@课程", brand_name, operation, leaf];
+	}
+	else if([categ isEqualToString:kAYStringNursery]) {
+		
+		for (NSString *ope in operations) {
+			if ([kAY_operation_fileters_title_nursery containsObject:ope]) {
+				operation = ope;
+			}
+		}
+		if (operation.length == 0) {
+			operation = @"";
+		}
+		descLabel.text = [NSString stringWithFormat:@"%@的%@%@", brand_name, operation, leaf];
+	}
 	
 }
 
@@ -202,38 +235,13 @@
 }
 
 #pragma mark -- life cycle
-- (void)setUpReuseCell {
-	id<AYViewBase> cell = VIEW(@"MapMatchCell", @"MapMatchCell");
-	
-	NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
-	for (NSString* name in cell.commands.allKeys) {
-		AYViewCommand* cmd = [cell.commands objectForKey:name];
-		AYViewCommand* c = [[AYViewCommand alloc]init];
-		c.view = self;
-		c.method_name = cmd.method_name;
-		c.need_args = cmd.need_args;
-		[arr_commands setValue:c forKey:name];
-	}
-	self.commands = [arr_commands copy];
-	
-	NSMutableDictionary* arr_notifies = [[NSMutableDictionary alloc]initWithCapacity:cell.notifies.count];
-	for (NSString* name in cell.notifies.allKeys) {
-		AYViewNotifyCommand* cmd = [cell.notifies objectForKey:name];
-		AYViewNotifyCommand* c = [[AYViewNotifyCommand alloc]init];
-		c.view = self;
-		c.method_name = cmd.method_name;
-		c.need_args = cmd.need_args;
-		[arr_notifies setValue:c forKey:name];
-	}
-	self.notifies = [arr_notifies copy];
-}
+
 
 #pragma mark -- actions
 
 
 #pragma mark -- messages
 - (id)setCellInfo:(NSArray*)dic_args {
-//	_serviceData = dic_args;
 	
 	return nil;
 }

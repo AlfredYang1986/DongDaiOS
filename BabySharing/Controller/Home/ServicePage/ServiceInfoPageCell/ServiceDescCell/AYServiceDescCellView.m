@@ -37,16 +37,6 @@
 #pragma mark -- life cycle
 - (void)postPerform {
 	
-	NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
-	paraStyle.lineBreakMode = NSLineBreakByCharWrapping;
-	paraStyle.alignment = NSTextAlignmentLeft;
-	paraStyle.minimumLineHeight = 22;
-	
-	dic_attr = @{ NSParagraphStyleAttributeName:paraStyle,
-				  NSForegroundColorAttributeName:[UIColor black13],
-				  NSFontAttributeName:[UIFont systemFontOfSize:16.f]
-				  };
-	
 }
 
 
@@ -71,6 +61,17 @@
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
 		
+		NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
+		paraStyle.lineBreakMode = NSLineBreakByCharWrapping;
+		paraStyle.alignment = NSTextAlignmentLeft;
+		paraStyle.minimumLineHeight = 22;
+		
+		dic_attr = @{
+					 NSParagraphStyleAttributeName:paraStyle,
+					 NSForegroundColorAttributeName:[UIColor black],
+					 NSFontAttributeName:[UIFont systemFontOfSize:16.f]
+					 };
+		
 		self.clipsToBounds = YES;
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		
@@ -81,7 +82,9 @@
 			make.top.equalTo(self).offset(20);
 		}];
 
-		descLabel = [UILabel creatLabelWithText:@"" textColor:[UIColor black] fontSize:315 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+//		descLabel = [UILabel creatLabelWithText:@"" textColor:[UIColor black] fontSize:315 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		descLabel = [UILabel new];
+		descLabel.numberOfLines = 0;
 		[self addSubview:descLabel];
 //		[descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 //			make.left.equalTo(tipsTitleLabel);
@@ -223,7 +226,7 @@
 	CGFloat textHeight = [self getAttrStrHeight:descAttri width:SCREEN_WIDTH - SERVICEPAGE_MARGIN_LR*2];
 	NSNumber *expend_args = [service_info objectForKey:@"is_expend"];
 
-	if (textHeight < 50) {
+	if (textHeight <= 88) {
 		showhideBtn.hidden = YES;
 		[descLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
