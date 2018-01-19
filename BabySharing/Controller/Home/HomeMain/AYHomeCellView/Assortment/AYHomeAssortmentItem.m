@@ -75,11 +75,6 @@
 	titleLabel = [UILabel creatLabelWithText:@"Service title" textColor:[UIColor black] fontSize:615 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	titleLabel.numberOfLines = 2;
 	[self addSubview:titleLabel];
-	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(tagLabel.mas_bottom).offset(1);
-		make.left.equalTo(_coverImage);
-		make.right.equalTo(_coverImage);
-	}];
 	
 	addrlabel = [UILabel creatLabelWithText:@"Address s" textColor:[UIColor gary] fontSize:313 backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	[self addSubview:addrlabel];
@@ -125,18 +120,27 @@
 	if ([categ isEqualToString:kAYStringCourse]) {
 		for (NSString *ope in operations) {
 			if ([kAY_operation_fileters_tag_course containsObject:ope]) {
-				tag = ope;
+				tag = tag.length == 0 ? ope : tag;
 			}
 			if ([kAY_operation_fileters_title_course containsObject:ope]) {
-				operation = ope;
+				operation = operation.length == 0 ? ope : operation;
 			}
 		}
 		
 		if (tag.length == 0) {
 			tag = @"没有标签";
 			tagLabel.hidden = YES;
-			[titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+			[titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
 				make.top.equalTo(_coverImage.mas_bottom).offset(10);
+				make.left.equalTo(_coverImage);
+				make.right.equalTo(_coverImage);
+			}];
+		} else {
+			tagLabel.hidden = NO;
+			[titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+				make.top.equalTo(tagLabel.mas_bottom).offset(1);
+				make.left.equalTo(_coverImage);
+				make.right.equalTo(_coverImage);
 			}];
 		}
 		if (operation.length == 0) {
@@ -150,8 +154,17 @@
 		if (tag.length == 0) {
 			tag = @"没有标签";
 			tagLabel.hidden = YES;
-			[titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+			[titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
 				make.top.equalTo(_coverImage.mas_bottom).offset(10);
+				make.left.equalTo(_coverImage);
+				make.right.equalTo(_coverImage);
+			}];
+		} else {
+			tagLabel.hidden = NO;
+			[titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+				make.top.equalTo(tagLabel.mas_bottom).offset(1);
+				make.left.equalTo(_coverImage);
+				make.right.equalTo(_coverImage);
 			}];
 		}
 		

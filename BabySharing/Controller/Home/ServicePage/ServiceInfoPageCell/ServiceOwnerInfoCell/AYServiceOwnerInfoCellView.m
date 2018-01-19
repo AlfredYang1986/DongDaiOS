@@ -167,8 +167,8 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 		
 		NSString *userNameStr = [info_owner objectForKey:kAYBrandArgsName];
 		if (userNameStr.length != 0) {
-			userName.text = [userNameStr stringByAppendingString:@"老师"];
-			userJob.text = userNameStr;
+			userName.text = userNameStr;
+			userJob.text = [userNameStr stringByAppendingString:@"老师"];
 		}
 		
 		NSString *tag = [info_owner objectForKey:kAYBrandArgsTag];

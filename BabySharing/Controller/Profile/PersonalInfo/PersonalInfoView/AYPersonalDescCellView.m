@@ -70,7 +70,7 @@
 			make.top.equalTo(userNameLabel.mas_bottom).offset(28);
         }];
         
-        descLabel = [UILabel creatLabelWithText:@"Personal intruduction" textColor:[UIColor black] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+        descLabel = [UILabel creatLabelWithText:@"Personal intruduction" textColor:[UIColor gary115] fontSize:314.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
         descLabel.numberOfLines = 0;
         [self addSubview:descLabel];
         [descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -104,6 +104,7 @@
     NSString *descStr = [args objectForKey:kAYProfileArgsDescription];
     if (descStr.length != 0) {
         descLabel.text = descStr;
+		descLabel.textColor = [UIColor gary115];
 	} else {
 		descLabel.text = @"一句话很短，高调的夸一夸自己";
 		descLabel.textColor = [UIColor gary166];

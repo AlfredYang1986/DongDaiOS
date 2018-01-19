@@ -66,8 +66,9 @@
 - (id)changeQueryData:(NSDictionary*)args {
     querydata = args;
 	
-	NSString *service_cat = [querydata objectForKey:kAYServiceArgsCat];
-	if ([service_cat isEqualToString:kAYStringCourse]) {
+//	NSString *service_cat = [querydata objectForKey:kAYServiceArgsCat];
+	NSArray *facilities = [[querydata objectForKey:kAYServiceArgsLocationInfo] objectForKey:@"friendliness"];;
+	if (facilities.count == 0 || (facilities.count == 1 && [facilities.firstObject length] == 0)) {
 		
 		CellNameArr = @[@"AYServiceTitleCellView",
 						@"AYServiceCapacityCellView",
@@ -88,7 +89,7 @@
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	
-    return CellNameArr.count;
+	return querydata ? CellNameArr.count : 0;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -258,11 +258,10 @@
 				
 //				[btmView setViewWithData:service_info];
 				[self layoutServicePageBannerImages];
-				
+
 				NSDictionary *tmp = [service_info copy];
 				kAYDelegatesSendMessage(@"ServicePage", kAYDelegateChangeDataMessage, &tmp)
 				kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
-				[CarouselView reloadData];
 				
 			} else {
 				AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
@@ -365,40 +364,42 @@
 	id<AYViewBase> statusBar = [self.views objectForKey:@"FakeStatusBar"];
 	
 	offset_y = y.floatValue;
-	if (offset_y < - kStatusAndNavBarH * 2) {
-		((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:0.f];
-	}
-	else if ( offset_y >= -kStatusAndNavBarH * 2) { //偏移的绝对值 小于 abs(-64)
-		
-		CGFloat alp = (kStatusAndNavBarH*2 + offset_y) / (kStatusAndNavBarH);
-		if (alp > 0.5 && !isBlackLeftBtn) {
-			bar_back_btn.selected = YES;
-			if (!bar_like_btn.selected) {
-				bar_like_btn.highlighted = YES;
-			}
-			
-			isBlackLeftBtn = YES;
-			NSString *titleStr = @"服务详情";
-			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &titleStr)
-			isStatusHide = NO;
-			[self setNeedsStatusBarAppearanceUpdate];
-			
-		} else if (alp <  0.5 && isBlackLeftBtn) {
-			bar_back_btn.selected = NO;
-			if (!bar_like_btn.selected) {
-				bar_like_btn.highlighted = NO;
-			}
-			
-			isBlackLeftBtn = NO;
-			NSString *titleStr = @"";
-			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &titleStr)
-			isStatusHide = YES;
-			[self setNeedsStatusBarAppearanceUpdate];
+	CGFloat alp = (kStatusAndNavBarH*2 + offset_y) / (kStatusAndNavBarH);
+	if (alp > 0.5 && !isBlackLeftBtn) {
+		bar_back_btn.selected = YES;
+		if (!bar_like_btn.selected) {
+			bar_like_btn.highlighted = YES;
 		}
 		
-		((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:alp];
-		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarHideBarBotLineMessage, nil)
+		isBlackLeftBtn = YES;
+		NSString *titleStr = @"服务详情";
+		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &titleStr)
+		isStatusHide = NO;
+		[self setNeedsStatusBarAppearanceUpdate];
+		
+	} else if (alp <=  0.5 && isBlackLeftBtn) {
+		bar_back_btn.selected = NO;
+		if (!bar_like_btn.selected) {
+			bar_like_btn.highlighted = NO;
+		}
+		
+		isBlackLeftBtn = NO;
+		NSString *titleStr = @"";
+		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &titleStr)
+		isStatusHide = YES;
+		[self setNeedsStatusBarAppearanceUpdate];
 	}
+	alp = alp > 1 ? 1 :alp;
+	alp = alp < 0 ? 0 :alp;
+	
+	((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:alp];
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarHideBarBotLineMessage, nil)
+//	if (offset_y < - kStatusAndNavBarH * 2) {
+//		((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:0.f];
+//	}
+//	else if ( offset_y >= -kStatusAndNavBarH * 2) { //偏移的绝对值 小于 abs(-64)
+//
+//	}
 	
     CGFloat offsetH = kFlexibleHeight + offset_y;
     if (offsetH < 0) {
@@ -526,6 +527,7 @@
 	NSNumber *iscollect = [service_info objectForKey:kAYServiceArgsIsCollect];
 	bar_like_btn.selected = iscollect.boolValue;
 	
+	[CarouselView reloadData];
 }
 
 - (void)didImageTagTap:(UITapGestureRecognizer*)tap {
