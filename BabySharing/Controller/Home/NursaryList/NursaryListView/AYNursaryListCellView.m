@@ -134,22 +134,72 @@
 	NSArray *operations = [service_info objectForKey:kAYServiceArgsOperation];
 	NSArray *tags = [service_info objectForKey:kAYServiceArgsTags];
 	
-	NSString *tag = [tags firstObject];
-	if (tag.length == 0) {
-		tag = @"没有标签";
-	}
-	tagLabel.text = tag;
-	
+	NSString *tag;
 	NSString *operation;
-	for (NSString *ope in operations) {
-		if ([kAY_operation_fileters_title_nursery containsObject:ope]) {
-			operation = ope;
+	NSString *categ = [service_info objectForKey:kAYServiceArgsCat];
+	if ([categ isEqualToString:kAYStringCourse]) {
+		for (NSString *ope in operations) {
+			if ([kAY_operation_fileters_tag_course containsObject:ope]) {
+				tag = tag.length == 0 ? ope : tag;
+			}
+			if ([kAY_operation_fileters_title_course containsObject:ope]) {
+				operation = operation.length == 0 ? ope : operation;
+			}
 		}
+		
+		if (tag.length == 0) {
+			tag = @"没有标签";
+			tagLabel.hidden = YES;
+			[titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+				make.top.equalTo(coverImage.mas_bottom).offset(10);
+				make.left.equalTo(coverImage);
+				make.right.equalTo(coverImage);
+			}];
+		} else {
+			tagLabel.hidden = NO;
+			[titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+				make.top.equalTo(tagLabel.mas_bottom).offset(1);
+				make.left.equalTo(coverImage);
+				make.right.equalTo(coverImage);
+			}];
+		}
+		if (operation.length == 0) {
+			operation = @"";
+		}
+		
+		titleLabel.text = [NSString stringWithFormat:@"%@的%@%@课程", brand_name, operation, leaf];
 	}
-	if (operation.length == 0) {
-		operation = @"";
+	else if([categ isEqualToString:kAYStringNursery]) {
+		tag = [tags firstObject];
+		if (tag.length == 0) {
+			tag = @"没有标签";
+			tagLabel.hidden = YES;
+			[titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+				make.top.equalTo(coverImage.mas_bottom).offset(10);
+				make.left.equalTo(coverImage);
+				make.right.equalTo(coverImage);
+			}];
+		} else {
+			tagLabel.hidden = NO;
+			[titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+				make.top.equalTo(tagLabel.mas_bottom).offset(1);
+				make.left.equalTo(coverImage);
+				make.right.equalTo(coverImage);
+			}];
+		}
+		
+		for (NSString *ope in operations) {
+			if ([kAY_operation_fileters_title_nursery containsObject:ope]) {
+				operation = ope;
+			}
+		}
+		if (operation.length == 0) {
+			operation = @"";
+		}
+		titleLabel.text = [NSString stringWithFormat:@"%@的%@%@", brand_name, operation, leaf];
 	}
-	titleLabel.text = [NSString stringWithFormat:@"%@的%@%@", brand_name, operation, leaf];
+	
+	tagLabel.text = tag;
 	
 	likeBtn.selected = [[service_info objectForKey:kAYServiceArgsIsCollect] boolValue];
 	

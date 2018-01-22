@@ -207,14 +207,15 @@ static NSString* const kAYEMAppKey = @"blackmirror#dongda";
 	AYRemoteCallCommand* auth_cmd = [auth_facade.commands objectForKey:@"IsTokenExpired"];
 	[auth_cmd performWithResult:[user copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
 		if (success) {
-			NSNumber* isExpired = [result objectForKey:@"isExpired"];
-			if (isExpired && isExpired.boolValue) {
+			//nothing todo
+		} else {
+			NSNumber *code = [result objectForKey:@"code"];
+			if (code.intValue == -9004 || code.intValue == -9005) {
+				
 				AYFacade* f_login = LOGINMODEL;
 				id<AYCommand> cmd_sign_out_local = [f_login.commands objectForKey:@"SignOutLocal"];
 				[cmd_sign_out_local performWithResult:nil];
 			}
-		} else {
-			
 		}
 	}];
 	

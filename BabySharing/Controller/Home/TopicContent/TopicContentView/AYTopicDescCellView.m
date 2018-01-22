@@ -49,7 +49,8 @@
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		
 		contentLabel = [Tools creatLabelWithText:@"Content" textColor:[UIColor white] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
-		contentLabel.numberOfLines = 3;
+//		contentLabel.numberOfLines = 3;
+		contentLabel.numberOfLines = 0;
 		[self addSubview:contentLabel];
 		[contentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(self).offset(16);
@@ -97,15 +98,29 @@
 //	paraStyle.minimumLineHeight = 22;
 	
 	NSDictionary *dic_attr = @{
-//							   NSParagraphStyleAttributeName:paraStyle,
-								NSKernAttributeName:@(0.3),
-								NSForegroundColorAttributeName:[UIColor gary115],
-								NSFontAttributeName:[UIFont systemFontOfSize:14]
-								};
+							   //							   NSParagraphStyleAttributeName:paraStyle,
+							   NSKernAttributeName:@(0.3),
+							   NSForegroundColorAttributeName:[UIColor gary115],
+							   NSFontAttributeName:[UIFont systemFontOfSize:14]
+							   };
+
+	NSString *montStr = @"Montessori";
+	if ([countstr containsString:montStr]) {
+		NSString *prefix = [[countstr componentsSeparatedByString:montStr] firstObject];
+		
+		NSDictionary *dic_attr_mont = @{NSKernAttributeName:@(0.3), NSForegroundColorAttributeName:[UIColor gary115], NSFontAttributeName:[UIFont systemFontOfSize:13] };
+		
+		NSMutableAttributedString *albumAttrStr = [[NSMutableAttributedString alloc] initWithString:countstr];
+		[albumAttrStr setAttributes:dic_attr_mont range:NSMakeRange(prefix.length, montStr.length)];
+		[albumAttrStr setAttributes:dic_attr range:NSMakeRange(0, prefix.length)];
+		[albumAttrStr setAttributes:dic_attr range:NSMakeRange(prefix.length+montStr.length, countstr.length-(prefix.length+montStr.length))];
+		contentLabel.attributedText = albumAttrStr;
+	} else {
+		
+		NSAttributedString *countAttrStr = [[NSAttributedString alloc] initWithString:countstr attributes:dic_attr];
+		contentLabel.attributedText = countAttrStr;
+	}
 	
-	NSAttributedString *countAttrStr = [[NSAttributedString alloc] initWithString:countstr attributes:dic_attr];
-	contentLabel.attributedText = countAttrStr;
-	contentLabel.numberOfLines = 0;
 	
 //	BOOL isExpend = [[args objectForKey:@"is_expend"] boolValue];
 //	if (isExpend) {

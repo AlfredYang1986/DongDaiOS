@@ -59,8 +59,9 @@
 	else if (index == 0) {	//boundary_agr
 		NSNumber *min = [service_info objectForKey:@"min_age"];
 		NSNumber *max = [service_info objectForKey:@"max_age"];
-		
-		infoLabel.text = [NSString stringWithFormat:@"%@-%@岁", min, max];
+		NSString *boundary = [NSString stringWithFormat:@"%.1f-%.1f岁", min.floatValue, max.floatValue];
+		boundary = [boundary stringByReplacingOccurrencesOfString:@".0" withString:@""];
+		infoLabel.text = boundary;
 		
 	} else {
 		int class = [[service_info objectForKey:@"class_max_stu"] intValue];
