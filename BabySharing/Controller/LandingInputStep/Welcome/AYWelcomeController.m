@@ -170,13 +170,7 @@
 }
 
 - (void)updateUserProfile {
-    NSString* screen_photo = [login_attr objectForKey:kAYProfileArgsScreenPhoto];
-	if ([screen_photo isEqualToString:@""] && !changedImage) {
-		NSString *title = @"请求真相!";
-		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-		return;
-	}
-    //通用参数
+	
     NSMutableDictionary* dic_update = [[NSMutableDictionary alloc] init];
 	[dic_update setValue:[login_attr objectForKey:kAYCommArgsToken] forKey:@"token"];
 	
@@ -191,7 +185,9 @@
 	
     if (isChangeImg) {
         NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:2];
-        [photo_dic setValue:[login_attr objectForKey:kAYProfileArgsScreenPhoto] forKey:@"image"];
+		
+		NSString* screen_photo = [login_attr objectForKey:kAYProfileArgsScreenPhoto];
+        [photo_dic setValue:screen_photo forKey:@"image"];
         [photo_dic setValue:changedImage forKey:@"upload_image"];
         
         id<AYFacadeBase> up_facade = [self.facades objectForKey:@"FileRemote"];
@@ -199,13 +195,15 @@
         [up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
             NSLog(@"upload result are %d", success);
             if (success) {
-                [profile setValue:screen_photo forKey:kAYProfileArgsScreenPhoto];
-                [self updateProfileImpl:[dic_update copy]];
 				
 				//已成功上传头像，如果更新用户信息出错，跳过头像上传，直接重试更新用户信息
+                [login_attr setValue:screen_photo forKey:kAYProfileArgsScreenPhoto];
 				isChangeImg = NO;
+				
+                [self updateProfileImpl:[dic_update copy]];
+				
             } else {
-                NSString *title = @"真相上传失败!请改善网络环境重试";
+                NSString *title = @"头像上传失败!请改善网络环境重试";
                 AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
             }
         }];
@@ -215,7 +213,6 @@
 }
 
 - (id)CurrentLoginUserChanged:(id)args {
-    NSLog(@"Notify args: %@", args);
     
     NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
     [dic_pop setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
@@ -230,7 +227,7 @@
 }
 
 - (id)CurrentRegUserProfileChanged:(id)args {
-    NSLog(@"args: %@", args);
+	
     NSString* screen_photo = [args objectForKey:@"screen_photo"];
     [login_attr setValue:screen_photo forKey:@"screen_photo"];
     id<AYViewBase> view = [self.views objectForKey:@"UserScreenPhote"];

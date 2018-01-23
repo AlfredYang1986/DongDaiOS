@@ -49,6 +49,9 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 
 - (id)init {
     self = [super init];
+	
+	
+	
     if (self) {
         
         wait_for_qq_api = dispatch_semaphore_create(0);

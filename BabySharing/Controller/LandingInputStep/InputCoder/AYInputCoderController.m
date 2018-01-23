@@ -210,7 +210,7 @@
 		} else {
 			NSString* msg = [result objectForKey:@"message"];
 			if([msg isEqualToString:@"电话号码或者验证码出错"]) {
-				NSString *title = @"动态密码不匹配,请重试";
+				NSString *title = @"动态密码输入错误";
 				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 			} else {
 				NSString *title = @"验证动态密码失败，请检查网络是否正常连接";

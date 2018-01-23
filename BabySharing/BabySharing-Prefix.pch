@@ -26,7 +26,7 @@
 
 static NSString* const kAMapApiKey =					@"7d5d988618fd8a707018941f8cd52931";
 static NSString* const kAYEMIDDongDaMaster =			@"dongda_master";
-static NSString* const kAYNetworkSlowTip =				@"请改善网络环境并重试";
+static NSString* const kAYNetworkSlowTip =				@"网络不通畅，换个地方试试";
 
 static NSString* const kAYDongDaAppMode =				@"dongda_app_mode";
 static NSString* const kAYDongDaAppVersion =			@"dongda_app_version";
@@ -53,68 +53,6 @@ static NSString* const kAYDongDaAppVersion =			@"dongda_app_version";
 
 #define HOME_NURSERY_CELL_HEIGHT						376
 #define HOME_COURSE_CELL_HEIGHT							297
-
-
-//PayWayOption
-typedef enum : int {
-	PayWayOptionWechat = 0,
-	PayWayOptionAlipay = 1,
-} PayWayOption;
-
-//TMPatternType
-typedef enum : int {
-	TMPatternTypeDaily = 0,
-	TMPatternTypeWeekly = 1,
-	TMPatternTypeMonthly = 2,
-	TMPatternTypeOnce = 3,
-	TMPatternTypeOpenDay = 4,
-} TMPatternType;
-
-//ServiceType
-typedef enum : int {
-    //ServiceTypeNone = -1,
-    ServiceTypeCourse = 0,
-    ServiceTypeNursery = 1,
-} ServiceType;
-
-//orderStatus
-typedef enum : int {
-	OrderStatusExpired = -1,
-	OrderStatusPosted = 1,
-	OrderStatusReject = 2,
-	OrderStatusAccepted = 3,
-	OrderStatusPaid = 4,
-	OrderStatusCancel = -2,
-	OrderStatusDone = 9,
-	OrderStatusReady = 10,
-	OrderStatusConfirm = 11,
-} OrderStatus;
-
-//priceType
-typedef enum : int {
-	AYPriceTypeHours = 0,
-	AYPriceTypeDay = 1,
-	AYPriceTypeMonth = 2,
-	AYPriceTypeTimes = 4,
-	AYPriceTypeStage = 5,
-} AYPriceType;
-
-//DongDaAppMode
-typedef enum : int {
-    DongDaAppModeUnLogin = 0,
-    DongDaAppModeCommon = 1,
-    DongDaAppModeServant = 2,
-    DongDaAppModeNapFamily,
-} DongDaAppMode;
-
-//ModeExchangeType
-typedef enum : int {
-    ModeExchangeTypeDissVC = 0,
-    ModeExchangeTypeUnloginToAllModel = 1,
-    ModeExchangeTypeCommonToServant = 2,
-    ModeExchangeTypeCommonToNapFamily = 3,
-    ModeExchangeTypeServantToCommon = 4,
-} ModeExchangeType;
 
 
 #define kAYStringCourse							@"课程"
@@ -149,6 +87,68 @@ typedef enum : int {
 #define kAYFontLight(FONTSIZE)					[UIFont fontWithName:@"STHeitiSC-Light" size:FONTSIZE]
 #define kAYFontMedium(FONTSIZE)					[UIFont fontWithName:@"STHeitiSC-Medium" size:FONTSIZE]
 
+
+
+//PayWayOption
+typedef enum : int {
+	PayWayOptionWechat = 0,
+	PayWayOptionAlipay = 1,
+} PayWayOption;
+
+//TMPatternType
+typedef enum : int {
+	TMPatternTypeDaily = 0,
+	TMPatternTypeWeekly = 1,
+	TMPatternTypeMonthly = 2,
+	TMPatternTypeOnce = 3,
+	TMPatternTypeOpenDay = 4,
+} TMPatternType;
+
+//ServiceType
+typedef enum : int {
+	//ServiceTypeNone = -1,
+	ServiceTypeCourse = 0,
+	ServiceTypeNursery = 1,
+} ServiceType;
+
+//orderStatus
+typedef enum : int {
+	OrderStatusExpired = -1,
+	OrderStatusPosted = 1,
+	OrderStatusReject = 2,
+	OrderStatusAccepted = 3,
+	OrderStatusPaid = 4,
+	OrderStatusCancel = -2,
+	OrderStatusDone = 9,
+	OrderStatusReady = 10,
+	OrderStatusConfirm = 11,
+} OrderStatus;
+
+//priceType
+typedef enum : int {
+	AYPriceTypeHours = 0,
+	AYPriceTypeDay = 1,
+	AYPriceTypeMonth = 2,
+	AYPriceTypeTimes = 4,
+	AYPriceTypeStage = 5,
+} AYPriceType;
+
+//DongDaAppMode
+typedef enum : int {
+	DongDaAppModeUnLogin = 0,
+	DongDaAppModeCommon = 1,
+	DongDaAppModeServant = 2,
+	DongDaAppModeNapFamily,
+} DongDaAppMode;
+
+//ModeExchangeType
+typedef enum : int {
+	ModeExchangeTypeDissVC = 0,
+	ModeExchangeTypeUnloginToAllModel = 1,
+	ModeExchangeTypeCommonToServant = 2,
+	ModeExchangeTypeCommonToNapFamily = 3,
+	ModeExchangeTypeServantToCommon = 4,
+} ModeExchangeType;
 
 
 #ifndef __OPTIMIZE__

@@ -54,37 +54,37 @@ static NSString* const kAYEMAppKey = @"blackmirror#dongda";
 	id<AYCommand> apn = COMMAND(kAYFactoryManagerCommandTypeAPN, kAYFactoryManagerCommandTypeAPN);
 	[apn performWithResult:nil];
 	
-	NSDictionary *infoDic=[[NSBundle mainBundle] infoDictionary];
-	NSString *app_Version = [infoDic objectForKey:@"CFBundleShortVersionString"];
-	
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	NSString *note_version = [defaults objectForKey:kAYDongDaAppVersion];
-	
 	CGRect screenBounds = [[UIScreen mainScreen] bounds];
-	if (![app_Version isEqualToString:note_version]) {
-		NSLog(@"%@", app_Version);
-		AYViewController* rootVC = DEFAULTCONTROLLER(@"NewVersionNav");
-		
-		self.window = [[UIWindow alloc] initWithFrame:screenBounds];
-		[self.window makeKeyAndVisible];
-		self.window.rootViewController = rootVC;
-		
-	} else {
-//		id<AYCommand> cmd_home_init = COMMAND(@"HomeInit", @"HomeInit");
-//		AYViewController* rootContorller = nil;
-//		[cmd_home_init performWithResult:&rootContorller];
-		
-		id<AYCommand> cmd = COMMAND(kAYFactoryManagerCommandTypeInit, kAYFactoryManagerCommandTypeInit);
-		AYViewController* controller = nil;
-		[cmd performWithResult:&controller];
-		
-		AYNavigationController * rootContorller = CONTROLLER(@"DefaultController", @"Navigation");
-		[rootContorller pushViewController:controller animated:NO];
-		
-		self.window = [[UIWindow alloc] initWithFrame:screenBounds];
-		[self.window makeKeyAndVisible];
-		self.window.rootViewController = rootContorller;
-	}
+	
+	//	NSDictionary *infoDic=[[NSBundle mainBundle] infoDictionary];
+	//	NSString *app_Version = [infoDic objectForKey:@"CFBundleShortVersionString"];
+	//	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	//	NSString *note_version = [defaults objectForKey:kAYDongDaAppVersion];
+	//	if (![app_Version isEqualToString:note_version]) {
+	//		NSLog(@"%@", app_Version);
+	//		AYViewController* rootVC = DEFAULTCONTROLLER(@"NewVersionNav");
+	//
+	//		self.window = [[UIWindow alloc] initWithFrame:screenBounds];
+	//		[self.window makeKeyAndVisible];
+	//		self.window.rootViewController = rootVC;
+	//
+	//	} else {
+	////		id<AYCommand> cmd_home_init = COMMAND(@"HomeInit", @"HomeInit");
+	////		AYViewController* rootContorller = nil;
+	////		[cmd_home_init performWithResult:&rootContorller];
+	//
+	//	}
+	
+	id<AYCommand> cmd = COMMAND(kAYFactoryManagerCommandTypeInit, kAYFactoryManagerCommandTypeInit);
+	AYViewController* controller = nil;
+	[cmd performWithResult:&controller];
+	
+	AYNavigationController * rootContorller = CONTROLLER(@"DefaultController", @"Navigation");
+	[rootContorller pushViewController:controller animated:NO];
+	
+	self.window = [[UIWindow alloc] initWithFrame:screenBounds];
+	[self.window makeKeyAndVisible];
+	self.window.rootViewController = rootContorller;
 	
     return YES;
 }

@@ -470,10 +470,9 @@
 - (id)showHideDescDetail:(NSNumber*)args {
 	
 	UITableView *table = [self.views objectForKey:@"Table"];
+//	[table beginUpdates];
 	kAYDelegatesSendMessage(@"ServicePage", @"TransfromExpend:", &args)
 	[table reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-	
-//	[table beginUpdates];
 //	[table endUpdates];
     return nil;
 }

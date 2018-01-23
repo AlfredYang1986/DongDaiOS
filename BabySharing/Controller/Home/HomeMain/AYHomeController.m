@@ -269,7 +269,7 @@ typedef void(^queryContentFinish)(void);
 	
 //	if (![localityStr isEqualToString:@"北京市"] && ![localityStr isEqualToString:@"Beijing"]) {
 //	}
-	NSString *title = @"咚哒目前只支持北京市,我们正在努力到达更多的城市";
+	NSString *title = @"目前只开放北京,我们正在努力为更多的城市服务";
 	AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 }
 

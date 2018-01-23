@@ -159,12 +159,12 @@
 	service_info = args;
 	
 	NSString* photo_name = [service_info objectForKey:kAYServiceArgsImage];
-	if (photo_name) {
+	if (photo_name.length != 0) {
 		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
 		AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
 		NSString *prefix = cmd.route;
-		NSString *urlStr = [NSString stringWithFormat:@"%@%@", prefix, photo_name];
-		[coverImage sd_setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:IMGRESOURCE(@"default_image") /*options:SDWebImageRefreshCached*/];
+		
+		[coverImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", prefix, photo_name]] placeholderImage:IMGRESOURCE(@"default_image") /*options:SDWebImageRefreshCached*/];
 	}
 	
 	NSString *service_cat = [service_info objectForKey:kAYServiceArgsCat];

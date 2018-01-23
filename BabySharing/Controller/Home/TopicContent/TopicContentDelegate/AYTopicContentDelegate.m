@@ -69,6 +69,7 @@
 	NSString* class_name = [cellNameArr objectAtIndex:indexPath.row > 1 ? 2 : indexPath.row];
 	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 	cell.controller = self.controller;
+//	[cell postPerform];
 	
 	if (indexPath.row > 1) {
 		id tmp = [queryData objectAtIndex:indexPath.row - 2];
