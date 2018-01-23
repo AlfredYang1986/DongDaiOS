@@ -18,7 +18,7 @@
 
 - (void)performWithResult:(NSObject**)obj {
 	// need to modify
-	NSArray* tms = (NSArray*)*obj;
+//	NSArray* tms = (NSArray*)*obj;
 	
 	NSArray* result = [[NSArray alloc]init];
 	

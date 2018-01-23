@@ -15,6 +15,4 @@
 @property (nonatomic, strong) CLLocationManager  *manager;
 @property (nonatomic, strong) CLGeocoder *geoC;
 
-@property (nonatomic, strong) UIView *snapAnimateView;
-
 @end
