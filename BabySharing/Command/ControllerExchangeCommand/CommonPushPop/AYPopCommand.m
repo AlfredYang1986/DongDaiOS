@@ -23,12 +23,7 @@
     
     NSDictionary* dic = (NSDictionary*)*obj;
     
-    if (![[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopValue]) {
-        @throw [[NSException alloc]initWithName:@"error" reason:@"pop command 只能出来pop 操作" userInfo:nil];
-    }
-    
     AYViewController* source = [dic objectForKey:kAYControllerActionSourceControllerKey];
-//    AYViewController* des = [dic objectForKey:kAYControllerActionDestinationControllerKey];
     
     if (source.navigationController == nil) {
         @throw [[NSException alloc]initWithName:@"error" reason:@"pop command source controler 必须是一个navigation controller" userInfo:nil];

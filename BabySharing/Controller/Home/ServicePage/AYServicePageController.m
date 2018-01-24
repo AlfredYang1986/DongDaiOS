@@ -348,7 +348,7 @@
 		[dic setValue:back_args forKey:kAYControllerChangeArgsKey];
 	}
 	
-	id<AYCommand> cmd = POPANIMATE;
+	id<AYCommand> cmd = POP;
 	[cmd performWithResult:&dic];
     return nil;
 }

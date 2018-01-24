@@ -72,7 +72,6 @@ typedef void(^queryContentFinish)(void);
 		
 		if ([backArgs isKindOfClass:[NSString class]]) {
 			NSString *title = (NSString*)backArgs;
-//			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 			if ([title isEqualToString:@"个人信息更新"]) {
 				
 				NSDictionary *user_info = nil;
