@@ -119,8 +119,7 @@
 			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 			
 		} else {
-			NSString *title = @"请改善网络环境并重试";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
 		}
 		
 //		[view_table.mj_header endRefreshing];

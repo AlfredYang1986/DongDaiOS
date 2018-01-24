@@ -149,8 +149,7 @@
 			kAYDelegatesSendMessage(@"ChoiceContent", kAYDelegateChangeDataMessage, &tmp)
 			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 		} else {
-			NSString *title = @"请改善网络环境并重试";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
 		}
 	}];
 	
@@ -239,8 +238,8 @@
 				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 			}
 		} else {
-			NSString *title = @"请改善网络环境并重试";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			
+			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
 		}
 		UITableView *view_table = [self.views objectForKey:@"Table2"];
 		kAYViewsSendMessage(@"Table", kAYTableRefreshMessage, nil)

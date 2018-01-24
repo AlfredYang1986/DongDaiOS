@@ -197,7 +197,7 @@
 			
 		} else {
 			
-			NSString *title = @"预订申请失败\n请改善网络环境并重试";
+			NSString *title = @"预订申请失败\n网络不通畅，换个地方试试";
 			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 		}
 	}];

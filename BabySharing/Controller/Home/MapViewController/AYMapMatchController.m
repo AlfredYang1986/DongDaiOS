@@ -77,7 +77,7 @@
 	[cmd_cell performWithResult:&class_name];
 	
     if (!is_local) {
-        NSString *title = @"咚哒目前仅支持北京市，\n我们正在努力到达更多的城市！";
+        NSString *title = @"目前只开放北京,我们正在努力为更多的城市服务";
         AYShowBtmAlertView(title, BtmAlertViewTypeCommon)
     } else {
 		[self loadNewData];
@@ -146,8 +146,7 @@
 			kAYViewsSendMessage(kAYCollectionView, kAYTableRefreshMessage, nil)
 			
 		} else {
-			NSString *title = @"请改善网络环境并重试";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
 		}
 	}];
 }

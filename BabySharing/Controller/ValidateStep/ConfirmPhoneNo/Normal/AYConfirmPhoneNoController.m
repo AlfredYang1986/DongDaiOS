@@ -227,8 +227,8 @@
 			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 			
         } else {
-            NSString *title = @"请改善网络环境并重新获取";
-            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			
+            AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
         }
     }];
     

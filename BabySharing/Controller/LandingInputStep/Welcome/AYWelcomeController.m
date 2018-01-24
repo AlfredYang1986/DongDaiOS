@@ -162,8 +162,8 @@
                 [cmd performWithResult:&args];
                 
             } else {
-				NSString *title = @"网络错误,请改善网络环境并重试";
-				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+				
+				AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
             }
         });
     }];
@@ -203,7 +203,7 @@
                 [self updateProfileImpl:[dic_update copy]];
 				
             } else {
-                NSString *title = @"头像上传失败!请改善网络环境重试";
+                NSString *title = @"头像上传失败!网络不通畅，换个地方试试";
                 AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
             }
         }];

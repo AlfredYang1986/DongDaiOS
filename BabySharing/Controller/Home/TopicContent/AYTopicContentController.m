@@ -117,8 +117,7 @@
 			kAYDelegatesSendMessage(@"TopicContent", kAYDelegateChangeDataMessage, &tmp)
 			[tableView reloadData];
 		} else {
-			NSString *title = @"请改善网络环境并重试";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
 		}
 		[tableView.mj_header endRefreshing];
 	}];
@@ -152,8 +151,7 @@
 				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 			}
 		} else {
-			NSString *title = @"请改善网络环境并重试";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
 		}
 		
 		[tableView.mj_footer endRefreshing];

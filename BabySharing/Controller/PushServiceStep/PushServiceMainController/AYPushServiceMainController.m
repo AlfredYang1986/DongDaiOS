@@ -425,13 +425,13 @@
 				} else {
 
 					kAYViewsSendMessage(kValidatingView, @"hideValidatingView", nil);
-					NSString *title = @"服务上传失败";
+					NSString *title = @"服务上传失败,网络不通畅，换个地方试试";
 					AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 				}
 			}];
 		} else {
 			kAYViewsSendMessage(kValidatingView, @"hideValidatingView", nil);
-			NSString *title = @"图片上传失败,请改善网络环境并重试";
+			NSString *title = @"图片上传失败,网络不通畅，换个地方试试";
 			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 		}
 	}];

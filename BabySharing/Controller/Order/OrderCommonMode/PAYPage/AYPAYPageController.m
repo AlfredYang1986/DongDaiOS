@@ -150,8 +150,8 @@
 			[cmd_pay performWithResult:&tmp];
 			
 		} else {
-			NSString *title = @"请改善网络环境并重试";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			
+			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
 		}
 	}];
 	
@@ -235,7 +235,7 @@
 		//		NSString *title = @"您已取消本次支付支付";
 		//		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 	} else {
-		NSString *title = @"支付失败\n请改善网络环境并重试";
+		NSString *title = @"支付失败\n网络不通畅，换个地方试试";
 		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 	}
 	return nil;
@@ -249,7 +249,7 @@
 
 - (id)AlipayFailed:(id)args {
 	NSLog(@"pay failed");
-	NSString *title = @"支付失败\n请改善网络环境并重试";
+	NSString *title = @"支付失败\n网络不通畅，换个地方试试";
 	AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 	return nil;
 }
