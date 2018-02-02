@@ -128,9 +128,9 @@
 	[cmd_sign_out performWithResult:current_login_user andFinishBlack:^(BOOL success, NSDictionary * result) {
 		NSLog(@"login out %@", result);
 		
-		AYFacade* f_em = [self.facades objectForKey:@"EM"];
-		id<AYCommand> cmd_xmpp_logout = [f_em.commands objectForKey:@"LogoutEM"];
-		[cmd_xmpp_logout performWithResult:nil];
+//        AYFacade* f_em = [self.facades objectForKey:@"EM"];
+//        id<AYCommand> cmd_xmpp_logout = [f_em.commands objectForKey:@"LogoutEM"];
+//        [cmd_xmpp_logout performWithResult:nil];
 		
 		AYFacade* f_login = LOGINMODEL;
 		id<AYCommand> cmd_sign_out_local = [f_login.commands objectForKey:@"SignOutLocal"];

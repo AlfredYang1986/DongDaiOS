@@ -90,18 +90,18 @@
     <command type="Module" name="JoinGroup" factory="AYDefaultModuleFactory" />
     -->
    
-    <command type="Module" name="LoginEM"               factory="AYDefaultModuleFactory" />
-    <command type="Module" name="LogoutEM"              factory="AYDefaultModuleFactory" />
-    <command type="Module" name="EMUnreadMessageCount"  factory="AYDefaultModuleFactory" />
-    <command type="Module" name="SendEMMessage"         factory="AYDefaultModuleFactory" />
-    <command type="Module" name="QueryEMMessages"       factory="AYDefaultModuleFactory" />
-    <command type="Module" name="QueryEMSations"        factory="AYDefaultModuleFactory" />
-    <command type="Module" name="JoinEMGroup"           factory="AYDefaultModuleFactory" />
-    <command type="Module" name="CreateEMChat"          factory="AYDefaultModuleFactory" />
-    <command type="Module" name="EMQueryGroupMemberLst" factory="AYDefaultModuleFactory" />
-    <command type="Module" name="EMEnterBackground"     factory="AYDefaultModuleFactory" />
-    <command type="Module" name="EMEnterFront"          factory="AYDefaultModuleFactory" />
-    <command type="Module" name="EMClientInit"          factory="AYDefaultModuleFactory" />
+<!--    <command type="Module" name="LoginEM"               factory="AYDefaultModuleFactory" />-->
+<!--    <command type="Module" name="LogoutEM"              factory="AYDefaultModuleFactory" />-->
+<!--    <command type="Module" name="EMUnreadMessageCount"  factory="AYDefaultModuleFactory" />-->
+<!--    <command type="Module" name="SendEMMessage"         factory="AYDefaultModuleFactory" />-->
+<!--    <command type="Module" name="QueryEMMessages"       factory="AYDefaultModuleFactory" />-->
+<!--    <command type="Module" name="QueryEMSations"        factory="AYDefaultModuleFactory" />-->
+<!--    <command type="Module" name="JoinEMGroup"           factory="AYDefaultModuleFactory" />-->
+<!--    <command type="Module" name="CreateEMChat"          factory="AYDefaultModuleFactory" />-->
+<!--    <command type="Module" name="EMQueryGroupMemberLst" factory="AYDefaultModuleFactory" />-->
+<!--    <command type="Module" name="EMEnterBackground"     factory="AYDefaultModuleFactory" />-->
+<!--    <command type="Module" name="EMEnterFront"          factory="AYDefaultModuleFactory" />-->
+<!--    <command type="Module" name="EMClientInit"          factory="AYDefaultModuleFactory" />-->
 
     <command type="Module" name="HomeInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="FoundInit" factory="AYDefaultModuleFactory" />

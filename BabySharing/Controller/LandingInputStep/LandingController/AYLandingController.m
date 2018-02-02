@@ -386,11 +386,13 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     id obj = nil;
     [cmd performWithResult:&obj];
 	
-    AYFacade* xmpp = [self.facades objectForKey:@"EM"];
-    id<AYCommand> cmd_login_xmpp = [xmpp.commands objectForKey:@"LoginEM"];
-    NSDictionary* dic = (NSDictionary*)obj;
-    NSString* current_user_id = [dic objectForKey:@"user_id"];
-    [cmd_login_xmpp performWithResult:&current_user_id];
+    [self LoginEMSuccess:obj];
+    
+//    AYFacade* xmpp = [self.facades objectForKey:@"EM"];
+//    id<AYCommand> cmd_login_xmpp = [xmpp.commands objectForKey:@"LoginEM"];
+//    NSDictionary* dic = (NSDictionary*)obj;
+//    NSString* current_user_id = [dic objectForKey:@"user_id"];
+//    [cmd_login_xmpp performWithResult:&current_user_id];
     
     return nil;
 }
@@ -407,11 +409,11 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
         NSLog(@"login out %@", result);
         NSLog(@"current login user %@", current_login_user);
         
-        {
-            AYFacade* f = [self.facades objectForKey:@"EM"];
-            id<AYCommand> cmd_xmpp_logout = [f.commands objectForKey:@"LogoutEM"];
-            [cmd_xmpp_logout performWithResult:nil];
-        }
+//        {
+//            AYFacade* f = [self.facades objectForKey:@"EM"];
+//            id<AYCommand> cmd_xmpp_logout = [f.commands objectForKey:@"LogoutEM"];
+//            [cmd_xmpp_logout performWithResult:nil];
+//        }
         
         {
             AYFacade* f = LOGINMODEL;

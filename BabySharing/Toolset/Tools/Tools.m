@@ -354,7 +354,7 @@
 // 获取当前处于activity状态的view controller
 + (UIViewController *)activityViewController {
     __block UIViewController* topVC = nil;
-	dispatch_async(dispatch_get_main_queue(), ^{
+//    dispatch_async(dispatch_get_main_queue(), ^{
 		
 		NSArray *ws = [[[UIApplication sharedApplication].windows reverseObjectEnumerator] allObjects];
 		//    NSArray *ws = [UIApplication sharedApplication].windows;
@@ -379,7 +379,7 @@
 				}
 			}
 		}
-	});
+//    });
     
     return topVC;
 
