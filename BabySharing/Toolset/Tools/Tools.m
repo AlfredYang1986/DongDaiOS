@@ -353,30 +353,33 @@
 
 // 获取当前处于activity状态的view controller
 + (UIViewController *)activityViewController {
-    UIViewController* topVC = nil;
-    NSArray *ws = [[[UIApplication sharedApplication].windows reverseObjectEnumerator] allObjects];
-    //    NSArray *ws = [UIApplication sharedApplication].windows;
-    for (UIWindow* w in ws) {
-        UIViewController* appRootVC = w.rootViewController;
-        topVC = appRootVC;
-        
-        if (topVC.presentedViewController && ![topVC isKindOfClass:[UIAlertController class]]) {
-            topVC = topVC.presentedViewController;
-        }
-        
-        if ([topVC isKindOfClass:[UINavigationController class]]) {
-            topVC = ((UINavigationController*)topVC).viewControllers.lastObject;
-            break;
-        } else if ([topVC isKindOfClass:[UITabBarController class]]) {
-            topVC = [((UITabBarController*)topVC).viewControllers objectAtIndex:((UITabBarController*)topVC).selectedIndex];
-            
-            if ([topVC isKindOfClass:[UINavigationController class]]) {
-                
-                topVC = ((UINavigationController*)topVC).viewControllers.lastObject;
-                break;
-            }
-        }
-    }
+    __block UIViewController* topVC = nil;
+	dispatch_async(dispatch_get_main_queue(), ^{
+		
+		NSArray *ws = [[[UIApplication sharedApplication].windows reverseObjectEnumerator] allObjects];
+		//    NSArray *ws = [UIApplication sharedApplication].windows;
+		for (UIWindow* w in ws) {
+			UIViewController* appRootVC = w.rootViewController;
+			topVC = appRootVC;
+			
+			if (topVC.presentedViewController && ![topVC isKindOfClass:[UIAlertController class]]) {
+				topVC = topVC.presentedViewController;
+			}
+			
+			if ([topVC isKindOfClass:[UINavigationController class]]) {
+				topVC = ((UINavigationController*)topVC).viewControllers.lastObject;
+				break;
+			} else if ([topVC isKindOfClass:[UITabBarController class]]) {
+				topVC = [((UITabBarController*)topVC).viewControllers objectAtIndex:((UITabBarController*)topVC).selectedIndex];
+				
+				if ([topVC isKindOfClass:[UINavigationController class]]) {
+					
+					topVC = ((UINavigationController*)topVC).viewControllers.lastObject;
+					break;
+				}
+			}
+		}
+	});
     
     return topVC;
 

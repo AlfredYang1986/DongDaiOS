@@ -29,14 +29,9 @@
     if (![[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionExchangeWindowsModuleValue]) {
         @throw [[NSException alloc]initWithName:@"error" reason:@"exchange windows 只能出来push 操作" userInfo:nil];
     }
-    
-//    AYViewController* source = [dic objectForKey:kAYControllerActionSourceControllerKey];
+	
     AYViewController* des = [dic objectForKey:kAYControllerActionDestinationControllerKey];
-    
-//    if (source.navigationController == nil) {
-//        @throw [[NSException alloc]initWithName:@"error" reason:@"push command source controler 必须是一个navigation controller" userInfo:nil];
-//    }
-    
+	
     id tmp = [dic objectForKey:kAYControllerChangeArgsKey];
     if (tmp != nil) {
         NSMutableDictionary* dic_init =[[NSMutableDictionary alloc]init];
@@ -48,14 +43,15 @@
 //    des.hidesBottomBarWhenPushed = YES;
 //    [source.navigationController pushViewController:des animated:YES];
 //    UIWindow *source_window = [UIApplication sharedApplication].keyWindow;
-    
-    
+	
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
-//    AppDelegate* app = [UIApplication sharedApplication].delegate;
-    [UIApplication sharedApplication].delegate.window = [[UIWindow alloc] initWithFrame:screenBounds];
-    UIWindow *des_window = [UIApplication sharedApplication].delegate.window;
-    [des_window makeKeyAndVisible];
-    des_window.rootViewController = des;
+	
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[UIApplication sharedApplication].delegate.window = [[UIWindow alloc] initWithFrame:screenBounds];
+		UIWindow *des_window = [UIApplication sharedApplication].delegate.window;
+		[des_window makeKeyAndVisible];
+		des_window.rootViewController = des;
+	});
     
 //    [UIView transitionFromView:source.view toView:des.view duration:0.75f options:UIViewAnimationOptionTransitionCrossDissolve completion:^(BOOL finished) {
 //        

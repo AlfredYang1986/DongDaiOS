@@ -65,20 +65,15 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
             dispatch_semaphore_wait(wait_for_weibo_api, DISPATCH_TIME_FOREVER);
             dispatch_semaphore_wait(wait_for_wechat_api, DISPATCH_TIME_FOREVER);
             dispatch_semaphore_wait(wait_for_login_model, DISPATCH_TIME_FOREVER);
-            
-            AYFacade* f = LOGINMODEL;
-            id<AYCommand> cmd = [f.commands objectForKey:@"QueryCurrentLoginUser"];
-            id obj = nil;
-            [cmd performWithResult:&obj];
-            NSLog(@"current login user is %@", obj);
+			
+			NSDictionary *user;
+			CURRENUSER(user);
+            NSLog(@"current login user is %@", user);
 
-            dispatch_async(dispatch_get_main_queue(), ^{
-                NSLog(@"app is ready");
-                if (obj != nil && ((NSDictionary*)obj).count != 0) {
-					
-					NSDictionary *user;
-					CURRENUSER(user);
-					
+			NSLog(@"app is ready");
+			if (user != nil && (user.count != 0)) {
+				
+				dispatch_async(dispatch_get_main_queue(), ^{
 					id<AYFacadeBase> auth_facade = DEFAULTFACADE(@"AuthRemote");
 					AYRemoteCallCommand* auth_cmd = [auth_facade.commands objectForKey:@"IsTokenExpired"];
 					[auth_cmd performWithResult:[user copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
@@ -88,11 +83,12 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 							self.landing_status = RemoteControllerStatusReady;
 						}
 					}];
-					
-                } else {
-                    self.landing_status = RemoteControllerStatusReady;
-                }
-            });
+				});
+				
+			} else {
+				self.landing_status = RemoteControllerStatusReady;
+			}
+			
         });
     }
     return self;
@@ -109,11 +105,11 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 	[self.view addSubview:BGView];
 	BGView.frame = self.view.frame;
 	
-	// 状态栏(statusbar)
-	CGRect StatusRect = [[UIApplication sharedApplication] statusBarFrame];
-	//标题栏
-	CGRect NavRect = self.navigationController.navigationBar.frame;
-	NSLog(@"status.h-%f/nav.h-%f", StatusRect.size.height, NavRect.size.height);
+//	// 状态栏(statusbar)
+//	CGRect StatusRect = [[UIApplication sharedApplication] statusBarFrame];
+//	//标题栏
+//	CGRect NavRect = self.navigationController.navigationBar.frame;
+//	NSLog(@"status.h-%f/nav.h-%f", StatusRect.size.height, NavRect.size.height);
 	
     UIImageView *logo = [[UIImageView alloc]init];
     logo.image = IMGRESOURCE(@"landing_logo");
@@ -221,25 +217,28 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 #pragma mark -- status
 - (void)setCurrentStatus:(RemoteControllerStatus)new_status {
     _landing_status = new_status;
-    
-    switch (_landing_status) {
-        case RemoteControllerStatusReady: {
+	
+	dispatch_async(dispatch_get_main_queue(), ^{
+		
+		switch (_landing_status) {
+			case RemoteControllerStatusReady: {
 				phoneNoLogin.hidden = NO;
 				weChatLogin.hidden = !isWXInstall;
 				[super endRemoteCall:nil];
-            }
-            break;
-        case RemoteControllerStatusPrepare:
-        case RemoteControllerStatusLoading: {
+			}
+				break;
+			case RemoteControllerStatusPrepare:
+			case RemoteControllerStatusLoading: {
 				phoneNoLogin.hidden = YES;
 				weChatLogin.hidden = YES;
 				[super startRemoteCall:nil];
-            }
-            break;
-        default:
-            @throw [[NSException alloc]initWithName:@"提示" reason:@"登陆状态设置错误" userInfo:nil];
-            break;
-    }
+			}
+				break;
+			default:
+				@throw [[NSException alloc]initWithName:@"提示" reason:@"登陆状态设置错误" userInfo:nil];
+				break;
+		}
+	});
 }
 
 #pragma mark -- notifycation
@@ -264,7 +263,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 }
 
 - (id)SNSStartLogin:(id)args {
-//    self.landing_status = RemoteControllerStatusLoading;
+    self.landing_status = RemoteControllerStatusLoading;
     return nil;
 }
 

@@ -83,8 +83,8 @@ static NSString* const kAYEMAppKey = @"blackmirror#dongda";
 	[rootContorller pushViewController:controller animated:NO];
 	
 	self.window = [[UIWindow alloc] initWithFrame:screenBounds];
-	[self.window makeKeyAndVisible];
 	self.window.rootViewController = rootContorller;
+	[self.window makeKeyAndVisible];
 	
     return YES;
 }
@@ -202,22 +202,26 @@ static NSString* const kAYEMAppKey = @"blackmirror#dongda";
 	
 	NSDictionary *user;
 	CURRENUSER(user);
+	NSLog(@"michauxs:%@",user);
 	
-	id<AYFacadeBase> auth_facade = DEFAULTFACADE(@"AuthRemote");
-	AYRemoteCallCommand* auth_cmd = [auth_facade.commands objectForKey:@"IsTokenExpired"];
-	[auth_cmd performWithResult:[user copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-		if (success) {
-			//nothing todo
-		} else {
-			NSNumber *code = [result objectForKey:@"code"];
-			if (code.intValue == -9004 || code.intValue == -9005) {
-				
-				AYFacade* f_login = LOGINMODEL;
-				id<AYCommand> cmd_sign_out_local = [f_login.commands objectForKey:@"SignOutLocal"];
-				[cmd_sign_out_local performWithResult:nil];
+	if (user.count != 0) {
+		
+		id<AYFacadeBase> auth_facade = DEFAULTFACADE(@"AuthRemote");
+		AYRemoteCallCommand* auth_cmd = [auth_facade.commands objectForKey:@"IsTokenExpired"];
+		[auth_cmd performWithResult:[user copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+			if (success) {
+				//nothing todo
+			} else {
+				NSNumber *code = [result objectForKey:@"code"];
+				if (code.intValue == -9004 || code.intValue == -9005) {
+					
+					AYFacade* f_login = LOGINMODEL;
+					id<AYCommand> cmd_sign_out_local = [f_login.commands objectForKey:@"SignOutLocal"];
+					[cmd_sign_out_local performWithResult:nil];
+				}
 			}
-		}
-	}];
+		}];
+	}
 	
 }
 @end

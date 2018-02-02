@@ -730,7 +730,6 @@
 		70F34D7D1CA549B900CEF7C1 /* AYLandingAreaCodeCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F34D7C1CA549B900CEF7C1 /* AYLandingAreaCodeCommand.m */; };
 		70F369AA1CC362950067B62E /* AYAlbumDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F369A91CC362950067B62E /* AYAlbumDelegate.m */; };
 		70F369AE1CC3641C0067B62E /* AYContentDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F369AD1CC3641C0067B62E /* AYContentDelegate.m */; };
-		70F369B21CC378650067B62E /* AYRemoteCallQueryCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F369B11CC378650067B62E /* AYRemoteCallQueryCommand.m */; };
 		70F428761CC7B18F00A69977 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70F4285C1CC7B18F00A69977 /* Info.plist */; };
 		70F428771CC7B18F00A69977 /* MASCompositeConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F4285E1CC7B18F00A69977 /* MASCompositeConstraint.m */; };
 		70F428781CC7B18F00A69977 /* MASConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F428611CC7B18F00A69977 /* MASConstraint.m */; };
@@ -2355,8 +2354,6 @@
 		70F369A91CC362950067B62E /* AYAlbumDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAlbumDelegate.m; sourceTree = "<group>"; };
 		70F369AC1CC3641C0067B62E /* AYContentDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYContentDelegate.h; sourceTree = "<group>"; };
 		70F369AD1CC3641C0067B62E /* AYContentDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYContentDelegate.m; sourceTree = "<group>"; };
-		70F369B01CC378650067B62E /* AYRemoteCallQueryCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYRemoteCallQueryCommand.h; sourceTree = "<group>"; };
-		70F369B11CC378650067B62E /* AYRemoteCallQueryCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYRemoteCallQueryCommand.m; sourceTree = "<group>"; };
 		70F4285C1CC7B18F00A69977 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		70F4285D1CC7B18F00A69977 /* MASCompositeConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASCompositeConstraint.h; sourceTree = "<group>"; };
 		70F4285E1CC7B18F00A69977 /* MASCompositeConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASCompositeConstraint.m; sourceTree = "<group>"; };
@@ -2932,8 +2929,6 @@
 		700BE5C81CBA6E5800A09B3A /* RemoteCallCommand */ = {
 			isa = PBXGroup;
 			children = (
-				70F369B01CC378650067B62E /* AYRemoteCallQueryCommand.h */,
-				70F369B11CC378650067B62E /* AYRemoteCallQueryCommand.m */,
 				700BE5D61CBA6E5800A09B3A /* AYRemoteCallCommand.h */,
 				700BE5D71CBA6E5800A09B3A /* AYRemoteCallCommand.m */,
 				703B4C451DCC288300B1088C /* Comment */,
@@ -4444,10 +4439,10 @@
 				701D8A3F1CA7B9C200B5D4C1 /* Facade */,
 				702E7A9C1CA15A690097867E /* Factory */,
 				70490DA51CA2339D0093D5DA /* lib */,
-				702E7A791CA1502C0097867E /* main */,
 				70EAD80D1CA667DE007965D2 /* Model */,
 				702E7AC71CA171D30097867E /* View */,
 				703E607B201073FD00145889 /* Toolset */,
+				702E7A791CA1502C0097867E /* main */,
 				702E7A451CA14A490097867E /* Supporting Files */,
 			);
 			path = BabySharing;
@@ -9652,7 +9647,6 @@
 				70F89EB21CDB3E3E0008FCB6 /* AYSaveScreenPhotoCommand.m in Sources */,
 				702183491EC561CF00059124 /* AYServiceTitleCellView.m in Sources */,
 				702787DC1F6FC35700AD57F6 /* AYImageItemCellView.m in Sources */,
-				70F369B21CC378650067B62E /* AYRemoteCallQueryCommand.m in Sources */,
 				701D8A961CA7E06700B5D4C1 /* Providers.m in Sources */,
 				705EC8851CE4BC1D0008D5EA /* AYEnumTagContentDataCommand.m in Sources */,
 				702627D51F501E5900879810 /* AYTabBarBasicController.m in Sources */,
