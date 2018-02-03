@@ -148,7 +148,8 @@
 	
 	NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
 	[dic setValue:likeBtn forKey:@"btn"];
-	[dic setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
+//    [dic setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
+    [dic setValue:service_info forKey:kAYServiceArgsInfo];
 	
 	[(AYViewController*)self.controller performSel:@"willCollectWithRow:" withResult:&dic];
 	
