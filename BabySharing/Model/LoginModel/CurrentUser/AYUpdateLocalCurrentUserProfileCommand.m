@@ -30,9 +30,14 @@
     AYModelFacade* f = LOGINMODEL;
     CurrentToken* tmp = [CurrentToken enumCurrentLoginUserInContext:f.doc.managedObjectContext];
     LoginToken* cur = tmp.who;
-   
+    
     NSDictionary* dic = (NSDictionary*)*obj;
-    [LoginToken updataLoginUserInContext:f.doc.managedObjectContext withUserID:cur.user_id andAttrs:dic];
+    NSString* uid = nil;
+    if (cur == nil) {
+        uid = [dic objectForKey:@"user_id"];
+    } else uid = cur.user_id;
+   
+    [LoginToken updataLoginUserInContext:f.doc.managedObjectContext withUserID:uid andAttrs:dic];
 }
 
 - (NSString*)getCommandType {

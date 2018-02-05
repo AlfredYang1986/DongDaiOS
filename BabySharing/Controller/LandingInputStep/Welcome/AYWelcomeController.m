@@ -158,8 +158,13 @@
 				id args = [result objectForKey:@"profile"];
                 AYModel* m = MODEL;
                 AYFacade* f = [m.facades objectForKey:@"LoginModel"];
-                id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];
-                [cmd performWithResult:&args];
+//                id<AYCommand> cmd = [f.commands objectForKey:@"UpdateLocalCurrentUserProfile"];
+//                [cmd performWithResult:&args];
+                
+                {
+                    id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];
+                    [cmd performWithResult:&args];
+                }
                 
             } else {
 				

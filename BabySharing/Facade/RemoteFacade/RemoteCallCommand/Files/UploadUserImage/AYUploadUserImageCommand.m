@@ -32,21 +32,19 @@
     dispatch_async(post_queue, ^(void){
 		
         [RemoteInstance uploadPicture:image withName:photo toUrl:[NSURL URLWithString:self.route] callBack:^(BOOL successs, NSString *message) {
-            
             if (successs) {
                 NSLog(@"post image success");
                 dispatch_async(dispatch_get_main_queue(), ^{
                     block(YES, nil);
+                    [self endAsyncCall];
                 });
                 
             } else {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     block(NO, nil);
+                    [self endAsyncCall];
                 });
             }
-            
-            [self endAsyncCall];
-            
         }];
     });
 }
