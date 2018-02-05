@@ -117,7 +117,7 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	NSString *sort = [topicsArr objectAtIndex:indexPath.row];
-	[(AYViewController*)self.controller performSel:@"didOneTopicClick:" withResult:&sort];
+	[(AYViewController*)self.controller performAYSel:@"didOneTopicClick:" withResult:&sort];
 }
 
 #pragma mark -- actions

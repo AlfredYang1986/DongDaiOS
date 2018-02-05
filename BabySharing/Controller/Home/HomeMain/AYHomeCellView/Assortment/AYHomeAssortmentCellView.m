@@ -119,7 +119,7 @@
 	cell.itemInfo = [tmp copy];
 	cell.likeBtnClick = ^(NSDictionary *service_info) {
 		id ser = [service_info copy];
-		[(AYViewController*)self.controller performSel:@"willCollectWithRow:" withResult:&ser];
+		[(AYViewController*)self.controller performAYSel:@"willCollectWithRow:" withResult:&ser];
 	};
 	return cell;
 	
@@ -130,7 +130,7 @@
 	NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
 	[dic setValue:[serviceData objectAtIndex:indexPath.row] forKey:kAYServiceArgsSelf];
 	id tmp = [dic copy];
-	[(AYViewController*)self.controller performSel:@"didSelectAssortmentAtIndex:" withResult:&tmp];
+	[(AYViewController*)self.controller performAYSel:@"didSelectAssortmentAtIndex:" withResult:&tmp];
 	
 }
 
@@ -142,7 +142,7 @@
 #pragma mark -- actions
 - (void)didAssortmentMoreBtnClick {
 	NSString *title = titleLabel.text;
-	[(AYViewController*)self.controller performSel:@"didAssortmentMoreBtnClick:" withResult:&title];
+	[(AYViewController*)self.controller performAYSel:@"didAssortmentMoreBtnClick:" withResult:&title];
 }
 
 #pragma mark -- messages

@@ -74,12 +74,12 @@
 	if (indexPath.row > 1) {
 		id tmp = [queryData objectAtIndex:indexPath.row - 2];
 		if (tmp) {
-			[(UITableViewCell*)cell performMethod:kAYCellSetInfoMessage withResult:&tmp];
+			[(UITableViewCell*)cell performAYSel:kAYCellSetInfoMessage withResult:&tmp];
 		}
 	} else {
 		NSDictionary *dic_desc = @{@"is_expend":[NSNumber numberWithBool:isExpend], kAYServiceArgsAlbum:albumCateg};
 		id tmp = [dic_desc copy];
-		[(UITableViewCell*)cell performMethod:kAYCellSetInfoMessage withResult:&tmp];
+		[(UITableViewCell*)cell performAYSel:kAYCellSetInfoMessage withResult:&tmp];
 	}
 	return (UITableViewCell*)cell;
 }

@@ -151,7 +151,7 @@
 //    [dic setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
     [dic setValue:service_info forKey:kAYServiceArgsInfo];
 	
-	[(AYViewController*)self.controller performSel:@"willCollectWithRow:" withResult:&dic];
+	[(AYViewController*)self.controller performAYSel:@"willCollectWithRow:" withResult:&dic];
 	
 }
 

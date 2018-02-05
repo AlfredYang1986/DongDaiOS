@@ -117,7 +117,7 @@
 	[dic setValue:likeBtn forKey:@"btn"];
 	[dic setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
 	
-	[(AYViewController*)self.controller performSel:@"didAssortmentMoreBtnClick:" withResult:&dic];
+	[(AYViewController*)self.controller performAYSel:@"didAssortmentMoreBtnClick:" withResult:&dic];
 }
 
 #pragma mark -- messages

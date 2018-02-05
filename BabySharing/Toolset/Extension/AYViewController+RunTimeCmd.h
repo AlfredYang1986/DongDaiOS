@@ -10,6 +10,6 @@
 
 @interface AYViewController (RunTimeCmd)
 
-- (void)performSel:(NSString*)selector withResult:(NSObject**)obj;
+- (void)performAYSel:(NSString*)selector withResult:(NSObject**)obj;
 
 @end

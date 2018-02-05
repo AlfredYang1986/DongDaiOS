@@ -105,7 +105,7 @@
 			tmp = [dic_desc copy];
 		}
 		
-		[(UITableViewCell*)cell performMethod:@"setCellInfo:" withResult:&tmp];
+		[(UITableViewCell*)cell performAYSel:@"setCellInfo:" withResult:&tmp];
 	}
     cell.controller = self.controller;
     return (UITableViewCell*)cell;

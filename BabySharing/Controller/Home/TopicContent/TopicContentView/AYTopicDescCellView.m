@@ -82,7 +82,7 @@
 - (void)showHideLabelTap {
 	
 	NSNumber *tmp = [NSNumber numberWithBool:showHideBtn.selected];
-	[(AYViewController*)self.controller performSel:@"showHideDetail:" withResult:&tmp];
+	[(AYViewController*)self.controller performAYSel:@"showHideDetail:" withResult:&tmp];
 	
 }
 

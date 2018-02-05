@@ -182,7 +182,7 @@
 #pragma mark -- actions
 - (void)didMapTap {
 	
-	[(AYViewController*)self.controller performSel:@"showP2PMap" withResult:nil];
+	[(AYViewController*)self.controller performAYSel:@"showP2PMap" withResult:nil];
 }
 
 @end

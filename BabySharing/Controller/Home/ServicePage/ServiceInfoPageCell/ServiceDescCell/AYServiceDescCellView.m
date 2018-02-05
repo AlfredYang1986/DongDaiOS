@@ -161,7 +161,7 @@
 - (void)didShowhideBtnClick {
 	
 	NSNumber *tmp = [NSNumber numberWithBool:showhideBtn.selected];
-	[(AYViewController*)self.controller performSel:@"showHideDescDetail:" withResult:&tmp];
+	[(AYViewController*)self.controller performAYSel:@"showHideDescDetail:" withResult:&tmp];
 }
 
 - (void)didOwnerPhotoClick {

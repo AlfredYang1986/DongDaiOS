@@ -135,7 +135,7 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 
 #pragma mark -- actions
 - (void)userPhotoTap {
-	[(AYViewController*)self.controller performSel:@"showOwnerInfo" withResult:nil];
+	[(AYViewController*)self.controller performAYSel:@"showOwnerInfo" withResult:nil];
 }
 
 #pragma mark -- notifies

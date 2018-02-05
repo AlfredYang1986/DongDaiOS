@@ -59,7 +59,7 @@
     
 	id tmp = [querydata objectAtIndex:indexPath.row];
 	if (tmp) {
-		[(UITableViewCell*)cell performMethod:@"setCellInfo:" withResult:&tmp];
+		[(UITableViewCell*)cell performAYSel:@"setCellInfo:" withResult:&tmp];
 	}
     
     return (UITableViewCell*)cell;

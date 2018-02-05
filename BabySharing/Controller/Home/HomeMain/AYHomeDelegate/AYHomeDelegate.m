@@ -114,13 +114,13 @@
 	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 	if (indexPath.row == 0) {
 		id tmp;
-		[(UITableViewCell*)cell performMethod:kAYCellSetInfoMessage withResult:&tmp];
+		[(UITableViewCell*)cell performAYSel:kAYCellSetInfoMessage withResult:&tmp];
 	} else {
 		
 		NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
 		[tmp setValue:[servicesData objectAtIndex:indexPath.row - 1] forKey:@"service"];
 		[tmp setValue:[NSNumber numberWithInteger:indexPath.row - 1] forKey:@"index"];
-		[(UITableViewCell*)cell performMethod:kAYCellSetInfoMessage withResult:&tmp];
+		[(UITableViewCell*)cell performAYSel:kAYCellSetInfoMessage withResult:&tmp];
 	}
 	
 	cell.controller = self.controller;

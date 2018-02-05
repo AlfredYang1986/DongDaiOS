@@ -4797,6 +4797,8 @@
 		703E607C201073FD00145889 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				703E6089201073FD00145889 /* UIView+RunTimeCmd.h */,
+				703E608A201073FD00145889 /* UIView+RunTimeCmd.m */,
 				703E607D201073FD00145889 /* AYViewController+RunTimeCmd.h */,
 				703E607E201073FD00145889 /* AYViewController+RunTimeCmd.m */,
 				703E607F201073FD00145889 /* UIButton+Factory.h */,
@@ -4809,8 +4811,6 @@
 				703E6086201073FD00145889 /* UILabel+Factory.m */,
 				703E6087201073FD00145889 /* UINavigationController+Retro.h */,
 				703E6088201073FD00145889 /* UINavigationController+Retro.m */,
-				703E6089201073FD00145889 /* UIView+RunTimeCmd.h */,
-				703E608A201073FD00145889 /* UIView+RunTimeCmd.m */,
 			);
 			path = Extension;
 			sourceTree = "<group>";

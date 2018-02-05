@@ -12,7 +12,7 @@
 
 #pragma mark - Cmd
 
-- (void)performMethod:(NSString *)selector withResult:(NSObject *__autoreleasing *)obj {
+- (void)performAYSel:(NSString *)selector withResult:(NSObject *__autoreleasing *)obj {
 	
 	SEL sel = NSSelectorFromString(selector);
 	Method m = class_getInstanceMethod([self class], sel);

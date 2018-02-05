@@ -68,7 +68,7 @@
         cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
         
         id tmp = [querydata copy];
-        [(UITableViewCell*)cell performMethod:kAYCellSetInfoMessage withResult:&tmp];
+        [(UITableViewCell*)cell performAYSel:kAYCellSetInfoMessage withResult:&tmp];
         
     } else if (indexPath.section == 1) {
         class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"PersonalDescCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];

@@ -10,7 +10,7 @@
 
 @implementation AYViewController (RunTimeCmd)
 
-- (void)performSel:(NSString*)selector withResult:(NSObject**)obj {
+- (void)performAYSel:(NSString*)selector withResult:(NSObject**)obj {
 	SEL sel = NSSelectorFromString(selector);
 	Method m = class_getInstanceMethod([self class], sel);
 	
