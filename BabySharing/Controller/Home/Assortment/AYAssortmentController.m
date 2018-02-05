@@ -47,7 +47,6 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	
-	
 //	AYHomeAssortmentItem *item = (AYHomeAssortmentItem*)[collectionView cellForItemAtIndexPath:indexPath];
 	
 	id<AYCommand> des = DEFAULTCONTROLLER(@"ServicePage");
@@ -74,7 +73,24 @@
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
+		NSDictionary *backArgs = [dic objectForKey:kAYControllerChangeArgsKey];
+		NSString *key = [backArgs objectForKey:kAYVCBackArgsKey];
 		
+		if ([key isEqualToString:kAYVCBackArgsKeyCollectChange]) {
+			id service_info = [backArgs objectForKey:kAYServiceArgsInfo];
+			NSString *service_id = [service_info objectForKey:kAYServiceArgsID];
+			
+			NSPredicate *pre_id = [NSPredicate predicateWithFormat:@"self.%@=%@", kAYServiceArgsID, service_id];
+			NSArray *result = [remoteDataArr filteredArrayUsingPredicate:pre_id];
+			if (result.count == 1) {
+				[result.firstObject setValue:[backArgs objectForKey:kAYServiceArgsIsCollect] forKey:kAYServiceArgsIsCollect];
+				NSInteger index = [remoteDataArr indexOfObject:result.firstObject];
+				
+//				[servCollectionView reloadRowsAtIndexPaths: withRowAnimation:UITableViewRowAnimationNone];
+				[servCollectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]]];
+				
+			}
+		}
 	}
 	
 }

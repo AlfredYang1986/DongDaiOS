@@ -9,6 +9,12 @@
 #ifndef AYServiceArgsDefines_h
 #define AYServiceArgsDefines_h
 
+//
+static NSString* const kAYVCBackArgsKey =					@"dongda_vc_backargs_key";
+static NSString* const kAYVCBackArgsKeyProfileUpdate =		@"dongda_vc_backargs_key_profileupdate";
+static NSString* const kAYVCBackArgsKeyCollectChange =		@"dongda_vc_backargs_key_collectchange";
+
+
 //defines args
 static NSString* const kAYDefineArgsCellNames =				@"cell_class_name_arr";
 

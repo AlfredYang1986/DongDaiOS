@@ -250,7 +250,9 @@
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 	if (isUpdateProfileInfo) {
-		[dic setValue:@"个人信息更新" forKey:kAYControllerChangeArgsKey];
+		
+		NSDictionary *backArgs =@{kAYCommArgsTips:@"个人信息更新", kAYVCBackArgsKey:kAYVCBackArgsKeyProfileUpdate};
+		[dic setValue:backArgs forKey:kAYControllerChangeArgsKey];
 	}
 	
     id<AYCommand> cmd = POP;

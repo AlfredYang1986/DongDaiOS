@@ -344,7 +344,7 @@
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 	if (isChangeCollect) {
-		NSDictionary *back_args = @{@"args":service_info, @"key":@"is_change_collect"};
+		NSDictionary *back_args = @{kAYServiceArgsInfo:service_info, kAYServiceArgsIsCollect:[NSNumber numberWithBool:bar_like_btn.selected], kAYVCBackArgsKey:kAYVCBackArgsKeyCollectChange};
 		[dic setValue:back_args forKey:kAYControllerChangeArgsKey];
 	}
 	

@@ -34,32 +34,26 @@
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-		id backArgs = [dic objectForKey:kAYControllerChangeArgsKey];
+		NSDictionary *backArgs = [dic objectForKey:kAYControllerChangeArgsKey];
+		NSString *key = [backArgs objectForKey:kAYVCBackArgsKey];
 		
-		if ([backArgs isKindOfClass:[NSString class]]) {
-			//			NSString *title = (NSString*)backArgs;
-			//			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-		}
-		else if ([backArgs isKindOfClass:[NSDictionary class]]) {
-			NSString *key = [backArgs objectForKey:@"key"];
-			if ([key isEqualToString:@"is_change_collect"]) {
-				id service_info = [backArgs objectForKey:@"args"];
-				NSString *service_id = [service_info objectForKey:kAYServiceArgsID];
-				
-				NSPredicate *pre_id = [NSPredicate predicateWithFormat:@"self.%@=%@", kAYServiceArgsID, service_id];
-				NSArray *result = [serviceData filteredArrayUsingPredicate:pre_id];
-				if (result.count == 1) {
-					NSInteger index = [serviceData indexOfObject:result.firstObject];
-					[serviceData removeObject:result.firstObject];
-					id tmp = [serviceData copy];
-					kAYDelegatesSendMessage(@"NursaryList", kAYDelegateChangeDataMessage, &tmp)
-					UITableView *view_table = [self.views objectForKey:kAYTableView];
-					[view_table deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
-					
-				}
-			}
+		if ([key isEqualToString:kAYVCBackArgsKeyCollectChange]) {
+			id service_info = [backArgs objectForKey:kAYServiceArgsInfo];
+			NSString *service_id = [service_info objectForKey:kAYServiceArgsID];
 			
+			NSPredicate *pre_id = [NSPredicate predicateWithFormat:@"self.%@=%@", kAYServiceArgsID, service_id];
+			NSArray *result = [serviceData filteredArrayUsingPredicate:pre_id];
+			if (result.count == 1) {
+				[result.firstObject setValue:[backArgs objectForKey:kAYServiceArgsIsCollect] forKey:kAYServiceArgsIsCollect];
+				NSInteger index = [serviceData indexOfObject:result.firstObject];
+				id tmp = [serviceData copy];
+				kAYDelegatesSendMessage(@"NursaryList", kAYDelegateChangeDataMessage, &tmp)
+				UITableView *view_table = [self.views objectForKey:kAYTableView];
+				[view_table reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+				
+			}
 		}
+
 	}
 }
 

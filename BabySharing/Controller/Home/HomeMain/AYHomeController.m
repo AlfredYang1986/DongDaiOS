@@ -29,7 +29,7 @@ typedef void(^queryContentFinish)(void);
 
 @implementation AYHomeController {
 	
-	NSMutableArray *serviceDataFound;
+	NSMutableArray *serviceData;
     NSInteger skipCountFound;
 	NSTimeInterval timeIntervalFound;
 	
@@ -68,43 +68,38 @@ typedef void(^queryContentFinish)(void);
         [cmd performWithResult:&dic_push];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-        id backArgs = [dic objectForKey:kAYControllerChangeArgsKey];
+        NSDictionary *backArgs = [dic objectForKey:kAYControllerChangeArgsKey];
+		NSString *key = [backArgs objectForKey:kAYVCBackArgsKey];
 		
-		if ([backArgs isKindOfClass:[NSString class]]) {
-			NSString *title = (NSString*)backArgs;
-			if ([title isEqualToString:@"个人信息更新"]) {
-				
-				NSDictionary *user_info = nil;
-				CURRENPROFILE(user_info)
-				NSString* photo_name = [user_info objectForKey:kAYProfileArgsScreenPhoto];
-				if (photo_name) {
-					id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-					AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-					NSString *prefix = cmd.route;
-					[profilePhoto sd_setImageWithURL:[NSURL URLWithString:[prefix stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"default_user")];
-				}
-			}
+		if ([key isEqualToString:kAYVCBackArgsKeyCollectChange]) {
 			
-		}
-		else if ([backArgs isKindOfClass:[NSDictionary class]]) {
-			NSString *key = [backArgs objectForKey:@"key"];
-			
-			if ([key isEqualToString:@"is_change_collect"]) {
-				id service_info = [backArgs objectForKey:@"args"];
-				NSString *service_id = [service_info objectForKey:kAYServiceArgsID];
+			NSString *service_id = [[backArgs objectForKey:kAYServiceArgsInfo] objectForKey:kAYServiceArgsID];
+			for (NSMutableDictionary *dic_services in serviceData) {
 				NSPredicate *pre_id = [NSPredicate predicateWithFormat:@"self.%@=%@", kAYServiceArgsID, service_id];
-				NSArray *result = [serviceDataFound filteredArrayUsingPredicate:pre_id];
-				
-				if (result.count == 1) {
-					NSInteger index = [serviceDataFound indexOfObject:result.firstObject];
-					[serviceDataFound replaceObjectAtIndex:index withObject:service_info];
+				NSArray *result = [[dic_services objectForKey:@"services"] filteredArrayUsingPredicate:pre_id];
+				if (result.count != 0) {
+					[result.firstObject setValue:[backArgs objectForKey:kAYServiceArgsIsCollect] forKey:kAYServiceArgsIsCollect];
+					id tmp = [serviceData copy];
+					
 					UITableView *view_table = [self.views objectForKey:kAYTableView];
-					id tmp = [serviceDataFound copy];
 					kAYDelegatesSendMessage(@"Home", kAYDelegateChangeDataMessage, &tmp)
-					[view_table reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index + 3 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+					[view_table reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:([serviceData indexOfObject:dic_services]+1) inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+					break;
 				}
 			}
 		}
+		else if ([key isEqualToString:kAYVCBackArgsKeyProfileUpdate]) {
+			NSDictionary *user_info = nil;
+			CURRENPROFILE(user_info)
+			NSString* photo_name = [user_info objectForKey:kAYProfileArgsScreenPhoto];
+			if (photo_name) {
+				id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+				AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+				NSString *prefix = cmd.route;
+				[profilePhoto sd_setImageWithURL:[NSURL URLWithString:[prefix stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"default_user")];
+			}
+		}
+		
     }
 }
 
@@ -117,7 +112,7 @@ typedef void(^queryContentFinish)(void);
 	[defaults setValue:[NSNumber numberWithInt:DongDaAppModeCommon] forKey:kAYDongDaAppMode];
 	[defaults synchronize];
 	
-	serviceDataFound = [[NSMutableArray alloc] init];
+	serviceData = [[NSMutableArray alloc] init];
 	localityArr = @[@"北京市", @"Beijing"];
 	
 	UIView *HomeHeadView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, kTABLEMARGINTOP)];
@@ -335,10 +330,10 @@ typedef void(^queryContentFinish)(void);
 				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 			} else {
 				
-				[serviceDataFound addObjectsFromArray:remoteArr];
-				skipCountFound += serviceDataFound.count;
+				[serviceData addObjectsFromArray:remoteArr];
+				skipCountFound += serviceData.count;
 				
-				id tmp = [serviceDataFound copy];
+				id tmp = [serviceData copy];
 				kAYDelegatesSendMessage(@"Home", kAYDelegateChangeDataMessage, &tmp)
 				kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 			}
@@ -378,10 +373,10 @@ typedef void(^queryContentFinish)(void);
 		if (success) {
 			
 //			timeIntervalFound = ((NSNumber*)[[result objectForKey:@"result"] objectForKey:kAYCommArgsRemoteDate]).longValue * 0.001;
-//			serviceDataFound = [[[result objectForKey:@"result"] objectForKey:@"services"] mutableCopy];
-//			skipCountFound = serviceDataFound.count;			//刷新重置 计数为当前请求service数据个数
-			
-			id tmp = [result objectForKey:@"homepage_services"];
+//			serviceData = [[[result objectForKey:@"result"] objectForKey:@"services"] mutableCopy];
+//			skipCountFound = serviceData.count;			//刷新重置 计数为当前请求service数据个数
+			serviceData = [[result objectForKey:@"homepage_services"] mutableCopy];
+			id tmp = [serviceData copy];
 			kAYDelegatesSendMessage(@"Home", kAYDelegateChangeDataMessage, &tmp)
 			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 		} else {
@@ -404,19 +399,23 @@ typedef void(^queryContentFinish)(void);
 	NSDictionary *service_info = [args objectForKey:kAYServiceArgsInfo];
 	UIButton *likeBtn = [args objectForKey:@"btn"];
 	
-//	NSPredicate *pre_id = [NSPredicate predicateWithFormat:@"self.%@=%@", kAYServiceArgsID, service_id];
-//	NSArray *resultArr = [serviceDataFound filteredArrayUsingPredicate:pre_id];
-//	if (resultArr.count != 1) {
-//		return nil;
-//	}
-//	id service_data = resultArr.firstObject;
+	NSString *service_id = [service_info objectForKey:kAYServiceArgsID];
+	NSMutableDictionary *handle_info;
+	for (NSMutableDictionary *dic_services in serviceData) {
+		NSPredicate *pre_id = [NSPredicate predicateWithFormat:@"self.%@=%@", kAYServiceArgsID, service_id];
+		NSArray *result = [[dic_services objectForKey:@"services"] filteredArrayUsingPredicate:pre_id];
+		if (result.count != 0) {
+			handle_info = result.firstObject;
+			break;
+		}
+	}
 	
 	NSDictionary *user = nil;
 	CURRENUSER(user);
 	NSMutableDictionary *dic = [Tools getBaseRemoteData:user];
 	
 	NSMutableDictionary *dic_collect = [[NSMutableDictionary alloc] init];
-	[dic_collect setValue:[service_info objectForKey:kAYServiceArgsID] forKey:kAYServiceArgsID];
+	[dic_collect setValue:service_id forKey:kAYServiceArgsID];
 	[dic_collect setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
 	[dic setValue:dic_collect forKey:@"collections"];
 	
@@ -429,7 +428,7 @@ typedef void(^queryContentFinish)(void);
 		[cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 			if (success) {
 				likeBtn.selected = YES;
-//				[resultArr.firstObject setValue:[NSNumber numberWithBool:YES] forKey:kAYServiceArgsIsCollect];
+				[handle_info setValue:[NSNumber numberWithBool:YES] forKey:kAYServiceArgsIsCollect];
 			} else {
 				NSString *title = @"收藏失败!请检查网络链接是否正常";
 				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
@@ -440,7 +439,7 @@ typedef void(^queryContentFinish)(void);
 		[cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 			if (success) {
 				likeBtn.selected = NO;
-//				[resultArr.firstObject setValue:[NSNumber numberWithBool:NO] forKey:kAYServiceArgsIsCollect];
+				[handle_info setValue:[NSNumber numberWithBool:NO] forKey:kAYServiceArgsIsCollect];
 			} else {
 				NSString *title = @"取消收藏失败!请检查网络链接是否正常";
 				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)

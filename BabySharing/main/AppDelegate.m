@@ -110,7 +110,9 @@ static NSString* const kAYEMAppKey = @"blackmirror#dongda";
 //    AYFacade* em = DEFAULTFACADE(@"EM");
 //    id<AYCommand> cmd = [em.commands objectForKey:@"EMEnterFront"];
 //    [cmd performWithResult:nil];
-//    [self authTokenAndChangeWindow];
+	
+	//验证token是否过期
+    [self authTokenAndChangeWindow];
 	
 }
 
@@ -199,6 +201,13 @@ static NSString* const kAYEMAppKey = @"blackmirror#dongda";
 }
 
 - (void)authTokenAndChangeWindow {
+	
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSNumber *app_mode = [defaults objectForKey:kAYDongDaAppMode];
+	if (!app_mode || app_mode.intValue == DongDaAppModeUnLogin) {
+		return;
+	}
+	
 	
 	NSDictionary *user;
 	CURRENUSER(user);
