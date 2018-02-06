@@ -505,7 +505,7 @@ typedef void(^queryContentFinish)(void);
 			NSString *title = @"正在定位，请稍等...";
 			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 		} else {
-			NSString *title = @"查看地图需要您授权使用定位功能";
+			NSString *title = @"无法获取您的当前位置";
 			UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:title preferredStyle:UIAlertControllerStyleAlert];
 			
 			UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"好" style:UIAlertActionStyleCancel handler:nil];
