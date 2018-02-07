@@ -25,6 +25,8 @@
     NSDictionary *resultAndLoc;
     NSArray *fiteResultData;
 	CLLocation *loc;
+	
+	CLLocation *coustom_loc;
 }
 
 @synthesize para = _para;
@@ -68,6 +70,13 @@
     return kAYFactoryManagerCatigoryView;
 }
 
+- (id)showUserLocation:(id)args {
+	loc = args;
+	[self setCenterCoordinate:loc.coordinate animated:NO];
+	self.showsUserLocation = YES;
+	return nil;
+}
+
 - (id)changeResultData:(NSDictionary*)args {
     resultAndLoc = args;
     
@@ -79,7 +88,7 @@
         [self removeAnnotation:currentAnno];
     }
     
-    loc = [resultAndLoc objectForKey:kAYServiceArgsLocationInfo];
+//    loc = [resultAndLoc objectForKey:kAYServiceArgsLocationInfo];
     fiteResultData = [resultAndLoc objectForKey:@"result_data"];
     
     for (int i = 0; i < fiteResultData.count; ++i) {
@@ -118,8 +127,7 @@
 	
 //    self.visibleMapRect = MAMapRectMake(loc.coordinate.latitude - 60000, loc.coordinate.longitude - 90000, 120000, 180000);
 //    [self regionThatFits:MACoordinateRegionMake(loc.coordinate, MACoordinateSpanMake(loc.coordinate.latitude,loc.coordinate.longitude))];
-	[self setCenterCoordinate:loc.coordinate animated:NO];
-	self.showsUserLocation = YES;
+	
 	[self zoomToMapAnnotations:annoArray];
 	
     return nil;
@@ -127,21 +135,43 @@
 
 #pragma mark -- actios
 - (void)didShowMyselfBtnClick {
-	[self setCenterCoordinate:loc.coordinate animated:YES];
+//	[self setCenterCoordinate:loc.coordinate animated:YES];
+	coustom_loc = loc;
+	id tmp = [coustom_loc copy];
+	[((AYViewController*)self.controller) performAYSel:@"userMovedMap:" withResult:&tmp];
 }
 
 - (void)zoomToMapAnnotations:(NSArray*)annotations {
 	double minLat = 360.0f, maxLat = -360.0f;
 	double minLon = 360.0f, maxLon = -360.0f;
+	
+	CLLocation *handle = coustom_loc? coustom_loc : loc;
+	double centerLat = handle.coordinate.latitude, centerLon = handle.coordinate.longitude;
+	
 	for (AYAnnonation *annotation in annotations) {
-		if ( annotation.coordinate.latitude  < minLat ) minLat = annotation.coordinate.latitude;
-		if ( annotation.coordinate.latitude  > maxLat ) maxLat = annotation.coordinate.latitude;
-		if ( annotation.coordinate.longitude < minLon ) minLon = annotation.coordinate.longitude;
-		if ( annotation.coordinate.longitude > maxLon ) maxLon = annotation.coordinate.longitude;
+		if ( annotation.coordinate.latitude  < minLat ) {
+			minLat = annotation.coordinate.latitude;
+			maxLat = centerLat + (centerLat-minLat);
+		}
+		
+		if ( annotation.coordinate.latitude  > maxLat ) {
+			maxLat = annotation.coordinate.latitude;
+			minLat = centerLat + (centerLat-maxLat);
+		}
+		
+		if ( annotation.coordinate.longitude < minLon ) {
+			minLon = annotation.coordinate.longitude;
+			maxLon = centerLon + (centerLon-minLon);
+		}
+		
+		if ( annotation.coordinate.longitude > maxLon ) {
+			maxLon = annotation.coordinate.longitude;
+			minLon = centerLon + (centerLon-maxLon);
+		}
 	}
-	CLLocationCoordinate2D center = CLLocationCoordinate2DMake((minLat + maxLat) / 2.0, (minLon + maxLon) / 2.0);
-	MACoordinateSpan span = MACoordinateSpanMake((maxLat - minLat)*1.2, (maxLon - minLon)*1.2);
-	MACoordinateRegion region = MACoordinateRegionMake(center, span);
+//	CLLocationCoordinate2D center = CLLocationCoordinate2DMake((minLat + maxLat) / 2.0, (minLon + maxLon) / 2.0);
+	MACoordinateSpan span = MACoordinateSpanMake((maxLat - minLat)*1, (maxLon - minLon)*1);
+	MACoordinateRegion region = MACoordinateRegionMake(handle.coordinate, span);
 	[self setRegion:region animated:YES];
 }
 
@@ -163,6 +193,20 @@
     } else {
         return nil;
     }
+}
+
+- (void)mapView:(MAMapView *)mapView mapDidMoveByUser:(BOOL)wasUserAction {
+	if (wasUserAction) {
+		MACoordinateRegion reg = self.region;
+		CLLocationCoordinate2D center = reg.center;
+		double lat = center.latitude;
+		double lon = center.longitude;
+		NSLog(@"\nlat:%f\nlon:%f", lat, lon);
+		
+		coustom_loc = [[CLLocation alloc] initWithLatitude:lat longitude:lon];
+		id tmp = [coustom_loc copy];
+		[((AYViewController*)self.controller) performAYSel:@"userMovedMap:" withResult:&tmp];
+	}
 }
 
 #pragma mark -- mapView delegate

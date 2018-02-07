@@ -51,7 +51,7 @@
 	if (self) {
 		self.backgroundColor = [UIColor clearColor];
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
-		
+		self.clipsToBounds = YES;
 		coverImage = [[UIImageView alloc] init];
 		coverImage.contentMode = UIViewContentModeScaleAspectFill;
 		coverImage.image = IMGRESOURCE(@"default_image");

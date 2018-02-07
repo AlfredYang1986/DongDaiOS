@@ -90,7 +90,7 @@
 	// 根据状态做事情
 	if (state == MJRefreshStateIdle) {
 		if (oldState == MJRefreshStateRefreshing) {
-			self.progressIndicatorView.transform = CGAffineTransformIdentity;
+//			self.progressIndicatorView.transform = CGAffineTransformIdentity;
 			
 			[UIView animateWithDuration:MJRefreshSlowAnimationDuration animations:^{
 				self.loadingView.alpha = 0.0;
@@ -105,16 +105,16 @@
 		} else {
 			[self.loadingView stopAnimating];
 			self.progressIndicatorView.hidden = NO;
-			[UIView animateWithDuration:MJRefreshFastAnimationDuration animations:^{
-				self.progressIndicatorView.transform = CGAffineTransformIdentity;
-			}];
+//			[UIView animateWithDuration:MJRefreshFastAnimationDuration animations:^{
+//				self.progressIndicatorView.transform = CGAffineTransformIdentity;
+//			}];
 		}
 	} else if (state == MJRefreshStatePulling) {
 		[self.loadingView stopAnimating];
 		self.progressIndicatorView.hidden = NO;
-		[UIView animateWithDuration:MJRefreshFastAnimationDuration animations:^{
-			self.progressIndicatorView.transform = CGAffineTransformMakeRotation(0.000001 - M_PI);
-		}];
+//		[UIView animateWithDuration:MJRefreshFastAnimationDuration animations:^{
+//			self.progressIndicatorView.transform = CGAffineTransformMakeRotation(0.000001 - M_PI);
+//		}];
 	} else if (state == MJRefreshStateRefreshing) {
 		self.loadingView.alpha = 1.0; // 防止refreshing -> idle的动画完毕动作没有被执行
 		[self.loadingView startAnimating];

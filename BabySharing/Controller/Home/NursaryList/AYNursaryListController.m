@@ -62,24 +62,18 @@
 	
 	serviceData = [NSMutableArray array];
 	
-	id<AYViewBase> view_table = [self.views objectForKey:kAYTableView];
-	id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
-	id<AYCommand> cmd_delegate = [view_table.commands objectForKey:@"registerDelegate:"];
+	id<AYDelegateBase> dlg = [self.delegates objectForKey:@"NursaryList"];
+	id obj = (id)dlg;
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDatasourseDelegateMsg, &obj)
 	
-	id<AYDelegateBase> cmd_collect = [self.delegates objectForKey:@"NursaryList"];
-	
-	id obj = (id)cmd_collect;
-	[cmd_datasource performWithResult:&obj];
-	obj = (id)cmd_collect;
-	[cmd_delegate performWithResult:&obj];
-	
-	id<AYCommand> cmd_search = [view_table.commands objectForKey:@"registerCellWithClass:"];
 	NSString* class_name = @"AYNursaryListCellView";
-	[cmd_search performWithResult:&class_name];
+	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
 	
+	id<AYViewBase> view_table = [self.views objectForKey:kAYTableView];
 	UITableView *tableView = (UITableView*)view_table;
 	tableView.mj_header = [MXSRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
-	tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+	tableView.mj_footer = [MXSRefreshFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+	
 	[self loadNewData];
 }
 
@@ -106,6 +100,7 @@
 
 - (id)TableLayout:(UIView*)view {
 	view.frame = CGRectMake(0, kStatusAndNavBarH , SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH);
+//	((UITableView*)view).contentInset = UIEdgeInsetsMake(1, 0, 0, 0);
 	return nil;
 }
 
@@ -124,8 +119,13 @@
 			timeIntervalNode = [result objectForKey:kAYCommArgsRemoteDate];
 			NSArray *data = [result objectForKey:@"services"];
 			serviceData = [data mutableCopy];
-			kAYDelegatesSendMessage(@"NursaryList", @"changeQueryData:", &data)
+			NSLog(@"michauxs");
+			id tmp = [serviceData copy];
+			kAYDelegatesSendMessage(@"NursaryList", @"changeQueryData:", &tmp)
 			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+			
+			UITableView *view_table = [self.views objectForKey:kAYTableView];
+			if (view_table.mj_footer.state == MJRefreshStateNoMoreData) view_table.mj_footer.state = MJRefreshStateResetIdle;
 		}
 		else {
 			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
@@ -148,25 +148,27 @@
 	id<AYFacadeBase> f_choice = [self.facades objectForKey:@"ChoiceRemote"];
 	AYRemoteCallCommand *cmd_search = [f_choice.commands objectForKey:@"ChoiceSearch"];
 	[cmd_search performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+		UITableView *view_table = [self.views objectForKey:kAYTableView];
+//		CGPoint handlePoint = CGPointZero;
 		if (success) {
-			
 			NSArray *data = [result objectForKey:@"services"];
 			if (data.count == 0) {
-				NSString *title = @"别扯啦，没有更多服务了";
-				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+				[view_table.mj_footer endRefreshingWithNoMoreData];
 			} else {
 				[serviceData addObjectsFromArray:data];
 				id tmp = [serviceData copy];
 				kAYDelegatesSendMessage(@"NursaryList", @"changeQueryData:", &tmp)
+				
+//				handlePoint = view_table.contentOffset;
 				kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 			}
-		}
-		else {
+		} else {
 			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
 		}
 		
-		id<AYViewBase> view_table = [self.views objectForKey:kAYTableView];
-		[((UITableView*)view_table).mj_footer endRefreshing];
+//		[view_table setContentOffset:handlePoint animated:NO];
+		[view_table.mj_footer endRefreshing];
+		
 	}];
 }
 

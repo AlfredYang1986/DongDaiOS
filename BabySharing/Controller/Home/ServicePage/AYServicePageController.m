@@ -392,7 +392,7 @@
 	alp = alp > 1 ? 1 :alp;
 	alp = alp < 0 ? 0 :alp;
 	
-	((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:alp];
+	((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithRED:250 GREEN:250 BLUE:250 ALPHA:alp];
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarHideBarBotLineMessage, nil)
 //	if (offset_y < - kStatusAndNavBarH * 2) {
 //		((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:0.f];

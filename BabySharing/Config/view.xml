@@ -78,6 +78,7 @@
         <command type="message" message="refresh" />
         <command type="message" message="registerDatasource:" />
         <command type="message" message="registerDelegate:" />
+		<command type="message" message="registerDatasourceDelegate:" />
         <command type="message" message="registerCellWithClass:" />
         <command type="message" message="registerCellWithNib:" />
         <command type="message" message="registerHeaderAndFooterWithClass:" />
@@ -89,6 +90,7 @@
 		<command type="message" message="refresh" />
 		<command type="message" message="registerDatasource:" />
 		<command type="message" message="registerDelegate:" />
+		<command type="message" message="registerDatasourceDelegate:" />
 		<command type="message" message="registerCellWithClass:" />
 		<command type="message" message="registerCellWithNib:" />
 		<command type="message" message="registerHeaderAndFooterWithClass:" />
@@ -99,6 +101,7 @@
 		<command type="message" message="refresh" />
 		<command type="message" message="registerDatasource:" />
 		<command type="message" message="registerDelegate:" />
+		<command type="message" message="registerDatasourceDelegate:" />
 		<command type="message" message="registerCellWithClass:" />
 		<command type="message" message="registerCellWithNib:" />
 		<command type="message" message="registerHeaderAndFooterWithClass:" />

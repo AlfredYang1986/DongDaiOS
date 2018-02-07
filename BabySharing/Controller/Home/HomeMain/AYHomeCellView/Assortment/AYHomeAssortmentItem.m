@@ -133,14 +133,14 @@
 			[titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
 				make.top.equalTo(_coverImage.mas_bottom).offset(10);
 				make.left.equalTo(_coverImage);
-				make.right.equalTo(_coverImage);
+				make.right.equalTo(_coverImage).offset(-12);
 			}];
 		} else {
 			tagLabel.hidden = NO;
 			[titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
 				make.top.equalTo(tagLabel.mas_bottom).offset(1);
 				make.left.equalTo(_coverImage);
-				make.right.equalTo(_coverImage);
+				make.right.equalTo(_coverImage).offset(-12);
 			}];
 		}
 		if (operation.length == 0) {

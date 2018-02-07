@@ -60,7 +60,7 @@
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(self).offset(24);
 			make.left.equalTo(self).offset(SERVICEPAGE_MARGIN_LR);
-			make.right.equalTo(self).offset(-SERVICEPAGE_MARGIN_LR-55);
+			make.right.equalTo(self).offset(-SERVICEPAGE_MARGIN_LR);
 		}];
 		
 		themeLabel = [UILabel creatLabelWithText:@"Theme" textColor:[UIColor black13] fontSize:618 backgroundColor:nil textAlignment:NSTextAlignmentLeft];

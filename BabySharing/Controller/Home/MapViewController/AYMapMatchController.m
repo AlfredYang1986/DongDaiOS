@@ -29,6 +29,8 @@
     NSArray *fiteResultData;
 	
 	BOOL is_local;
+	
+	CLLocation *coustom_loc;
 }
 
 - (void)postPerform{
@@ -75,6 +77,19 @@
 	id<AYCommand> cmd_cell = [view_notify.commands objectForKey:@"registerCellWithClass:"];
 	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"MapMatchCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	[cmd_cell performWithResult:&class_name];
+	
+	UIView *view_map = [self.views objectForKey:@"MapView"];
+	CLLocation *user_loc = [loc copy];
+	[view_map performAYSel:@"showUserLocation:" withResult:&user_loc];
+	
+	UIImageView *coustomLocSign = [[UIImageView alloc] init];
+	coustomLocSign.image = IMGRESOURCE(@"map_coustom_loc");
+	[self.view addSubview:coustomLocSign];
+	[coustomLocSign mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.bottom.equalTo(self.view.mas_centerY).offset(-4);
+		make.centerX.equalTo(self.view).offset(24);
+		make.size.mas_equalTo(CGSizeMake(23, 43));
+	}];
 	
     if (!is_local) {
         NSString *title = @"目前只开放北京,我们正在努力为更多的城市服务";
@@ -123,8 +138,10 @@
 	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
 	
 	NSMutableDictionary *dic_pin = [[NSMutableDictionary alloc] init];
-	[dic_pin setValue:[NSNumber numberWithDouble:loc.coordinate.latitude] forKey:kAYServiceArgsLatitude];
-	[dic_pin setValue:[NSNumber numberWithDouble:loc.coordinate.longitude] forKey:kAYServiceArgsLongtitude];
+	CLLocation *search_loc = coustom_loc ? coustom_loc : loc;
+
+	[dic_pin setValue:[NSNumber numberWithDouble:search_loc.coordinate.latitude] forKey:kAYServiceArgsLatitude];
+	[dic_pin setValue:[NSNumber numberWithDouble:search_loc.coordinate.longitude] forKey:kAYServiceArgsLongtitude];
 	[[dic_search objectForKey:kAYCommArgsCondition] setValue:dic_pin forKey:kAYServiceArgsPin];
 	
 	id<AYFacadeBase> f_choice = [self.facades objectForKey:@"ChoiceRemote"];
@@ -133,7 +150,7 @@
 		if (success) {
 			
 			NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-			[dic setValue:loc forKey:kAYServiceArgsLocationInfo];
+//			[dic setValue:loc forKey:kAYServiceArgsLocationInfo];
 			[dic setValue:[result objectForKey:@"services"] forKey:@"result_data"];
 			
 			id<AYViewBase> map = [self.views objectForKey:@"MapView"];
@@ -180,6 +197,13 @@
 - (id)queryResultDate:(id)args{
     return resultAndLoc;
 }
+
+- (id)userMovedMap:(id)args {
+	coustom_loc = args;
+	[self loadNewData];
+	return nil;
+}
+
 
 - (id)sendChangeOffsetMessage:(NSNumber*)index {
 	

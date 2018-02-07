@@ -681,6 +681,7 @@
 		70E105CA1F26EB5E00470C70 /* AYAssortmentReviseDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E105C91F26EB5E00470C70 /* AYAssortmentReviseDelegate.m */; };
 		70E105CD1F26EF6C00470C70 /* AYAssortmentItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E105CC1F26EF6C00470C70 /* AYAssortmentItemView.m */; };
 		70E77CE31D8E812B00C882DD /* AYUpdateOrderInfoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E77CE21D8E812B00C882DD /* AYUpdateOrderInfoCommand.m */; };
+		70E94FEB2029961600925AD0 /* MXSRefreshFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E94FEA2029961600925AD0 /* MXSRefreshFooter.m */; };
 		70E9AB701CF3FE960019D33A /* AYNotifyFollowBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E9AB6F1CF3FE960019D33A /* AYNotifyFollowBtnView.m */; };
 		70E9AB7D1CF401DB0019D33A /* AYNotifyFollowedBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E9AB791CF401DB0019D33A /* AYNotifyFollowedBtnView.m */; };
 		70E9AB7E1CF401DB0019D33A /* AYNotifyUnFollowBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E9AB7C1CF401DB0019D33A /* AYNotifyUnFollowBtnView.m */; };
@@ -2231,6 +2232,8 @@
 		70E105CC1F26EF6C00470C70 /* AYAssortmentItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAssortmentItemView.m; sourceTree = "<group>"; };
 		70E77CE11D8E812B00C882DD /* AYUpdateOrderInfoCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYUpdateOrderInfoCommand.h; sourceTree = "<group>"; };
 		70E77CE21D8E812B00C882DD /* AYUpdateOrderInfoCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYUpdateOrderInfoCommand.m; sourceTree = "<group>"; };
+		70E94FE92029961600925AD0 /* MXSRefreshFooter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MXSRefreshFooter.h; sourceTree = "<group>"; };
+		70E94FEA2029961600925AD0 /* MXSRefreshFooter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MXSRefreshFooter.m; sourceTree = "<group>"; };
 		70E9AB6E1CF3FE960019D33A /* AYNotifyFollowBtnView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNotifyFollowBtnView.h; sourceTree = "<group>"; };
 		70E9AB6F1CF3FE960019D33A /* AYNotifyFollowBtnView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNotifyFollowBtnView.m; sourceTree = "<group>"; };
 		70E9AB781CF401DB0019D33A /* AYNotifyFollowedBtnView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNotifyFollowedBtnView.h; sourceTree = "<group>"; };
@@ -7832,6 +7835,15 @@
 			path = OtherBtnClick;
 			sourceTree = "<group>";
 		};
+		70E94FE8202995D400925AD0 /* MXSRefreshFooter+MJRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				70E94FE92029961600925AD0 /* MXSRefreshFooter.h */,
+				70E94FEA2029961600925AD0 /* MXSRefreshFooter.m */,
+			);
+			path = "MXSRefreshFooter+MJRefresh";
+			sourceTree = "<group>";
+		};
 		70E9AB6B1CF3FD830019D33A /* NotifyFollowBtn */ = {
 			isa = PBXGroup;
 			children = (
@@ -8007,18 +8019,19 @@
 		70EE2D762004731C001CEDE8 /* ThirdView+Extension */ = {
 			isa = PBXGroup;
 			children = (
-				70EE2D772004731C001CEDE8 /* MXSRefreshHeader+MJRefrsh */,
+				70E94FE8202995D400925AD0 /* MXSRefreshFooter+MJRefresh */,
+				70EE2D772004731C001CEDE8 /* MXSRefreshHeader+MJRefresh */,
 			);
 			path = "ThirdView+Extension";
 			sourceTree = "<group>";
 		};
-		70EE2D772004731C001CEDE8 /* MXSRefreshHeader+MJRefrsh */ = {
+		70EE2D772004731C001CEDE8 /* MXSRefreshHeader+MJRefresh */ = {
 			isa = PBXGroup;
 			children = (
 				70EE2D782004731C001CEDE8 /* MXSRefreshHeader.h */,
 				70EE2D792004731C001CEDE8 /* MXSRefreshHeader.m */,
 			);
-			path = "MXSRefreshHeader+MJRefrsh";
+			path = "MXSRefreshHeader+MJRefresh";
 			sourceTree = "<group>";
 		};
 		70F34D7A1CA549A300CEF7C1 /* LandingAreaCode */ = {
@@ -9615,6 +9628,7 @@
 				702C04511EB1CD5600BE1518 /* AYParseSTMForDayCourseCommand.m in Sources */,
 				70CDF6421CBD034000311841 /* AYOwnerQueryModelFacade.m in Sources */,
 				703CCDBB1CC9D57800CF4563 /* AYPushNotificationCommand.m in Sources */,
+				70E94FEB2029961600925AD0 /* MXSRefreshFooter.m in Sources */,
 				7056BA081F1F2BF400386E3A /* AYOrderListNewsDelegate.m in Sources */,
 				700693331CC4E80A00B511FF /* AYAlbumBaseDelegate.m in Sources */,
 				7025105F1CC0BA7C00DADF2B /* AYContentPostRemoteFacade.m in Sources */,

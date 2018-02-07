@@ -35,6 +35,7 @@ static NSString* const kAYNavBarHideBarBotLineMessage =			@"hideBarBotLine";
 //Table/Collection View
 static NSString* const kAYTCViewRegisterDatasourceMessage =		@"registerDatasource:";
 static NSString* const kAYTCViewRegisterDelegateMessage =		@"registerDelegate:";
+static NSString* const kAYTCViewRegisterDatasourseDelegateMsg =		@"registerDatasourceDelegate:";
 static NSString* const kAYTableRegisterCellWithClassMessage =   @"registerCellWithClass:";
 static NSString* const kAYTableRegisterCellWithNibMessage =     @"registerCellWithNib:";
 static NSString* const kAYTableRefreshMessage =                 @"refresh";

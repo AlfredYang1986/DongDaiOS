@@ -49,6 +49,12 @@
 }
 
 #pragma mark -- view commands
+- (id)registerDatasourceDelegate:(id)obj {
+	self.dataSource = obj;
+	self.delegate = obj;
+	return nil;
+}
+
 - (id)registerDatasource:(id)obj {
     id<UITableViewDataSource> d = (id<UITableViewDataSource>)obj;
     self.dataSource = d;

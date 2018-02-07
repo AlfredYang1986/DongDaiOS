@@ -123,7 +123,7 @@
 	[servCollectionView registerClass:NSClassFromString(@"AYHomeAssortmentItem") forCellWithReuseIdentifier:@"AYHomeAssortmentItem"];
 	
 	servCollectionView.mj_header = [MXSRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
-	servCollectionView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+	servCollectionView.mj_footer = [MXSRefreshFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
 	
 	[self loadNewData];
 }
@@ -170,16 +170,16 @@
 			if (reArr.count != 0) {
 				[remoteDataArr addObjectsFromArray:reArr];
 				skipedCount = remoteDataArr.count;
-				
 				[servCollectionView reloadData];
+				
 			} else {
-				NSString *title = @"没有更多服务了";
-				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+				[servCollectionView.mj_footer endRefreshingWithNoMoreData];
+				
 			}
 		} else {
 			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
 		}
-//		[servCollectionView reloadData];
+		
 		[servCollectionView.mj_footer endRefreshing];
 	}];
 }
@@ -187,13 +187,11 @@
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
 	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
-	view.backgroundColor = [Tools whiteColor];
 	return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
 	view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
-	view.backgroundColor = [Tools whiteColor];
 	
 	NSString *title = sortCateg;
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)

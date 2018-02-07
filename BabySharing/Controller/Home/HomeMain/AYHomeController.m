@@ -191,16 +191,16 @@ typedef void(^queryContentFinish)(void);
 	
 	UIView *shadow_map = [UIView new];
 	shadow_map.backgroundColor = [UIColor white];
-	shadow_map.layer.shadowColor = [UIColor gary].CGColor;
-	shadow_map.layer.shadowOffset = CGSizeMake(0, 0);
-	shadow_map.layer.shadowRadius = 5.f;
-	shadow_map.layer.shadowOpacity = 0.5f;
-	shadow_map.layer.cornerRadius = 31;
+	shadow_map.layer.shadowColor = [UIColor colorWithRED:44 GREEN:52 BLUE:109 ALPHA:1].CGColor;
+	shadow_map.layer.shadowOffset = CGSizeMake(0, 6);
+	shadow_map.layer.shadowRadius = 20;
+	shadow_map.layer.shadowOpacity = 0.2f;
+	shadow_map.layer.cornerRadius = 29;
 	[self.view addSubview:shadow_map];
 	[shadow_map mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.right.equalTo(self.view).offset(-20);
 		make.bottom.equalTo(self.view).offset(-20);
-		make.size.mas_equalTo(CGSizeMake(62, 62));
+		make.size.mas_equalTo(CGSizeMake(58, 58));
 	}];
 	UIButton *mapBtn = [[UIButton alloc] init];
 	[mapBtn setImage:IMGRESOURCE(@"home_btn_nearby") forState:UIControlStateNormal];

@@ -101,7 +101,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     self.view.backgroundColor = [UIColor theme];
 	
 	UIImageView *BGView = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"landing_bg")];
-	BGView.contentMode = UIViewContentModeScaleAspectFill;
+	BGView.contentMode = UIViewContentModeTop;
 	[self.view addSubview:BGView];
 	BGView.frame = self.view.frame;
 	

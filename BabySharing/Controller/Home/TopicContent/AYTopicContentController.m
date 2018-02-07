@@ -108,9 +108,9 @@
 	NSDictionary *tmp = @{kAYServiceArgsAlbum:albumCateg};
 	kAYDelegatesSendMessage(@"TopicContent", kAYDelegateChangeDataMessage, &tmp)
 	
-	UITableView *tableView = [self.views objectForKey:kAYTableView];
+//	UITableView *tableView = [self.views objectForKey:kAYTableView];
 //	tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
-	tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+//	tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
 	
 	[self loadNewData];
 }
