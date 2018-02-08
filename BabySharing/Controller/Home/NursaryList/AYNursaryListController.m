@@ -73,7 +73,7 @@
 	UITableView *tableView = (UITableView*)view_table;
 	tableView.mj_header = [MXSRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
 	tableView.mj_footer = [MXSRefreshFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-	
+//	tableView.mj_footer.endRefreshingCompletionBlock();
 	[self loadNewData];
 }
 
@@ -101,6 +101,9 @@
 - (id)TableLayout:(UIView*)view {
 	view.frame = CGRectMake(0, kStatusAndNavBarH , SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH);
 //	((UITableView*)view).contentInset = UIEdgeInsetsMake(1, 0, 0, 0);
+//	((UITableView*)view).estimatedRowHeight = 0;
+//	((UITableView*)view).estimatedSectionHeaderHeight = 0;
+//	((UITableView*)view).estimatedSectionFooterHeight = 0;
 	return nil;
 }
 
@@ -111,6 +114,7 @@
 	NSMutableDictionary *dic_search = [Tools getBaseRemoteData:user];
 	[[dic_search objectForKey:kAYCommArgsCondition] setValue:@"看顾" forKey:kAYServiceArgsCategoryInfo];
 	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+//	[dic_search setValue:[NSNumber numberWithInt:5] forKey:kAYCommArgsRemoteTake];
 	
 	id<AYFacadeBase> f_choice = [self.facades objectForKey:@"ChoiceRemote"];
 	AYRemoteCallCommand *cmd_search = [f_choice.commands objectForKey:@"ChoiceSearch"];
@@ -119,13 +123,15 @@
 			timeIntervalNode = [result objectForKey:kAYCommArgsRemoteDate];
 			NSArray *data = [result objectForKey:@"services"];
 			serviceData = [data mutableCopy];
-			NSLog(@"michauxs");
+			
 			id tmp = [serviceData copy];
 			kAYDelegatesSendMessage(@"NursaryList", @"changeQueryData:", &tmp)
 			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 			
 			UITableView *view_table = [self.views objectForKey:kAYTableView];
-			if (view_table.mj_footer.state == MJRefreshStateNoMoreData) view_table.mj_footer.state = MJRefreshStateResetIdle;
+			if (view_table.mj_footer.state == MJRefreshStateNoMoreData) {
+				view_table.mj_footer.state = MJRefreshStateResetIdle;
+			}
 		}
 		else {
 			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
@@ -144,17 +150,19 @@
 	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
 	[dic_search setValue:timeIntervalNode forKey:kAYCommArgsRemoteDate];
 	[dic_search setValue:[NSNumber numberWithInteger:serviceData.count] forKey:kAYCommArgsRemoteDataSkip];
+	[dic_search setValue:[NSNumber numberWithInt:5] forKey:kAYCommArgsRemoteTake];
 	
 	id<AYFacadeBase> f_choice = [self.facades objectForKey:@"ChoiceRemote"];
 	AYRemoteCallCommand *cmd_search = [f_choice.commands objectForKey:@"ChoiceSearch"];
 	[cmd_search performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		UITableView *view_table = [self.views objectForKey:kAYTableView];
-//		CGPoint handlePoint = CGPointZero;
+//		NSInteger note = 0;
 		if (success) {
 			NSArray *data = [result objectForKey:@"services"];
 			if (data.count == 0) {
 				[view_table.mj_footer endRefreshingWithNoMoreData];
 			} else {
+//				note = serviceData.count;
 				[serviceData addObjectsFromArray:data];
 				id tmp = [serviceData copy];
 				kAYDelegatesSendMessage(@"NursaryList", @"changeQueryData:", &tmp)
@@ -166,9 +174,10 @@
 			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
 		}
 		
-//		[view_table setContentOffset:handlePoint animated:NO];
 		[view_table.mj_footer endRefreshing];
-		
+//		[view_table setContentOffset:handlePoint animated:YES];
+//		[view_table scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:note inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+//		NSLog(@"michauxs:ofset_y%ld",note);
 	}];
 }
 
@@ -230,14 +239,18 @@
 }
 
 - (id)leftBtnSelected {
-	NSLog(@"pop view controller");
 	
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	[dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-	
+
 	id<AYCommand> cmd = POP;
 	[cmd performWithResult:&dic];
+	
+//	id tmp = [serviceData copy];
+//	kAYDelegatesSendMessage(@"NursaryList", @"changeQueryData:", &tmp)
+//	kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+	
 	return nil;
 }
 

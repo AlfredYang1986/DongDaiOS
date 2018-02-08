@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void(^didViewTap)();
+typedef void(^didViewTap)(void);
 
 @interface AYMainServInfoView : UIView
 

@@ -79,7 +79,7 @@
 	[super prepare];
 	
 	// 默认底部控件100%出现时才会自动刷新
-	self.triggerAutomaticallyRefreshPercent = 1.0;
+	self.triggerAutomaticallyRefreshPercent = 0.1;
 	
 	// 设置为默认状态
 	self.automaticallyRefresh = YES;
@@ -107,7 +107,7 @@
 {
 	[super scrollViewContentOffsetDidChange:change];
 	
-	if (self.state != MJRefreshStateIdle || !self.automaticallyRefresh || self.mj_y == 0) return;
+	if ((self.state != MJRefreshStateIdle && self.state != MJRefreshStateResetIdle) || !self.automaticallyRefresh || self.mj_y == 0) return;
 	
 	if (_scrollView.mj_insetT + _scrollView.mj_contentH > _scrollView.mj_h) { // 内容超过一个屏幕
 		// 这里的_scrollView.mj_contentH替换掉self.mj_y更为合理
@@ -150,20 +150,23 @@
 	
 	MJRefreshState oldState = self.state;
 	if (state == oldState) return;
-	[super setState:state];
 	
-	if (oldState == MJRefreshStateNoMoreData && state != MJRefreshStateNoMoreData) {
-		return;
+	if (oldState == MJRefreshStateNoMoreData) {
+		if (state != MJRefreshStateResetIdle) {
+			return;
+		}
 	}
+	
+	[super setState:state];
 	
 //	MJRefreshCheckState
 	
 	if (state == MJRefreshStateRefreshing) {
+		self.loadingView.hidden = NO;
+		[self.loadingView startAnimating];
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			[self executeRefreshingCallback];
 		});
-		self.loadingView.hidden = NO;
-		[self.loadingView startAnimating];
 	} else if (state == MJRefreshStateIdle) {
 		self.loadingView.hidden = YES;
 		[self.loadingView stopAnimating];
@@ -176,6 +179,10 @@
 		self.noMoreDataSign.hidden = NO;
 		self.loadingView.hidden = YES;
 		[self.loadingView stopAnimating];
+	} else if (state == MJRefreshStateResetIdle) {
+		
+		self.loadingView.hidden = NO;
+		self.noMoreDataSign.hidden = YES;
 	}
 }
 

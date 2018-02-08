@@ -30,6 +30,9 @@
     self.showsHorizontalScrollIndicator = NO;
     self.showsVerticalScrollIndicator = NO;
     self.backgroundColor = [UIColor clearColor];
+	self.estimatedRowHeight = 0;
+	self.estimatedSectionHeaderHeight = 0;
+	self.estimatedSectionFooterHeight = 0;
 }
 
 - (void)performWithResult:(NSObject**)obj {

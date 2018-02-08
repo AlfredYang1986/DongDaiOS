@@ -41,13 +41,27 @@
 	[self setZoomLevel:60.1 animated:YES];
     annoArray = [[NSMutableArray alloc]init];
 	
+	UIView *shadow_map = [UIView new];
+	shadow_map.backgroundColor = [UIColor white];
+	shadow_map.layer.shadowColor = [UIColor colorWithRED:44 GREEN:52 BLUE:109 ALPHA:1].CGColor;
+	shadow_map.layer.shadowOffset = CGSizeMake(0, 2);
+	shadow_map.layer.shadowRadius = 20;
+	shadow_map.layer.shadowOpacity = 0.8f;
+	shadow_map.layer.cornerRadius = 4;
+	[self addSubview:shadow_map];
+	[shadow_map mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(self).offset(20);
+		make.bottom.equalTo(self).offset(-195);
+		make.size.mas_equalTo(CGSizeMake(34, 34));
+	}];
 	UIButton *showMyself = [[UIButton alloc]init];
 	[showMyself setImage:IMGRESOURCE(@"map_position_user") forState:UIControlStateNormal];
 	[self addSubview:showMyself];
 	[showMyself mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(self).offset(20);
-		make.bottom.equalTo(self).offset(-195);
-		make.size.mas_equalTo(CGSizeMake(42, 42));
+//		make.left.equalTo(self).offset(20);
+//		make.bottom.equalTo(self).offset(-195);
+//		make.size.mas_equalTo(CGSizeMake(34, 34));
+		make.edges.equalTo(shadow_map);
 	}];
 	[showMyself addTarget:self action:@selector(didShowMyselfBtnClick) forControlEvents:UIControlEventTouchUpInside];
 	
@@ -170,7 +184,7 @@
 		}
 	}
 //	CLLocationCoordinate2D center = CLLocationCoordinate2DMake((minLat + maxLat) / 2.0, (minLon + maxLon) / 2.0);
-	MACoordinateSpan span = MACoordinateSpanMake((maxLat - minLat)*1, (maxLon - minLon)*1);
+	MACoordinateSpan span = MACoordinateSpanMake((maxLat - minLat)*1.2, (maxLon - minLon)*1.2);
 	MACoordinateRegion region = MACoordinateRegionMake(handle.coordinate, span);
 	[self setRegion:region animated:YES];
 }

@@ -335,7 +335,7 @@
  */
 - (void)asyncAddContact:(NSString *)aUsername
                 message:(NSString *)aMessage
-                success:(void (^)())aSuccessBlock
+				success:(void (^)(void))aSuccessBlock
                 failure:(void (^)(EMError *aError))aFailureBlock;
 
 /*!

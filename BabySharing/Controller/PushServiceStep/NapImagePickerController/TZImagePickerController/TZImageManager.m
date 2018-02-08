@@ -424,7 +424,7 @@ static CGFloat TZScreenScale;
 
 #pragma mark - Save photo
 
-- (void)savePhotoWithImage:(UIImage *)image completion:(void (^)())completion {
+- (void)savePhotoWithImage:(UIImage *)image completion:(void (^)(void))completion {
     NSData *data = UIImageJPEGRepresentation(image, 0.9);
     if (iOS9Later) { // 这里有坑... iOS8系统下这个方法保存图片会失败
         [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
