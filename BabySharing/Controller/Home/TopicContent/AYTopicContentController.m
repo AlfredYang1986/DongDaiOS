@@ -99,7 +99,7 @@
 	obj = (id)delegate_found;
 	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDelegateMessage, &obj)
 	
-	NSArray *arr_cell_name = @[@"AYTopicImageCellView", @"AYTopicDescCellView", @"AYTopicContentCellView"];
+	NSArray *arr_cell_name = @[@"AYTopicImageCellView", @"AYTopicDescCellView", @"AYTopicContentCellView", @"AYListEndSignCellView"];
 	for (NSString *cell_name in arr_cell_name) {
 		id class_name = [cell_name copy];
 		kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name);

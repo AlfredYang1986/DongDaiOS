@@ -82,14 +82,14 @@
 	CLLocation *user_loc = [loc copy];
 	[view_map performAYSel:@"showUserLocation:" withResult:&user_loc];
 	
-	UIImageView *coustomLocSign = [[UIImageView alloc] init];
-	coustomLocSign.image = IMGRESOURCE(@"map_coustom_loc");
-	[self.view addSubview:coustomLocSign];
-	[coustomLocSign mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.bottom.equalTo(self.view.mas_centerY).offset(-4);
-		make.centerX.equalTo(self.view).offset(24);
-		make.size.mas_equalTo(CGSizeMake(23, 43));
-	}];
+//	UIImageView *coustomLocSign = [[UIImageView alloc] init];
+//	coustomLocSign.image = IMGRESOURCE(@"map_coustom_loc");
+//	[self.view addSubview:coustomLocSign];
+//	[coustomLocSign mas_makeConstraints:^(MASConstraintMaker *make) {
+//		make.bottom.equalTo(self.view.mas_centerY).offset(-4);
+//		make.centerX.equalTo(self.view).offset(24);
+//		make.size.mas_equalTo(CGSizeMake(23, 43));
+//	}];
 	
     if (!is_local) {
         NSString *title = @"目前只开放北京,我们正在努力为更多的城市服务";
