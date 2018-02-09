@@ -8,7 +8,10 @@
 
 #import "AYViewController.h"
 #import "AYViewBase.h"
+#import <CoreLocation/CoreLocation.h>
 
 @interface AYMapMatchController : AYViewController
+
+@property (nonatomic, strong) CLGeocoder *geoC;
 
 @end

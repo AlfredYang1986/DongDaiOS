@@ -132,10 +132,10 @@
 		return 443;
 	}
 	else if (indexPath.row == 1) {
-		return 376;
+		return 403;
 	}
 	else
-		return 297;
+		return 321;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -33,7 +33,7 @@
 	CLLocation *coustom_loc;
 }
 
-- (void)postPerform{
+- (void)postPerform {
     
 }
 
@@ -198,9 +198,37 @@
     return resultAndLoc;
 }
 
+-(CLGeocoder *)geoC
+{
+	if (!_geoC) {
+		_geoC = [[CLGeocoder alloc] init];
+	}
+	return _geoC;
+}
+
 - (id)userMovedMap:(id)args {
 	coustom_loc = args;
-	[self loadNewData];
+	
+	[self.geoC reverseGeocodeLocation:coustom_loc completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
+		if (!error) {
+			CLPlacemark *first = placemarks.firstObject;
+			NSString *localityStr = first.locality;
+			
+			NSArray *comp = @[@"北京市", @"北京", @"Beijing", @"BeiJing"];
+			if ([comp containsObject:localityStr]) {
+				[self loadNewData];
+			} else {
+				UIView *view_map = [self.views objectForKey:@"MapView"];
+				[view_map performAYSel:@"didShowMyselfBtnClick" withResult:nil];
+//				coustom_loc = loc;
+//				[self loadNewData];
+				
+				NSString *title = @"咚哒目前只支持北京市,我们正在努力到达更多的城市";
+				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			}
+		}
+	}];
+	
 	return nil;
 }
 

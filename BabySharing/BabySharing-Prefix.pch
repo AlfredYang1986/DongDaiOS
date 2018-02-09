@@ -74,7 +74,7 @@ static NSString* const kAYDongDaAppVersion =			@"dongda_app_version";
 #define kAY_home_album_desc_dic					@{@"蒙特梭利":@"「妈妈，帮帮我，让我可以自己做」\n「孩子能做，就别插手」\n追随孩子，Aid to life。蒙特梭利教育(Montessori)，是意大利心理学家玛丽亚 · 蒙特梭利发展的教育方法。强调独立，有限度的自由和对孩子天然的心理、生理及社会性发展的尊重。", @"浸入式双语":@"Water 就是 Water，不是水。Apple就是圆圆的果子，咬一口。习得语言，而非学习语言，是对孩子至关重要的概念。ESL（English as a second language）,给孩子们创造时时刻刻应用的契机，无论是学科中还是生活里。", @"极限运动":@"惊喜，孩子们无时无刻不在创造惊喜给我们。在这里，突破的不仅仅是身体，还有心理。更重要的是在注视和保护下，用科学的训练方法，探索能力的界限，进行体能的尝试。", @"修身养性":@"善琴者通达从容，善棋者筹谋睿智，善书者至情至性，善画者至善至美，善诗者韵至心声，善酒者情逢知己，善茶者陶冶情操，善花者品性怡然。琴棋书画，诗酒花茶。心灵中充满的情趣，将伴随孩子始终，让他们成为生活的欣赏者和创造者。", @"STEAM":@"科学Science，技术Technology，工程Engineering，艺术Arts，数学Math。以Project-based learning的学习方式，帮助孩子们将知识与兴趣连接。了解世界上正在发生的事儿，自然而然地共同面对和动手解决实际的问题。"}
 
 
-#define kAY_home_assortment_subtitle			@{@"看顾":@"0-6岁Daycare，看护和照顾我们的至爱", @"艺术":@"Art Ars Arte Kunst，无关乎语言，却在意感受", @"运动":@"成长，激励，汗水和Teamwork", @"科学":@"未来，在这里由宝贝们搭建"}
+#define kAY_home_assortment_subtitle			@{@"看顾":@"有温度的0-6岁Daycare", @"艺术":@"在感受中学会欣赏和表达", @"运动":@"成长，激励，汗水和Teamwork", @"科学":@"未来，在这里由宝贝们搭建"}
 
 #define kAY_operation_fileters_tag_course		@[@"明星", @"冠军", @"艺术家", @"名校团队", @"自主教研"]
 #define kAY_operation_fileters_title_nursery	@[@"低龄"]

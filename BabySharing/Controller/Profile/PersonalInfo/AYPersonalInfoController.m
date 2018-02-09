@@ -68,7 +68,7 @@
     id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
     UITableView *tableView = (UITableView*)view_table;
     coverImg = [[UIImageView alloc]init];
-    coverImg.image = [UIImage imageNamed:@"default_image"];
+    coverImg.image = [UIImage imageNamed:@"profile_defaultavatar"];
     coverImg.backgroundColor = [UIColor lightGrayColor];
     coverImg.contentMode = UIViewContentModeScaleAspectFill;
     coverImg.clipsToBounds = YES;
@@ -175,7 +175,7 @@
 	NSString *pre = cmd_load.route;
 	NSString* photo_name = [personal_info objectForKey:@"screen_photo"];
 	if (photo_name) {
-		[coverImg sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"default_image")];
+		[coverImg sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"profile_defaultavatar")];
 	}
 	
 	NSDictionary *tmp = [personal_info copy];

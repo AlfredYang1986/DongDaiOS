@@ -65,19 +65,19 @@
 			make.top.equalTo(self).offset(0);
 		}];
 		
-		subTitleLabel = [UILabel creatLabelWithText:@"一句话简单描述" textColor:[UIColor gary] fontSize:13 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		subTitleLabel = [UILabel creatLabelWithText:@"一句话简单描述" textColor:[UIColor gary115] fontSize:313 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:subTitleLabel];
 		[subTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);
-			make.top.equalTo(titleLabel.mas_bottom).offset(2);
+			make.top.equalTo(titleLabel.mas_bottom).offset(5);
 		}];
-		subTitleLabel.hidden = YES;
+//		subTitleLabel.hidden = YES;
 		
 		UIButton *moreBtn = [Tools creatBtnWithTitle:@"查看更多" titleColor:[UIColor theme] fontSize:615 backgroundColor:nil];
 		[self addSubview:moreBtn];
 		[moreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.right.equalTo(self).offset(-8);
-			make.bottom.equalTo(titleLabel).offset(4);
+			make.bottom.equalTo(subTitleLabel).offset(6);
 			make.size.mas_equalTo(CGSizeMake(80, 30));
 		}];
 		[moreBtn addTarget:self action:@selector(didAssortmentMoreBtnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -87,7 +87,7 @@
 		flowLayout.minimumInteritemSpacing = 8;
 		flowLayout.minimumLineSpacing = 8;
 		
-		CollectionView = [[UICollectionView  alloc]initWithFrame:CGRectZero collectionViewLayout:flowLayout];
+		CollectionView = [[UICollectionView alloc]initWithFrame:CGRectZero collectionViewLayout:flowLayout];
 		CollectionView.delegate = self;
 		CollectionView.dataSource = self;
 		CollectionView.showsVerticalScrollIndicator = NO;
@@ -98,7 +98,7 @@
 		[CollectionView registerClass:NSClassFromString(@"AYHomeMoreItem") forCellWithReuseIdentifier:@"AYHomeMoreItem"];
 		[self addSubview:CollectionView];
 		[CollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(self).offset(45);
+			make.top.equalTo(subTitleLabel.mas_bottom).offset(24);
 			make.left.equalTo(self);
 			make.right.equalTo(self);
 			make.bottom.equalTo(self);

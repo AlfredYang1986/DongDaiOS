@@ -106,11 +106,11 @@
 }
 
 - (id)rightBtnSelected {
-	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-	[dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
-	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-	id<AYCommand> cmd = POP;
-	[cmd performWithResult:&dic];
+//	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+//	[dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+//	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+//	id<AYCommand> cmd = POP;
+//	[cmd performWithResult:&dic];
 	return nil;
 }
 

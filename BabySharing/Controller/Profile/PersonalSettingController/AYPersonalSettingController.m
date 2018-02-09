@@ -71,7 +71,7 @@ static NSString* const descInitStr =			@"一句话很短，高调的夸一夸自
     
     user_photo = [[UIImageView alloc]init];
     [mainView addSubview:user_photo];
-    user_photo.image = IMGRESOURCE(@"default_image");
+    user_photo.image = IMGRESOURCE(@"profile_defaultavatar");
     user_photo.contentMode = UIViewContentModeScaleAspectFill;
     user_photo.clipsToBounds = YES;
     [user_photo mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -94,7 +94,7 @@ static NSString* const descInitStr =			@"一句话很短，高调的夸一夸自
     id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
     NSString *pre = cmd.route;
-    [user_photo sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:[profile_dic objectForKey:@"screen_photo"]]] placeholderImage:IMGRESOURCE(@"default_image")];
+    [user_photo sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:[profile_dic objectForKey:@"screen_photo"]]] placeholderImage:IMGRESOURCE(@"profile_defaultavatar")];
     UILabel *nameLabel = [Tools creatLabelWithText:@"昵称" textColor:[UIColor gary] fontSize:315 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
     [mainView addSubview:nameLabel];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {

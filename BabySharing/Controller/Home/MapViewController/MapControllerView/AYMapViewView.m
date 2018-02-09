@@ -19,10 +19,8 @@
 @implementation AYMapViewView{
     MAAnnotationView *annoViewHandle;
     NSArray *arrayWithLoc;
-    AYAnnonation *currentAnno;
     NSMutableArray *annoArray;
-    
-    NSDictionary *resultAndLoc;
+	
     NSArray *fiteResultData;
 	CLLocation *loc;
 	
@@ -39,14 +37,15 @@
 	
     self.delegate = self;
 	[self setZoomLevel:60.1 animated:YES];
+	self.zoomEnabled = NO;
     annoArray = [[NSMutableArray alloc]init];
 	
 	UIView *shadow_map = [UIView new];
 	shadow_map.backgroundColor = [UIColor white];
 	shadow_map.layer.shadowColor = [UIColor colorWithRED:44 GREEN:52 BLUE:109 ALPHA:1].CGColor;
 	shadow_map.layer.shadowOffset = CGSizeMake(0, 2);
-	shadow_map.layer.shadowRadius = 20;
-	shadow_map.layer.shadowOpacity = 0.8f;
+	shadow_map.layer.shadowRadius = 5;
+	shadow_map.layer.shadowOpacity = 0.2f;
 	shadow_map.layer.cornerRadius = 4;
 	[self addSubview:shadow_map];
 	[shadow_map mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -92,14 +91,11 @@
 }
 
 - (id)changeResultData:(NSDictionary*)args {
-    resultAndLoc = args;
+    NSDictionary *resultAndLoc = args;
     
     if (annoArray.count != 0) {
         [self removeAnnotations:annoArray];
 		[annoArray removeAllObjects];
-    }
-    if (currentAnno) {
-        [self removeAnnotation:currentAnno];
     }
     
 //    loc = [resultAndLoc objectForKey:kAYServiceArgsLocationInfo];
@@ -143,16 +139,29 @@
 //    [self regionThatFits:MACoordinateRegionMake(loc.coordinate, MACoordinateSpanMake(loc.coordinate.latitude,loc.coordinate.longitude))];
 	
 	[self zoomToMapAnnotations:annoArray];
+	[self highlightedFirstAnno];
 	
     return nil;
 }
 
 #pragma mark -- actios
-- (void)didShowMyselfBtnClick {
+- (void)highlightedFirstAnno {
+	
+	AYAnnonation *first_anno = annoArray.firstObject;
+	if (first_anno) {
+		
+		annoViewHandle = [self viewForAnnotation:first_anno];
+		annoViewHandle.highlighted = YES;
+		annoViewHandle.image = [UIImage imageNamed:first_anno.imageName_select];
+	}
+}
+
+- (id)didShowMyselfBtnClick {
 //	[self setCenterCoordinate:loc.coordinate animated:YES];
 	coustom_loc = loc;
 	id tmp = [coustom_loc copy];
 	[((AYViewController*)self.controller) performAYSel:@"userMovedMap:" withResult:&tmp];
+	return nil;
 }
 
 - (void)zoomToMapAnnotations:(NSArray*)annotations {
@@ -187,6 +196,7 @@
 	MACoordinateSpan span = MACoordinateSpanMake((maxLat - minLat)*1.2, (maxLon - minLon)*1.2);
 	MACoordinateRegion region = MACoordinateRegionMake(handle.coordinate, span);
 	[self setRegion:region animated:YES];
+	
 }
 
 #pragma mark -- MKMapViewDelegate
@@ -242,7 +252,7 @@
 	
 	view.highlighted = YES;
     view.image = [UIImage imageNamed:anno.imageName_select];
-	[self setCenterCoordinate:anno.coordinate animated:YES];
+//	[self setCenterCoordinate:anno.coordinate animated:YES];
 	
     annoViewHandle = view;
 	
@@ -277,11 +287,11 @@
 			NSNumber *latitude = [dic_loc objectForKey:kAYServiceArgsLatitude];
 			NSNumber *longitude = [dic_loc objectForKey:kAYServiceArgsLongtitude];
 			if (latitude && longitude) {
-				CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.doubleValue longitude:longitude.doubleValue];
 				change_view.highlighted = YES;
 				change_view.image = [UIImage imageNamed:one.imageName_select];
 				
-				[self setCenterCoordinate:location.coordinate animated:YES];
+//				CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.doubleValue longitude:longitude.doubleValue];
+//				[self setCenterCoordinate:location.coordinate animated:YES];
 			}
 			annoViewHandle = change_view;		//交接
 			break;
