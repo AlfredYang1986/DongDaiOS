@@ -89,8 +89,11 @@
 - (id)setCellInfo:(id)args {
 	
 	NSString *name = [args objectForKey:kAYBrandArgsName];
-	userName.text = [name stringByAppendingString:@"MM"];
-	brandName.text = name;
+	if (name.length == 0) {
+		name = @"品牌";
+	}
+	userName.text = name;
+	brandName.text = [name stringByAppendingString:@"老师"];
 	
 	brandAbout.text = [args objectForKey:kAYBrandArgsAbout];
 	
