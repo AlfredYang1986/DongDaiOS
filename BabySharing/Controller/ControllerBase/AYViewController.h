@@ -13,6 +13,9 @@
 #import "DongDaTabBar.h"
 #import "AYViewBase.h"
 #import "AYFactoryManager.h"
+#import "AYControllerActionDefines.h"
+
+#import "AYBtmTipView.h"
 
 @protocol AYViewBase;
 @interface AYViewController : UIViewController <AYControllerBase>
@@ -26,5 +29,3 @@
 - (id)startRemoteCall:(id)obj;
 - (id)endRemoteCall:(id)ob;
 @end
-
-#import "AYControllerActionDefines.h"

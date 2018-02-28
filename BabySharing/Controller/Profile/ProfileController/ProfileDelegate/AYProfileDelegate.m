@@ -12,7 +12,7 @@
 #import "AYModelFacade.h"
 
 @implementation AYProfileDelegate{
-    NSArray *origs;
+    NSArray *rowTitles;
 	NSDictionary* querydata;
 }
 
@@ -51,29 +51,26 @@
     querydata = args;
     
 	NSMutableArray *tmp;
-	NSNumber *is_real_name = [querydata objectForKey:@"is_real_name_cert"];
-    NSNumber *is_servant = [querydata objectForKey:@"is_service_provider"];
+    NSNumber *is_servant = [querydata objectForKey:kAYProfileArgsIsProvider];
 	NSNumber *is_nap = [querydata objectForKey:@"is_nap"];
 	
 	if (is_nap.boolValue) {
-		tmp = [NSMutableArray arrayWithObjects:@"切换为预订模式", @"发布服务", @"设置", nil];
+		tmp = [NSMutableArray arrayWithObjects:@"切换为预定模式", @"发布服务", @"设置", nil];
 	} else {
-		tmp = [NSMutableArray arrayWithObjects:@"成为服务者", @"我心仪的服务", @"设置", nil];
+		tmp = [NSMutableArray arrayWithObjects:@"成为老师", @"我心仪的服务", @"设置", nil];
 		if (is_servant.boolValue) {
-			[tmp replaceObjectAtIndex:0 withObject:@"切换为服务者"];
-		} else if (is_real_name.boolValue) {
-			[tmp replaceObjectAtIndex:0 withObject:@"发布服务"];
+			[tmp replaceObjectAtIndex:0 withObject:@"切换为服务者模式"];
 		}
 	}
     
-    origs = [tmp copy];
+    rowTitles = [tmp copy];
     return nil;
 }
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return origs.count + 1;
+    return rowTitles.count + 1;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -94,7 +91,7 @@
         NSString *class_name = @"AYProfileOrigCellView";
         cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
         
-        NSString *title = origs[indexPath.row - 1];
+        NSString *title = rowTitles[indexPath.row - 1];
         kAYViewSendMessage(cell, @"setCellInfo:", &title)
     }
     cell.controller = self.controller;
@@ -134,7 +131,6 @@
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-    [dic_push setValue:[querydata copy] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
@@ -150,19 +146,14 @@
         [cmd performWithResult:&args];
         
     } else {
+		id<AYCommand> des = DEFAULTCONTROLLER(@"ConfirmRealName");
+		
         NSNumber *is_has_phone = [querydata objectForKey:kAYProfileArgsIsHasPhone];
-        NSNumber *is_real_name = [querydata objectForKey:kAYProfileArgsIsValidtRealName];
-        id<AYCommand> des;
-        
         if (!is_has_phone.boolValue ) {
-            des = DEFAULTCONTROLLER(@"ConfirmPhoneNo");
-        } else if (!is_real_name.boolValue) {
-            des = DEFAULTCONTROLLER(@"ConfirmRealName");
-        } else {
-            des = DEFAULTCONTROLLER(@"SetServiceType");
+			des = DEFAULTCONTROLLER(@"ConfirmPhoneNo");
         }
-        
-        NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
+		
+        NSMutableDictionary* dic_push = [[NSMutableDictionary alloc] initWithCapacity:3];
         [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
         [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
         [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
@@ -188,7 +179,7 @@
 
 - (void)pushNewService {
 	
-    id<AYCommand> des = DEFAULTCONTROLLER(@"SetServiceType");
+    id<AYCommand> des = DEFAULTCONTROLLER(@"NapArea");
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];

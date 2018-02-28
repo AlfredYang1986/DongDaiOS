@@ -7,6 +7,7 @@
 //
 
 #import "AYViewController.h"
+#import "AYHomeAssortmentItem.h"
 
 @interface AYAssortmentController : AYViewController <UICollectionViewDelegate, UICollectionViewDataSource>
 

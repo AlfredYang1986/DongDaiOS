@@ -10,15 +10,12 @@
 	
     <controller type="DefaultController" name="Landing" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="LandingRemote" notification="true" />
+
         <facade type="DefaultFacade" name="SNSQQ" notification="true" />
         <facade type="DefaultFacade" name="SNSWechat" notification="true"/>
         <facade type="DefaultFacade" name="SNSWeibo" notification="true"/>
         <facade type="DefaultFacade" name="LoginModel" notification="true"/>
         <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
-        <facade type="DefaultFacade" name="EM" notification="true"/>
-        
-<!--        <view type="LandingSNS" name="LandingSNS" />-->
-<!--        <view type="Loading"    name="Loading" />-->
         
         <model notification="true" />
     </controller>
@@ -98,31 +95,40 @@
     
     <controller type="DefaultController" name="Profile" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="ProfileRemote" />
-<!--        <facade type="DefaultFacade" name="ContentQueryRemote" />-->
         <facade type="DefaultFacade" name="OwnerQueryModel" />
         <facade type="DefaultFacade" name="OwnerQueryPushModel" />
         
         <view type="FakeStatusBar"      name="FakeStatusBar" />
         <view type="FakeNavBar"         name="FakeNavBar" />
-<!--        <view type="Loading"            name="Loading" />-->
         <view type="Table"              name="Table" />
 
-<!--        <delegate type="TableViewDelegateAndDatasource" name="ProfilePublish" />-->
-<!--        <delegate type="TableViewDelegateAndDatasource" name="ProfilePush" />-->
         <delegate type="TableViewDelegateAndDatasource" name="Profile" />
     </controller>
     
     <controller type="DefaultController" name="PersonalInfo" factory="AYDefaultControllerFactoy" >
-        <facade type="DefaultFacade" name="FileRemote" notification="true" />
-		<facade type="DefaultFacade" name="ProfileRemote" />
-        <facade type="DefaultFacade" name="LoginModel" notification="true"/>
-        
-        <view type="FakeStatusBar"      name="FakeStatusBar" />
-        <view type="FakeNavBar"         name="FakeNavBar" />
+        <facade type="DefaultFacade" name="LandingRemote" />
+
         <view type="Table"              name="Table" />
         
         <delegate type="TableViewDelegateAndDatasource" name="PersonalInfo" />
     </controller>
+	
+	<controller type="DefaultController" name="PersonalSetting" factory="AYDefaultControllerFactoy" >
+		<command type="Module" name="OpenUIImagePickerCamera" />
+		<command type="Module" name="OpenUIImagePickerPicRoll" />
+		<command type="Module" name="GernarateImgUUID" />
+		<command type="Module" name="SaveImgLocal" />
+		<command type="Module" name="LocalImageWithName" />
+		
+		<facade type="DefaultFacade" name="ProfileRemote" notification="true" />
+		
+		<view type="FakeStatusBar"      name="FakeStatusBar" />
+		<view type="FakeNavBar"         name="FakeNavBar" />
+		<view type="Picker"             name="Picker" />
+		
+		<delegate type="PickerViewDelegateAndDatasource" name="NapArea" />
+		<delegate type="TableViewDelegateAndDatasource" name="SelfSetting" />
+	</controller>
     
     <controller type="DefaultController" name="PersonalDesc" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
@@ -132,19 +138,16 @@
     <controller type="DefaultController" name="OneProfile" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="ExposeRemote" />
         <facade type="DefaultFacade" name="ProfileRemote" />
-<!--        <facade type="DefaultFacade" name="ContentQueryRemote" />-->
         <facade type="DefaultFacade" name="OwnerQueryModel" />
         <facade type="DefaultFacade" name="OwnerQueryPushModel" />
-        
-        <view type="FakeStatusBar"      name="FakeStatusBar" />
-        <view type="FakeNavBar"         name="FakeNavBar" />
+		
         <view type="Table"              name="Table" />
         
         <delegate type="TableViewDelegateAndDatasource" name="OneProfile" />
     </controller>
     
     <controller type="DefaultController" name="Setting" factory="AYDefaultControllerFactoy" >
-        <facade type="DefaultFacade" name="EM" notification="true" />
+
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
         <facade type="DefaultFacade" name="LoginModel" notification="true"/>
         <facade type="DefaultFacade" name="LandingRemote" notification="true" />
@@ -181,21 +184,22 @@
         <facade type="DefaultFacade" name="HomeQueryModel" notification="true"/>
 		<facade type="DefaultFacade" name="ProfileRemote" />
 		<command type="Module" name="LocationAuth" />
-	   
-        <view type="FakeStatusBar"		name="FakeStatusBar" />
-<!--        <view type="FakeNavBar"			name="FakeNavBar" />-->
-		<view type="DongDaSeg"			name="DongDaSeg" />
+		
 		<view type="Table"				name="Table" />
-<!--		<view type="Table2"          name="Table2" />-->
-		<view type="MapView"			name="MapView" />
-		<view type="Collection"			name="Collection" />
-		<view type="Table3"				name="Table3" />
 		
         <delegate type="TableViewDelegateAndDatasource" name="Home" />
-<!--		<delegate type="TableViewDelegateAndDatasource" name="HomeAround" />-->
-		<delegate type="TableViewDelegateAndDatasource" name="HomeSort" />
-		<delegate type="CollectionViewDelegateAndDatasource" name="MapMatch" />
     </controller>
+	
+	<controller type="DefaultController" name="NursaryList" factory="AYDefaultControllerFactoy" >
+		<facade type="DefaultFacade"        name="ChoiceRemote" />
+		<facade type="DefaultFacade"        name="KidNapRemote" />
+		
+		<view type="FakeStatusBar"  name="FakeStatusBar" />
+		<view type="FakeNavBar"     name="FakeNavBar" />
+		<view type="Table"          name="Table" />
+		
+		<delegate type="TableViewDelegateAndDatasource" name="NursaryList" />
+	</controller>
 	
 	<controller type="DefaultController" name="ChoiceContent" factory="AYDefaultControllerFactoy" >
 		<facade type="DefaultFacade"	name="ChoiceRemote" />
@@ -226,12 +230,15 @@
 		<delegate type="TableViewDelegateAndDatasource" name="SearchSKU" />
 	</controller>
 	
-	<controller type="DefaultController" name="TopicsList" factory="AYDefaultControllerFactoy" >
+	<controller type="DefaultController" name="TopicContent" factory="AYDefaultControllerFactoy" >
+		<facade type="DefaultFacade" name="ChoiceRemote" />
+		<facade type="DefaultFacade" name="KidNapRemote" />
+		
 		<view type="FakeStatusBar"  name="FakeStatusBar" />
 		<view type="FakeNavBar"     name="FakeNavBar" />
 		<view type="Table"          name="Table" />
 		
-		<delegate type="TableViewDelegateAndDatasource" name="TopicsList" />
+		<delegate type="TableViewDelegateAndDatasource" name="TopicContent" />
 	</controller>
 	
 	<controller type="DefaultController" name="AssortmentList" factory="AYDefaultControllerFactoy" >
@@ -243,11 +250,12 @@
 	</controller>
 	<controller type="DefaultController" name="Assortment" factory="AYDefaultControllerFactoy" >
 		<facade type="DefaultFacade" name="ChoiceRemote" />
+		<facade type="DefaultFacade" name="KidNapRemote" />
 		
 		<view type="FakeStatusBar"  name="FakeStatusBar" />
 		<view type="FakeNavBar"     name="FakeNavBar" />
 <!--		<view type="Table"          name="Table" />-->
-		
+
 <!--		<delegate type="TableViewDelegateAndDatasource" name="Assortment" />-->
 	</controller>
 	
@@ -276,9 +284,7 @@
 	</controller>
 	
     <controller type="DefaultController" name="GroupList" factory="AYDefaultControllerFactoy" >
-<!--        <facade type="DefaultFacade" name="ChatSessionRemote" notification="true" />-->
         <facade type="DefaultFacade" name="ChatSessionModel" notification="true" />
-        <facade type="DefaultFacade" name="EM" notification="true" />
 
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
@@ -300,9 +306,8 @@
     </controller>
 
 	<controller type="DefaultController" name="SingleChat" factory="AYDefaultControllerFactoy" >
-		<facade type="DefaultFacade" name="EM" notification="true" />
 		<facade type="DefaultFacade" name="ProfileRemote" notification="true" />
-		<!--        <facade type="DefaultFacade" name="ChatSessionRemote" notification="true" />-->
+
 		<facade type="DefaultFacade" name="OrderRemote" notification="true" />
 		<facade type="DefaultFacade" name="ScreenNameAndPhotoCache" notification="true" />
 		<facade type="DefaultFacade" name="Keyboard" notification="true" />
@@ -318,9 +323,8 @@
 	</controller>
 
     <controller type="DefaultController" name="GroupChat" factory="AYDefaultControllerFactoy" >
-        <facade type="DefaultFacade" name="EM" notification="true" />
         <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
-<!--        <facade type="DefaultFacade" name="ChatSessionRemote" notification="true" />-->
+        
         <facade type="DefaultFacade" name="OrderRemote" notification="true" />
         <facade type="DefaultFacade" name="ScreenNameAndPhotoCache" notification="true" />
         <facade type="DefaultFacade" name="Keyboard" notification="true" />
@@ -331,26 +335,8 @@
         <view type="Table"              name="Table" />
         <view type="ChatInput"          name="ChatInput" />
 
-<!--        <delegate type="TableViewDelegateAndDatasource" name="GroupChatUserInfo" />-->
         <delegate type="TextViewDelegate" name="ChatGroupInput" />
         <delegate type="TableViewDelegateAndDatasource" name="GroupChatMessages" />
-    </controller>
-    
-    <controller type="DefaultController" name="PersonalSetting" factory="AYDefaultControllerFactoy" >
-        <command type="Module" name="OpenUIImagePickerCamera" />
-        <command type="Module" name="OpenUIImagePickerPicRoll" />
-        <command type="Module" name="GernarateImgUUID" />
-        <command type="Module" name="SaveImgLocal" />
-        <command type="Module" name="LocalImageWithName" />
-        
-        <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
-
-        <view type="FakeStatusBar"      name="FakeStatusBar" />
-        <view type="FakeNavBar"         name="FakeNavBar" />
-        <view type="Picker"             name="Picker" />
-        
-        <delegate type="PickerViewDelegateAndDatasource" name="NapArea" />
-        <delegate type="TableViewDelegateAndDatasource" name="SelfSetting" />
     </controller>
 
     <controller type="DefaultController" name="Fiter" factory="AYDefaultControllerFactoy" >
@@ -361,7 +347,8 @@
     </controller>
     
     <controller type="DefaultController" name="MapMatch" factory="AYDefaultControllerFactoy" >
-		<facade type="DefaultFacade"    name="Timemanagement" notification="true" />
+		<facade type="DefaultFacade"    name="ChoiceRemote" />
+		
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="MapView"        name="MapView" />
 		<view type="Collection"        name="Collection" />
@@ -474,6 +461,7 @@
 		
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
+		<view type="Validating"     name="Validating" />
     </controller>
     
     <controller type="DefaultController" name="ConfirmFinish" factory="AYDefaultControllerFactoy" >
@@ -492,29 +480,24 @@
     <controller type="DefaultController" name="SetServiceTheme" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="Table"              name="Table" />
-        
-        <delegate type="TableViewDelegateAndDatasource" name="SetServiceTheme" />
+
     </controller>
     
     <controller type="DefaultController" name="SetServiceCapacity" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="Table"              name="Table" />
-        
-        <delegate type="TableViewDelegateAndDatasource" name="SetServiceCapacity" />
+
+		<view type="Picker"         name="Picker" />
+
+		<delegate type="PickerViewDelegateAndDatasource" name="SetAgeBoundary" />
     </controller>
     
     <controller type="DefaultController" name="NapArea" factory="AYDefaultControllerFactoy" >
 		<command type="Module" name="LocationAuth" />
         <facade type="DefaultFacade" name="Keyboard" notification="true" />
 
-        <view type="FakeStatusBar"  name="FakeStatusBar" />
-        <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="NapAreaMap"     name="NapAreaMap" />
-<!--        <view type="Picker"         name="Picker" />-->
+		<view type="Validating"     name="Validating" />
 
-<!--        <delegate type="PickerViewDelegateAndDatasource" name="NapArea" />-->
     </controller>
     
     <controller type="DefaultController" name="MainInfo" factory="AYDefaultControllerFactoy" >
@@ -527,9 +510,40 @@
         <delegate type="TableViewDelegateAndDatasource" name="MainInfo" />
     </controller>
 	
+	<controller type="DefaultController" name="PushServiceMain" factory="AYDefaultControllerFactoy" >
+		<facade type="DefaultFacade" name="KidNapRemote"/>
+		
+		<view type="FakeStatusBar"		name="FakeStatusBar" />
+		<view type="FakeNavBar"			name="FakeNavBar" />
+		<view type="Validating"			name="Validating" />
+	</controller>
+	
+	<controller type="DefaultController" name="SetBasicInfo" factory="AYDefaultControllerFactoy" >
+		<view type="FakeStatusBar"		name="FakeStatusBar" />
+		<view type="FakeNavBar"			name="FakeNavBar" />
+		<view type="Table"				name="Table" />
+		
+		<delegate type="TableViewDelegateAndDatasource" name="SetBasicInfo" />
+	</controller>
+	
+	<controller type="DefaultController" name="SetLocationInfo" factory="AYDefaultControllerFactoy" >
+		<view type="FakeStatusBar"		name="FakeStatusBar" />
+		<view type="FakeNavBar"			name="FakeNavBar" />
+		<view type="Table"				name="Table" />
+		<view type="Picker"				name="Picker" />
+		
+		<delegate type="PickerViewDelegateAndDatasource" name="YardTypePick" />
+		<delegate type="TableViewDelegateAndDatasource" name="SetLocationInfo" />
+	</controller>
+	
+	<controller type="DefaultController" name="SetYardImagesTag" factory="AYDefaultControllerFactoy" >
+		<view type="FakeStatusBar"		name="FakeStatusBar" />
+		<view type="FakeNavBar"			name="FakeNavBar" />
+	</controller>
+	
 	<controller type="DefaultController" name="FinalConfirm" factory="AYDefaultControllerFactoy" >
 		<facade type="DefaultFacade" name="KidNapRemote" notification="true" />
-		<facade type="DefaultFacade" name="Timemanagement" notification="true" />
+		<facade type="DefaultFacade" name="Timemanagement" />
 		
 		<view type="FakeStatusBar"  name="FakeStatusBar" />
 		<view type="FakeNavBar"     name="FakeNavBar" />
@@ -543,18 +557,17 @@
 		<view type="FakeStatusBar"  name="FakeStatusBar" />
 		<view type="FakeNavBar"     name="FakeNavBar" />
 		
-<!--		<delegate type="TableViewDelegateAndDatasource" name="ServiceTimesShow" />-->
 	</controller>
 	
     <controller type="DefaultController" name="SetNapSchedule" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="KidNapRemote" notification="true" />
-        <facade type="DefaultFacade" name="Timemanagement" notification="true" />
-        
+
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
         <view type="ScheduleWeekDays"       name="ScheduleWeekDays" />
-        <view type="Table" 			name="Table" />
-        <view type="Picker"         name="Picker" />
+        <view type="Table" 				name="Table" />
+		<view type="SpecialTMAndState"       name="SpecialTMAndState" />
+        <view type="Picker"				name="Picker" />
         
         <delegate type="PickerViewDelegateAndDatasource" name="ServiceTimesPick" />
         <delegate type="TableViewDelegateAndDatasource" name="ServiceTimesShow" />
@@ -580,8 +593,6 @@
 		<view type="FakeNavBar"     name="FakeNavBar" />
 		<view type="Schedule"       name="Schedule" />
 		
-<!--		<view type="CollectionVer" name="CollectionVer" />-->
-<!--		<delegate type="CollectionViewDelegateAndDatasource" name="NurseCalendar" />-->
 	</controller>
 	
 	<controller type="DefaultController" name="RestDaySchedule" factory="AYDefaultControllerFactoy" >
@@ -647,10 +658,16 @@
     <controller type="DefaultController" name="SetNapCost" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-<!--        <view type="Table"          name="Table" />-->
 
         <delegate type="TableViewDelegateAndDatasource" name="SetNapCost" />
     </controller>
+	
+	<controller type="DefaultController" name="SetServicePrice" factory="AYDefaultControllerFactoy" >
+		<facade type="DefaultFacade" name="Keyboard" notification="true" />
+		
+		<view type="FakeStatusBar"  name="FakeStatusBar" />
+		<view type="FakeNavBar"     name="FakeNavBar" />
+	</controller>
     
     <controller type="DefaultController" name="SetServiceNotice" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
@@ -695,7 +712,7 @@
     
     <controller type="DefaultController" name="NapLocation" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
-        <!--        <view type="FakeNavBar"     name="FakeNavBar" />-->
+
         <view type="Table"      name="Table" />
         <view type="SearchBar"  name="SearchBar" />
         
@@ -707,7 +724,7 @@
         <view type="FakeNavBar"     name="FakeNavBar" />
         <view type="Table"          name="Table" />
         
-        <delegate type="TableViewDelegateAndDatasource" name="SetNapCost" />
+        <delegate type="TableViewDelegateAndDatasource" name="SetServiceFacility" />
     </controller>
     
     <controller type="DefaultController" name="OrderList" factory="AYDefaultControllerFactoy" >
@@ -742,7 +759,7 @@
 		<facade type="DefaultFacade" name="OrderRemote" notification="true" />
 		
 		<view type="FakeStatusBar"  name="FakeStatusBar" />
-		<!--		<view type="FakeNavBar"     name="FakeNavBar" />-->
+        
 		<view type="Table" name="Table" />
 		
 		<delegate type="TableViewDelegateAndDatasource" name="OrderServant" />
@@ -772,7 +789,7 @@
 		<facade type="DefaultFacade" name="KidNapRemote" notification="true" />
 		
 		<view type="FakeStatusBar"  name="FakeStatusBar" />
-<!--		<view type="FakeNavBar"     name="FakeNavBar" />-->
+
 		<view type="Table" name="Table" />
 		
 		<delegate type="TableViewDelegateAndDatasource" name="OrderCommon" />
@@ -829,7 +846,6 @@
     <controller type="DefaultController" name="ConfirmOrder" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
         <facade type="DefaultFacade" name="OrderRemote" notification="true" />
-<!--        <facade type="DefaultFacade" name="SNSWechat" notification="true" />-->
 
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
@@ -885,10 +901,9 @@
     
     <controller type="DefaultController" name="ChatList" factory="AYDefaultControllerFactoy" >
 		<facade type="DefaultFacade" name="ChatSessionModel" notification="true" />
-		<facade type="DefaultFacade" name="EM" notification="true" />
 		
 		<view type="FakeStatusBar"  name="FakeStatusBar" />
-<!--		<view type="FakeNavBar"     name="FakeNavBar" />-->
+        
 		<view type="Table"          name="Table" />
 		
         <delegate type="TableViewDelegateAndDatasource" name="ChatList" />
@@ -943,60 +958,5 @@
         <view type="FakeNavBar"     name="FakeNavBar" />
         <view type="Schedule"       name="Schedule" />
     </controller>
-    
-    <controller type="DefaultController" name="Message" factory="AYDefaultControllerFactoy" >
 
-    </controller>
-    
-<!--    <controller type="DefaultController" name="ProfileService" factory="AYDefaultControllerFactoy" >-->
-<!--        <facade type="DefaultFacade" name="ProfileRemote" />-->
-<!--        <facade type="DefaultFacade" name="ContentQueryRemote" />-->
-<!--        <facade type="DefaultFacade" name="OwnerQueryModel" />-->
-<!--        <facade type="DefaultFacade" name="OwnerQueryPushModel" />-->
-<!---->
-<!--        <view type="Table"          name="Table" />-->
-<!--        <view type="FakeNavBar"     name="FakeNavBar" />-->
-<!--        <view type="FakeStatusBar"  name="FakeStatusBar" />-->
-<!--        -->
-<!--        <delegate type="TableViewDelegateAndDatasource" name="ProfileService" />-->
-<!--    </controller>-->
-
-<!--    <controller type="DefaultController" name="SearchFilter" factory="AYDefaultControllerFactoy" >-->
-<!--        -->
-<!--        <view type="Table"          name="Table" />-->
-<!--        <view type="FakeNavBar"     name="FakeNavBar" />-->
-<!--        <view type="FakeStatusBar"  name="FakeStatusBar" />-->
-<!--        -->
-<!--        <delegate type="TableViewDelegateAndDatasource" name="SearchFilter" />-->
-<!--    </controller>-->
-
-<!--   <controller type="DefaultController" name="SearchFilterType" factory="AYDefaultControllerFactoy" >-->
-<!--       -->
-<!--       <view type="Table"          name="Table" />-->
-<!--       <view type="FakeNavBar"     name="FakeNavBar" />-->
-<!--       <view type="FakeStatusBar"  name="FakeStatusBar" />-->
-<!--       -->
-<!--       <delegate type="TableViewDelegateAndDatasource" name="SearchFilterType" />-->
-<!--   </controller>-->
-
-<!--   <controller type="DefaultController" name="SearchFilterKidsAges" factory="AYDefaultControllerFactoy" >-->
-<!--       <view type="FakeNavBar"     name="FakeNavBar" />-->
-<!--       <view type="FakeStatusBar"  name="FakeStatusBar" />-->
-<!--       <view type="Picker"                     name="Picker" />-->
-<!--       -->
-<!--       <delegate type="PickerViewDelegateAndDatasource" name="SearchFilterKidsAges" />-->
-<!--   </controller>-->
-<!---->
-<!--   <controller type="DefaultController" name="SearchFilterDate" factory="AYDefaultControllerFactoy" >-->
-<!--       <view type="FakeNavBar"     name="FakeNavBar" />-->
-<!--       <view type="FakeStatusBar"  name="FakeStatusBar" />-->
-<!--   </controller>-->
-<!--   -->
-<!--   <controller type="DefaultController" name="SearchFilterPriceRange" factory="AYDefaultControllerFactoy" >-->
-<!--       <view type="FakeNavBar"     name="FakeNavBar" />-->
-<!--       <view type="FakeStatusBar"  name="FakeStatusBar" />-->
-<!--       <view type="Picker"          name="Picker" />-->
-<!--       -->
-<!--       <delegate type="PickerViewDelegateAndDatasource" name="SearchFilterPriceRange" />-->
-<!--   </controller>-->
 </controllers>

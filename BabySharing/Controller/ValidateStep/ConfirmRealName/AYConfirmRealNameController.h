@@ -8,6 +8,6 @@
 
 #import "AYViewController.h"
 
-@interface AYConfirmRealNameController : AYViewController
+@interface AYConfirmRealNameController : AYViewController <UITextFieldDelegate>
 
 @end

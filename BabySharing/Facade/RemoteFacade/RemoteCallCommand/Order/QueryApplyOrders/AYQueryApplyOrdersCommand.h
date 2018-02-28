@@ -6,8 +6,8 @@
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYRemoteCallQueryCommand.h"
+#import "AYRemoteCallCommand.h"
 
-@interface AYQueryApplyOrdersCommand : AYRemoteCallQueryCommand
+@interface AYQueryApplyOrdersCommand : AYRemoteCallCommand
 
 @end

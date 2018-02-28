@@ -94,7 +94,7 @@
         self.allowPickingVideo = NO;
         self.allowPickingImage = YES;
         self.allowTakePicture = YES;
-        self.timeout = 30;
+        self.timeout = 60;
         self.photoWidth = 828.0;
         self.photoPreviewMaxWidth = 600;
         
@@ -126,7 +126,7 @@
     if (self) {
         self.selectedAssets = [NSMutableArray arrayWithArray:selectedAssets];
         self.allowPickingOriginalPhoto = YES;
-        self.timeout = 30;
+        self.timeout = 60;
         self.photoWidth = 828.0;
         self.maxImagesCount = selectedAssets.count;
         self.photoPreviewMaxWidth = 600;
@@ -294,7 +294,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     self.navigationItem.title = @"照片";
-    NSDictionary * dict = [NSDictionary dictionaryWithObject:[Tools blackColor] forKey:NSForegroundColorAttributeName];
+    NSDictionary * dict = [NSDictionary dictionaryWithObject:[Tools black] forKey:NSForegroundColorAttributeName];
     self.navigationController.navigationBar.titleTextAttributes = dict;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
     

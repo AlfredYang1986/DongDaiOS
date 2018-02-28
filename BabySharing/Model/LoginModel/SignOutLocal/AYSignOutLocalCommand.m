@@ -29,16 +29,21 @@
    
     AYModelFacade* f = LOGINMODEL;
     [CurrentToken logOutCurrentLoginUserInContext:f.doc.managedObjectContext];
-    
+	
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSNumber *app_mode = [defaults objectForKey:kAYDongDaAppMode];
+	if (!app_mode || app_mode.intValue == DongDaAppModeUnLogin) {
+		return;
+	}
     /**
-     * create controller factory
+     * 1.create controller factory -- LandingController
      */
     id<AYCommand> cmd = COMMAND(kAYFactoryManagerCommandTypeInit, kAYFactoryManagerCommandTypeInit);
     AYViewController* controller = nil;
     [cmd performWithResult:&controller];
     
     /**
-     * Navigation Controller
+     * 2. -> Navigation Controller
      */
     UINavigationController* rootContorller = CONTROLLER(@"DefaultController", @"Navigation");
     [rootContorller pushViewController:controller animated:NO];
@@ -50,9 +55,8 @@
     
     id<AYCommand> cmd_show_module = EXCHANGEWINDOWS;
     [cmd_show_module performWithResult:&dic_show_module];
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setValue:[NSNumber numberWithInt:DongDaAppModeUnLogin] forKey:@"dongda_app_mode"];
+	
+    [defaults setValue:[NSNumber numberWithInt:DongDaAppModeUnLogin] forKey:kAYDongDaAppMode];
     [defaults synchronize];
     
 }

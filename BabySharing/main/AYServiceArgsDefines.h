@@ -9,6 +9,16 @@
 #ifndef AYServiceArgsDefines_h
 #define AYServiceArgsDefines_h
 
+//
+static NSString* const kAYVCBackArgsKey =					@"dongda_vc_backargs_key";
+static NSString* const kAYVCBackArgsKeyProfileUpdate =		@"dongda_vc_backargs_key_profileupdate";
+static NSString* const kAYVCBackArgsKeyCollectChange =		@"dongda_vc_backargs_key_collectchange";
+
+
+//defines args
+static NSString* const kAYDefineArgsCellNames =				@"cell_class_name_arr";
+
+
 //common args
 static NSString* const kAYCommArgsCondition =				@"condition";
 static NSString* const kAYCommArgsUserID =					@"user_id";
@@ -39,8 +49,23 @@ static NSString* const kAYProfileArgsDescription =			@"description";
 static NSString* const kAYProfileArgsRegistDate =			@"date";
 static NSString* const kAYProfileArgsIsHasPhone =			@"has_auth_phone";
 
+//brand args
+static NSString* const kAYBrandArgsSelf =					@"brand";
+static NSString* const kAYBrandArgsID =						@"brand_id";
+static NSString* const kAYBrandArgsName =					@"brand_name";
+static NSString* const kAYBrandArgsTag =					@"brand_tag";
+static NSString* const kAYBrandArgsAbout =					@"about_brand";
 
 //service args
+static NSString* const kAYServiceArgsType =					@"service_type";
+static NSString* const kAYServiceArgsOperation =			@"operation";
+static NSString* const kAYServiceArgsTags =					@"service_tags";
+static NSString* const kAYServiceArgsLeaf =					@"service_leaf";
+static NSString* const kAYServiceArgsLocationID =			@"location_id";
+static NSString* const kAYServiceArgsPunchline =			@"punchline";
+static NSString* const kAYServiceArgsLocationImages =		@"location_images";
+static NSString* const kAYServiceArgsAlbum =				@"album";
+
 static NSString* const kAYServiceArgsSelf =					@"service";
 static NSString* const kAYServiceArgsInfo =					@"service_info";
 static NSString* const kAYServiceArgsID =					@"service_id";
@@ -51,17 +76,20 @@ static NSString* const kAYServiceArgsChoiced =				@"selected";
 static NSString* const kAYServiceArgsTopCateg =				@"hotcate";
 
 static NSString* const kAYServiceArgsCategoryInfo =			@"category";
-static NSString* const kAYServiceArgsCat =					@"service_cat";
+static NSString* const kAYServiceArgsServiceTypeInfo =      @"service_type";
+static NSString* const kAYServiceArgsAlbumInfo =            @"album";
+static NSString* const kAYServiceArgsCat =					@"category";
 static NSString* const kAYServiceArgsCatSecondary =			@"cans_cat";
-static NSString* const kAYServiceArgsNurserySign =			@"cans";
 static NSString* const kAYServiceArgsCatThirdly =			@"cans";
 static NSString* const kAYServiceArgsConcert =				@"concert";
 static NSString* const kAYServiceArgsCourseCoustom =		@"concert";
 //static NSString* const kAYServiceArgsCourseCoustom =		@"reserve1";
 
-static NSString* const kAYServiceArgsImages =				@"images";
+static NSString* const kAYServiceArgsImages =				@"service_images";
+static NSString* const kAYServiceArgsImage =				@"service_image";
 static NSString* const kAYServiceArgsTitle =				@"title";
 static NSString* const kAYServiceArgsDescription =			@"description";
+static NSString* const kAYServiceArgsCharact =				@"characteristics";
 
 static NSString* const kAYServiceArgsTimes =				@"tms";
 static NSString* const kAYServiceArgsStartDate =			@"startdate";
@@ -77,14 +105,17 @@ static NSString* const kAYServiceArgsOccurance =			@"occurance";
 static NSString* const kAYServiceArgsStart =				@"start";
 static NSString* const kAYServiceArgsEnd =					@"end";
 
-
 static NSString* const kAYServiceArgsNotice =				@"other_words";
 static NSString* const kAYServiceArgsAllowLeave =			@"allow_leaves";
-static NSString* const kAYServiceArgsIsCollect =			@"isCollections";
+static NSString* const kAYServiceArgsIsHealth =				@"health";
+static NSString* const kAYServiceArgsIsCollect =			@"is_collected";
 static NSString* const kAYServiceArgsPoints =				@"points";
 
 static NSString* const kAYServiceArgsDetailInfo =			@"detail";
+static NSString* const kAYServiceArgsPriceArr =				@"price_arr";
 static NSString* const kAYServiceArgsPrice =				@"price";
+static NSString* const kAYServiceArgsPriceType =			@"price_type";
+static NSString* const kAYServiceArgsClassCount =			@"count_classes";
 static NSString* const kAYServiceArgsCourseduration =		@"lecture_length";
 static NSString* const kAYServiceArgsLeastHours =			@"least_hours";
 static NSString* const kAYServiceArgsLeastTimes =			@"least_times";
@@ -92,12 +123,18 @@ static NSString* const kAYServiceArgsLeastTimes =			@"least_times";
 static NSString* const kAYServiceArgsFacility =				@"facility";
 
 static NSString* const kAYServiceArgsLocationInfo =			@"location";
-static NSString* const kAYServiceArgsAddress =				@"address";
+static NSString* const kAYServiceArgsYardType =				@"location_type";
+static NSString* const kAYServiceArgsProvince =				@"province";
+static NSString* const kAYServiceArgsCity =					@"city";
 static NSString* const kAYServiceArgsDistrict =				@"district";
+static NSString* const kAYServiceArgsAddress =				@"address";
 static NSString* const kAYServiceArgsAdjustAddress =		@"adjust";
 static NSString* const kAYServiceArgsPin =					@"pin";
 static NSString* const kAYServiceArgsLatitude =				@"latitude";
 static NSString* const kAYServiceArgsLongtitude =			@"longitude";
+static NSString* const kAYServiceArgsYardImages =			@"loc_images";
+static NSString* const kAYServiceArgsPic =					@"pic";
+static NSString* const kAYServiceArgsTag =					@"tag";
 
 static NSString* const kAYServiceArgsAgeBoundary =			@"age_boundary";
 static NSString* const kAYServiceArgsAgeBoundaryUp =		@"usl";
@@ -106,7 +143,6 @@ static NSString* const kAYServiceArgsCapacity =				@"capacity";
 static NSString* const kAYServiceArgsServantNumb =			@"servant_no";
 
 static NSString* const kAYServiceArgsIsAdjustSKU =			@"is_adjust_SKU";
-//static NSString* const kAYServiceArgs =               @"screen_photo";
 //static NSString* const kAYServiceArgs =               @"screen_name";
 
 //timemanager args

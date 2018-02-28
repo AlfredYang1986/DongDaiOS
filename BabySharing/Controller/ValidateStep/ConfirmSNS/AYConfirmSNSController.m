@@ -58,14 +58,14 @@
     id<AYViewBase> view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
     [view_nav addSubview:(UIView*)view_title];
     
-    UILabel *title = [Tools creatUILabelWithText:@"确认社交账号" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:1];
+    UILabel *title = [Tools creatLabelWithText:@"确认社交账号" textColor:[Tools black] fontSize:16.f backgroundColor:nil textAlignment:1];
     [self.view addSubview:title];
     [title mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(160);
         make.centerX.equalTo(self.view);
     }];
     
-    UILabel *descLabel = [Tools creatUILabelWithText:@"链接您的社交账号\n完成我们的线上验证" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
+    UILabel *descLabel = [Tools creatLabelWithText:@"链接您的社交账号\n完成我们的线上验证" textColor:[Tools garyColor] fontSize:14.f backgroundColor:nil textAlignment:1];
     descLabel.numberOfLines = 2;
     [self.view addSubview:descLabel];
     [descLabel mas_makeConstraints:^(MASConstraintMaker *make) {

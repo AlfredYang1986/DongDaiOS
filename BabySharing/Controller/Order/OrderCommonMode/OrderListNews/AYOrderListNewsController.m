@@ -39,9 +39,9 @@
 	
 	id<AYDelegateBase> delegate = [self.delegates objectForKey:@"OrderListNews"];
 	id obj = (id)delegate;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDelegateMessage, &obj)
 	obj = (id)delegate;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDatasourceMessage, &obj)
 	
 	/****************************************/
 	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OSWaitCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
@@ -65,13 +65,13 @@
 
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
 	view.backgroundColor = [UIColor clearColor];
 	return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+	view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
 	view.backgroundColor = [UIColor clearColor];
 //	NSString *title = @"确认信息";
 //	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)

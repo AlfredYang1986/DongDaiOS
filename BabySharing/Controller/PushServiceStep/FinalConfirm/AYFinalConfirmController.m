@@ -32,7 +32,7 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:nil andTextColor:[Tools themeColor] andFontSize:624.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatLabelWithText:nil textColor:[Tools theme] fontSize:624.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	titleLabel.numberOfLines = 0;
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -48,8 +48,8 @@
 	[attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [titleStr length])];
 	titleLabel.attributedText = attributedString;
 	
-	UIButton* PushBtn = [Tools creatUIButtonWithTitle:@"确认发布" andTitleColor:[Tools whiteColor] andFontSize:316.f andBackgroundColor:[Tools themeColor]];
-	[Tools setViewBorder:PushBtn withRadius:25.f andBorderWidth:0 andBorderColor:0 andBackground:[Tools themeColor]];
+	UIButton* PushBtn = [Tools creatBtnWithTitle:@"确认发布" titleColor:[Tools whiteColor] fontSize:316.f backgroundColor:[Tools theme]];
+	[Tools setViewBorder:PushBtn withRadius:25.f andBorderWidth:0 andBorderColor:0 andBackground:[Tools theme]];
 	[self.view addSubview:PushBtn];
 	[PushBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(self.view);
@@ -71,12 +71,12 @@
 
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
 	return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+	view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
 	
 	UIImage* left = IMGRESOURCE(@"bar_left_theme");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
@@ -124,12 +124,13 @@
 					[dic setValue:[NSNumber numberWithBool:YES] forKey:kAYProfileArgsIsProvider];
 					[cmd performWithResult:&dic];
 					
-					AYViewController* compare = DEFAULTCONTROLLER(@"TabBarService");
-					BOOL isNap = [self.tabBarController isKindOfClass:[compare class]];
-					if (isNap) {
+					DongDaAppMode mode = [[[NSUserDefaults standardUserDefaults] valueForKey:kAYDongDaAppMode] intValue];
+					BOOL isServantMode = mode == DongDaAppModeServant;
+					if (isServantMode) {
 						[super tabBarVCSelectIndex:2];
 					} else {
-						[self exchangeWindowsWithDest:compare];
+						id<AYCommand> des = DEFAULTCONTROLLER(@"TabBarService");
+						[self exchangeWindowsWithDest:des];
 					}
 					
 				} else {
@@ -139,7 +140,7 @@
 				}
 			}];
 		} else {
-			NSString *title = @"图片上传失败,请改善网络环境并重试";
+			NSString *title = @"图片上传失败,网络不通畅，换个地方试试";
 			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 		}
 	}];

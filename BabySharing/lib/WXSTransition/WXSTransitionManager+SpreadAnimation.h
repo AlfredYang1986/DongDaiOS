@@ -8,12 +8,7 @@
 
 #import "WXSTransitionManager.h"
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 100000
-@interface  WXSTransitionManager (SpreadAnimation) <CAAnimationDelegate>
-#else
-@interface  WXSTransitionManager (SpreadAnimation)
-#endif
-//@interface  WXSTransitionManager (SpreadAnimation) <CAAnimationDelegate>
+@interface  WXSTransitionManager (SpreadAnimation)<CAAnimationDelegate>
 - (void)spreadNextWithType:(WXSTransitionAnimationType)type andTransitonContext:(id<UIViewControllerContextTransitioning>)transitionContext;
 - (void)spreadBackWithType:(WXSTransitionAnimationType)type andTransitonContext:(id<UIViewControllerContextTransitioning>)transitionContext;
 - (void)pointSpreadNextWithContext:(id<UIViewControllerContextTransitioning>)transitionContext;

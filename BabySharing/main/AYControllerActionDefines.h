@@ -38,4 +38,7 @@ static NSString* const kAYControllerSplitHeightKey = @"controller split height k
 static NSString* const kAYControllerSplitTopImgKey = @"controller split top img";
 static NSString* const kAYControllerSplitBtmImgKey = @"controller split btm img";
 
+
+static NSString* const kAYControllerImgForFrameKey = @"img_for_frame";
+
 #endif /* AYControllerAcitionDefines_h */

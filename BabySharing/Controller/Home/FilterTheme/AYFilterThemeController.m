@@ -60,7 +60,7 @@
 	id tmp = [filterInfo copy];
 	kAYDelegatesSendMessage(@"FilterTheme", kAYDelegateChangeDataMessage, &tmp)
 	
-	UIButton *doFilterBtn = [Tools creatUIButtonWithTitle:@"查看" andTitleColor:[Tools whiteColor] andFontSize:320.f andBackgroundColor:[Tools themeColor]];
+	UIButton *doFilterBtn = [Tools creatBtnWithTitle:@"查看" titleColor:[Tools whiteColor] fontSize:320.f backgroundColor:[Tools theme]];
 	[self.view addSubview:doFilterBtn];
 	[doFilterBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.bottom.equalTo(self.view);
@@ -83,17 +83,17 @@
 
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
 	return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+	view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
 	
 	UIImage *left = IMGRESOURCE(@"content_close");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
 	
-	UIButton *right = [Tools creatUIButtonWithTitle:@"重置" andTitleColor:[Tools themeColor] andFontSize:316.f andBackgroundColor:nil];
+	UIButton *right = [Tools creatBtnWithTitle:@"重置" titleColor:[Tools theme] fontSize:316.f backgroundColor:nil];
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &right)
 	
 //	NSNumber *is_hidden = [NSNumber numberWithBool:YES];

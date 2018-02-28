@@ -6,7 +6,7 @@
 //  Copyright © 2017年 Alfred Yang. All rights reserved.
 //
 
-#import "AYRemoteCallQueryCommand.h"
+#import "AYRemoteCallCommand.h"
 
 @interface AYChoicePushCommand : AYRemoteCallCommand
 

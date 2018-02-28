@@ -15,7 +15,7 @@
 #import "AYRemoteCallCommand.h"
 #import "AYRemoteCallDefines.h"
 
-@implementation AYCollectServController{
+@implementation AYCollectServController {
     
     UILabel *tipsLabel;
 	NSMutableArray *resultArr;
@@ -31,33 +31,31 @@
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-		id backArgs = [dic objectForKey:kAYControllerChangeArgsKey];
+		NSDictionary *backArgs = [dic objectForKey:kAYControllerChangeArgsKey];
+		NSString *key = [backArgs objectForKey:kAYVCBackArgsKey];
 		
-		if ([backArgs isKindOfClass:[NSString class]]) {
-			//			NSString *title = (NSString*)backArgs;
-			//			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-		}
-		else if ([backArgs isKindOfClass:[NSDictionary class]]) {
-			NSString *key = [backArgs objectForKey:@"key"];
-			if ([key isEqualToString:@"is_change_collect"]) {
-				id service_info = [backArgs objectForKey:@"args"];
-				NSString *service_id = [service_info objectForKey:kAYServiceArgsID];
-				
-				NSPredicate *pre_id = [NSPredicate predicateWithFormat:@"self.%@=%@", kAYServiceArgsID, service_id];
-				NSArray *result = [resultArr filteredArrayUsingPredicate:pre_id];
-				if (result.count == 1) {
-					NSInteger index = [resultArr indexOfObject:result.firstObject];
-					[resultArr removeObject:result.firstObject];
-					id tmp = [resultArr copy];
-					kAYDelegatesSendMessage(@"CollectServ", kAYDelegateChangeDataMessage, &tmp)
-					UITableView *view_table = [self.views objectForKey:kAYTableView];
-//					[view_table reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-					[view_table deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
-					
-				}
-			}
+		if ([key isEqualToString:kAYVCBackArgsKeyCollectChange]) {
+			id service_info = [backArgs objectForKey:kAYServiceArgsInfo];
+			NSString *service_id = [service_info objectForKey:kAYServiceArgsID];
 			
+			NSPredicate *pre_id = [NSPredicate predicateWithFormat:@"self.%@=%@", kAYServiceArgsID, service_id];
+			NSArray *result = [resultArr filteredArrayUsingPredicate:pre_id];
+			if (result.count == 1) {
+				NSNumber *is_collect = [backArgs objectForKey:kAYServiceArgsIsCollect];
+				[result.firstObject setValue:is_collect forKey:kAYServiceArgsIsCollect];
+				NSInteger index = [resultArr indexOfObject:result.firstObject];
+				[resultArr removeObject:result.firstObject];
+				id tmp = [resultArr copy];
+				kAYDelegatesSendMessage(@"CollectServ", kAYDelegateChangeDataMessage, &tmp)
+				UITableView *view_table = [self.views objectForKey:kAYTableView];
+				
+				if (!is_collect.boolValue) {
+					[view_table deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
+				}
+				
+			}
 		}
+		
     }
 }
 
@@ -65,10 +63,6 @@
     [super viewDidLoad];
 	
 	resultArr = [NSMutableArray array];
-    
-    UIView* view_nav = [self.views objectForKey:@"FakeNavBar"];
-    id<AYViewBase> view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
-    [view_nav addSubview:(UIView*)view_title];
     
     id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
     id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
@@ -82,19 +76,20 @@
     [cmd_delegate performWithResult:&obj];
     
     id<AYCommand> cmd_search = [view_table.commands objectForKey:@"registerCellWithClass:"];
-    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeServPerCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NursaryListCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_search performWithResult:&class_name];
     
     UITableView *tableView = (UITableView*)view_table;
-    tipsLabel = [Tools creatUILabelWithText:@"您还没有收藏过服务" andTextColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    tipsLabel = [Tools creatLabelWithText:@"您还没有收藏过服务" textColor:[Tools garyColor] fontSize:16.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
     [tableView addSubview:tipsLabel];
     [tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(tableView).offset(20);
         make.top.equalTo(tableView).offset(60);
+//        make.left.equalTo(tableView).offset(20);
+		make.centerX.equalTo(tableView);
     }];
     tipsLabel.hidden = YES;
     
-    tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+    tableView.mj_header = [MXSRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
     [self loadNewData];
 }
 
@@ -108,12 +103,12 @@
 
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+    view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
     
     NSString *title = @"我心仪的服务";
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
@@ -128,7 +123,7 @@
 }
 
 - (id)TableLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 64 , SCREEN_WIDTH, SCREEN_HEIGHT - 64);
+    view.frame = CGRectMake(0, kStatusAndNavBarH , SCREEN_WIDTH, SCREEN_HEIGHT - 64);
     return nil;
 }
 
@@ -137,7 +132,7 @@
     
     NSDictionary* user = nil;
     CURRENUSER(user)
-    NSMutableDictionary *dic = [Tools getBaseRemoteData];
+	NSMutableDictionary *dic = [Tools getBaseRemoteData:user];
     [[dic objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:@"user_id"] forKey:@"user_id"];
     
     id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
@@ -145,7 +140,7 @@
     [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
             
-            NSArray *data = [[result objectForKey:@"result"] objectForKey:@"services"];
+            NSArray *data = [result objectForKey:@"services"];
 			resultArr = [data mutableCopy];
             if (data.count == 0) {
                 tipsLabel.hidden = NO;

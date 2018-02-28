@@ -39,11 +39,12 @@
         
         if ([transitionContext transitionWasCancelled]) {
             [tempView removeFromSuperview];
-            fromVC.view.hidden = NO;
+         
             [transitionContext completeTransition:NO];
         }else{
             [transitionContext completeTransition:YES];
         }
+       fromVC.view.hidden = NO;
     }];
     
 }
@@ -54,7 +55,10 @@
     
     UIView *containerView = [transitionContext containerView];
     UIView *tempView = containerView.subviews.lastObject;
+    tempView.hidden = NO;
     [containerView addSubview:toVC.view];
+    
+    toVC.view.hidden = YES;
     
     [UIView animateWithDuration:self.animationTime animations:^{
         tempView.layer.transform = CATransform3DIdentity;
@@ -71,13 +75,16 @@
             toVC.view.alpha = 1;
         }
     }];
+    
+    __weak UIViewController * weakToVC = toVC;
+    __weak UIViewController * weakFromVC = fromVC;
     self.willEndInteractiveBlock = ^(BOOL success) {
         if (success) {
-            [tempView removeFromSuperview];
-            toVC.view.hidden = NO;
-            toVC.view.alpha = 1;
+            weakToVC.view.hidden = NO;
+            weakToVC.view.alpha = 1;
         }else{
-            fromVC.view.alpha = 1;
+            tempView.hidden = YES;
+            weakFromVC.view.alpha = 1;
         }
     };
     

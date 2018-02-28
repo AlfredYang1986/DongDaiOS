@@ -70,7 +70,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [Tools whiteColor];
     
-    UILabel *tips = [Tools creatUILabelWithText:@"恭喜您！认证成功" andTextColor:[Tools blackColor] andFontSize:320.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    UILabel *tips = [Tools creatLabelWithText:@"恭喜您！认证成功" textColor:[Tools black] fontSize:320.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
     [self.view addSubview:tips];
     [tips mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(SCREEN_HEIGHT * 190/667);
@@ -84,8 +84,8 @@
 //        make.centerX.equalTo(tips);
 //    }];
 	
-    UIButton *pushBtn = [Tools creatUIButtonWithTitle:@"去发布服务" andTitleColor:[Tools whiteColor] andFontSize:318.f andBackgroundColor:[Tools themeColor]];
-	[Tools setViewBorder:pushBtn withRadius:22.5f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
+    UIButton *pushBtn = [Tools creatBtnWithTitle:@"去发布服务" titleColor:[Tools whiteColor] fontSize:318.f backgroundColor:[Tools theme]];
+	[Tools setViewBorder:pushBtn withRadius:22.5f andBorderWidth:0 andBorderColor:nil andBackground:[Tools theme]];
     [self.view addSubview:pushBtn];
     [pushBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(tips);
@@ -103,13 +103,13 @@
 
 #pragma mark -- layout
 - (id)FakeStatusBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
     view.backgroundColor = [UIColor clearColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
+    view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
     view.backgroundColor = [UIColor clearColor];
 	
 	UIImage* left = IMGRESOURCE(@"content_close");

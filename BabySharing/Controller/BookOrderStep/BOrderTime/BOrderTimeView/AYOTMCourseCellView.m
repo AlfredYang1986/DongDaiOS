@@ -52,28 +52,28 @@
 			make.height.equalTo(@65);
 		}];
 		
-		UILabel *startTitleLabel = [Tools creatUILabelWithText:@"开始时间" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
+		UILabel *startTitleLabel = [Tools creatLabelWithText:@"开始时间" textColor:[Tools theme] fontSize:14.f backgroundColor:nil textAlignment:1];
 		[timeDivView addSubview:startTitleLabel];
 		[startTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(timeDivView).offset(25);
 			make.top.equalTo(timeDivView).offset(4);
 		}];
 		
-		UILabel *endTitleLabel = [Tools creatUILabelWithText:@"结束时间" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
+		UILabel *endTitleLabel = [Tools creatLabelWithText:@"结束时间" textColor:[Tools theme] fontSize:14.f backgroundColor:nil textAlignment:1];
 		[timeDivView addSubview:endTitleLabel];
 		[endTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.right.equalTo(timeDivView).offset(-25);
 			make.centerY.equalTo(startTitleLabel);
 		}];
 		
-		startLabel = [Tools creatUILabelWithText:@"the start" andTextColor:[Tools themeColor] andFontSize:20.f andBackgroundColor:nil andTextAlignment:1];
+		startLabel = [Tools creatLabelWithText:@"the start" textColor:[Tools theme] fontSize:20.f backgroundColor:nil textAlignment:1];
 		[timeDivView addSubview:startLabel];
 		[startLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(startTitleLabel);
 			make.top.equalTo(timeDivView).offset(30);
 		}];
 		
-		endLabel = [Tools creatUILabelWithText:@"the end" andTextColor:[Tools themeColor] andFontSize:20.f andBackgroundColor:nil andTextAlignment:1];
+		endLabel = [Tools creatLabelWithText:@"the end" textColor:[Tools theme] fontSize:20.f backgroundColor:nil textAlignment:1];
 		[timeDivView addSubview:endLabel];
 		[endLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(endTitleLabel);
@@ -81,7 +81,7 @@
 		}];
 		
 		UIView *toIconView = [[UIView alloc] init];
-		toIconView.backgroundColor = [Tools themeColor];
+		toIconView.backgroundColor = [Tools theme];
 		[timeDivView addSubview:toIconView];
 		[toIconView mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(timeDivView);

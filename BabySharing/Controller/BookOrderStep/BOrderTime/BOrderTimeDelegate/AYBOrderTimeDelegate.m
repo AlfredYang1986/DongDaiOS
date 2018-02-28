@@ -196,7 +196,7 @@
 		UICollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"AYDayCollectionHeader" forIndexPath:indexPath];
 		UILabel *label = [headerView viewWithTag:119];
 		if (label == nil) {
-			label = [Tools creatUILabelWithText:nil andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+			label = [Tools creatLabelWithText:nil textColor:[Tools black] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 			label.tag = 119;
 			[headerView addSubview:label];
 			[label mas_makeConstraints:^(MASConstraintMaker *make) {

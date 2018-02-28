@@ -89,10 +89,10 @@
 //    [cmd_nib performWithResult:&nib_contact_name];
 //    /****************************************/
     
-    UIButton *applyBtn = [Tools creatUIButtonWithTitle:@"提交" andTitleColor:[Tools whiteColor] andFontSize:316.f andBackgroundColor:[Tools themeColor]];
+    UIButton *applyBtn = [Tools creatBtnWithTitle:@"提交" titleColor:[Tools whiteColor] fontSize:316.f backgroundColor:[Tools theme]];
     [self.view addSubview:applyBtn];
     [applyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view);
+        make.bottom.equalTo(self.view).offset( - HOME_IND_HEIGHT);
         make.centerX.equalTo(self.view);
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 49));
     }];
@@ -110,12 +110,12 @@
 
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+    view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
 	
     NSString *title = @"订单详情";
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
@@ -130,7 +130,7 @@
 }
 
 - (id)TableLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49);
+    view.frame = CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH - kTabBarH - HOME_IND_HEIGHT);
     return nil;
 }
 
@@ -197,7 +197,7 @@
 			
 		} else {
 			
-			NSString *title = @"预订申请失败\n请改善网络环境并重试";
+			NSString *title = @"预订申请失败\n网络不通畅，换个地方试试";
 			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 		}
 	}];

@@ -113,7 +113,7 @@
 		OTMSet = [[NSMutableDictionary alloc] init];
 	}
 	
-	dateShowLabel = [Tools creatUILabelWithText:@"选择日期" andTextColor:[Tools whiteColor] andFontSize:13.f andBackgroundColor:[Tools themeColor] andTextAlignment:NSTextAlignmentCenter];
+	dateShowLabel = [Tools creatLabelWithText:@"选择日期" textColor:[Tools whiteColor] fontSize:13.f backgroundColor:[Tools theme] textAlignment:NSTextAlignmentCenter];
 	[self.view addSubview:dateShowLabel];
 	[dateShowLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(self.view);
@@ -123,7 +123,7 @@
 	
 	NSArray *weekdayTitle = @[@"周日", @"周一", @"周二", @"周三", @"周四", @"周五", @"周六"];
 	for (int i = 0; i < weekdayTitle.count; ++i) {
-		UILabel *itemLabel = [Tools creatUILabelWithText:[weekdayTitle objectAtIndex:i] andTextColor:[Tools blackColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		UILabel *itemLabel = [Tools creatLabelWithText:[weekdayTitle objectAtIndex:i] textColor:[Tools black] fontSize:311.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 		[self.view addSubview:itemLabel];
 		[itemLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(dateShowLabel.mas_bottom).offset(20);
@@ -187,13 +187,14 @@
 		kAYDelegatesSendMessage(@"BOTimeTable", @"setDelegateType:", &t)
 	}
 	
-	certainBtn = [Tools creatUIButtonWithTitle:@"申请预订" andTitleColor:[Tools whiteColor] andFontSize:318.f andBackgroundColor:[Tools disableBackgroundColor]];
+	certainBtn = [Tools creatBtnWithTitle:@"申请预订" titleColor:[Tools whiteColor] fontSize:318.f backgroundColor:[Tools disableBackgroundColor]];
 	[self.view addSubview:certainBtn];
 	[certainBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.bottom.equalTo(self.view);
+		make.bottom.equalTo(self.view).offset( -HOME_IND_HEIGHT);
 		make.centerX.equalTo(self.view);
-		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kBotButtonH));
+		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, BOTTOM_HEIGHT));
 	}];
+	certainBtn.enabled = NO;
 	[certainBtn addTarget:self action:@selector(didCertainBtnnClick) forControlEvents:UIControlEventTouchUpInside];
 	
 	UIView* picker = [self.views objectForKey:@"Picker"];
@@ -202,14 +203,14 @@
 
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
-	view.backgroundColor = [Tools themeColor];
+	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
+	view.backgroundColor = [Tools theme];
 	return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
-	view.backgroundColor = [Tools themeColor];
+	view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
+	view.backgroundColor = [Tools theme];
 	
 	UIImage *left = IMGRESOURCE(@"bar_left_white");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
@@ -226,7 +227,7 @@
 }
 
 - (id)CollectionVerLayout:(UIView*)view {
-	view.frame = CGRectMake(0, kStatusAndNavBarH + 40 + 40, SCREEN_WIDTH - screenPadding * 2, SCREEN_HEIGHT - kStatusAndNavBarH - 40 - 40 - kBotButtonH);
+	view.frame = CGRectMake(0, kStatusAndNavBarH + 40 + 40, SCREEN_WIDTH - screenPadding * 2, SCREEN_HEIGHT - kStatusAndNavBarH - 40 - 40 - BOTTOM_HEIGHT - HOME_IND_HEIGHT);
 	view.backgroundColor = [UIColor clearColor];
 	((UICollectionView*)view).allowsMultipleSelection = YES;
 	return nil;
@@ -234,11 +235,11 @@
 
 - (id)TableLayout:(UIView*)view {
 	view.backgroundColor = [Tools garyBackgroundColor];
-	view.frame = CGRectMake(0, SCREEN_HEIGHT - kBotButtonH, SCREEN_WIDTH, 0);
+	view.frame = CGRectMake(0, SCREEN_HEIGHT - BOTTOM_HEIGHT - HOME_IND_HEIGHT, SCREEN_WIDTH, 0);
 		
 	if ([serviceCat isEqualToString:kAYStringCourse]) {
 		UIView *libgView = [[UIView alloc] initWithFrame:CGRectMake(26.5, 0, 1.f, 736)];
-		libgView.backgroundColor = [Tools themeColor];
+		libgView.backgroundColor = [Tools theme];
 		[view addSubview:libgView];
 		[view sendSubviewToBack:libgView];
 	}
@@ -308,7 +309,6 @@
 		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 		return;
 	}
-	
 	
 	NSNumber *leastNode;
 	NSArray *order_times = [self transDicWithOTMDictionary:nil];
@@ -402,7 +402,7 @@
 		}
 		
 		if (isContainsSet) {
-			certainBtn.backgroundColor = [Tools themeColor];
+			certainBtn.backgroundColor = [Tools theme];
 			certainBtn.enabled = YES;
 		} else {
 			//没有数据，btn不可用
@@ -410,7 +410,7 @@
 			certainBtn.enabled = NO;
 		}
 	} else {
-		certainBtn.backgroundColor = [Tools themeColor];
+		certainBtn.backgroundColor = [Tools theme];
 		certainBtn.enabled = YES;
 	}
 }
@@ -534,7 +534,7 @@
 	 */
 	[UIView animateWithDuration:0.25 animations:^{
 		view_collection.frame = CGRectMake(0, kStatusAndNavBarH + 40 + 40, SCREEN_WIDTH - screenPadding * 2, transHeight);
-		view_table.frame = CGRectMake(0, kStatusAndNavBarH + 40 + 40 + transHeight, SCREEN_WIDTH, SCREEN_HEIGHT - (kStatusAndNavBarH + 40 + 40 + transHeight + kBotButtonH));
+		view_table.frame = CGRectMake(0, kStatusAndNavBarH + 40 + 40 + transHeight, SCREEN_WIDTH, SCREEN_HEIGHT - (kStatusAndNavBarH + 40 + 40 + transHeight + BOTTOM_HEIGHT - HOME_IND_HEIGHT));
 	} completion:^(BOOL finished) {
 		isAnimateCompletion = YES;
 	}];
@@ -549,8 +549,8 @@
 		UITableView *view_table = [self.views objectForKey:kAYTableView];
 		UICollectionView *view_collection = [self.views objectForKey:@"CollectionVer"];
 		[UIView animateWithDuration:0.25 animations:^{
-			view_collection.frame = CGRectMake(0, kStatusAndNavBarH + 40 + 40, SCREEN_WIDTH - screenPadding * 2, SCREEN_HEIGHT - kStatusAndNavBarH - 40 - 40 - kBotButtonH);
-			view_table.frame = CGRectMake(0, SCREEN_HEIGHT - kBotButtonH, SCREEN_WIDTH, 0);
+			view_collection.frame = CGRectMake(0, kStatusAndNavBarH + 40 + 40, SCREEN_WIDTH - screenPadding * 2, SCREEN_HEIGHT - kStatusAndNavBarH - 40 - 40 - BOTTOM_HEIGHT - HOME_IND_HEIGHT);
+			view_table.frame = CGRectMake(0, SCREEN_HEIGHT - BOTTOM_HEIGHT - HOME_IND_HEIGHT, SCREEN_WIDTH, 0);
 		}];
 	}
 	return nil;

@@ -64,9 +64,9 @@
 	
 	id<AYDelegateBase> delegate = [self.delegates objectForKey:@"OrderServant"];
 	id obj = (id)delegate;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDelegateMessage, &obj)
 	obj = (id)delegate;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDatasourceMessage, &obj)
 	
 	/****************************************/
 	NSString *class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"TodoApplyCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
@@ -82,12 +82,12 @@
 
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
 	return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+	view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
 	return nil;
 }
 
@@ -116,7 +116,7 @@
 	
 	NSMutableDictionary *dic_query = [Tools getBaseRemoteData];
 	[[dic_query objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsOwnerID];
-	[[dic_query objectForKey:kAYCommArgsCondition] setValue:[NSNumber numberWithDouble:([NSDate date].timeIntervalSince1970 * 1000)] forKey:@"date"];
+	[[dic_query objectForKey:kAYCommArgsCondition] setValue:[NSNumber numberWithLongLong:([NSDate date].timeIntervalSince1970 * 1000)] forKey:@"date"];
 	
 	[dic_query setValue:[NSNumber numberWithInteger:skipCount] forKey:kAYCommArgsRemoteDataSkip];
 	[dic_query setValue:[NSNumber numberWithInt:20] forKey:@"take"];
@@ -175,7 +175,13 @@
 			[view_table reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
 			//			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 		} else {
-			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
+			NSString *message = [result objectForKey:@"message"];
+			if([message isEqualToString:@"token过期"]) {
+				NSString *tip = @"当前用户登录实效已过期，请重新登录";
+				AYShowBtmAlertView(tip, BtmAlertViewTypeHideWithTimer)
+			} else {
+				AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
+			}
 		}
 	}];
 }

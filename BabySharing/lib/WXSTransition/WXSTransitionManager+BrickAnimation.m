@@ -142,14 +142,18 @@
         
     }];
     
+    
+    __weak UIViewController *weakToVC = toVC;
+    
     self.willEndInteractiveBlock = ^(BOOL sucess) {
         if (sucess) {
-            toVC.view.hidden = NO;
+            weakToVC.view.hidden = NO;
             
         }else{
-            toVC.view.hidden = YES;
+            weakToVC.view.hidden = YES;
         }
-        
+        [imgView0 removeFromSuperview];
+        [imgView1 removeFromSuperview];
     };
 
 }
@@ -222,8 +226,8 @@
 }
 - (void)brickCloseBackWithType:(WXSTransitionAnimationType)type andTransitionContext:(id<UIViewControllerContextTransitioning>)transitionContext{
     
-    UIViewController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-    UIViewController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    __weak UIViewController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    __weak UIViewController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     UIView *containView = [transitionContext containerView];
     
     
@@ -284,7 +288,12 @@
         toVC.view.hidden = NO;
         [imgView0 removeFromSuperview];
         [imgView1 removeFromSuperview];
+        
+
     }];
+    
+    
+    __weak UIViewController *weakToVC = toVC;
     
     self.willEndInteractiveBlock = ^(BOOL sucess) {
         if (sucess) {
@@ -292,24 +301,26 @@
             [imgView1 removeFromSuperview];
             
         }else{
-            toVC.view.hidden = YES;
+            weakToVC.view.hidden = YES;
         }
+        [imgView0 removeFromSuperview];
+        [imgView1 removeFromSuperview];
         
     };
 }
 
-- (UIImage *)imageFromView: (UIView *)view atFrame:(CGRect)rect{
-    
-    UIGraphicsBeginImageContext(view.frame.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSaveGState(context);
-    UIRectClip(rect);
-    [view.layer renderInContext:context];
-    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return  theImage;
-    
-}
+//- (UIImage *)imageFromView: (UIView *)view atFrame:(CGRect)rect{
+//    
+//    UIGraphicsBeginImageContext(view.frame.size);
+//    CGContextRef context = UIGraphicsGetCurrentContext();
+//    CGContextSaveGState(context);
+//    UIRectClip(rect);
+//    [view.layer renderInContext:context];
+//    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//    return  theImage;
+//    
+//}
 
 
 @end

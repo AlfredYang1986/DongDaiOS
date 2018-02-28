@@ -20,6 +20,7 @@ static NSString* const kAYCollectionVerView =					@"CollectionVer";
 static NSString* const kAYDongDaSegVerView =					@"DongDaSeg";
 static NSString* const kAYMapViewView =							@"MapView";
 
+static NSString* const kValidatingView = 						@"Validating";
 //FakeNavBar
 static NSString* const kAYNavBarSetTitleMessage =				@"setTitleText:";
 static NSString* const kAYNavBarSetTitleColorMessage =			@"setTitleTextColor:";
@@ -31,9 +32,10 @@ static NSString* const kAYNavBarSetRightBtnVisibilityMessage =  @"setRightBtnVis
 static NSString* const kAYNavBarSetBarBotLineMessage =          @"setBarBotLine";
 static NSString* const kAYNavBarHideBarBotLineMessage =			@"hideBarBotLine";
 
-//Table
-static NSString* const kAYTableRegisterDatasourceMessage =      @"registerDatasource:";
-static NSString* const kAYTableRegisterDelegateMessage =        @"registerDelegate:";
+//Table/Collection View
+static NSString* const kAYTCViewRegisterDatasourceMessage =		@"registerDatasource:";
+static NSString* const kAYTCViewRegisterDelegateMessage =		@"registerDelegate:";
+static NSString* const kAYTCViewRegisterDatasourseDelegateMsg =		@"registerDatasourceDelegate:";
 static NSString* const kAYTableRegisterCellWithClassMessage =   @"registerCellWithClass:";
 static NSString* const kAYTableRegisterCellWithNibMessage =     @"registerCellWithNib:";
 static NSString* const kAYTableRefreshMessage =                 @"refresh";
@@ -47,7 +49,7 @@ static NSString* const kAYPickerRegisterDelegateMessage =		@"registerDelegate:";
 static NSString* const kAYDelegateChangeDataMessage =			@"changeQueryData:";
 
 //Cell common message
-static NSString* const kAYCellSetCellInfoMessage =				@"setCellInfo:";
+static NSString* const kAYCellSetInfoMessage =					@"setCellInfo:";
 
 #pragma mark -- VC中的views发消息 / 发通知
 #define kAYViewsSendMessage(VIEW,MESSAGE,ARGS)              {\

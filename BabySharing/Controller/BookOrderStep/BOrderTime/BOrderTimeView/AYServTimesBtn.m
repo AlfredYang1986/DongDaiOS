@@ -37,14 +37,14 @@
 		
 		normalBg = [[UIView alloc]init];
 		[Tools creatCALayerWithFrame:CGRectMake(0, 0, itemWidth - 1, height) andColor:[Tools garyBackgroundColor] inSuperView:normalBg];
-		[Tools creatCALayerWithFrame:CGRectMake(0, 0, itemWidth - 1, 3) andColor:[Tools themeColor] inSuperView:normalBg];
+		[Tools creatCALayerWithFrame:CGRectMake(0, 0, itemWidth - 1, 3) andColor:[Tools theme] inSuperView:normalBg];
 		[self addSubview:normalBg];
 		[normalBg mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.edges.equalTo(self).insets(UIEdgeInsetsMake(0, 0, 0, -1));
 		}];
 		
 		selectedBg = [[UIView alloc]init];
-		[Tools creatCALayerWithFrame:CGRectMake(0, 0, itemWidth - 1, height) andColor:[Tools themeColor] inSuperView:selectedBg];
+		[Tools creatCALayerWithFrame:CGRectMake(0, 0, itemWidth - 1, height) andColor:[Tools theme] inSuperView:selectedBg];
 		[self addSubview:selectedBg];
 		[selectedBg mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.edges.equalTo(normalBg);
@@ -59,7 +59,7 @@
 		[tmp insertString:@":" atIndex:tmp.length - 2];
 		
 //		topTitle = [Tools creatUILabelWithText:[tmp stringByAppendingString:@"开始"] andTextColor:[Tools themeColor] andFontSize:TitleFontSize andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		topTitle = [Tools creatUILabelWithText:tmp andTextColor:[Tools themeColor] andFontSize:TitleFontSize andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		topTitle = [Tools creatLabelWithText:tmp textColor:[Tools theme] fontSize:TitleFontSize backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:topTitle];
 		[topTitle mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(self).offset(3);
@@ -70,7 +70,7 @@
 		[tmp insertString:@":" atIndex:tmp.length - 2];
 		
 //		btmtitle = [Tools creatUILabelWithText:[tmp stringByAppendingString:@"结束"] andTextColor:[Tools themeColor] andFontSize:TitleFontSize andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		btmtitle = [Tools creatUILabelWithText:tmp andTextColor:[Tools themeColor] andFontSize:TitleFontSize andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		btmtitle = [Tools creatLabelWithText:tmp textColor:[Tools theme] fontSize:TitleFontSize backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:btmtitle];
 		[btmtitle mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.bottom.equalTo(self);
@@ -91,7 +91,7 @@
 		normalBg.hidden = YES;
 	} else {
 		
-		topTitle.textColor = btmtitle.textColor = [Tools themeColor];
+		topTitle.textColor = btmtitle.textColor = [Tools theme];
 		selectedBg.hidden = YES;
 		normalBg.hidden = NO;
 	}

@@ -32,7 +32,7 @@
 		self.clipsToBounds = YES;
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		
-		titleLabel = [Tools creatUILabelWithText:@"取消预订申请" andTextColor:[Tools garyColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		titleLabel = [Tools creatLabelWithText:@"取消预订申请" textColor:[Tools garyColor] fontSize:13.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self);

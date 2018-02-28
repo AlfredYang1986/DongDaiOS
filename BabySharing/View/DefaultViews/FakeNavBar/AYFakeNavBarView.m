@@ -29,9 +29,9 @@
         [self addSubview:leftBtn];
         [leftBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self);
-            make.left.equalTo(self.mas_left).offset(10.5f);
-            make.width.equalTo(@30);
-            make.height.equalTo(@30);
+            make.left.equalTo(self).offset(-4);
+            make.width.equalTo(@36);
+            make.height.equalTo(@36);
         }];
 		
 		[leftBtn addTarget:self action:@selector(didSelectLeftBtn) forControlEvents:UIControlEventTouchUpInside];
@@ -51,7 +51,7 @@
 		[rightBtn addTarget:self action:@selector(didSelectRightBtn) forControlEvents:UIControlEventTouchUpInside];
     }
 	
-	titleView = [Tools creatUILabelWithText:@"" andTextColor:[Tools blackColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	titleView = [Tools creatLabelWithText:@"" textColor:[Tools black] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	[self addSubview:titleView];
 	[titleView mas_remakeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(self);
@@ -70,7 +70,7 @@
 	}];
 	BotLine.hidden = YES;
 	
-    self.backgroundColor = [UIColor clearColor];
+    self.backgroundColor = [UIColor colorWithRED:250 GREEN:250 BLUE:250 ALPHA:1];
 }
 
 - (void)performWithResult:(NSObject**)obj {

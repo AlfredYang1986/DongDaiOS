@@ -22,6 +22,10 @@
 #import "EMSDK.h"
 #import "EMError.h"
 
+#import "RemoteInstance.h"
+#import "AYViewController.h"
+#import "AYRemoteCallCommand.h"
+
 static NSString* const kAYEMAppKey = @"blackmirror#dongda";
 
 @interface AppDelegate ()
@@ -34,9 +38,8 @@ static NSString* const kAYEMAppKey = @"blackmirror#dongda";
     
     // Override point for customization after application launch.
     NSLog(@"项目路径 ======= %@", [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject]);
-
-    [NSThread sleepForTimeInterval:2.5f];
-    
+//    [NSThread sleepForTimeInterval:2.f];
+	
     EMOptions *options = [EMOptions optionsWithAppkey:kAYEMAppKey];
     //    options.apnsCertName = @"istore_dev";
     EMError* error = [[EMClient sharedClient] initializeSDKWithOptions:options];
@@ -45,54 +48,43 @@ static NSString* const kAYEMAppKey = @"blackmirror#dongda";
         @throw [[NSException alloc]initWithName:@"error" reason:@"register EM Error" userInfo:nil];
     }
 	
-	/**
-	 * create dongda model
-	 */
 	id<AYCommand> model = MODEL;
 	[model postPerform];
 	
-	/**
-	 * apn notification factory
-	 */
 	id<AYCommand> apn = COMMAND(kAYFactoryManagerCommandTypeAPN, kAYFactoryManagerCommandTypeAPN);
 	[apn performWithResult:nil];
-    
+	
 	CGRect screenBounds = [[UIScreen mainScreen] bounds];
 	
-	NSDictionary *infoDic=[[NSBundle mainBundle] infoDictionary];
-	NSString *app_Version = [infoDic objectForKey:@"CFBundleShortVersionString"];
+	//	NSDictionary *infoDic=[[NSBundle mainBundle] infoDictionary];
+	//	NSString *app_Version = [infoDic objectForKey:@"CFBundleShortVersionString"];
+	//	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	//	NSString *note_version = [defaults objectForKey:kAYDongDaAppVersion];
+	//	if (![app_Version isEqualToString:note_version]) {
+	//		NSLog(@"%@", app_Version);
+	//		AYViewController* rootVC = DEFAULTCONTROLLER(@"NewVersionNav");
+	//
+	//		self.window = [[UIWindow alloc] initWithFrame:screenBounds];
+	//		[self.window makeKeyAndVisible];
+	//		self.window.rootViewController = rootVC;
+	//
+	//	} else {
+	////		id<AYCommand> cmd_home_init = COMMAND(@"HomeInit", @"HomeInit");
+	////		AYViewController* rootContorller = nil;
+	////		[cmd_home_init performWithResult:&rootContorller];
+	//
+	//	}
 	
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	NSString *note_version = [defaults objectForKey:@"dongda_app_version"];
+	id<AYCommand> cmd = COMMAND(kAYFactoryManagerCommandTypeInit, kAYFactoryManagerCommandTypeInit);
+	AYViewController* controller = nil;
+	[cmd performWithResult:&controller];
 	
-	if (![app_Version isEqualToString:note_version]) {
-		NSLog(@"%@", app_Version);
-		AYViewController* rootVC = DEFAULTCONTROLLER(@"NewVersionNav");
-		
-		self.window = [[UIWindow alloc] initWithFrame:screenBounds];
-		[self.window makeKeyAndVisible];
-		self.window.rootViewController = rootVC;
-		
-	}
-	else {
-		
-		/**
-		 * create controller factory
-		 */
-		id<AYCommand> cmd = COMMAND(kAYFactoryManagerCommandTypeInit, kAYFactoryManagerCommandTypeInit);
-		AYViewController* controller = nil;
-		[cmd performWithResult:&controller];
-		
-		/**
-		 * Navigation Controller
-		 */
-		AYNavigationController * rootContorller = CONTROLLER(@"DefaultController", @"Navigation");
-		[rootContorller pushViewController:controller animated:NO];
-		
-		self.window = [[UIWindow alloc] initWithFrame:screenBounds];
-		[self.window makeKeyAndVisible];
-		self.window.rootViewController = rootContorller;
-	}
+	AYNavigationController * rootContorller = CONTROLLER(@"DefaultController", @"Navigation");
+	[rootContorller pushViewController:controller animated:NO];
+	
+	self.window = [[UIWindow alloc] initWithFrame:screenBounds];
+	self.window.rootViewController = rootContorller;
+	[self.window makeKeyAndVisible];
 	
     return YES;
 }
@@ -107,17 +99,21 @@ static NSString* const kAYEMAppKey = @"blackmirror#dongda";
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
   
-    AYFacade* em = DEFAULTFACADE(@"EM");
-    id<AYCommand> cmd = [em.commands objectForKey:@"EMEnterBackground"];
-    [cmd performWithResult:nil];
+//    AYFacade* em = DEFAULTFACADE(@"EM");
+//    id<AYCommand> cmd = [em.commands objectForKey:@"EMEnterBackground"];
+//    [cmd performWithResult:nil];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 
-    AYFacade* em = DEFAULTFACADE(@"EM");
-    id<AYCommand> cmd = [em.commands objectForKey:@"EMEnterFront"];
-    [cmd performWithResult:nil];
+//    AYFacade* em = DEFAULTFACADE(@"EM");
+//    id<AYCommand> cmd = [em.commands objectForKey:@"EMEnterFront"];
+//    [cmd performWithResult:nil];
+	
+	//验证token是否过期
+    [self authTokenAndChangeWindow];
+	
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -202,5 +198,39 @@ static NSString* const kAYEMAppKey = @"blackmirror#dongda";
         [WeiboSDK handleOpenURL:url delegate:(id<WeiboSDKDelegate>)weibo_delegate] ||
         [WXApi handleOpenURL:url delegate:(id<WXApiDelegate>)wechat_delegate];
     }
+}
+
+- (void)authTokenAndChangeWindow {
+	
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSNumber *app_mode = [defaults objectForKey:kAYDongDaAppMode];
+	if (!app_mode || app_mode.intValue == DongDaAppModeUnLogin) {
+		return;
+	}
+	
+	
+	NSDictionary *user;
+	CURRENUSER(user);
+	NSLog(@"michauxs:%@",user);
+	
+	if (user.count != 0) {
+		
+		id<AYFacadeBase> auth_facade = DEFAULTFACADE(@"AuthRemote");
+		AYRemoteCallCommand* auth_cmd = [auth_facade.commands objectForKey:@"IsTokenExpired"];
+		[auth_cmd performWithResult:[user copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+			if (success) {
+				//nothing todo
+			} else {
+				NSNumber *code = [result objectForKey:@"code"];
+				if (code.intValue == -9004 || code.intValue == -9005) {
+					
+					AYFacade* f_login = LOGINMODEL;
+					id<AYCommand> cmd_sign_out_local = [f_login.commands objectForKey:@"SignOutLocal"];
+					[cmd_sign_out_local performWithResult:nil];
+				}
+			}
+		}];
+	}
+	
 }
 @end

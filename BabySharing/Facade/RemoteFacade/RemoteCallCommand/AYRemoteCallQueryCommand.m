@@ -10,7 +10,6 @@
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "RemoteInstance.h"
-#import "Tools.h"
 #import "AYViewBase.h"
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
@@ -37,8 +36,23 @@
             
             if ([[result objectForKey:@"status"] isEqualToString:@"ok"]) {
                 block(YES, result);
-            } else {
-                NSDictionary* reError = [result objectForKey:@"error"];
+            }
+			else {
+				NSDictionary* reError = [result objectForKey:@"error"];
+//				if ([[reError objectForKey:@"message"] isEqualToString:@"token过期"]) {
+//				}
+				
+				NSNumber *code = [reError objectForKey:@"code"];
+				if (code.intValue == -9004 || code.intValue == -9005) {
+					
+					AYFacade* f_login = LOGINMODEL;
+					id<AYCommand> cmd_sign_out_local = [f_login.commands objectForKey:@"SignOutLocal"];
+					[cmd_sign_out_local performWithResult:nil];
+					
+					NSString *tip = @"当前用户登录实效已过期，请重新登录";
+					AYShowBtmAlertView(tip, BtmAlertViewTypeHideWithTimer)
+				}
+				
                 block(NO, reError);
             }
     

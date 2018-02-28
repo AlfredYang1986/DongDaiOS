@@ -25,88 +25,14 @@
 	AYAnnonation *currentAnno;
 	
 	UILabel *addressLabel;
-	UIImageView *addressBg;
-	UIImageView *addressArrowBg;
 	
 	UIView *tapview;
-}
-
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-	if (self) {
-		
-		orderMapView = [[MAMapView alloc] init];
-		[self addSubview:orderMapView];
-		[orderMapView mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(self);
-			make.centerX.equalTo(self);
-			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 235));
-			make.bottom.equalTo(self);
-		}];
-		orderMapView.delegate = self;
-		orderMapView.scrollEnabled = NO;
-		orderMapView.zoomEnabled = NO;
-		[AMapSearchServices sharedServices].apiKey = kAMapApiKey;
-		
-		tapview = [[UIView alloc]init];
-		[self addSubview:tapview];
-		[tapview mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.edges.equalTo(orderMapView);
-		}];
-		tapview.alpha = 0.05;
-		tapview.userInteractionEnabled = YES;
-		[tapview addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didMapTap)]];
-		
-		addressLabel = [Tools creatUILabelWithText:@"Service address info" andTextColor:[Tools blackColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		addressLabel.numberOfLines = 2;
-		[self addSubview:addressLabel];
-		
-		addressBg = [[UIImageView alloc]init];
-		[self addSubview:addressBg];
-		addressArrowBg = [[UIImageView alloc] init];
-		[self addSubview:addressArrowBg];
-		
-//		[self bringSubviewToFront:addressBg];
-		[self bringSubviewToFront:addressLabel];
-		
-		if (reuseIdentifier != nil) {
-			[self setUpReuseCell];
-		}
-	}
-	return self;
 }
 
 @synthesize para = _para;
 @synthesize controller = _controller;
 @synthesize commands = _commands;
 @synthesize notifies = _notiyies;
-
-#pragma mark -- life cycle
-- (void)setUpReuseCell {
-	id<AYViewBase> cell = VIEW(@"ServiceMapCell", @"ServiceMapCell");
-	
-	NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
-	for (NSString* name in cell.commands.allKeys) {
-		AYViewCommand* cmd = [cell.commands objectForKey:name];
-		AYViewCommand* c = [[AYViewCommand alloc]init];
-		c.view = self;
-		c.method_name = cmd.method_name;
-		c.need_args = cmd.need_args;
-		[arr_commands setValue:c forKey:name];
-	}
-	self.commands = [arr_commands copy];
-	
-	NSMutableDictionary* arr_notifies = [[NSMutableDictionary alloc]initWithCapacity:cell.notifies.count];
-	for (NSString* name in cell.notifies.allKeys) {
-		AYViewNotifyCommand* cmd = [cell.notifies objectForKey:name];
-		AYViewNotifyCommand* c = [[AYViewNotifyCommand alloc]init];
-		c.view = self;
-		c.method_name = cmd.method_name;
-		c.need_args = cmd.need_args;
-		[arr_notifies setValue:c forKey:name];
-	}
-	self.notifies = [arr_notifies copy];
-}
 
 #pragma mark -- commands
 - (void)postPerform {
@@ -129,61 +55,101 @@
 	return kAYFactoryManagerCatigoryView;
 }
 
+#pragma mark -- life cycle
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+	if (self) {
+		self.selectionStyle = UITableViewCellSelectionStyleNone;
+		
+		UILabel *titleLabel = [UILabel creatLabelWithText:@"场地地址" textColor:[UIColor black13] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		[self addSubview:titleLabel];
+		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(self).offset(SERVICEPAGE_MARGIN_LR);
+			make.top.equalTo(self).offset(20);
+//			make.bottom.equalTo(self).offset(-100);
+		}];
+		
+		addressLabel = [UILabel creatLabelWithText:@"Map address info" textColor:[UIColor black] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		addressLabel.numberOfLines = 2;
+		[self addSubview:addressLabel];
+		[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(titleLabel.mas_bottom).offset(9);
+			make.left.equalTo(titleLabel);
+			make.right.equalTo(self).offset(-SERVICEPAGE_MARGIN_LR);
+		}];
+		
+		orderMapView = [[MAMapView alloc] init];
+		[self addSubview:orderMapView];
+		[orderMapView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(addressLabel.mas_bottom).offset(13);
+			make.centerX.equalTo(self);
+			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - SERVICEPAGE_MARGIN_LR*2, 118));
+			make.bottom.equalTo(self).offset(-40);
+		}];
+		orderMapView.delegate = self;
+		orderMapView.scrollEnabled = NO;
+		orderMapView.zoomEnabled = NO;
+		[AMapSearchServices sharedServices].apiKey = kAMapApiKey;
+		
+		tapview = [[UIView alloc]init];
+		[self addSubview:tapview];
+		[tapview mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.edges.equalTo(orderMapView);
+		}];
+		tapview.alpha = 0.05;
+		tapview.userInteractionEnabled = YES;
+		[tapview addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didMapTap)]];
+		
+		
+	}
+	return self;
+}
+
 - (id)setCellInfo:(id)args{
 	
 	NSDictionary *service_info = (NSDictionary*)args;
 	
 	NSDictionary *info_loc = [service_info objectForKey:kAYServiceArgsLocationInfo];
 	NSString *addressStr = [info_loc objectForKey:kAYServiceArgsAddress];
-	NSString *adjustAddressStr = [info_loc objectForKey:kAYServiceArgsAdjustAddress];
-	if (addressStr && ![addressStr isEqualToString:@""]) {
-		addressLabel.text = [NSString stringWithFormat:@"%@%@", addressStr, adjustAddressStr];
+	if (addressStr.length != 0) {
+		addressLabel.text = addressStr;
 	}
-	[addressLabel sizeToFit];
-	[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerX.equalTo(self);
-		make.bottom.equalTo(self.mas_top).offset(90);
-		make.width.mas_lessThanOrEqualTo(254);
-	}];
 	
-	UIImage *bg = IMGRESOURCE(@"map_address_bg_part_b");
-	bg = [bg resizableImageWithCapInsets:UIEdgeInsetsMake(15, 20, 15, 20) resizingMode:UIImageResizingModeTile];
-	addressBg.image =  bg;
-	[addressBg mas_remakeConstraints:^(MASConstraintMaker *make) {
-		make.edges.equalTo(addressLabel).insets(UIEdgeInsetsMake(-4, -12, -10, -12));
-	}];
-	
-	UIImage *arrowBg = IMGRESOURCE(@"map_address_bg_part_a");
-	arrowBg = [arrowBg resizableImageWithCapInsets:UIEdgeInsetsMake(2, 0, 20, 0) resizingMode:UIImageResizingModeTile];
-	addressArrowBg.image = arrowBg;
-	[addressArrowBg mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(addressLabel).offset(0);
-		make.width.mas_equalTo(26);
-		make.bottom.equalTo(addressLabel).offset(16);
-		make.centerX.equalTo(addressLabel);
-	}];
-	
-	NSDictionary *dic_loc = [info_loc objectForKey:kAYServiceArgsPin];
-	NSNumber *latitude = [dic_loc objectForKey:kAYServiceArgsLatitude];
-	NSNumber *longitude = [dic_loc objectForKey:kAYServiceArgsLongtitude];
-	CLLocation *loc = [[CLLocation alloc] initWithLatitude:latitude.doubleValue longitude:longitude.doubleValue];
+	NSDictionary *info_pin = [info_loc objectForKey:kAYServiceArgsPin];
+	NSNumber *latitude = [info_pin objectForKey:kAYServiceArgsLatitude];
+	NSNumber *longitude = [info_pin objectForKey:kAYServiceArgsLongtitude];
 	
 	if (latitude && longitude) {
+		CLLocation *loc = [[CLLocation alloc] initWithLatitude:latitude.doubleValue longitude:longitude.doubleValue];
 		if (currentAnno) {
 			[orderMapView removeAnnotation:currentAnno];
 		}
 		tapview.userInteractionEnabled = YES;
+		
+		
+		NSString *serviceCat = [service_info objectForKey:kAYServiceArgsCat];
+		NSString *cansCat = [service_info objectForKey:kAYServiceArgsType];
+		NSString *pre_map_icon_name;
+		NSArray *optios_title_arr;
+		if ([serviceCat isEqualToString:kAYStringCourse]) {
+			pre_map_icon_name = @"map_icon_course";
+			optios_title_arr = kAY_service_options_title_course;
+			
+		} else if([serviceCat isEqualToString:kAYStringNursery]) {
+			pre_map_icon_name = @"map_icon_nursery";
+			optios_title_arr = kAY_service_options_title_nursery;
+		}
+		
 		//rang
 //		orderMapView.visibleMapRect = MAMapRectMake(loc.coordinate.latitude - 2000, loc.coordinate.longitude - 1000, 4000, 2000);
-		currentAnno = [[AYAnnonation alloc]init];
+		currentAnno = [[AYAnnonation alloc] init];
 		currentAnno.coordinate = loc.coordinate;
 		currentAnno.title = @"定位位置";
-		currentAnno.imageName_normal = @"details_icon_maplocation";
+		currentAnno.imageName_normal = [NSString stringWithFormat:@"%@_%ld_normal",pre_map_icon_name, [optios_title_arr indexOfObject:cansCat]];
+		currentAnno.imageName_select = [NSString stringWithFormat:@"%@_%ld_select",pre_map_icon_name, [optios_title_arr indexOfObject:cansCat]];
 		currentAnno.index = 9999;
 		[orderMapView addAnnotation:currentAnno];
-//		[orderMapView regionThatFits:MACoordinateRegionMake(loc.coordinate, MACoordinateSpanMake(loc.coordinate.latitude,loc.coordinate.longitude))];
-//		CLLocationCoordinate2D amapcoord = AMapCoordinateConvert(CLLocationCoordinate2DMake(39.989612,116.480972), AMapCoordinateType);
-		//center
+		
 		[orderMapView setCenterCoordinate:currentAnno.coordinate animated:YES];
 	} else {
 		tapview.userInteractionEnabled = NO;
@@ -215,7 +181,8 @@
 
 #pragma mark -- actions
 - (void)didMapTap {
-	kAYViewSendNotify(self, @"showP2PMap", nil)
+	
+	[(AYViewController*)self.controller performAYSel:@"showP2PMap" withResult:nil];
 }
 
 @end

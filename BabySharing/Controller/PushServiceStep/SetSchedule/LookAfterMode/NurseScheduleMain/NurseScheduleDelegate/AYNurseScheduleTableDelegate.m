@@ -74,7 +74,7 @@
 	}
 	[dic setValue:[NSNumber numberWithFloat:indexPath.row] forKey:@"row"];
 	
-	kAYViewSendMessage(cell, kAYCellSetCellInfoMessage, &dic)
+	kAYViewSendMessage(cell, kAYCellSetInfoMessage, &dic)
 	
 	((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
 	return (UITableViewCell*)cell;
@@ -89,7 +89,7 @@
 	UIView *headView = [[UIView alloc]init];
 	headView.backgroundColor = [Tools whiteColor];
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:@"1. 每天的服务时段" andTextColor:[Tools themeColor] andFontSize:20.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatLabelWithText:@"1. 每天的服务时段" textColor:[Tools theme] fontSize:20.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[headView addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(headView).offset(20);

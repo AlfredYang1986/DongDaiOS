@@ -1233,7 +1233,7 @@
 - (void)asyncDeclineInvitationFromGroup:(NSString *)aGroupId
                                 inviter:(NSString *)aUsername
                                  reason:(NSString *)aReason
-                                success:(void (^)())aSuccessBlock
+                                success:(void (^)(void))aSuccessBlock
                                 failure:(void (^)(EMError *aError))aFailureBlock;
 
 /*!

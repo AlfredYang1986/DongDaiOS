@@ -87,8 +87,8 @@
 			make.size.mas_equalTo(CGSizeMake(45, 26));
 		}];
 		
-		themeLabel = [Tools creatUILabelWithText:@"Theme" andTextColor:[Tools themeColor] andFontSize:611.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		[Tools setViewBorder:themeLabel withRadius:4.f andBorderWidth:1.f andBorderColor:[Tools themeColor] andBackground:nil];
+		themeLabel = [Tools creatLabelWithText:@"Theme" textColor:[Tools theme] fontSize:611.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+		[Tools setViewBorder:themeLabel withRadius:4.f andBorderWidth:1.f andBorderColor:[Tools theme] andBackground:nil];
 		[self addSubview:themeLabel];
 		[themeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(coverImage);
@@ -96,8 +96,8 @@
 			make.size.mas_equalTo(CGSizeMake(72, 26));
 		}];
 		
-		ageBoundaryLabel = [Tools creatUILabelWithText:@"0-0" andTextColor:[Tools themeColor] andFontSize:611.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		[Tools setViewBorder:ageBoundaryLabel withRadius:4.f andBorderWidth:1.f andBorderColor:[Tools themeColor] andBackground:nil];
+		ageBoundaryLabel = [Tools creatLabelWithText:@"0-0" textColor:[Tools theme] fontSize:611.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+		[Tools setViewBorder:ageBoundaryLabel withRadius:4.f andBorderWidth:1.f andBorderColor:[Tools theme] andBackground:nil];
 		[self addSubview:ageBoundaryLabel];
 		[ageBoundaryLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(themeLabel.mas_right).offset(10);
@@ -105,7 +105,7 @@
 			make.size.mas_equalTo(CGSizeMake(60, 26));
 		}];
 		
-		titleLabel = [Tools creatUILabelWithText:@"Service Belong to Servant" andTextColor:[Tools blackColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		titleLabel = [Tools creatLabelWithText:@"Service Belong to Servant" textColor:[Tools black] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		titleLabel.numberOfLines = 1;
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -123,7 +123,7 @@
 			make.size.mas_equalTo(CGSizeMake(10, 12));
 		}];
 		
-		addressLabel = [Tools creatUILabelWithText:@"Address Info" andTextColor:[Tools RGB153GaryColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		addressLabel = [Tools creatLabelWithText:@"Address Info" textColor:[Tools RGB153GaryColor] fontSize:313.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:addressLabel];
 		[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(positionSignView);
@@ -131,7 +131,7 @@
 		}];
 		
 		
-		priceLabel = [Tools creatUILabelWithText:@"¥Price/Unit" andTextColor:[Tools themeColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		priceLabel = [Tools creatLabelWithText:@"¥Price/Unit" textColor:[Tools theme] fontSize:313.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:priceLabel];
 		//		[priceLabel sizeToFit];
 		//		[priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -139,7 +139,7 @@
 		//			make.centerY.equalTo(positionSignView);
 		//		}];
 		
-		manageTMBtn  = [Tools creatUIButtonWithTitle:@"管理服务日程" andTitleColor:[Tools whiteColor] andFontSize:313.f andBackgroundColor:[Tools themeColor]];
+		manageTMBtn  = [Tools creatBtnWithTitle:@"管理服务日程" titleColor:[Tools whiteColor] fontSize:313.f backgroundColor:[Tools theme]];
 		[self addSubview:manageTMBtn];
 		[manageTMBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.right.equalTo(coverImage).offset(0);
@@ -147,7 +147,7 @@
 			make.size.mas_equalTo(CGSizeMake(100, 40));
 		}];
 		[manageTMBtn addTarget:self action:@selector(didManageBtnClick) forControlEvents:UIControlEventTouchUpInside];
-		
+		manageTMBtn.hidden = YES;
 		if (reuseIdentifier != nil) {
 			[self setUpReuseCell];
 		}
@@ -229,7 +229,10 @@
 	service_info = dic_args;
 	
 	NSString* photo_name = [service_info objectForKey:kAYServiceArgsImages];
-	NSString *urlStr = [NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name];
+	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+	NSString *prefix = cmd.route;
+	NSString *urlStr = [NSString stringWithFormat:@"%@%@", prefix, photo_name];
 	[coverImage sd_setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:IMGRESOURCE(@"default_image") /*options:SDWebImageRefreshCached*/];
 	
 	NSDictionary *info_cat = [service_info objectForKey:kAYServiceArgsCategoryInfo];
@@ -278,8 +281,8 @@
 	NSString *priceStr = [NSString stringWithFormat:@"¥%@/%@", tmp, unitCat];
 	
 	NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:priceStr];
-	[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:15.f], NSForegroundColorAttributeName :[Tools themeColor]} range:NSMakeRange(0, length+1)];
-	[attributedText setAttributes:@{NSFontAttributeName:kAYFontLight(12.f), NSForegroundColorAttributeName :[Tools themeColor]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
+	[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:15.f], NSForegroundColorAttributeName :[Tools theme]} range:NSMakeRange(0, length+1)];
+	[attributedText setAttributes:@{NSFontAttributeName:kAYFontLight(12.f), NSForegroundColorAttributeName :[Tools theme]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
 	priceLabel.attributedText = attributedText;
 	[priceLabel sizeToFit];
 	[priceLabel mas_remakeConstraints:^(MASConstraintMaker *make) {

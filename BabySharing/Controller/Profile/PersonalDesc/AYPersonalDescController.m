@@ -18,8 +18,6 @@
 #import "AYAlbumDefines.h"
 #import "AYRemoteCallDefines.h"
 
-#define STATUS_BAR_HEIGHT           20
-#define FAKE_BAR_HEIGHT             44
 #define LIMITNUMB                   88
 
 @implementation AYPersonalDescController {
@@ -57,15 +55,15 @@
         inputTitleTextView.text = setedTitleString;
     }
     inputTitleTextView.font = [UIFont systemFontOfSize:14.f];
-    inputTitleTextView.textColor = [Tools blackColor];
+    inputTitleTextView.textColor = [Tools black];
     inputTitleTextView.delegate = self;
     [inputTitleTextView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(84);
+        make.top.equalTo(self.view).offset(kStatusAndNavBarH+20);
         make.centerX.equalTo(self.view);
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 200));
     }];
     
-    countlabel = [Tools creatUILabelWithText:[NSString stringWithFormat:@"还可以输入%lu个字符",LIMITNUMB - setedTitleString.length] andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:0];
+    countlabel = [Tools creatLabelWithText:[NSString stringWithFormat:@"还可以输入%lu个字符",LIMITNUMB - setedTitleString.length] textColor:[Tools garyColor] fontSize:12.f backgroundColor:nil textAlignment:0];
     [self.view addSubview:countlabel];
     [countlabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(inputTitleTextView.mas_bottom).offset(-10);
@@ -81,13 +79,14 @@
 
 #pragma mark -- layout
 - (id)FakeStatusBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
     view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view{
-    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
+    view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
+	view.backgroundColor = [UIColor whiteColor];
     
     NSString *title = @"关于我";
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
@@ -105,7 +104,7 @@
 #pragma mark -- UITextDelegate
 - (void)textViewDidChange:(UITextView *)textView {
     
-    UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
+    UIButton* bar_right_btn = [Tools creatBtnWithTitle:@"保存" titleColor:[Tools theme] fontSize:16.f backgroundColor:nil];
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
     
     NSInteger count = textView.text.length;

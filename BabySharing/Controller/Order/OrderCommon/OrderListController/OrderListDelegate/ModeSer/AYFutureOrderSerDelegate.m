@@ -113,7 +113,7 @@
     UIView *header = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 40)];
     header.backgroundColor = [Tools whiteColor];
     NSString *titleStr = section == 0 ? @"待处理" : @"已确认";
-    UILabel *title = [Tools creatUILabelWithText:titleStr andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    UILabel *title = [Tools creatLabelWithText:titleStr textColor:[Tools black] fontSize:17.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
     [header addSubview:title];
     [title mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(header).offset(10);

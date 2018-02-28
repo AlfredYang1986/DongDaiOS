@@ -44,15 +44,15 @@
 	
 	id<AYDelegateBase> delegate = [self.delegates objectForKey:@"PAYPage"];
 	id obj = (id)delegate;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDelegateMessage, &obj)
 	obj = (id)delegate;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDatasourceMessage, &obj)
 	
 	/****************************************/
 	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"PayWayCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
 	
-	UIButton *ConfirmPayBtn = [Tools creatUIButtonWithTitle:@"确认支付" andTitleColor:[Tools whiteColor] andFontSize:314.f andBackgroundColor:[Tools themeColor]];
+	UIButton *ConfirmPayBtn = [Tools creatBtnWithTitle:@"确认支付" titleColor:[Tools whiteColor] fontSize:314.f backgroundColor:[Tools theme]];
 	[self.view addSubview:ConfirmPayBtn];
 	[ConfirmPayBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.bottom.equalTo(self.view);
@@ -65,12 +65,12 @@
 
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
 	return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+	view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
 	NSString *title = @"在线支付";
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
 	
@@ -150,8 +150,8 @@
 			[cmd_pay performWithResult:&tmp];
 			
 		} else {
-			NSString *title = @"请改善网络环境并重试";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			
+			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
 		}
 	}];
 	
@@ -235,7 +235,7 @@
 		//		NSString *title = @"您已取消本次支付支付";
 		//		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 	} else {
-		NSString *title = @"支付失败\n请改善网络环境并重试";
+		NSString *title = @"支付失败\n网络不通畅，换个地方试试";
 		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 	}
 	return nil;
@@ -249,7 +249,7 @@
 
 - (id)AlipayFailed:(id)args {
 	NSLog(@"pay failed");
-	NSString *title = @"支付失败\n请改善网络环境并重试";
+	NSString *title = @"支付失败\n网络不通畅，换个地方试试";
 	AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 	return nil;
 }

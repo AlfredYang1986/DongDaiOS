@@ -72,21 +72,21 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
-    
-    NSDictionary* info = nil;
-    CURRENUSER(info)
-    
-    id<AYCommand> des = DEFAULTCONTROLLER(@"MainInfo");;
-    
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-    [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-    [dic setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd_show_module = PUSH;
-    [cmd_show_module performWithResult:&dic];
+//    NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
+//    
+//    NSDictionary* info = nil;
+//    CURRENUSER(info)
+//    
+//    id<AYCommand> des = DEFAULTCONTROLLER(@"MainInfo");;
+//    
+//    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+//    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+//    [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+//    [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+//    [dic setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
+//    
+//    id<AYCommand> cmd_show_module = PUSH;
+//    [cmd_show_module performWithResult:&dic];
 }
 
 @end

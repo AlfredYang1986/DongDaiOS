@@ -52,7 +52,7 @@
 	navControl.numberOfPages = NumbOfNavCover;
 	CGSize size = [navControl sizeForNumberOfPages:NumbOfNavCover];
 	navControl.pageIndicatorTintColor = [UIColor whiteColor];
-	navControl.currentPageIndicatorTintColor = [Tools themeColor];
+	navControl.currentPageIndicatorTintColor = [Tools theme];
 	[self.view addSubview:navControl];
 	[navControl mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(coverImageMaxY - size.height - 20);
@@ -61,8 +61,8 @@
 	}];
 	navControl.currentPage = 0;
 	
-	enterBtn = [Tools creatUIButtonWithTitle:@"立即加入" andTitleColor:[Tools themeColor] andFontSize:316.f andBackgroundColor:nil];
-	[Tools setViewBorder:enterBtn withRadius:18.f andBorderWidth:1.f andBorderColor:[Tools themeColor] andBackground:[Tools whiteColor]];
+	enterBtn = [Tools creatBtnWithTitle:@"立即加入" titleColor:[Tools theme] fontSize:316.f backgroundColor:nil];
+	[Tools setViewBorder:enterBtn withRadius:18.f andBorderWidth:1.f andBorderColor:[Tools theme] andBackground:[Tools whiteColor]];
 	[self.view addSubview:enterBtn];
 	[enterBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.size.mas_equalTo(CGSizeMake(112, 36));
@@ -95,7 +95,7 @@
 	NSDictionary *infoDic=[[NSBundle mainBundle] infoDictionary];
 	NSString *app_Version = [infoDic objectForKey:@"CFBundleShortVersionString"];
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	[defaults setValue:app_Version forKey:@"dongda_app_version"];
+	[defaults setValue:app_Version forKey:kAYDongDaAppVersion];
 	[defaults synchronize];
 	
 	/**

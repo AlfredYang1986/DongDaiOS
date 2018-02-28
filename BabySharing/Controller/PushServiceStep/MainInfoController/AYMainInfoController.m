@@ -18,8 +18,6 @@
 #import "TmpFileStorageModel.h"
 #import <CoreLocation/CoreLocation.h>
 
-#import "AYServiceArgsDefines.h"
-
 #define STATUS_BAR_HEIGHT						20
 #define FAKE_BAR_HEIGHT							44
 #define requiredInfoNumb						5
@@ -217,9 +215,9 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 	
     id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"MainInfo"];
     id obj = (id)cmd_notify;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDelegateMessage, &obj)
     obj = (id)cmd_notify;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDatasourceMessage, &obj)
 	
     NSString* cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapPhotosCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &cell_name)
@@ -227,7 +225,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 	cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OptionalInfoCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &cell_name)
     
-    confirmSerBtn = [Tools creatUIButtonWithTitle:nil andTitleColor:[Tools whiteColor] andFontSize:16.f andBackgroundColor:[Tools themeColor]];
+    confirmSerBtn = [Tools creatBtnWithTitle:nil titleColor:[Tools whiteColor] fontSize:16.f backgroundColor:[Tools theme]];
     [self.view addSubview:confirmSerBtn];
     confirmSerBtn.hidden = YES;
     [confirmSerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -310,12 +308,12 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 
 #pragma mark -- layout
 - (id)FakeStatusBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view{
-    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
+    view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
     
     NSString *title = @"修改服务";
     kAYViewsSendMessage(@"FakeNavBar", @"setTitleText:", &title)
@@ -323,7 +321,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     UIImage* left = IMGRESOURCE(@"bar_left_theme");
     kAYViewsSendMessage(@"FakeNavBar", @"setLeftBtnImg:", &left)
     
-    UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"预览" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
+    UIButton* bar_right_btn = [Tools creatBtnWithTitle:@"预览" titleColor:[Tools theme] fontSize:16.f backgroundColor:nil];
     kAYViewsSendMessage(@"FakeNavBar", @"setRightBtnWithBtn:", &bar_right_btn);
     
     kAYViewsSendMessage(@"FakeNavBar", @"setBarBotLine", nil);
@@ -553,7 +551,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         hubLayer.cornerRadius = 10.f;
         [HUBView.layer addSublayer:hubLayer];
         
-        UILabel *tips = [Tools creatUILabelWithText:@"正在准备图片..." andTextColor:[Tools whiteColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
+        UILabel *tips = [Tools creatLabelWithText:@"正在准备图片..." textColor:[Tools whiteColor] fontSize:14.f backgroundColor:nil textAlignment:1];
         [HUBView addSubview:tips];
         [tips mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(HUBView);
@@ -562,11 +560,13 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         
         NSMutableArray *tmp = [[NSMutableArray alloc]init];
         NSArray *namesArr = [show_service_info objectForKey:kAYServiceArgsImages];
-        
+		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+		AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+		NSString *prefix = cmd.route;
         for (int i = 0; i < namesArr.count; ++i) {
 			
 			NSString* photo_name = namesArr[i];
-            [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:[NSURL URLWithString:[kAYDongDaDownloadURL stringByAppendingString:photo_name]] options:SDWebImageDownloaderHighPriority progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+            [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:[NSURL URLWithString:[prefix stringByAppendingString:photo_name]] options:SDWebImageDownloaderHighPriority progress:^(NSInteger receivedSize, NSInteger expectedSize) {
                 
             } completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
                 if (finished) {

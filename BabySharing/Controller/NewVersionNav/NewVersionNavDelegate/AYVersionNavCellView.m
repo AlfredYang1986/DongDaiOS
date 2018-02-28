@@ -56,14 +56,14 @@
 		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 50, SCREEN_HEIGHT * 475/667));
 	}];
 	
-	titleLabel = [Tools creatUILabelWithText:@"Title" andTextColor:[Tools blackColor] andFontSize:20.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	titleLabel = [Tools creatLabelWithText:@"Title" textColor:[Tools black] fontSize:20.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(self).offset(25);
 		make.top.equalTo(coverImageView.mas_bottom).offset(25);
 	}];
 	
-	detailLabel = [Tools creatUILabelWithText:@"Detail" andTextColor:[Tools blackColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	detailLabel = [Tools creatLabelWithText:@"Detail" textColor:[Tools black] fontSize:15.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	detailLabel.numberOfLines = 0;
 	[self addSubview:detailLabel];
 	[detailLabel mas_makeConstraints:^(MASConstraintMaker *make) {

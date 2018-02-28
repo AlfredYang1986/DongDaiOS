@@ -31,7 +31,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.label = [[UILabel alloc]init];
-        self.label.textColor = [Tools blackColor];
+        self.label.textColor = [Tools black];
         self.label.font = [UIFont systemFontOfSize:14.f];
         [self addSubview:self.label];
         [self.label mas_makeConstraints:^(MASConstraintMaker *make) {

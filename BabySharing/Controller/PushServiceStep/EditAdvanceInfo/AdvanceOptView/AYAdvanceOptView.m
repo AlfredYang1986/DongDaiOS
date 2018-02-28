@@ -22,7 +22,7 @@
 			make.width.mas_equalTo(95);
 		}];
 		
-		_subTitleLabel =  [Tools creatUILabelWithText:@"" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+		_subTitleLabel =  [Tools creatLabelWithText:@"" textColor:[Tools black] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
 		[self addSubview:_subTitleLabel];
 		[_subTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.right.equalTo(self).offset(-30);

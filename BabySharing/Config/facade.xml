@@ -143,6 +143,7 @@
         <command type="Remote" name="RejectRealName" />
         <command type="Remote" name="RequireCode" />
         <command type="Remote" name="CheckCode" />
+		<command type="Remote" name="IsTokenExpired" />
     </facade>
     
     <facade type="DefaultFacade" name="FileRemote" factory="AYDefaultFacadeFactory" >
@@ -168,20 +169,21 @@
 
 <command type="Remote" name="PostPhotos" factory="AYDefaultModuleFactory" />
 <command type="Remote" name="PostMovie" factory="AYDefaultModuleFactory" />
-    <facade type="DefaultFacade" name="EM" factory="AYDefaultFacadeFactory" >
-        <command type="Module" name="LoginEM" />
-        <command type="Module" name="LogoutEM" />
-        <command type="Module" name="EMUnreadMessageCount" />
-        <command type="Module" name="SendEMMessage" />
-        <command type="Module" name="QueryEMMessages" />
-        <command type="Module" name="QueryEMSations" />
-        <command type="Module" name="JoinEMGroup" />
-        <command type="Module" name="CreateEMChat" />
-        <command type="Module" name="EMQueryGroupMemberLst" />
-        <command type="Module" name="EMEnterBackground" />
-        <command type="Module" name="EMEnterFront" />
-        <command type="Module" name="EMClientInit" />
-    </facade>
+
+<!--    <facade type="DefaultFacade" name="EM" factory="AYDefaultFacadeFactory" >-->
+<!--        <command type="Module" name="LoginEM" />-->
+<!--        <command type="Module" name="LogoutEM" />-->
+<!--        <command type="Module" name="EMUnreadMessageCount" />-->
+<!--        <command type="Module" name="SendEMMessage" />-->
+<!--        <command type="Module" name="QueryEMMessages" />-->
+<!--        <command type="Module" name="QueryEMSations" />-->
+<!--        <command type="Module" name="JoinEMGroup" />-->
+<!--        <command type="Module" name="CreateEMChat" />-->
+<!--        <command type="Module" name="EMQueryGroupMemberLst" />-->
+<!--        <command type="Module" name="EMEnterBackground" />-->
+<!--        <command type="Module" name="EMEnterFront" />-->
+<!--        <command type="Module" name="EMClientInit" />-->
+<!--    </facade>-->
 
     <facade type="DefaultFacade" name="ScreenNameAndPhotoCache" factory="AYDefaultFacadeFactory" >
         <command type="Module" name="PushScreenNameAndPhoto" />
@@ -215,6 +217,8 @@
         <command type="Remote" name="AllCollectService" />
 		
 		<command type="Remote" name="QueryServiceDetail" />
+		
+		<command type="Remote" name="HomeQuery" />
     </facade>
     
     <facade type="DefaultFacade" name="OrderRemote" factory="AYDefaultFacadeFactory" >
@@ -253,6 +257,9 @@
         <command type="Module" name="ParseServiceTMProtocol" />
 		<command type="Module" name="ParseSTMForDayCourse" />
 		<command type="Module" name="ParseServiceTMNurse" />
+		
+		<command type="Module" name="ParseServiceTM" />
+		<command type="Module" name="PushServiceTM" />
     </facade>
 	
 	<facade type="DefaultFacade" name="TimeManagerRemote" factory="AYDefaultFacadeFactory" >
@@ -264,5 +271,6 @@
 		<command type="Remote" name="ChoiceSearch" />
 		<command type="Remote" name="ChoicePush" />
 		<command type="Remote" name="ChoicePop" />
+        <command type="Remote" name="ChoiceMapSearch" />
 	</facade>
 </facades>

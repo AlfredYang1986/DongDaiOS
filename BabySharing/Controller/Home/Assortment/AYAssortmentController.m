@@ -18,22 +18,13 @@
 #import "AYThumbsAndPushDefines.h"
 #import "AYModelFacade.h"
 
-#import "AYAssortmentItemView.h"
-#define kCOLLECTIONVIEWTOP 205.f
+#define kCOLLECTIONVIEWTOP			(kStatusAndNavBarH + 141)
 
 @implementation AYAssortmentController {
-	UIStatusBarStyle statusStyle;
-	
-	UICollectionView *servCollectionView;
-	NSArray *serviceData;
-	
-	UIView *bannerView;
-	UILabel *bannerTitle;
-	UILabel *bannerCount;
-	UIButton *navLeftBtn;
+//	UIStatusBarStyle statusStyle;
 	
 	UILabel *navTitleLabel;
-	UILabel *navCountLabel;
+	UICollectionView *servCollectionView;
 	
 	NSString *sortCateg;
 	NSInteger skipedCount;
@@ -45,23 +36,31 @@
 }
 
 - (UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-	AYAssortmentItemView *item = [collectionView dequeueReusableCellWithReuseIdentifier:@"AYAssortmentItemView" forIndexPath:indexPath];
+	AYHomeAssortmentItem *item = [collectionView dequeueReusableCellWithReuseIdentifier:@"AYHomeAssortmentItem" forIndexPath:indexPath];
 	id tmp = [remoteDataArr objectAtIndex:indexPath.row];
 	[item setItemInfo:tmp];
+	item.likeBtnClick = ^(NSDictionary *service_info) {
+		[self willCollectWithRow:service_info];
+	};
 	return item;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-	id<AYCommand> des = DEFAULTCONTROLLER(@"ServicePage");
-	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 	
+//	AYHomeAssortmentItem *item = (AYHomeAssortmentItem*)[collectionView cellForItemAtIndexPath:indexPath];
+	
+	id<AYCommand> des = DEFAULTCONTROLLER(@"ServicePage");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	
+//	[dic setObject:item.coverImage forKey:kAYControllerImgForFrameKey];
 	[dic setValue:[remoteDataArr objectAtIndex:indexPath.row] forKey:kAYControllerChangeArgsKey];
 	
-	id<AYCommand> cmd_show_module = PUSH;
-	[cmd_show_module performWithResult:&dic];
+//	id<AYCommand> cmd_push_animate = PUSHANIMATE;
+//	[cmd_push_animate performWithResult:&dic];
+	id<AYCommand> cmd_push = PUSH;
+	[cmd_push performWithResult:&dic];
 }
 
 #pragma mark -- commands
@@ -74,7 +73,24 @@
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
+		NSDictionary *backArgs = [dic objectForKey:kAYControllerChangeArgsKey];
+		NSString *key = [backArgs objectForKey:kAYVCBackArgsKey];
 		
+		if ([key isEqualToString:kAYVCBackArgsKeyCollectChange]) {
+			id service_info = [backArgs objectForKey:kAYServiceArgsInfo];
+			NSString *service_id = [service_info objectForKey:kAYServiceArgsID];
+			
+			NSPredicate *pre_id = [NSPredicate predicateWithFormat:@"self.%@=%@", kAYServiceArgsID, service_id];
+			NSArray *result = [remoteDataArr filteredArrayUsingPredicate:pre_id];
+			if (result.count == 1) {
+				[result.firstObject setValue:[backArgs objectForKey:kAYServiceArgsIsCollect] forKey:kAYServiceArgsIsCollect];
+				NSInteger index = [remoteDataArr indexOfObject:result.firstObject];
+				
+//				[servCollectionView reloadRowsAtIndexPaths: withRowAnimation:UITableViewRowAnimationNone];
+				[servCollectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]]];
+				
+			}
+		}
 	}
 	
 }
@@ -83,97 +99,43 @@
     [super viewDidLoad];
 	skipedCount = 0;
 	
-	bannerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, kCOLLECTIONVIEWTOP + 30)];
-	[self.view addSubview:bannerView];
-	[self.view bringSubviewToFront:bannerView];
-	UIImageView *cover = [[UIImageView alloc] initWithFrame:bannerView.bounds];
-	
-	NSArray *assortmentArr = kAY_top_assortment_titles;
-	NSString *coverImgName = [NSString stringWithFormat:@"topsort_list_%ld", [assortmentArr indexOfObject:sortCateg]];
-	cover.image = IMGRESOURCE(coverImgName);
-	[bannerView addSubview:cover];
-	
-	UIView *navBar = [self.views objectForKey:kAYFakeNavBarView];
-	UIView *statusBar = [self.views objectForKey:kAYFakeStatusBarView];
-	[self.view bringSubviewToFront:navBar];
-	[self.view bringSubviewToFront:statusBar];
-	
-	navLeftBtn = [[UIButton alloc] init];
-	[navLeftBtn setImage:IMGRESOURCE(@"bar_left_black") forState:UIControlStateNormal];
-	[navLeftBtn setImage:IMGRESOURCE(@"bar_left_white") forState:UIControlStateSelected];
-	[self.view addSubview:navLeftBtn];
-	[navLeftBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(navBar).offset(10.5);
-		make.centerY.equalTo(navBar);
-		make.size.mas_equalTo(CGSizeMake(30, 30));
-	}];
-	navLeftBtn.selected = YES;
-	[navLeftBtn addTarget:self action:@selector(leftBtnSelected) forControlEvents:UIControlEventTouchUpInside];
-	
-	bannerTitle = [Tools creatUILabelWithText:@"# The Assortment Title #" andTextColor:[Tools whiteColor] andFontSize:622.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-	[bannerView addSubview:bannerTitle];
-	[bannerTitle mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerX.equalTo(bannerView);
-		make.top.equalTo(bannerView).offset(75);
-	}];
-	
-	NSShadow *sdw = [[NSShadow alloc] init];
-	sdw.shadowColor = [Tools colorWithRED:173 GREEN:186 BLUE:222 ALPHA:1.f];
-	sdw.shadowOffset = CGSizeMake(1, 1);
-	sdw.shadowBlurRadius = 2.f;
-	
-	if (sortCateg) {
-		NSString *categStr = [NSString stringWithFormat:@"#%@#", sortCateg];
-		
-		NSDictionary *shadowAttr = @{NSFontAttributeName:[UIFont boldSystemFontOfSize:22.f],
-									 NSForegroundColorAttributeName :[Tools whiteColor],
-									 NSShadowAttributeName:sdw};
-
-		NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:categStr];
-		[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:22.f], NSForegroundColorAttributeName :[Tools themeColor]} range:NSMakeRange(0, 1)];
-		[attributedText setAttributes:shadowAttr range:NSMakeRange(1, categStr.length - 2)];
-		[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:22.f], NSForegroundColorAttributeName :[Tools themeColor]} range:NSMakeRange(categStr.length - 1, 1)];
-		bannerTitle.attributedText = attributedText;
-	}
-	
-	bannerCount = [Tools creatUILabelWithText:nil andTextColor:[Tools whiteColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-	NSString *countstr = @"为您准备了6个儿童服务";
-	NSDictionary *shadowAttr = @{NSFontAttributeName:[UIFont boldSystemFontOfSize:15.f],
-								 NSForegroundColorAttributeName :[Tools whiteColor],
-								 NSShadowAttributeName:sdw};
-
-	NSAttributedString *countAttrStr = [[NSAttributedString alloc] initWithString:countstr attributes:shadowAttr];
-	bannerCount.attributedText = countAttrStr;
-	[bannerView addSubview:bannerCount];
-	[bannerCount mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerX.equalTo(bannerView);
-		make.top.equalTo(bannerTitle.mas_bottom).offset(15);
-	}];
-	bannerCount.hidden  = YES;
+//	navTitleLabel = [UILabel creatLabelWithText:@"" textColor:[UIColor black] fontSize:616 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+//	[self.view addSubview:navTitleLabel];
+//	[navTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//		make.left.equalTo(self.view).offset(15);
+//		make.top.equalTo(self.view).offset(kStatusAndNavBarH);
+//	}];
 	
 	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
 	layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-	layout.itemSize = CGSizeMake((SCREEN_WIDTH - 28)*0.5, 250);
+	layout.itemSize = CGSizeMake((SCREEN_WIDTH - SCREEN_MARGIN_LR*2-15)*0.5, 250);
 	layout.minimumInteritemSpacing = 8.f;
 	layout.minimumLineSpacing = 8.f;
 	
-	servCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH - 10, SCREEN_HEIGHT-kStatusAndNavBarH) collectionViewLayout:layout];
+	servCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(SCREEN_MARGIN_LR, kStatusAndNavBarH, SCREEN_WIDTH-SCREEN_MARGIN_LR*2, SCREEN_HEIGHT-kStatusAndNavBarH) collectionViewLayout:layout];
 	servCollectionView.delegate = self;
 	servCollectionView.dataSource = self;
 	servCollectionView.backgroundColor = [UIColor clearColor];
 	servCollectionView.showsVerticalScrollIndicator = NO;
 	
-	servCollectionView.contentInset = UIEdgeInsetsMake(kCOLLECTIONVIEWTOP - kStatusAndNavBarH, 10, 0, 0);
+	servCollectionView.contentInset = UIEdgeInsetsMake(15, 0, 0, 0);
 	[self.view addSubview:servCollectionView];
-	[servCollectionView registerClass:NSClassFromString(@"AYAssortmentItemView") forCellWithReuseIdentifier:@"AYAssortmentItemView"];
-	servCollectionView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+	[servCollectionView registerClass:NSClassFromString(@"AYHomeAssortmentItem") forCellWithReuseIdentifier:@"AYHomeAssortmentItem"];
 	
+	servCollectionView.mj_header = [MXSRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+	servCollectionView.mj_footer = [MXSRefreshFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+	
+	[self loadNewData];
+}
+
+#pragma mark -- actions
+- (void)loadNewData {
 	NSDictionary *user;
 	CURRENUSER(user);
-	NSMutableDictionary *dic_search = [Tools getBaseRemoteData];
+	NSMutableDictionary *dic_search = [Tools getBaseRemoteData:user];
+	[[dic_search objectForKey:kAYCommArgsCondition] setValue:sortCateg forKey:kAYServiceArgsServiceTypeInfo];
 	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
-	[[dic_search objectForKey:kAYCommArgsCondition] setValue:sortCateg forKey:kAYServiceArgsCategoryInfo];
-	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[NSNumber numberWithLong:([NSDate date].timeIntervalSince1970 * 1000)] forKey:kAYCommArgsRemoteDate];
+//	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[NSNumber numberWithLongLong:([NSDate date].timeIntervalSince1970 * 1000)] forKey:kAYCommArgsRemoteDate];
 	
 	id<AYFacadeBase> f_choice = [self.facades objectForKey:@"ChoiceRemote"];
 	AYRemoteCallCommand *cmd_search = [f_choice.commands objectForKey:@"ChoiceSearch"];
@@ -184,21 +146,19 @@
 			skipedCount = remoteDataArr.count;
 			[servCollectionView reloadData];
 		} else {
-			NSString *title = @"请改善网络环境并重试";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
 		}
+		[servCollectionView.mj_header endRefreshing];
 	}];
-	
 }
 
-#pragma mark -- actions
 - (void)loadMoreData {
 	
 	NSDictionary *user;
 	CURRENUSER(user);
-	NSMutableDictionary *dic_search = [Tools getBaseRemoteData];
+	NSMutableDictionary *dic_search = [Tools getBaseRemoteData:user];
 	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
-	[[dic_search objectForKey:kAYCommArgsCondition] setValue:sortCateg forKey:kAYServiceArgsCategoryInfo];
+	[[dic_search objectForKey:kAYCommArgsCondition] setValue:sortCateg forKey:kAYServiceArgsServiceTypeInfo];
 	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[NSNumber numberWithLong:([NSDate date].timeIntervalSince1970 * 1000)] forKey:kAYCommArgsRemoteDate];
 	[dic_search setValue:[NSNumber numberWithInteger:skipedCount] forKey:kAYCommArgsRemoteDataSkip];
 	
@@ -210,37 +170,34 @@
 			if (reArr.count != 0) {
 				[remoteDataArr addObjectsFromArray:reArr];
 				skipedCount = remoteDataArr.count;
-				
 				[servCollectionView reloadData];
+				
 			} else {
-				NSString *title = @"没有更多服务了";
-				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+				[servCollectionView.mj_footer endRefreshingWithNoMoreData];
+				
 			}
 		} else {
-			NSString *title = @"请改善网络环境并重试";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
 		}
-//		[servCollectionView reloadData];
+		
 		[servCollectionView.mj_footer endRefreshing];
 	}];
 }
 
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
-	view.backgroundColor = [Tools whiteColor];
+	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
 	return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
-	view.backgroundColor = [Tools whiteColor];
+	view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
 	
 	NSString *title = sortCateg;
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
 	
-//	UIImage* left = IMGRESOURCE(@"bar_left_black");
-//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
+	UIImage* left = IMGRESOURCE(@"bar_left_black");
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
 	
 //	navTitleLabel = [Tools creatUILabelWithText:title andTextColor:[Tools blackColor] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 //	[view addSubview:navTitleLabel];
@@ -258,18 +215,19 @@
 	
 	NSNumber *is_hidden = [NSNumber numberWithBool:YES];
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &is_hidden)
-	is_hidden = [NSNumber numberWithBool:YES];
-	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnVisibilityMessage, &is_hidden)
-	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
+//	is_hidden = [NSNumber numberWithBool:YES];
+//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnVisibilityMessage, &is_hidden)
+//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
 	
-	view.layer.shadowColor = [Tools garyColor].CGColor;
-	view.layer.shadowOffset = CGSizeMake(0, 3);
-	view.layer.shadowOpacity = 0.25f;
+//	view.layer.shadowColor = [Tools garyColor].CGColor;
+//	view.layer.shadowOffset = CGSizeMake(0, 3);
+//	view.layer.shadowOpacity = 0.25f;
 	return nil;
 }
 
 - (id)TableLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64);
+	view.frame = CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH);
+	((UITableView*)view).contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
 	return nil;
 }
 
@@ -284,38 +242,88 @@
 	[cmd performWithResult:&dic];
 	return nil;
 }
+- (id)willCollectWithRow:(id)args {
+	
+	NSDictionary *service_info = [args objectForKey:kAYServiceArgsInfo];
+	UIButton *likeBtn = [args objectForKey:@"btn"];
+	
+	//	NSPredicate *pre_id = [NSPredicate predicateWithFormat:@"self.%@=%@", kAYServiceArgsID, service_id];
+	//	NSArray *resultArr = [serviceDataFound filteredArrayUsingPredicate:pre_id];
+	//	if (resultArr.count != 1) {
+	//		return nil;
+	//	}
+	//	id service_data = resultArr.firstObject;
+	
+	NSDictionary *user = nil;
+	CURRENUSER(user);
+	NSMutableDictionary *dic = [Tools getBaseRemoteData:user];
+	
+	NSMutableDictionary *dic_collect = [[NSMutableDictionary alloc] init];
+	[dic_collect setValue:[service_info objectForKey:kAYServiceArgsID] forKey:kAYServiceArgsID];
+	[dic_collect setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+	[dic setValue:dic_collect forKey:@"collections"];
+	
+	NSMutableDictionary *dic_condt = [[NSMutableDictionary alloc] initWithDictionary:dic_collect];
+	[dic setValue:dic_condt forKey:kAYCommArgsCondition];
+	
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
+	if (!likeBtn.selected) {
+		AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"CollectService"];
+		[cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+			if (success) {
+				likeBtn.selected = YES;
+				//				[resultArr.firstObject setValue:[NSNumber numberWithBool:YES] forKey:kAYServiceArgsIsCollect];
+			} else {
+				NSString *title = @"收藏失败!请检查网络链接是否正常";
+				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			}
+		}];
+	} else {
+		AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"UnCollectService"];
+		[cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+			if (success) {
+				likeBtn.selected = NO;
+				//				[resultArr.firstObject setValue:[NSNumber numberWithBool:NO] forKey:kAYServiceArgsIsCollect];
+			} else {
+				NSString *title = @"取消收藏失败!请检查网络链接是否正常";
+				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			}
+		}];
+	}
+	return nil;
+}
 
 #pragma scroll delegate
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-	CGFloat offset_y = scrollView.contentOffset.y;
-	
-	UIView *navBar = [self.views objectForKey:@"FakeNavBar"];
-	UIView *statusBar = [self.views objectForKey:@"FakeStatusBar"];
-	
-	if (offset_y < 0 ) {
-		
-		CGFloat alp = fabs(offset_y) / (kCOLLECTIONVIEWTOP - kStatusAndNavBarH);		// UP -> small
-		if (alp > 0.7) {
-			navLeftBtn.selected = YES;
-			statusStyle = UIStatusBarStyleLightContent;
-			[self setNeedsStatusBarAppearanceUpdate];
-		} else if (alp < 0.7) {
-			navLeftBtn.selected = NO;
-			statusStyle = UIStatusBarStyleDefault;
-			[self setNeedsStatusBarAppearanceUpdate];
-		}
-		else if (alp >= 1)
-			alp = 1.f;
-		NSLog(@"alp : %f", alp);
-		
-		navBar.alpha = statusBar.alpha = 1 - alp;
-		bannerView.alpha = alp;
-	}
-}
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//	CGFloat offset_y = scrollView.contentOffset.y;
+//	
+//	UIView *navBar = [self.views objectForKey:@"FakeNavBar"];
+//	UIView *statusBar = [self.views objectForKey:@"FakeStatusBar"];
+//	
+//	if (offset_y < 0 ) {
+//		
+//		CGFloat alp = fabs(offset_y) / (kCOLLECTIONVIEWTOP - kStatusAndNavBarH);		// UP -> small
+//		if (alp > 0.7) {
+//			navLeftBtn.selected = YES;
+//			statusStyle = UIStatusBarStyleLightContent;
+//			[self setNeedsStatusBarAppearanceUpdate];
+//		} else if (alp < 0.7) {
+//			navLeftBtn.selected = NO;
+//			statusStyle = UIStatusBarStyleDefault;
+//			[self setNeedsStatusBarAppearanceUpdate];
+//		}
+//		else if (alp >= 1)
+//			alp = 1.f;
+//		NSLog(@"alp : %f", alp);
+//		
+//		navBar.alpha = statusBar.alpha = 1 - alp;
+//		bannerView.alpha = alp;
+//	}
+//}
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-//	[self setNeedsStatusBarAppearanceUpdate];
-	return statusStyle;
-}
+//- (UIStatusBarStyle)preferredStatusBarStyle {
+////	[self setNeedsStatusBarAppearanceUpdate];
+//	return statusStyle;
+//}
 
 @end

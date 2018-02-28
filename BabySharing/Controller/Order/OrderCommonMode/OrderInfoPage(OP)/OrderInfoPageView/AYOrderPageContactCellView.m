@@ -34,7 +34,7 @@
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		[Tools creatCALayerWithFrame:CGRectMake(0, 109.5f, SCREEN_WIDTH, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
 		
-		titleLabel = [Tools creatUILabelWithText:@"联系人" andTextColor:[Tools blackColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		titleLabel = [Tools creatLabelWithText:@"联系人" textColor:[Tools black] fontSize:314.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(15);
@@ -58,7 +58,7 @@
 		photoIcon.userInteractionEnabled = YES;
 		[photoIcon addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userPhotoTap)]];
 		
-		nameLabel = [Tools creatUILabelWithText:@"User Name" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		nameLabel = [Tools creatLabelWithText:@"User Name" textColor:[Tools black] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:nameLabel];
 		[nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(photoIcon.mas_right).offset(15);
@@ -177,7 +177,11 @@
 	}
 		
 	if (screen_photo) {
-		[photoIcon sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, screen_photo]] placeholderImage:IMGRESOURCE(@"default_user")];
+		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+		AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+		NSString *prefix = cmd.route;
+		
+		[photoIcon sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", prefix, screen_photo]] placeholderImage:IMGRESOURCE(@"default_user")];
 	}
 	
 	return nil;

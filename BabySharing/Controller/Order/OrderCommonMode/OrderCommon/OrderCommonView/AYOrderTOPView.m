@@ -30,14 +30,14 @@
 - (instancetype)initWithFrame:(CGRect)frame andMode:(OrderMode)mode {
 	if (self = [super initWithFrame:frame]) {
 		NSString *titleStr = @"待确认";
-		UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools blackColor] andFontSize:625.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		UILabel *titleLabel = [Tools creatLabelWithText:titleStr textColor:[Tools black] fontSize:625.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(self.mas_top).offset(55 * 0.5);
 			make.left.equalTo(self).offset(20);
 		}];
 		
-		countlabel = [Tools creatUILabelWithText:@"9+" andTextColor:[Tools whiteColor] andFontSize:313.f andBackgroundColor:[Tools colorWithRED:255 GREEN:100 BLUE:100 ALPHA:1.f] andTextAlignment:NSTextAlignmentCenter];
+		countlabel = [Tools creatLabelWithText:@"9+" textColor:[Tools whiteColor] fontSize:313.f backgroundColor:[Tools colorWithRED:255 GREEN:100 BLUE:100 ALPHA:1.f] textAlignment:NSTextAlignmentCenter];
 		[Tools setViewBorder:countlabel withRadius:10.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
 		[self addSubview:countlabel];
 		[countlabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -59,7 +59,7 @@
 			make.size.mas_equalTo(CGSizeMake(imageWidth, imageWidth));
 		}];
 		
-		noContentLabel = [Tools creatUILabelWithText:@"暂时没有需要处理的订单" andTextColor:[Tools garyColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		noContentLabel = [Tools creatLabelWithText:@"暂时没有需要处理的订单" textColor:[Tools garyColor] fontSize:15.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:noContentLabel];
 		[noContentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(userPhotoView).offset(0);
@@ -67,21 +67,21 @@
 		}];
 //		noContentLabel.hidden = YES;
 		
-		userNameLabel = [Tools creatUILabelWithText:@"User Name" andTextColor:[Tools blackColor] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		userNameLabel = [Tools creatLabelWithText:@"User Name" textColor:[Tools black] fontSize:615.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:userNameLabel];
 		[userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(userPhotoView.mas_right).offset(20);
 			make.bottom.equalTo(userPhotoView.mas_centerY).offset(-3);
 		}];
 		
-		FBActionLabel = [Tools creatUILabelWithText:@"Accept OR Reject" andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		FBActionLabel = [Tools creatLabelWithText:@"Accept OR Reject" textColor:[Tools black] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:FBActionLabel];
 		[FBActionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(userNameLabel.mas_right).offset(5);
 			make.centerY.equalTo(userNameLabel);
 		}];
 		
-		serviceTitleLabel = [Tools creatUILabelWithText:@"The service's title" andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:1];
+		serviceTitleLabel = [Tools creatLabelWithText:@"The service's title" textColor:[Tools black] fontSize:315.f backgroundColor:nil textAlignment:1];
 		[self addSubview:serviceTitleLabel];
 		[serviceTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(userPhotoView.mas_centerY).offset(3);
@@ -161,8 +161,12 @@
 			default:
 				break;
 		}
+		
+		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+		AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+		NSString *prefix = cmd.route;
 		if (photo_name) {
-			[userPhotoView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name]]
+			[userPhotoView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", prefix, photo_name]]
 							 placeholderImage:IMGRESOURCE(@"default_user")];
 		}
 		

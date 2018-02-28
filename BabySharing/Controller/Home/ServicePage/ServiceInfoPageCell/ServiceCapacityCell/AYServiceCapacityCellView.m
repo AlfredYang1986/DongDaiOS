@@ -18,12 +18,9 @@
 
 @implementation AYServiceCapacityCellView {
 	
-	UILabel *filtBabyArgsLabel;
-	UILabel *capacityLabel;
-	
-	UILabel *servantSignLabel;
-	UILabel *servantLabel;
-	
+	AYCapacityUnitView *classView;
+	AYCapacityUnitView *ageView;
+	AYCapacityUnitView *teacherView;
 }
 
 @synthesize para = _para;
@@ -31,132 +28,74 @@
 @synthesize commands = _commands;
 @synthesize notifies = _notiyies;
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-		
-//        capacity_icon
-		UILabel *capacitySignLabel = [Tools creatUILabelWithText:@"可接纳孩子数量" andTextColor:[Tools garyColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		[self addSubview:capacitySignLabel];
-		[capacitySignLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerX.equalTo(self);
-			make.bottom.equalTo(self).offset(-33);
-			make.top.equalTo(self).offset(58);
-		}];
-		
-		capacityLabel = [Tools creatUILabelWithText:@"0" andTextColor:[Tools themeColor] andFontSize:622.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		[self addSubview:capacityLabel];
-		[capacityLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerX.equalTo(capacitySignLabel);
-			make.bottom.equalTo(capacitySignLabel.mas_top).offset(-13);
-		}];
-
-//        age_boundary_icon
-		UILabel *filtBabySignLabel = [Tools creatUILabelWithText:@"可接纳孩子年龄" andTextColor:[Tools garyColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		[self addSubview:filtBabySignLabel];
-		[filtBabySignLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerX.equalTo(capacitySignLabel).offset(-SCREEN_WIDTH/3);
-			make.bottom.equalTo(capacitySignLabel);
-		}];
-		
-		filtBabyArgsLabel = [Tools creatUILabelWithText:@"years old 0-0" andTextColor:[Tools themeColor] andFontSize:322.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		[self addSubview:filtBabyArgsLabel];
-		[filtBabyArgsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerX.equalTo(filtBabySignLabel);
-			make.centerY.equalTo(capacityLabel);
-		}];
-
-//        allow_leave_icon
-		servantSignLabel = [Tools creatUILabelWithText:@"Numb of servant" andTextColor:[Tools garyColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		[self addSubview:servantSignLabel];
-		[servantSignLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerX.equalTo(capacitySignLabel).offset(SCREEN_WIDTH/3);
-			make.bottom.equalTo(capacitySignLabel);
-		}];
-		servantLabel = [Tools creatUILabelWithText:@"Numb" andTextColor:[Tools themeColor] andFontSize:622.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		[self addSubview:servantLabel];
-		[servantLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerX.equalTo(servantSignLabel);
-			make.centerY.equalTo(capacityLabel);
-		}];
-		
-		UIView *bottom_view = [[UIView alloc] init];
-		bottom_view.backgroundColor = [Tools garyBackgroundColor];
-		[self addSubview:bottom_view];
-		[bottom_view mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerX.equalTo(self);
-			make.bottom.equalTo(self);
-			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 10));
-		}];
-		
-		UIView *shadow_view = [[UIView alloc]init];
-		shadow_view.backgroundColor = [Tools whiteColor];
-		shadow_view.layer.shadowColor = [Tools garyColor].CGColor;
-		shadow_view.layer.shadowOffset = CGSizeMake(0, 2.f);
-		shadow_view.layer.shadowOpacity = 0.05f;
-		shadow_view.layer.shadowRadius =1.f;
-		[self addSubview:shadow_view];
-		[shadow_view mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.bottom.equalTo(self).offset(-10);
-			make.centerX.equalTo(self);
-			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 10));
-		}];
-		
-		[self sendSubviewToBack:shadow_view];
-		[self sendSubviewToBack:bottom_view];
-		
-        if (reuseIdentifier != nil) {
-            [self setUpReuseCell];
-        }
-    }
-    return self;
-}
-
-#pragma mark -- life cycle
-- (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(@"ServiceCapacityCell", @"ServiceCapacityCell");
-    NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
-    for (NSString* name in cell.commands.allKeys) {
-        AYViewCommand* cmd = [cell.commands objectForKey:name];
-        AYViewCommand* c = [[AYViewCommand alloc]init];
-        c.view = self;
-        c.method_name = cmd.method_name;
-        c.need_args = cmd.need_args;
-        [arr_commands setValue:c forKey:name];
-    }
-    self.commands = [arr_commands copy];
-    
-    NSMutableDictionary* arr_notifies = [[NSMutableDictionary alloc]initWithCapacity:cell.notifies.count];
-    for (NSString* name in cell.notifies.allKeys) {
-        AYViewNotifyCommand* cmd = [cell.notifies objectForKey:name];
-        AYViewNotifyCommand* c = [[AYViewNotifyCommand alloc]init];
-        c.view = self;
-        c.method_name = cmd.method_name;
-        c.need_args = cmd.need_args;
-        [arr_notifies setValue:c forKey:name];
-    }
-    self.notifies = [arr_notifies copy];
-}
-
 #pragma mark -- commands
 - (void)postPerform {
-    
+	
 }
 
 - (void)performWithResult:(NSObject**)obj {
-    
+	
 }
 
 - (NSString*)getViewType {
-    return kAYFactoryManagerCatigoryView;
+	return kAYFactoryManagerCatigoryView;
 }
 
 - (NSString*)getViewName {
-    return [NSString stringWithUTF8String:object_getClassName([self class])];
+	return [NSString stringWithUTF8String:object_getClassName([self class])];
 }
 
 - (NSString*)getCommandType {
-    return kAYFactoryManagerCatigoryView;
+	return kAYFactoryManagerCatigoryView;
+}
+
+
+#pragma mark -- life cycle
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+		self.selectionStyle = UITableViewCellSelectionStyleNone;
+		
+		//age_boundary_icon
+		ageView = [[AYCapacityUnitView alloc] initWithIcon:@"details_icon_ages" title:@"适合年龄" info:@"0"];
+		[self addSubview:ageView];
+		[ageView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(self);
+			make.top.equalTo(self).offset(18);
+			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH/3, 73));
+			make.bottom.equalTo(self).offset(-17);
+		}];
+		
+		//capacity_icon
+		classView = [[AYCapacityUnitView alloc] initWithIcon:@"details_icon_classmax" title:@"班级人数" info:@"0"];
+		[self addSubview:classView];
+		[classView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(ageView.mas_right);
+			make.top.equalTo(ageView);
+			make.size.equalTo(ageView);
+		}];
+		
+		//allow_leave_icon
+		teacherView = [[AYCapacityUnitView alloc] initWithIcon:@"details_icon_teacher" title:@"师生配比" info:@"0"];
+		[self addSubview:teacherView];
+		[teacherView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(classView.mas_right);
+			make.top.equalTo(ageView);
+			make.size.equalTo(ageView);
+		}];
+		
+		UIView *bottom_view = [[UIView alloc] init];
+		bottom_view.backgroundColor = [UIColor garyLine];
+		[self addSubview:bottom_view];
+		[bottom_view mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
+			make.right.equalTo(self).offset(-SCREEN_MARGIN_LR);
+			make.bottom.equalTo(self);
+			make.height.mas_equalTo(0.5);
+		}];
+		
+    }
+    return self;
 }
 
 #pragma mark -- actions
@@ -164,35 +103,36 @@
 
 #pragma mark -- notifies
 - (id)setCellInfo:(id)args {
-    
-    NSDictionary *service_info = (NSDictionary*)args;
+	NSDictionary *service_info = args;
+	[ageView info:args atIndex:0];
+	[classView info:args atIndex:1];
+	[teacherView info:args atIndex:2];
 	
-	NSDictionary *info_detail = [service_info objectForKey:kAYServiceArgsDetailInfo];
+	int class = [[service_info objectForKey:@"class_max_stu"] intValue];
+	int teacher = [[service_info objectForKey:@"teacher_num"] intValue];
 	
-	NSDictionary *age_boundary = [info_detail objectForKey:kAYServiceArgsAgeBoundary];
-	NSNumber *usl = ((NSNumber *)[age_boundary objectForKey:kAYServiceArgsAgeBoundaryUp]);
-	NSNumber *lsl = ((NSNumber *)[age_boundary objectForKey:kAYServiceArgsAgeBoundaryLow]);
-	NSString *ages = [NSString stringWithFormat:@"%d-%d岁",lsl.intValue,usl.intValue];
-	
-	NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:ages];
-	[attributedText setAttributes:@{NSFontAttributeName:kAYFontMedium(22.f)} range:NSMakeRange(0, ages.length - 1)];
-	[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11.f]} range:NSMakeRange(ages.length - 1, 1)];
-	filtBabyArgsLabel.attributedText = attributedText;
-
-	NSNumber *capacity = [info_detail objectForKey:kAYServiceArgsCapacity];
-	capacityLabel.text = [NSString stringWithFormat:@"%d",capacity.intValue == 0 ? 1 : capacity.intValue];
-
-	NSString *servantCat = @"服务者数量";
-	NSDictionary *info_categ = [service_info objectForKey:kAYServiceArgsCategoryInfo];
-	NSString *service_cat = [info_categ objectForKey:kAYServiceArgsCat];
-	if ([service_cat isEqualToString:kAYStringCourse]) {
-		servantCat = @"老师数量";
+	if ( teacher <= 0) {	//no teacher
+		if (class <= 0) {	//no class
+			[ageView mas_updateConstraints:^(MASConstraintMaker *make) {
+				make.size.mas_equalTo(CGSizeMake(101, 73));
+			}];
+			classView.hidden = teacherView.hidden = YES;
+		} else {
+			[ageView mas_updateConstraints:^(MASConstraintMaker *make) {
+				make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH*0.5, 73));
+			}];
+			[classView mas_updateConstraints:^(MASConstraintMaker *make) {
+				make.size.equalTo(ageView);
+			}];
+			teacherView.hidden = YES;
+		}
+	} else {	//have teacher
+		if (class <= 0) {	//no class
+			
+		} else {	//have class
+			
+		}
 	}
-	servantSignLabel.text = servantCat;
-	
-	NSNumber *servant = [info_detail objectForKey:kAYServiceArgsServantNumb];
-	servantLabel.text = [NSString stringWithFormat:@"%d", servant.intValue == 0 ? 1 : servant.intValue];
-    
     return nil;
 }
 

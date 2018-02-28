@@ -70,7 +70,12 @@
 		<command type="notify"  message="didSelectedRow:" />
 		<command type="notify"  message="scrollViewWillBeginDrag" />
 		<command type="notify"  message="scrollViewWillEndDrag" />
+		<command type="notify"  message="willOpenMapMatch" />
     </delegate>
+	
+	<delegate type="TableViewDelegateAndDatasource" name="NursaryList" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+	</delegate>
 	
 	<delegate type="TableViewDelegateAndDatasource" name="SearchSKU" factory="AYDefaultDelegateFactory" >
 		<command type="message" message="changeQueryData:" />
@@ -98,8 +103,10 @@
 	<delegate type="TableViewDelegateAndDatasource" name="Assortment" factory="AYDefaultDelegateFactory" >
 		<command type="message" message="changeQueryData:" />
 	</delegate>
-	<delegate type="TableViewDelegateAndDatasource" name="TopicsList" factory="AYDefaultDelegateFactory" >
+	<delegate type="TableViewDelegateAndDatasource" name="TopicContent" factory="AYDefaultDelegateFactory" >
 		<command type="message" message="changeQueryData:" />
+		<command type="message" message="TransfromExpend:" />
+		<command type="notify"  message="scrollViewDidScroll:" />
 	</delegate>
 	
 	<delegate type="TableViewDelegateAndDatasource" name="SortServiceList" factory="AYDefaultDelegateFactory" >
@@ -297,7 +304,28 @@
         <command type="notify" message="setNapCost" />
         <command type="notify" message="setNapAdress" />
     </delegate>
-    
+	
+	<delegate type="TableViewDelegateAndDatasource" name="SetBasicInfo" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+	</delegate>
+	
+	<delegate type="TableViewDelegateAndDatasource" name="SetLocationInfo" factory="AYDefaultDelegateFactory" >
+		<command type="message"		message="changeQueryData:" />
+		<command type="message"		message="resetCellHeight:" />
+		<command type="notify"		message="pickYardType" />
+		<command type="notify"		message="setServiceFacility" />
+		<command type="notify"		message="didScrollHideKeyBroad" />
+	</delegate>
+	<delegate type="PickerViewDelegateAndDatasource" name="YardTypePick" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+		<command type="message" message="queryCurrentSelected:" />
+	</delegate>
+	
+	<delegate type="PickerViewDelegateAndDatasource" name="SetAgeBoundary" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+		<command type="message" message="queryCurrentSelected:" />
+	</delegate>
+	
     <delegate type="PickerViewDelegateAndDatasource" name="SetNapAges" factory="AYDefaultDelegateFactory" >
         <command type="message" message="queryCurrentSelected:" />
     </delegate>
@@ -316,7 +344,7 @@
         <command type="message" message="changeEditMode:" />
     </delegate>
     
-    <delegate type="TableViewDelegateAndDatasource" name="SetNapCost" factory="AYDefaultDelegateFactory" >
+    <delegate type="TableViewDelegateAndDatasource" name="SetServiceFacility" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
     </delegate>
     

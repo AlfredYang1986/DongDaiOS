@@ -24,23 +24,23 @@
 
 #define btmAlertViewH                   80
 
-@implementation AYViewController{
+@interface AYViewController()
+@property (nonatomic, strong) UIView *maskView;
+@property (nonatomic, strong) AYBtmTipView *btmAlertView;
+@end
+
+@implementation AYViewController {
     int count_loading;
     int time_count;
     NSTimer *timer_loding;
     
-    UIView *maskView;
-    UIView *btmAlertView;
 }
 
-
 @synthesize para = _para;
-
 @synthesize commands = _commands;
 @synthesize views = _views;
 @synthesize delegates = _delegates;
 @synthesize facades = _facades;
-
 @synthesize loading = _loading;
 
 - (NSString*)getControllerName {
@@ -53,11 +53,8 @@
 }
 
 - (void)viewDidLoad {
-    NSLog(@"command are : %@", self.commands);
-    NSLog(@"facade are : %@", self.facades);
-    NSLog(@"view are : %@", self.views);
-    NSLog(@"delegates are : %@", self.delegates);
-    
+	[super viewDidLoad];
+	
     self.view.backgroundColor = [Tools whiteColor];
 	self.automaticallyAdjustsScrollViewInsets = NO;
 	
@@ -177,7 +174,7 @@
 
 - (id)startRemoteCall:(id)obj {
     
-    time_count = 30;            //star a new remote, so reset time count to 30
+    time_count = 30;            //star a new remote, so reset time count to 120
     if (count_loading == 0) {
         timer_loding = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerRun) userInfo:nil repeats:YES];
         [timer_loding fire];
@@ -244,51 +241,37 @@
 }
 
 #pragma mark -- btm alert
+- (UIView*)maskView {
+	if (!_maskView) {
+		_maskView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 0)];
+		_maskView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.2];
+		
+		//添加view到window
+		[[[[UIApplication sharedApplication]delegate] window] addSubview:_maskView];
+		_maskView.userInteractionEnabled = YES;
+		[_maskView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didMaskViewTap)]];
+	}
+	return _maskView;
+}
+- (AYBtmTipView*)btmAlertView {
+	if (!_btmAlertView) {
+		_btmAlertView = [[AYBtmTipView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, btmAlertViewH)];
+		[self.maskView addSubview:_btmAlertView];
+		
+		[_btmAlertView.closeBtn addTarget:self action:@selector(BtmAlertCloseBtnClick) forControlEvents:UIControlEventTouchUpInside];
+	}
+	return _btmAlertView;
+}
+
 - (id)ShowBtmAlert:(id)args {
-    
-    if (btmAlertView) {
-        [self deallocBtmAlertWithVCWillDisapper];
-    }
-    
-    btmAlertView = [[UIView alloc]init];
-    btmAlertView.backgroundColor = [Tools whiteColor];
-    
-    //添加view到window
-    [[UIApplication sharedApplication].keyWindow addSubview:btmAlertView];
-    
-    CALayer *topLine = [CALayer layer];
-    topLine.frame = CGRectMake(0, 0, SCREEN_WIDTH, 0.5);
-    topLine.backgroundColor = [Tools garyLineColor].CGColor;
-    [btmAlertView.layer addSublayer:topLine];
-    
-    btmAlertView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, btmAlertViewH);
-    [UIView animateWithDuration:0.25 animations:^{
-        btmAlertView.center = CGPointMake(btmAlertView.center.x, SCREEN_HEIGHT - btmAlertViewH*0.5);
-    }];
-    
-    UIButton *closeBtn = [UIButton new];
-    [closeBtn setImage:IMGRESOURCE(@"content_close") forState:UIControlStateNormal];
-    [closeBtn addTarget:self action:@selector(didBtmAlertViewCloseBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [btmAlertView addSubview:closeBtn];
-    [closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(btmAlertView).offset(-5);
-        make.centerY.equalTo(btmAlertView);
-        make.size.mas_equalTo(CGSizeMake(49, 49));
-    }];
-    
-    NSDictionary *alert_info = (NSDictionary*)args;
-    int type_alert = ((NSNumber*)[alert_info objectForKey:@"type"]).intValue;
-    
-    NSString *titleStr = [alert_info objectForKey:@"title"];
-    UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-    titleLabel.numberOfLines = 0;
-    [btmAlertView addSubview:titleLabel];
-    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(btmAlertView);
-        make.left.equalTo(btmAlertView).offset(15);
-        make.right.equalTo(closeBtn.mas_left).offset(-10);
-    }];
-    
+	
+	NSDictionary *alert_info = (NSDictionary*)args;
+	NSString *titleStr = [alert_info objectForKey:@"title"];
+	self.btmAlertView.title = titleStr;
+	
+	[self showBtmAlertView];
+	
+	int type_alert = ((NSNumber*)[alert_info objectForKey:@"type"]).intValue;
     switch (type_alert) {
         case BtmAlertViewTypeCommon:
         case BtmAlertViewTypeHideWithAction:
@@ -296,46 +279,18 @@
             
         }
             break;
-        case BtmAlertViewTypeHideWithTimer:
-        {
+        case BtmAlertViewTypeHideWithTimer: {
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [UIView animateWithDuration:0.25 animations:^{
-                    btmAlertView.center = CGPointMake(btmAlertView.center.x, SCREEN_HEIGHT + btmAlertViewH*0.5);
-				} completion:^(BOOL finished) {
-					[btmAlertView removeFromSuperview];
-					btmAlertView = nil;
-				}];
+				if (self.maskView.frame.origin.y == 0) {
+					[self hideBtmAlertView];
+				}
             });
         }
             break;
-        case BtmAlertViewTypeWitnBtn:
-        {
-            
-            UIViewController *rootVC = self.tabBarController;
-            if (!rootVC) {
-                rootVC = self.navigationController;
-            }
-            maskView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-            maskView.backgroundColor = [Tools borderAlphaColor];
-            [rootVC.view addSubview:maskView];
-            
-            [titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(btmAlertView).offset(15);
-                make.left.equalTo(btmAlertView).offset(15);
-                make.right.equalTo(closeBtn.mas_left).offset(-10);
-            }];
-            
-            NSString *btnTitleStr = @"确认";
-            UIButton *otherBtn = [Tools creatUIButtonWithTitle:btnTitleStr andTitleColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil];
-            [otherBtn addTarget:self action:@selector(BtmAlertOtherBtnClick) forControlEvents:UIControlEventTouchUpInside];
-            [btmAlertView addSubview:otherBtn];
-            [otherBtn sizeToFit];
-            [otherBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(titleLabel);
-                make.top.equalTo(titleLabel.mas_bottom).offset(5);
-                make.size.mas_equalTo(CGSizeMake(otherBtn.bounds.size.width + 10, otherBtn.bounds.size.height));
-            }];
-            
+        case BtmAlertViewTypeWitnBtn: {
+			
+			[self.btmAlertView replaceCertainBtn];
+			[self.btmAlertView.closeBtn addTarget:self action:@selector(BtmAlertOtherBtnClick) forControlEvents:UIControlEventTouchUpInside];
         }
             break;
             
@@ -346,33 +301,43 @@
     return nil;
 }
 
-- (void)didBtmAlertViewCloseBtnClick {
-	
-	NSLog(@"BtmAlertViewClose");
+#pragma mark - btm alert view actions
+- (void)showBtmAlertView {
+	NSLog(@"showBtmAlertView");
+	self.maskView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 	[UIView animateWithDuration:0.25 animations:^{
-		btmAlertView.center = CGPointMake(btmAlertView.center.x, SCREEN_HEIGHT + btmAlertViewH*0.5);
-		maskView.alpha = 0;
-	} completion:^(BOOL finished) {
-		[btmAlertView removeFromSuperview];
-		[maskView removeFromSuperview];
-		btmAlertView = nil;
+		self.btmAlertView.frame = CGRectMake(0, SCREEN_HEIGHT-btmAlertViewH, SCREEN_WIDTH, btmAlertViewH);
 	}];
-		
+}
+
+- (void)hideBtmAlertView {
+	NSLog(@"hideBtmAlertView");
+	[UIView animateWithDuration:0.25 animations:^{
+		self.btmAlertView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, btmAlertViewH);
+	} completion:^(BOOL finished) {
+		self.maskView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
+	}];
+}
+
+- (void)didMaskViewTap {
+	[self hideBtmAlertView];
 }
 
 - (void)BtmAlertOtherBtnClick {
-    [self didBtmAlertViewCloseBtnClick];
+    [self hideBtmAlertView];
+}
+
+- (void)BtmAlertCloseBtnClick {
+	[self hideBtmAlertView];
 }
 
 - (id)HideBtmAlert:(id)args {
-    [self didBtmAlertViewCloseBtnClick];
-    return nil;
+	[self hideBtmAlertView];
+	return nil;
 }
 
 - (void)deallocBtmAlertWithVCWillDisapper {
-	[btmAlertView removeFromSuperview];
-	[maskView removeFromSuperview];
-	btmAlertView = nil;
+	
 }
 
 #pragma mark -- tabBarViewController selectedIndex

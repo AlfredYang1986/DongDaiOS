@@ -51,7 +51,7 @@
 	[super viewDidLoad];
 	
 	UIButton *closeBtn = [[UIButton alloc]init];
-	[closeBtn setImage:IMGRESOURCE(@"map_cancel") forState:UIControlStateNormal];
+	[closeBtn setImage:IMGRESOURCE(@"map_icon_close") forState:UIControlStateNormal];
 	[self.view addSubview:closeBtn];
 	[closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(25);
@@ -77,7 +77,7 @@
 
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
 	view.backgroundColor = [UIColor clearColor];
 	return nil;
 }
@@ -106,11 +106,11 @@
 }
 
 - (id)rightBtnSelected {
-	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-	[dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
-	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-	id<AYCommand> cmd = POP;
-	[cmd performWithResult:&dic];
+//	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+//	[dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+//	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+//	id<AYCommand> cmd = POP;
+//	[cmd performWithResult:&dic];
 	return nil;
 }
 

@@ -18,9 +18,6 @@
 
 @implementation AYTabBarServiceController{
     
-    UIImage* img_home_with_no_message;
-    UIImage* img_home_with_unread_message;
-    
     int isExchangeModel;
     int expectIndex;
 }
@@ -50,42 +47,43 @@
     id<AYCommand> cmd_order_init = [self.commands objectForKey:@"OrderServantInit"];
     AYViewController* order = nil;
     [cmd_order_init performWithResult:&order];
-    order.tabBarItem.title = @"订单";
     
     id<AYCommand> cmd_message_init = [self.commands objectForKey:@"MessageInit"];
     AYViewController* message = nil;
     [cmd_message_init performWithResult:&message];
-    message.tabBarItem.title = @"消息";
     
     id<AYCommand> cmd_service_init = [self.commands objectForKey:@"MyServiceInit"];
     AYViewController* service = nil;
     [cmd_service_init performWithResult:&service];
-    service.tabBarItem.title = @"日程";
     
     id<AYCommand> cmd_profile_init = [self.commands objectForKey:@"ProfileInit"];
     AYViewController* profile = nil;
     [cmd_profile_init performWithResult:&profile];
-    profile.tabBarItem.title = @"我的";
     
     self.viewControllers = [NSArray arrayWithObjects:order, message, service, profile, nil];
     self.delegate = self;
-    
-    img_home_with_no_message = IMGRESOURCE(@"tab_home");
-    img_home_with_unread_message = IMGRESOURCE(@"tab_home_unread");
-    
-    _dongda_tabbar = [[DongDaTabBar alloc]initWithBar:self];
-    _dongda_tabbar.backgroundColor = [Tools blackColor];
-    [_dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_order_white") andSelectedImg:IMGRESOURCE(@"tab_order_selected") andTitle:@"日程"];
-    [_dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_message_white") andSelectedImg:IMGRESOURCE(@"tab_message_selected") andTitle:@"消息"];
-    [_dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_service") andSelectedImg:IMGRESOURCE(@"tab_service_selected") andTitle:@"服务"];
-    [_dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_profile_white") andSelectedImg:IMGRESOURCE(@"tab_profile_selected") andTitle:@"我的"];
-    
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 6) {
-        [[UITabBar appearance] setShadowImage:[UIImage new]];
-        [[UITabBar appearance] setBackgroundImage:[[UIImage alloc]init]];
-    }
-    
-//    dongda_tabbar.selectIndex = 3;
+	
+	[self controller:order Title:@"日程" tabBarImageName:@"tab_order_white"];
+	[self controller:message Title:@"消息" tabBarImageName:@"tab_message_white"];
+	[self controller:service Title:@"服务" tabBarImageName:@"tab_service"];
+	[self controller:profile Title:@"我的" tabBarImageName:@"tab_profile_white"];
+	
+	[[UITabBar appearance] setBarTintColor:[Tools black]];
+	[UITabBar appearance].translucent = NO;
+	
+	
+//    _dongda_tabbar = [[DongDaTabBar alloc]initWithBar:self];
+//    _dongda_tabbar.backgroundColor = [Tools blackColor];
+//    [_dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_order_white") andSelectedImg:IMGRESOURCE(@"tab_order_selected") andTitle:@"日程"];
+//    [_dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_message_white") andSelectedImg:IMGRESOURCE(@"tab_message_selected") andTitle:@"消息"];
+//    [_dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_service") andSelectedImg:IMGRESOURCE(@"tab_service_selected") andTitle:@"服务"];
+//    [_dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_profile_white") andSelectedImg:IMGRESOURCE(@"tab_profile_selected") andTitle:@"我的"];
+//
+//    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 6) {
+//        [[UITabBar appearance] setShadowImage:[UIImage new]];
+//        [[UITabBar appearance] setBackgroundImage:[[UIImage alloc]init]];
+//    }
+	
 }
 
 - (void)performWithResult:(NSObject *__autoreleasing *)obj {
@@ -125,63 +123,69 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.mode = DongDaAppModeNapPersonal;
+    self.mode = DongDaAppModeServant;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    if (isExchangeModel != ModeExchangeTypeDissVC) {
-        UIView *cover = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
-        [self.view addSubview:cover];
-        
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setValue:[NSNumber numberWithInt:DongDaAppModeNapPersonal] forKey:@"dongda_app_mode"];
-        [defaults synchronize];
-        
-        self.selectedIndex = expectIndex;
-        DongDaTabBarItem* btn = (DongDaTabBarItem*)[_dongda_tabbar viewWithTag:expectIndex];
-        [_dongda_tabbar itemSelected:btn];
-        
-        if (isExchangeModel == ModeExchangeTypeCommonToNapPersonal || isExchangeModel == ModeExchangeTypeCommonToNapFamily) {
-            
-            NSString *tipString ;
-            if (isExchangeModel == ModeExchangeTypeCommonToNapPersonal) {
-                tipString = @"切换为服务者";
-            } else if (isExchangeModel == ModeExchangeTypeCommonToNapFamily) {
-                tipString = @"切换为看护家庭";
-            }
-            
-            cover.backgroundColor = [Tools darkBackgroundColor];
-            UILabel *tipsLabel = [Tools creatUILabelWithText:tipString andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:1];
-            [cover addSubview:tipsLabel];
-            [tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.centerY.equalTo(cover).offset(-60);
-                make.centerX.equalTo(cover);
-            }];
-            
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [UIView animateWithDuration:0.5 animations:^{
-                    cover.alpha = 0;
-                } completion:^(BOOL finished) {
-                    [cover removeFromSuperview];
-                }];
-            });
-        } else if(isExchangeModel == ModeExchangeTypeUnloginToAllModel){
-            cover.backgroundColor = [UIColor whiteColor];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [UIView animateWithDuration:1.25 animations:^{
-                    cover.alpha = 0;
-                } completion:^(BOOL finished) {
-                    [cover removeFromSuperview];
-                }];
-            });
-        } else {
-            [cover removeFromSuperview];
-        }
-        
-        isExchangeModel = ModeExchangeTypeDissVC;
-    }
+	
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	
+	if (isExchangeModel != ModeExchangeTypeDissVC) {
+		UIView *cover = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+//		[self.view addSubview:cover];
+        [[UIApplication sharedApplication].keyWindow addSubview:cover];
+		
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		[defaults setValue:[NSNumber numberWithInt:DongDaAppModeServant] forKey:@"dongda_app_mode"];
+		[defaults synchronize];
+		
+		self.selectedIndex = expectIndex;
+		DongDaTabBarItem* btn = (DongDaTabBarItem*)[_dongda_tabbar viewWithTag:expectIndex];
+		[_dongda_tabbar itemSelected:btn];
+		
+		if (isExchangeModel == ModeExchangeTypeCommonToServant || isExchangeModel == ModeExchangeTypeCommonToNapFamily) {
+			
+			NSString *tipString ;
+			if (isExchangeModel == ModeExchangeTypeCommonToServant) {
+				tipString = @"切换为服务者";
+			} else if (isExchangeModel == ModeExchangeTypeCommonToNapFamily) {
+				tipString = @"切换为看护家庭";
+			}
+			
+			cover.backgroundColor = [Tools darkBackgroundColor];
+			UILabel *tipsLabel = [Tools creatLabelWithText:tipString textColor:[UIColor whiteColor] fontSize:16.f backgroundColor:nil textAlignment:1];
+			[cover addSubview:tipsLabel];
+			[tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+				make.centerY.equalTo(cover).offset(-60);
+				make.centerX.equalTo(cover);
+			}];
+			
+			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+				[UIView animateWithDuration:0.5 animations:^{
+					cover.alpha = 0;
+				} completion:^(BOOL finished) {
+					[cover removeFromSuperview];
+				}];
+			});
+		} else if(isExchangeModel == ModeExchangeTypeUnloginToAllModel){
+			cover.backgroundColor = [UIColor whiteColor];
+			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+				[UIView animateWithDuration:1.25 animations:^{
+					cover.alpha = 0;
+				} completion:^(BOOL finished) {
+					[cover removeFromSuperview];
+				}];
+			});
+		} else {
+			[cover removeFromSuperview];
+		}
+		
+		isExchangeModel = ModeExchangeTypeDissVC;
+	}
 }
 
 #pragma mark -- tabbar delegate
@@ -207,6 +211,27 @@
 }
 
 #pragma mark -- actions
+- (void)controller:(AYViewController *)controller Title:(NSString *)title tabBarImageName:(NSString *)imageName {
+	controller.tabBarItem = [[UITabBarItem alloc] init];
+//	controller.tabBarItem
+	
+	[controller.tabBarItem setTitle:title];
+	NSDictionary *attr_color_normal = @{NSFontAttributeName:[UIFont systemFontOfSize:10.f], NSForegroundColorAttributeName:[Tools whiteColor]};
+	[controller.tabBarItem setTitleTextAttributes:attr_color_normal forState:UIControlStateNormal];
+	
+	NSDictionary *attr_color_select = @{NSFontAttributeName:[UIFont systemFontOfSize:10.f], NSForegroundColorAttributeName:[Tools theme]};
+	[controller.tabBarItem setTitleTextAttributes:attr_color_select forState:UIControlStateSelected];
+	
+	UIImage *image = [UIImage imageNamed:imageName];
+	image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+	[controller.tabBarItem setImage:image];
+	
+	UIImage *selectedImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@_selected", imageName]];
+	selectedImage = [selectedImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+	[controller.tabBarItem setSelectedImage:selectedImage];
+	
+}
+
 - (void)setCurrentIndex:(NSNumber*)index {
     self.selectedIndex = index.integerValue;
     DongDaTabBarItem* btn = (DongDaTabBarItem*)[_dongda_tabbar viewWithTag:3];

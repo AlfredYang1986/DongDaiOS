@@ -42,7 +42,13 @@
             [LoginToken unbindTokenInContext:f.doc.managedObjectContext WithPhoneNum:phoneNo];
         }
 		
-        LoginToken* token = [LoginToken createTokenInContext:f.doc.managedObjectContext withUserID:newID andAttrs:dic];
+        LoginToken* token = [LoginToken enumLoginUserInContext:f.doc.managedObjectContext withUserID:newID];
+        
+        if (token != nil) {
+            [LoginToken updataLoginUserInContext:f.doc.managedObjectContext withUserID:newID andAttrs:dic];
+        } else {
+            token = [LoginToken createTokenInContext:f.doc.managedObjectContext withUserID:newID andAttrs:dic];
+        }
         
         [CurrentToken changeCurrentLoginUser:token inContext:f.doc.managedObjectContext];
         [f.doc.managedObjectContext save:nil];

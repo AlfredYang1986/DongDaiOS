@@ -44,14 +44,13 @@
 + (void)removeTokenInContext:(NSManagedObjectContext*)context WithPhoneNum:(NSString*)phoneNo {
     NSFetchRequest* request = [NSFetchRequest fetchRequestWithEntityName:@"LoginToken"];
     request.predicate = [NSPredicate predicateWithFormat:@"phoneNo = %@", phoneNo];
-    NSSortDescriptor* des = [NSSortDescriptor sortDescriptorWithKey:@"user_id" ascending:YES];
-    
+	
+	NSSortDescriptor* des = [NSSortDescriptor sortDescriptorWithKey:@"user_id" ascending:YES];
     request.sortDescriptors = [NSArray arrayWithObjects: des, nil];
     
     NSError* error = nil;
     NSArray* matches = [context executeFetchRequest:request error:&error];
-   
-   
+	
     for (LoginToken* tmp in matches) {
         [context deleteObject:tmp];
     }

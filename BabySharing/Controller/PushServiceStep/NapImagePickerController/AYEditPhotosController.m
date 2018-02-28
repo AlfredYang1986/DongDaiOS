@@ -137,7 +137,7 @@ static NSString* const defaultKeyIsHadSignedTips =      @"default_key_IsHadSigne
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+    view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
     view.backgroundColor = [UIColor whiteColor];
     
     NSString *title = @"图片展示";
@@ -154,11 +154,11 @@ static NSString* const defaultKeyIsHadSignedTips =      @"default_key_IsHadSigne
 
 - (void)setNavRightBtnEnableStatus {
 	if (selectedPhotos.count == 0 || !selectedPhotos) {
-		UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil];
+		UIButton* bar_right_btn = [Tools creatBtnWithTitle:@"保存" titleColor:[Tools garyColor] fontSize:NavBarRightBtnFontSize backgroundColor:nil];
 		bar_right_btn.userInteractionEnabled = NO;
 		kAYViewsSendMessage(@"FakeNavBar", @"setRightBtnWithBtn:", &bar_right_btn)
 	} else {
-		UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
+		UIButton* bar_right_btn = [Tools creatBtnWithTitle:@"保存" titleColor:[Tools theme] fontSize:NavBarRightBtnFontSize backgroundColor:nil];
 		kAYViewsSendMessage(@"FakeNavBar", @"setRightBtnWithBtn:", &bar_right_btn)
 	}
 }

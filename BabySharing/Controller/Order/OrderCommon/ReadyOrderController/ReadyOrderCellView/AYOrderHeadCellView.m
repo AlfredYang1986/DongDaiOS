@@ -27,14 +27,14 @@
     if (self) {
         NSLog(@"init reuse identifier");
 		
-        orderNo_ = [Tools creatUILabelWithText:@"ASDASDASDASDASFDFS" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:0];
+        orderNo_ = [Tools creatLabelWithText:@"ASDASDASDASDASFDFS" textColor:[Tools black] fontSize:17.f backgroundColor:nil textAlignment:0];
 		[self addSubview:orderNo_];
         [orderNo_ mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(20);
             make.left.equalTo(self).offset(15);
         }];
         
-        titleLabel = [Tools creatUILabelWithText:@"服务标题" andTextColor:[Tools blackColor] andFontSize:20.f andBackgroundColor:nil andTextAlignment:0];
+        titleLabel = [Tools creatLabelWithText:@"服务标题" textColor:[Tools black] fontSize:20.f backgroundColor:nil textAlignment:0];
 		[self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(orderNo_.mas_bottom).offset(20);

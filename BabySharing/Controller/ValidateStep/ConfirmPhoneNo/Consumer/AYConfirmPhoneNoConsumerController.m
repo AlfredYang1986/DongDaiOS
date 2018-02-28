@@ -62,7 +62,7 @@
     UIView* view = [self.views objectForKey:@"ServiceConsumerFace"];
     view.backgroundColor = [UIColor clearColor];
     [view mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_top).offset(64);
+        make.top.equalTo(self.view.mas_top).offset(kStatusAndNavBarH);
         make.left.equalTo(self.view).offset(20);
         make.right.equalTo(self.view).offset(-20);
         make.height.mas_equalTo(200);
@@ -77,8 +77,8 @@
         make.height.mas_equalTo(inpu_view.frame.size.height);
     }];
 	
-	UIButton *nextBtn = [Tools creatUIButtonWithTitle:@"提交" andTitleColor:[Tools whiteColor] andFontSize:318.f andBackgroundColor:[Tools themeColor]];
-	[Tools setViewBorder:nextBtn withRadius:22.5f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
+	UIButton *nextBtn = [Tools creatBtnWithTitle:@"提交" titleColor:[Tools whiteColor] fontSize:318.f backgroundColor:[Tools theme]];
+	[Tools setViewBorder:nextBtn withRadius:22.5f andBorderWidth:0 andBorderColor:nil andBackground:[Tools theme]];
 	[nextBtn addTarget:self action:@selector(rightBtnSelected) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:nextBtn];
 	[nextBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -143,13 +143,13 @@
 
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
     view.backgroundColor = [UIColor clearColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+    view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
     view.backgroundColor = [UIColor clearColor];
     
 	UIImage* left = IMGRESOURCE(@"bar_left_theme");
@@ -253,6 +253,12 @@
     return nil;
 }
 
+- (id)setRightBtnEnabled {
+	UIButton *btn_right = [Tools creatBtnWithTitle:@"下一步" titleColor:[Tools theme] fontSize:616.f backgroundColor:nil];
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &btn_right)
+	return nil;
+}
+
 #pragma mark -- actions
 - (id)requeryForCode {
     
@@ -290,8 +296,7 @@
 			
         } else {
             
-            NSString *title = @"请改善网络环境并重新获取";
-            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+            AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
         }
     }];
     

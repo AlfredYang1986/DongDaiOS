@@ -66,17 +66,17 @@
 /**
  *	Sets the NSLayoutConstraint priority to MASLayoutPriorityLow
  */
-- (MASConstraint * (^)())priorityLow;
+- (MASConstraint * (^)(void))priorityLow;	//Michauxs-如有错：删除"void"先排除此修改的可能性
 
 /**
  *	Sets the NSLayoutConstraint priority to MASLayoutPriorityMedium
  */
-- (MASConstraint * (^)())priorityMedium;
+- (MASConstraint * (^)(void))priorityMedium;	//Michauxs-如有错：删除"void"先排除此修改的可能性
 
 /**
  *	Sets the NSLayoutConstraint priority to MASLayoutPriorityHigh
  */
-- (MASConstraint * (^)())priorityHigh;
+- (MASConstraint * (^)(void))priorityHigh;	//Michauxs-如有错：删除"void"先排除此修改的可能性
 
 /**
  *	Sets the constraint relation to NSLayoutRelationEqual

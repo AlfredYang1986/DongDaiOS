@@ -111,7 +111,7 @@
     AYViewController* des = DEFAULTCONTROLLER(@"TabBarService");
     if ([self.tabBarController isKindOfClass:[des class]]) {
         UIButton *confirmSerBtn = [[UIButton alloc]init];
-        confirmSerBtn.backgroundColor = [Tools themeColor];
+        confirmSerBtn.backgroundColor = [Tools theme];
         [confirmSerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [confirmSerBtn setTitleColor:[Tools garyColor] forState:UIControlStateDisabled];
         confirmSerBtn.titleLabel.font = kAYFontLight(17.f);
@@ -178,14 +178,14 @@
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
     
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
     view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
     
-    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+    view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
     view.backgroundColor = [UIColor whiteColor];
     
     id<AYViewBase> bar = (id<AYViewBase>)view;

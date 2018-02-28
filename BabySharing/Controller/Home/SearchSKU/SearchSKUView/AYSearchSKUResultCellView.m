@@ -32,14 +32,14 @@
 		
 		self.backgroundColor = [Tools whiteColor];
 		
-		titleLabel = [Tools creatUILabelWithText:@"SKU Title" andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		titleLabel = [Tools creatLabelWithText:@"SKU Title" textColor:[Tools black] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(20);
 			make.centerY.equalTo(self);
 		}];
 		
-		countLabel = [Tools creatUILabelWithText:@"count" andTextColor:[Tools RGB153GaryColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		countLabel = [Tools creatLabelWithText:@"count" textColor:[Tools RGB153GaryColor] fontSize:311.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 		[self addSubview:countLabel];
 		[countLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(self);

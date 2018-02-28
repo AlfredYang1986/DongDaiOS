@@ -48,7 +48,7 @@
 
 - (void)postPerform {
 	
-    UILabel *tips = [Tools creatUILabelWithText:@"您的手机号码？" andTextColor:[Tools themeColor] andFontSize:20.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    UILabel *tips = [Tools creatLabelWithText:@"您的手机号码？" textColor:[Tools theme] fontSize:20.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
     [self addSubview:tips];
     [tips mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self);
@@ -65,10 +65,10 @@
         make.right.equalTo(self);
         make.height.mas_equalTo(phoneBgHeight);
     }];
-	[Tools creatCALayerWithFrame:CGRectMake(0, phoneBgHeight - 0.5, SCREEN_WIDTH - 50, 0.5) andColor:[Tools themeColor] inSuperView:inputPhoneNoView];
+	[Tools creatCALayerWithFrame:CGRectMake(0, phoneBgHeight - 0.5, SCREEN_WIDTH - 50, 0.5) andColor:[Tools theme] inSuperView:inputPhoneNoView];
 	
-    UILabel *phoneNo = [Tools creatUILabelWithText:@"+ 86" andTextColor:[Tools whiteColor] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-	[Tools setViewBorder:phoneNo withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
+    UILabel *phoneNo = [Tools creatLabelWithText:@"+ 86" textColor:[Tools whiteColor] fontSize:615.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+	[Tools setViewBorder:phoneNo withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools theme]];
     [inputPhoneNoView addSubview:phoneNo];
     [phoneNo mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(inputPhoneNoView);
@@ -90,7 +90,7 @@
     inputPhoneNo.delegate = self;
     inputPhoneNo.backgroundColor = [UIColor clearColor];
     inputPhoneNo.font = [UIFont boldSystemFontOfSize:18.f];
-    inputPhoneNo.textColor = [Tools themeColor];
+    inputPhoneNo.textColor = [Tools theme];
     inputPhoneNo.keyboardType = UIKeyboardTypeNumberPad;
 //    inputPhoneNo.clearButtonMode = UITextFieldViewModeWhileEditing;
     inputPhoneNo.placeholder = @"手机号码";
@@ -112,12 +112,12 @@
         make.width.equalTo(self);
         make.height.mas_equalTo(phoneBgHeight);
     }];
-    [Tools creatCALayerWithFrame:CGRectMake(0, phoneBgHeight - 0.5, SCREEN_WIDTH - 50, 0.5) andColor:[Tools themeColor] inSuperView:inputCodeView];
+    [Tools creatCALayerWithFrame:CGRectMake(0, phoneBgHeight - 0.5, SCREEN_WIDTH - 50, 0.5) andColor:[Tools theme] inSuperView:inputCodeView];
 	
 	coder_area = [[UITextField alloc]init];
 	coder_area.backgroundColor = [UIColor clearColor];
 	coder_area.font = [UIFont boldSystemFontOfSize:18.f];
-	coder_area.textColor = [Tools themeColor];
+	coder_area.textColor = [Tools theme];
 	coder_area.keyboardType = UIKeyboardTypeNumberPad;
     coder_area.delegate = self;
     coder_area.placeholder = @"动态密码";
@@ -133,7 +133,7 @@
     /* 重新获取coder */
     getCodeBtn = [[UIButton alloc]init];
     [getCodeBtn setTitle:@"获取动态密码" forState:UIControlStateNormal];
-    [getCodeBtn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
+    [getCodeBtn setTitleColor:[Tools theme] forState:UIControlStateNormal];
     [getCodeBtn setTitleColor:[Tools garyColor] forState:UIControlStateDisabled];
     getCodeBtn.enabled = NO;
     getCodeBtn.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
@@ -148,8 +148,8 @@
     }];
     
     
-	enterBtn = [Tools creatUIButtonWithTitle:@"进入咚哒" andTitleColor:[Tools whiteColor] andFontSize:318.f andBackgroundColor:[Tools themeColor]];
-	[Tools setViewBorder:enterBtn withRadius:22.5f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
+	enterBtn = [Tools creatBtnWithTitle:@"进入咚哒" titleColor:[Tools whiteColor] fontSize:318.f backgroundColor:[Tools theme]];
+	[Tools setViewBorder:enterBtn withRadius:22.5f andBorderWidth:0 andBorderColor:nil andBackground:[Tools theme]];
 //    [enterBtn setImage:[UIImage imageNamed:@"enter_selected"] forState:UIControlStateNormal];
 //    [enterBtn setImage:[UIImage imageNamed:@"enter"] forState:UIControlStateDisabled];
 //    enterBtn.enabled = NO;
@@ -277,8 +277,8 @@
     [timer setFireDate:[NSDate distantPast]];
     
     [self hideKeyboard];
-    
-	NSString *title = @"正在为您发送动态密码，请稍等...";
+	
+	NSString *title = @"动态密码已发送";
 	AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 	
     return nil;

@@ -53,9 +53,9 @@
 	
 	id<AYDelegateBase> delegate = [self.delegates objectForKey:@"OrderInfoPage"];
 	id obj = (id)delegate;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDelegateMessage, &obj)
 	obj = (id)delegate;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDatasourceMessage, &obj)
 	
 	/****************************************/
 	NSString *class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderPageHeadCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
@@ -77,15 +77,15 @@
 	AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryOrderDetail"];
 	[cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		if (success) {
-			id info_result = [result objectForKey:kAYOrderArgsSelf];
-			if (remindDateStart) {
-				NSMutableDictionary *dic_transfrom = [[NSMutableDictionary alloc] initWithDictionary:info_result];
-				[dic_transfrom setValue:@{kAYTimeManagerArgsStart:remindDateStart, kAYTimeManagerArgsEnd:remindDateEnd} forKey:kAYOrderArgsDate];
-				order_info = [dic_transfrom copy];
-			} else {
-				order_info = info_result;
-			}
-			
+//			id info_result = [result objectForKey:kAYOrderArgsSelf];
+//			if (remindDateStart) {
+//				NSMutableDictionary *dic_transfrom = [[NSMutableDictionary alloc] initWithDictionary:info_result];
+//				[dic_transfrom setValue:@{kAYTimeManagerArgsStart:remindDateStart, kAYTimeManagerArgsEnd:remindDateEnd} forKey:kAYOrderArgsDate];
+//				order_info = [dic_transfrom copy];
+//			} else {
+//				order_info = info_result;
+//			}
+			order_info = [result objectForKey:kAYOrderArgsSelf];
 			id tmp = [order_info copy];
 			kAYDelegatesSendMessage(@"OrderInfoPage", @"changeQueryData:", &tmp)
 			
@@ -94,17 +94,17 @@
 			[self.view addSubview:BTMView];
 			
 			OrderStatus status = ((NSNumber*)[order_info objectForKey:@"status"]).intValue;
-			AYViewController* compare = DEFAULTCONTROLLER(@"TabBarService");
-			BOOL isNap = [self.tabBarController isKindOfClass:[compare class]];
-			if (isNap) {
+			DongDaAppMode mode = [[[NSUserDefaults standardUserDefaults] valueForKey:kAYDongDaAppMode] intValue];
+			BOOL isServantMode = mode == DongDaAppModeServant;
+			if (isServantMode) {
 				
 				if (status == OrderStatusPosted) {
 					
 					CGFloat btmView_height = 64.f;
-					BTMView.frame = CGRectMake(0, SCREEN_HEIGHT - btmView_height, SCREEN_WIDTH, btmView_height);
+					BTMView.frame = CGRectMake(0, SCREEN_HEIGHT - btmView_height - HOME_IND_HEIGHT, SCREEN_WIDTH, btmView_height);
 					
-					UIButton *rejectBtn  = [Tools creatUIButtonWithTitle:@"拒绝" andTitleColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil];
-					[Tools setViewBorder:rejectBtn withRadius:0 andBorderWidth:1.f andBorderColor:[Tools themeColor] andBackground:nil];
+					UIButton *rejectBtn  = [Tools creatBtnWithTitle:@"拒绝" titleColor:[Tools theme] fontSize:14.f backgroundColor:nil];
+					[Tools setViewBorder:rejectBtn withRadius:0 andBorderWidth:1.f andBorderColor:[Tools theme] andBackground:nil];
 					[BTMView addSubview:rejectBtn];
 					[rejectBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 						make.left.equalTo(BTMView).offset(20);
@@ -113,7 +113,7 @@
 					}];
 					[rejectBtn addTarget:self action:@selector(didRejectBtnClick) forControlEvents:UIControlEventTouchUpInside];
 					
-					UIButton *acceptBtn  = [Tools creatUIButtonWithTitle:@"接受" andTitleColor:[Tools whiteColor] andFontSize:14.f andBackgroundColor:[Tools themeColor]];
+					UIButton *acceptBtn  = [Tools creatBtnWithTitle:@"接受" titleColor:[Tools whiteColor] fontSize:14.f backgroundColor:[Tools theme]];
 					[BTMView addSubview:acceptBtn];
 					[acceptBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 						make.right.equalTo(BTMView).offset(-20);
@@ -124,10 +124,10 @@
 				}
 				else if (status == OrderStatusCancel) {
 					
-					BTMView.frame = CGRectMake(0, SCREEN_HEIGHT - kTabBarH, SCREEN_WIDTH, kTabBarH);
+					BTMView.frame = CGRectMake(0, SCREEN_HEIGHT - BOTTOM_HEIGHT - HOME_IND_HEIGHT, SCREEN_WIDTH, BOTTOM_HEIGHT);
 					
-					NSString *resonStr = [NSString stringWithFormat:@"RESON:%@", [order_info objectForKey:kAYOrderArgsFurtherMessage]];
-					UILabel *tipsLabel = [Tools creatUILabelWithText:resonStr andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+					NSString *resonStr = [NSString stringWithFormat:@"拒绝原因:%@", [order_info objectForKey:kAYOrderArgsFurtherMessage]];
+					UILabel *tipsLabel = [Tools creatLabelWithText:resonStr textColor:[Tools theme] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 					[BTMView addSubview:tipsLabel];
 					[tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 						make.left.equalTo(BTMView).offset(20);
@@ -141,34 +141,29 @@
 			} else {	//用户方
 				
 				if (status == OrderStatusAccepted) {
-					CGFloat btmView_height = 49.f;
-					BTMView.frame = CGRectMake(0, SCREEN_HEIGHT - btmView_height, SCREEN_WIDTH, btmView_height);
+					BTMView.frame = CGRectMake(0, SCREEN_HEIGHT - BOTTOM_HEIGHT - HOME_IND_HEIGHT, SCREEN_WIDTH, BOTTOM_HEIGHT);
 					
-					UIButton *gotoPayBtn = [Tools creatUIButtonWithTitle:@"去支付" andTitleColor:[Tools whiteColor] andFontSize:314.f andBackgroundColor:[Tools themeColor]];
+					UIButton *gotoPayBtn = [Tools creatBtnWithTitle:@"去支付" titleColor:[Tools whiteColor] fontSize:314.f backgroundColor:[Tools theme]];
 					[BTMView addSubview:gotoPayBtn];
 					[gotoPayBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-						make.bottom.equalTo(BTMView);
-						make.centerX.equalTo(BTMView);
-						make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kTabBarH));
+						make.edges.equalTo(BTMView);
 					}];
 					[gotoPayBtn addTarget:self action:@selector(didGoPayBtnClick) forControlEvents:UIControlEventTouchUpInside];
 					
-					UIButton *cancelBtn = [Tools creatUIButtonWithTitle:@"取消预订申请" andTitleColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
+					UIButton *cancelBtn = [Tools creatBtnWithTitle:@"取消预订申请" titleColor:[Tools garyColor] fontSize:14.f backgroundColor:[Tools whiteColor]];
 					[BTMView addSubview:cancelBtn];
 					[cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-						make.bottom.equalTo(gotoPayBtn.mas_top);
-						make.centerX.equalTo(BTMView);
-						make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kTabBarH));
+						make.edges.equalTo(BTMView);
 					}];
 					[cancelBtn addTarget:self action:@selector(didCancelBtnClick) forControlEvents:UIControlEventTouchUpInside];
 					cancelBtn.hidden = YES;
 				}
 				else if (status == OrderStatusCancel) {
 					
-					BTMView.frame = CGRectMake(0, SCREEN_HEIGHT - kTabBarH, SCREEN_WIDTH, kTabBarH);
+					BTMView.frame = CGRectMake(0, SCREEN_HEIGHT - BOTTOM_HEIGHT - HOME_IND_HEIGHT, SCREEN_WIDTH, BOTTOM_HEIGHT);
 					
 					NSString *resonStr = [NSString stringWithFormat:@"取消原因:%@", [order_info objectForKey:kAYOrderArgsFurtherMessage]];
-					UILabel *tipsLabel = [Tools creatUILabelWithText:resonStr andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+					UILabel *tipsLabel = [Tools creatLabelWithText:resonStr textColor:[Tools theme] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 					[BTMView addSubview:tipsLabel];
 					[tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 						make.left.equalTo(BTMView).offset(20);
@@ -181,7 +176,7 @@
 			}
 			
 			//最后添线
-			[Tools creatCALayerWithFrame:CGRectMake(0,  0, SCREEN_WIDTH, 0.5) andColor:[Tools garyLineColor] inSuperView:BTMView];
+			[Tools creatCALayerWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.5) andColor:[Tools garyLineColor] inSuperView:BTMView];
 			
 			UITableView *view_table = [self.views objectForKey:kAYTableView];
 			[view_table mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -199,12 +194,12 @@
 
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
 	return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+	view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
 	
 	UIImage* left = IMGRESOURCE(@"bar_left_black");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)

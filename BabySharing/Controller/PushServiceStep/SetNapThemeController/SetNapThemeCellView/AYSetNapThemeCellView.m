@@ -12,7 +12,6 @@
 #import "AYViewCommand.h"
 #import "AYFactoryManager.h"
 #import "AYViewNotifyCommand.h"
-//#import "AYHomeCellDefines.h"
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
 #import "AYModelFacade.h"
@@ -44,7 +43,7 @@
         btm_line.backgroundColor = [Tools garyBackgroundColor].CGColor;
         [self.layer addSublayer:btm_line];
         
-        titleLabel = [Tools creatUILabelWithText:nil andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+        titleLabel = [Tools creatLabelWithText:nil textColor:[Tools black] fontSize:14.f backgroundColor:nil textAlignment:0];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(20);
@@ -148,7 +147,7 @@
     
     NSNumber *cell_index = [args objectForKey:@"index"];
     if (cell_index) {
-        titleLabel.textColor = [Tools blackColor];
+        titleLabel.textColor = [Tools black];
         NSInteger index_tag = cell_index.integerValue;
         optionBtn.tag = index_tag;
         NSInteger notePow = ((NSNumber*)[args objectForKey:@"cans"]).integerValue;
@@ -163,7 +162,7 @@
     } else {
         NSNumber *isCanSet = [args objectForKey:@"is_can_set"];
         if (isCanSet.boolValue) {
-            titleLabel.textColor = [Tools themeColor];
+            titleLabel.textColor = [Tools theme];
             optionBtn.enabled = YES;
         } else {
             titleLabel.textColor = [Tools garyColor];

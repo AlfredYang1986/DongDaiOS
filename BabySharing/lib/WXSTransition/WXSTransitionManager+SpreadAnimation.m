@@ -119,6 +119,9 @@
     animation.timingFunction = [CAMediaTimingFunction  functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
     [maskLayer addAnimation:animation forKey:@"BackPath"];
     
+    
+    __weak UIViewController * weakToVC = toVC;
+    
     self.willEndInteractiveBlock = ^(BOOL success) {
         
         if (success) {
@@ -139,7 +142,7 @@
             
         }else{
             [transitionContext completeTransition:YES];
-            toVC.view.hidden = NO;
+            weakToVC.view.hidden = NO;
         }
         
     };

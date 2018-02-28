@@ -63,7 +63,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [Tools darkBackgroundColor];
     
-    UILabel *tipsLabel = [Tools creatUILabelWithText:@"确认拒绝订单" andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    UILabel *tipsLabel = [Tools creatLabelWithText:@"确认拒绝订单" textColor:[UIColor whiteColor] fontSize:16.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
     [self.view addSubview:tipsLabel];
     [tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(150);
@@ -84,7 +84,7 @@
     seasonOfTextView.scrollEnabled = NO;
     seasonOfTextView.showsHorizontalScrollIndicator = NO;
     seasonOfTextView.font = kAYFontLight(14.f);
-    seasonOfTextView.textColor = [Tools blackColor];
+    seasonOfTextView.textColor = [Tools black];
     seasonOfTextView.contentInset = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
     seasonOfTextView.delegate = self;
     [seasonOfTextView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -94,14 +94,14 @@
         make.height.mas_equalTo(120);
     }];
     
-    placeholderLabel = [Tools creatUILabelWithText:@"您拒绝的理由？" andTextColor:[Tools garyColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    placeholderLabel = [Tools creatLabelWithText:@"您拒绝的理由？" textColor:[Tools garyColor] fontSize:13.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
     [self.view addSubview:placeholderLabel];
     [placeholderLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(seasonOfTextView).offset(7);
         make.left.equalTo(seasonOfTextView).offset(7);
     }];
 	
-    countLabel = [Tools creatUILabelWithText:@"还可以输入88个字符" andTextColor:[Tools garyColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+    countLabel = [Tools creatLabelWithText:@"还可以输入88个字符" textColor:[Tools garyColor] fontSize:13.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
     [self.view addSubview:countLabel];
     [countLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(seasonOfTextView).offset(-10);
@@ -110,7 +110,7 @@
     
     UIButton *rejectBtn = [[UIButton alloc]init];
     [self.view addSubview:rejectBtn];
-    rejectBtn.backgroundColor = [Tools themeColor];
+    rejectBtn.backgroundColor = [Tools theme];
     [rejectBtn setTitle:@"拒绝" forState:UIControlStateNormal];
     rejectBtn.titleLabel.font = [UIFont systemFontOfSize:16.f];
     [rejectBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -136,14 +136,14 @@
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
     
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
     view.backgroundColor = [UIColor clearColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
     
-    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 54);
+    view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, 54);
     view.backgroundColor = [UIColor clearColor];
     
     id<AYViewBase> bar = (id<AYViewBase>)view;

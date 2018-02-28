@@ -7,24 +7,18 @@
 //
 
 #import "AYSetServiceTypeController.h"
-
-@interface AYSetServiceTypeController ()
-
-@end
+#import "AYServiceCategOptView.h"
 
 @implementation AYSetServiceTypeController {
-    BOOL isFromConfirmFlow;
+	NSMutableDictionary *push_service_info;
 }
 
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
-    NSDictionary* dic = (NSDictionary*)*obj;
     
+	NSDictionary* dic = (NSDictionary*)*obj;
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-		id tmp = [dic objectForKey:kAYControllerChangeArgsKey];
-		if ([tmp isKindOfClass:[NSString class]]) {
-			isFromConfirmFlow = YES;
-		}
+		push_service_info = [dic objectForKey:kAYControllerChangeArgsKey];
 		
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -36,85 +30,43 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-    UILabel *titleLabel = [Tools creatUILabelWithText:@"选择您即将发布\n的服务类型?" andTextColor:[Tools themeColor] andFontSize:624.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    UILabel *titleLabel = [Tools creatLabelWithText:@"您要发布的服务" textColor:[Tools black] fontSize:630.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	titleLabel.numberOfLines = 0;
     [self.view addSubview:titleLabel];
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view);
-        make.top.equalTo(self.view).offset(SCREEN_HEIGHT * 200/667);
-		make.width.mas_equalTo(240);
+        make.left.equalTo(self.view).offset(40);
+        make.top.equalTo(self.view).offset(SCREEN_HEIGHT * 168/667);
     }];
 	
-	CGFloat unitHeight = 100.f;
+	CGFloat unitHeight = 56.f;
+	CGFloat betMargin = 16.f;
+	CGFloat topMargin = SCREEN_HEIGHT * 300/667;
 	
-    UIView *locBGView = [[UIView alloc] init];
-    locBGView.backgroundColor = [Tools whiteColor];
-    [self.view addSubview:locBGView];
-    [locBGView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view).offset(0);
-        make.centerX.equalTo(self.view);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, unitHeight * 2));
-    }];
-	[Tools creatCALayerWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.5) andColor:[Tools garyLineColor] inSuperView:locBGView];
-	
-    UILabel *norseLabel = [Tools creatUILabelWithText:kAYStringNursery andTextColor:[Tools themeColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-    [locBGView addSubview:norseLabel];
-    [norseLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(locBGView.mas_top).offset(unitHeight * 0.5);
-        make.left.equalTo(locBGView).offset(20);
-        make.right.equalTo(locBGView).offset(-20);
-    }];
+	NSArray *titles = @[@"看顾", @"课程"];
+	for (int i = 0; i < titles.count; ++i) {
+		AYServiceCategOptView *optView = [[AYServiceCategOptView alloc] initWithTitle:[titles objectAtIndex:i]];
+		[self.view addSubview:optView];
+		optView.optArgs = [titles objectAtIndex:i];
+		optView.userInteractionEnabled = YES;
+		[optView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didServiceCategLabelTap:)]];
+		[optView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(self.view).offset(topMargin + i*(unitHeight+betMargin));
+			make.left.equalTo(self.view).offset(40);
+			make.right.equalTo(self.view).offset(-40);
+			make.height.mas_equalTo(unitHeight);
+		}];
+	}
     
-    UIImageView *access = [[UIImageView alloc]init];
-    [locBGView addSubview:access];
-    access.image = IMGRESOURCE(@"plan_time_icon");
-    [access mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(locBGView).offset(-20);
-        make.centerY.equalTo(norseLabel);
-        make.size.mas_equalTo(CGSizeMake(15, 15));
-    }];
-	[Tools creatCALayerWithFrame:CGRectMake(10, unitHeight, SCREEN_WIDTH - 20, 0.5) andColor:[Tools garyLineColor] inSuperView:locBGView];
-    
-    UILabel *courseLabel = [Tools creatUILabelWithText:kAYStringCourse andTextColor:[Tools themeColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-    [locBGView addSubview:courseLabel];
-    [courseLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(locBGView.mas_bottom).offset(-unitHeight * 0.5);
-        make.left.equalTo(locBGView).offset(20);
-        make.right.equalTo(locBGView).offset(-20);
-	}];
-	
-	norseLabel.userInteractionEnabled = YES;
-	[norseLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didServiceCategLabelTap:)]];
-    courseLabel.userInteractionEnabled = YES;
-	[courseLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didServiceCategLabelTap:)]];
-    
-    UIImageView *access2 = [[UIImageView alloc]init];
-    [locBGView addSubview:access2];
-    access2.image = IMGRESOURCE(@"plan_time_icon");
-    [access2 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(locBGView).offset(-20);
-        make.centerY.equalTo(courseLabel);
-        make.size.mas_equalTo(CGSizeMake(15, 15));
-    }];
-    
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
 }
 
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+    view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
     
     UIImage* left = IMGRESOURCE(@"bar_left_theme");
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
@@ -140,14 +92,11 @@
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
 	
-	NSMutableDictionary *service_info = [[NSMutableDictionary alloc] init];
 	NSMutableDictionary *info_categ = [[NSMutableDictionary alloc] init];
-	[info_categ setValue:((UILabel*)tapL).text forKey:kAYServiceArgsCat];
-	[service_info setValue:info_categ forKey:kAYServiceArgsCategoryInfo];
+	[info_categ setValue:((AYServiceCategOptView*)tapL).optArgs forKey:kAYServiceArgsCat];
+	[push_service_info setValue:info_categ forKey:kAYServiceArgsCategoryInfo];
 	
-	[service_info setValue:@"kidnapPush" forKey:@"push"];		//用于信息主页判断是修改还是发布
-	
-    [dic_push setValue:service_info forKey:kAYControllerChangeArgsKey];
+    [dic_push setValue:push_service_info forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
@@ -159,10 +108,6 @@
     NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
     [dic setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-	
-    if (isFromConfirmFlow) {
-        [dic setValue:[NSNumber numberWithBool:YES] forKey:kAYControllerChangeArgsKey];
-    }
     
     id<AYCommand> cmd = POPTOROOT;
     [cmd performWithResult:&dic];

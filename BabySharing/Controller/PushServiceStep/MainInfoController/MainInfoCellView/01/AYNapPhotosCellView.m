@@ -36,7 +36,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        addPhotoBtn = [Tools creatUIButtonWithTitle:@"添加照片" andTitleColor:[Tools themeColor] andFontSize:620.f andBackgroundColor:nil];
+        addPhotoBtn = [Tools creatBtnWithTitle:@"添加照片" titleColor:[Tools theme] fontSize:620.f backgroundColor:nil];
         addPhotoBtn.userInteractionEnabled = NO;
         [self addSubview:addPhotoBtn];
         [addPhotoBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -159,9 +159,14 @@
         photoCover.image = (UIImage*)args;
         
     } else if ([args isKindOfClass:[NSString class]]) {
+		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+		AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+		NSString *prefix = cmd.route;
 		
-        NSString* photo_name = (NSString*)args;
-        [photoCover sd_setImageWithURL:[NSURL URLWithString:[kAYDongDaDownloadURL stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"default_image")];
+		NSString* photo_name = (NSString*)args;
+		if (photo_name) {
+			[photoCover sd_setImageWithURL:[NSURL URLWithString:[prefix stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"default_image")];
+		}
         
     }
     

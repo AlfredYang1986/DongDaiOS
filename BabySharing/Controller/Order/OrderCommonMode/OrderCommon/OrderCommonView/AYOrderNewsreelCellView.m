@@ -62,18 +62,19 @@
 			make.size.mas_equalTo(CGSizeMake(10, 10));
 		}];
 		
-		dateLabel = [Tools creatUILabelWithText:@"今天" andTextColor:[Tools blackColor] andFontSize:318.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		dateLabel = [Tools creatLabelWithText:@"今天" textColor:[Tools black] fontSize:318.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 		[self addSubview:dateLabel];
 		[dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self.mas_left).offset(marginLeft * 0.5);
 			make.centerY.equalTo(pointSignView);
 		}];
 		
-		titleLabel = [Tools creatUILabelWithText:@"service title" andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		titleLabel = [Tools creatLabelWithText:@"service title" textColor:[Tools black] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(marginLeft+15);
 			make.centerY.equalTo(pointSignView);
+			make.right.equalTo(self).offset(-45-40-5);
 		}];
 		
 		CGFloat photoImageWidth = 45.f;
@@ -94,22 +95,22 @@
 		
 		remindOlockIcon = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"remind_olock")];
 		[self addSubview:remindOlockIcon];
-		remindLabel = [Tools creatUILabelWithText:@"Remind message" andTextColor:[Tools themeColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		remindLabel = [Tools creatLabelWithText:@"Remind message" textColor:[Tools theme] fontSize:314.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:remindLabel];
 		
 		startTimeIcon = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"remind_time")];
 		[self addSubview:startTimeIcon];
-		startTimeLabel = [Tools creatUILabelWithText:@"00:00 Start Olcok" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		startTimeLabel = [Tools creatLabelWithText:@"00:00 Start Olcok" textColor:[Tools black] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:startTimeLabel];
 		
 		endTimeIcon = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"remind_time")];
 		[self addSubview:endTimeIcon];
-		endTimeLabel = [Tools creatUILabelWithText:@"00:00 End Olcok" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		endTimeLabel = [Tools creatLabelWithText:@"00:00 End Olcok" textColor:[Tools black] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:endTimeLabel];
 		
 		positionIcon = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"remind_position")];
 		[self addSubview:positionIcon];
-		positionLabel = [Tools creatUILabelWithText:@"service position address info" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		positionLabel = [Tools creatLabelWithText:@"service position address info" textColor:[Tools black] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		positionLabel.numberOfLines = 2;
 		[self addSubview:positionLabel];
 		
@@ -181,16 +182,19 @@
 	
 	NSDictionary *order_info = [args objectForKey:kAYOrderArgsSelf];
 	NSTimeInterval nowNode = [NSDate date].timeIntervalSince1970;
-	
+	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+	NSString *prefix = cmd.route;
 	NSString *photo_name = [order_info objectForKey:kAYOrderArgsThumbs];
-	[photoIcon sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name]]
+	[photoIcon sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", prefix, photo_name]]
 				 placeholderImage:IMGRESOURCE(@"default_user")];
 	
 	NSString *compName = [order_info objectForKey:kAYOrderArgsTitle];
 	NSString *userName = [[order_info objectForKey:@"owner"] objectForKey:kAYProfileArgsScreenName];
 	titleLabel.text = [NSString stringWithFormat:@"%@的%@", userName, compName];
 	
-	NSString *addrStr = [order_info objectForKey:@"address"];
+	NSDictionary *info_location = [order_info objectForKey:kAYServiceArgsLocationInfo];
+	NSString *addrStr = [info_location objectForKey:kAYServiceArgsAddress];
 	if (addrStr && ![addrStr isEqualToString:@""]) {
 		positionLabel.text = addrStr;
 	}
@@ -325,7 +329,7 @@
 		make.centerX.equalTo(pointSignView);
 		make.size.mas_equalTo(CGSizeMake(15, 15));
 	}];
-	remindLabel.text = @"服务时间错乱，请重新核实";
+	remindLabel.text = @"服务时间出现未知错误，请重新核实";
 	
 	[startTimeIcon mas_remakeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(remindOlockIcon.mas_bottom).offset(15);

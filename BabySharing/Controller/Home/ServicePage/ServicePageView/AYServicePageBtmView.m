@@ -50,14 +50,14 @@
 	}];
 	
 	
-	priceLabel = [Tools creatUILabelWithText:@"Price 0f Serv" andTextColor:[Tools blackColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	priceLabel = [Tools creatLabelWithText:@"Price 0f Serv" textColor:[Tools black] fontSize:314.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self addSubview:priceLabel];
 	[priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(_chatBtn.mas_right).offset((SCREEN_WIDTH - kBookBtnWidth - kChatBtnWidth) * 0.5);
 		make.bottom.equalTo(self.mas_centerY).offset(2);
 	}];
 	
-	capacityLabel = [Tools creatUILabelWithText:@"MIN Book Times" andTextColor:[Tools garyColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	capacityLabel = [Tools creatLabelWithText:@"MIN Book Times" textColor:[Tools garyColor] fontSize:311.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	[self addSubview:capacityLabel];
 	[capacityLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.mas_centerY).offset(4);
@@ -65,7 +65,7 @@
 	}];
 	
 	
-	_bookBtn = [Tools creatUIButtonWithTitle:@"查看可预订时间" andTitleColor:[Tools whiteColor] andFontSize:615.f andBackgroundColor:[Tools themeColor]];
+	_bookBtn = [Tools creatBtnWithTitle:@"查看可预订时间" titleColor:[Tools whiteColor] fontSize:615.f backgroundColor:[Tools theme]];
 	UIImage *bgimage = IMGRESOURCE(@"details_button_checktime");
 	_bookBtn.layer.contents = (__bridge id _Nullable)(bgimage.CGImage);
 //	[_bookBtn addTarget:self action:@selector(didBookBtnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -101,7 +101,7 @@
 	NSString *priceStr = [NSString stringWithFormat:@"¥%@/%@", tmp, unitCat];
 	
 	NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:priceStr];
-	[attributedText setAttributes:@{NSFontAttributeName:kAYFontMedium(18.f), NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, length+1)];
+	[attributedText setAttributes:@{NSFontAttributeName:kAYFontMedium(18.f), NSForegroundColorAttributeName :[Tools black]} range:NSMakeRange(0, length+1)];
 	[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11.f], NSForegroundColorAttributeName :[Tools garyColor]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
 	priceLabel.attributedText = attributedText;
 	

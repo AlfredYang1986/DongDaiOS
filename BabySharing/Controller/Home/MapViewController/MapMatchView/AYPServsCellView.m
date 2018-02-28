@@ -33,28 +33,28 @@
 			make.size.mas_equalTo(CGSizeMake(68, 45));
 		}];
 		
-		titleLabel = [Tools creatUILabelWithText:@"服务妈妈的主题服务" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		titleLabel = [Tools creatLabelWithText:@"服务妈妈的主题服务" textColor:[Tools black] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self);
 			make.top.equalTo(self).offset(5);
 		}];
 		
-		timeLine00 = [Tools creatUILabelWithText:@"周日，00:00 - 00:00" andTextColor:[Tools garyColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		timeLine00 = [Tools creatLabelWithText:@"周日，00:00 - 00:00" textColor:[Tools garyColor] fontSize:13.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:timeLine00];
 		[timeLine00 mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);
 			make.top.equalTo(titleLabel.mas_bottom).offset(5);
 		}];
 		
-		timeLine01 = [Tools creatUILabelWithText:@"周一，00:00 - 00:00" andTextColor:[Tools garyColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		timeLine01 = [Tools creatLabelWithText:@"周一，00:00 - 00:00" textColor:[Tools garyColor] fontSize:13.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:timeLine01];
 		[timeLine01 mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);
 			make.top.equalTo(timeLine00.mas_bottom).offset(2);
 		}];
 		
-		moreTips = [Tools creatUILabelWithText:@"点击详情" andTextColor:[Tools themeColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		moreTips = [Tools creatLabelWithText:@"点击详情" textColor:[Tools theme] fontSize:12.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:moreTips];
 		[moreTips mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(timeLine00.mas_right).offset(15);

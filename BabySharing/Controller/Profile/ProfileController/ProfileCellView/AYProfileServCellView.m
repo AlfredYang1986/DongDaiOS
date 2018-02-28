@@ -23,7 +23,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         _titleLabel = [[UILabel alloc]init];
-        _titleLabel.textColor = [Tools blackColor];
+        _titleLabel.textColor = [Tools black];
         [self addSubview:_titleLabel];
         [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self);
@@ -71,7 +71,7 @@
     
     if (_isConfirm) {
         _confirLabel.text = @"已验证";
-        _confirLabel.textColor = [Tools themeColor];
+        _confirLabel.textColor = [Tools theme];
     }else {
         _confirLabel.text = @"未验证";
         _confirLabel.textColor = [Tools garyColor];

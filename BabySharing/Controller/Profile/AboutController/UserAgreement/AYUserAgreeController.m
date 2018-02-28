@@ -42,7 +42,7 @@
     UIWebView *Web = [self.views objectForKey:@"Web"];
     Web.delegate = self;
     
-    UIButton *state = [Tools creatUIButtonWithTitle:@"登陆即表示同意用户协议" andTitleColor:[UIColor whiteColor] andFontSize:17.f andBackgroundColor:[Tools themeColor]];
+    UIButton *state = [Tools creatBtnWithTitle:@"登陆即表示同意用户协议" titleColor:[UIColor whiteColor] fontSize:17.f backgroundColor:[Tools theme]];
     state.layer.cornerRadius = 4.f;
     state.clipsToBounds = YES;
     state.layer.rasterizationScale = [UIScreen mainScreen].scale;
@@ -50,20 +50,20 @@
     [self.view addSubview:state];
     [state mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
-        make.bottom.equalTo(self.view).offset(4);
+        make.bottom.equalTo(self.view).offset(4 - HOME_IND_HEIGHT);
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 48));
     }];
 }
 
 #pragma mark -- layout
 - (id)FakeStatusBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
     view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+    view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
     view.backgroundColor = [UIColor whiteColor];
     
     NSString *title = @"咚哒用户协议";
@@ -81,7 +81,7 @@
 
 - (id)WebLayout:(UIView*)view {
     
-    view.frame = CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, SCREEN_HEIGHT - 40 - kStatusAndNavBarH);
+    view.frame = CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, SCREEN_HEIGHT - 40 - kStatusAndNavBarH - HOME_IND_HEIGHT);
     
     NSString *path = [[NSBundle mainBundle] pathForResource:@"privacy" ofType:@"html"];
     NSData *data = [NSData dataWithContentsOfFile:path];

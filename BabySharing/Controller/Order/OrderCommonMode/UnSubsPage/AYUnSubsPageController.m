@@ -44,12 +44,12 @@
 	UIImageView *checkIcon = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"checked_icon")];
 	[self.view addSubview:checkIcon];
 	[checkIcon mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerY.equalTo(self.view.mas_top).offset(104);
+		make.centerY.equalTo(self.view.mas_top).offset(kStatusAndNavBarH+40);
 		make.left.equalTo(self.view).offset(90);
 		make.size.mas_equalTo(CGSizeMake(20,20));
 	}];
 	
-	UILabel *titleH1 = [Tools creatUILabelWithText:@"确认取消订单" andTextColor:[Tools blackColor] andFontSize:616.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleH1 = [Tools creatLabelWithText:@"确认取消订单" textColor:[Tools black] fontSize:616.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleH1];
 	[titleH1 mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(checkIcon.mas_right).offset(20);
@@ -58,9 +58,9 @@
 	
 	id<AYDelegateBase> delegate = [self.delegates objectForKey:@"UnSubsPage"];
 	id obj = (id)delegate;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDelegateMessage, &obj)
 	obj = (id)delegate;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDatasourceMessage, &obj)
 	
 	/****************************************/
 	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"TitleOptCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
@@ -69,12 +69,12 @@
 	//	id tmp = [order_past copy];
 	//	kAYDelegatesSendMessage(@"UnSubsPage", kAYDelegateChangeDataMessage, &tmp)
 	
-	UIButton *ConfirmPayBtn = [Tools creatUIButtonWithTitle:@"提交" andTitleColor:[Tools whiteColor] andFontSize:314.f andBackgroundColor:[Tools themeColor]];
+	UIButton *ConfirmPayBtn = [Tools creatBtnWithTitle:@"提交" titleColor:[Tools whiteColor] fontSize:314.f backgroundColor:[Tools theme]];
 	[self.view addSubview:ConfirmPayBtn];
 	[ConfirmPayBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.bottom.equalTo(self.view);
+		make.bottom.equalTo(self.view).offset(-HOME_IND_HEIGHT);
 		make.centerX.equalTo(self.view);
-		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kTabBarH));
+		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, BOTTOM_HEIGHT));
 	}];
 	[ConfirmPayBtn addTarget:self action:@selector(didConfirmPayBtnClick) forControlEvents:UIControlEventTouchUpInside];
 	
@@ -82,12 +82,13 @@
 
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
 	return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+	view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
+	
 	NSString *title = @"取消原因";
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
 	

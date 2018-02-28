@@ -54,7 +54,10 @@
 //		}
 //	}];
 	
-	[imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, imageName]] placeholderImage:IMGRESOURCE(@"default_image") options:SDWebImageLowPriority];
+	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+	NSString *prefix = cmd.route;
+	[imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", prefix, imageName]] placeholderImage:IMGRESOURCE(@"default_image") options:SDWebImageLowPriority];
 }
 
 - (void)setItemImageWithImage:(UIImage *)image {

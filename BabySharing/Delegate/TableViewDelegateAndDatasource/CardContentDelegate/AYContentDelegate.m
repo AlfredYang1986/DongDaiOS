@@ -10,7 +10,6 @@
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
-#import "AYHomeCellDefines.h"
 
 #import "QueryContent.h"
 //#import "GPUImage.h"
@@ -64,11 +63,11 @@
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYHomeCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"home_cell_name"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     id<AYViewBase> cell =[tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
     
     if (cell == nil) {
-        cell = VIEW(kAYHomeCellName, kAYHomeCellName);
+        cell = VIEW(@"home_cell_name", @"home_cell_name");
     }
 
     cell.controller = self.controller;
@@ -77,9 +76,9 @@
     id<AYCommand> cmd = [cell.commands objectForKey:@"resetContent:"];
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:tmp forKey:kAYHomeCellContentKey];
-    [dic setValue:cell forKey:kAYHomeCellCellKey];
-    [dic setValue:[NSNumber numberWithInteger:indexPath.row] forKey:kAYHomeCellCellIndexKey];
+    [dic setValue:tmp forKey:@"home_cell_content"];
+    [dic setValue:cell forKey:@"home_cell"];
+    [dic setValue:[NSNumber numberWithInteger:indexPath.row] forKey:@"home_cell_index"];
     
     [cmd performWithResult:&dic];
     
@@ -87,7 +86,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    id<AYViewBase> cell = VIEW(kAYHomeCellName, kAYHomeCellName);
+    id<AYViewBase> cell = VIEW(@"home_cell_name", @"home_cell_name");
     id<AYCommand> cmd = [cell.commands objectForKey:@"queryContentCellHeight"];
     NSNumber* result = nil;
     [cmd performWithResult:&result];
@@ -99,7 +98,7 @@
     id<AYCommand> cmd = [homeCell.commands objectForKey:@"willDisappear:"];
 
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:cell forKey:kAYHomeCellCellKey];
+    [dic setValue:cell forKey:@"home_cell"];
     
     [cmd performWithResult:&dic];
 }
@@ -235,7 +234,7 @@
 - (id)likePostItemResult:(id)obj {
     
     NSDictionary* dic = (NSDictionary*)obj;
-    id<AYViewBase> cell = [dic objectForKey:kAYHomeCellCellKey];
+    id<AYViewBase> cell = [dic objectForKey:@"home_cell"];
     id<AYCommand> cmd = [cell.commands objectForKey:@"resetLike:"];
     
     NSDictionary* args = [dic copy];
@@ -250,7 +249,7 @@
 - (id)pushPostItemResult:(id)obj {
     
     NSDictionary* dic = (NSDictionary*)obj;
-    id<AYViewBase> cell = [dic objectForKey:kAYHomeCellCellKey];
+    id<AYViewBase> cell = [dic objectForKey:@"home_cell"];
     
     id<AYCommand> cmd = [cell.commands objectForKey:@"resetPush:"];
     

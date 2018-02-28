@@ -31,12 +31,10 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 @implementation AYServiceOwnerInfoCellView {
 	
     UIImageView *userPhoto;
-    UILabel *userName;
+	UILabel *brandTagLabel;
 	
-	UIImageView *realNameSign;
-	UILabel *realNameLabel;
-	UIImageView *phoneNoSign;
-	UILabel *phoneNoLabel;
+    UILabel *userName;
+	UILabel *userJob;
 	
     NSDictionary *service_info;
 }
@@ -46,155 +44,99 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 @synthesize commands = _commands;
 @synthesize notifies = _notiyies;
 
+#pragma mark -- commands
+- (void)postPerform {
+	
+}
+
+- (void)performWithResult:(NSObject**)obj {
+	
+}
+
+- (NSString*)getViewType {
+	return kAYFactoryManagerCatigoryView;
+}
+
+- (NSString*)getViewName {
+	return [NSString stringWithUTF8String:object_getClassName([self class])];
+}
+
+- (NSString*)getCommandType {
+	return kAYFactoryManagerCatigoryView;
+}
+
+
+#pragma mark -- life cycle
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
 		
         self.clipsToBounds = YES;
-        
+		self.selectionStyle = UITableViewCellSelectionStyleNone;
+		
+		CGFloat photoWidth = 55;
         userPhoto = [[UIImageView alloc] init];
-        userPhoto.image = IMGRESOURCE(@"default_user");
+		NSString *img = [NSString stringWithFormat:@"avatar_%d", arc4random()%10];
+		userPhoto.image = IMGRESOURCE(img);
+		userPhoto.backgroundColor = [UIColor theme];
         userPhoto.contentMode = UIViewContentModeScaleAspectFill;
         userPhoto.clipsToBounds = YES;
-        userPhoto.layer.cornerRadius = 32.f;
-//        userPhoto.layer.borderColor = [Tools borderAlphaColor].CGColor;
-//        userPhoto.layer.borderWidth = 2.f;
+        userPhoto.layer.cornerRadius = photoWidth*0.5;
         [self addSubview:userPhoto];
         [userPhoto mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self).offset(20);
-            make.top.equalTo(self).offset(15);
-			make.bottom.equalTo(self).offset(-25);
-            make.size.mas_equalTo(CGSizeMake(64, 64));
+            make.right.equalTo(self).offset(-SERVICEPAGE_MARGIN_LR);
+            make.top.equalTo(self).offset(16);
+			make.bottom.equalTo(self).offset(-16);
+            make.size.mas_equalTo(CGSizeMake(photoWidth, photoWidth));
         }];
 		
-        userName = [Tools creatUILabelWithText:@"UserName" andTextColor:[Tools blackColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-        [self addSubview:userName];
-        [userName mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(self).offset(23);
-            make.left.equalTo(userPhoto.mas_right).offset(12);
-			make.right.equalTo(self).offset(-40);
-        }];
+		[userPhoto addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userPhotoTap)]];
 		
-		realNameSign = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"remind_time")];
-		[self addSubview:realNameSign];
-		[realNameSign mas_makeConstraints:^(MASConstraintMaker *make) {
+		brandTagLabel = [UILabel creatLabelWithText:@"-" textColor:[UIColor white] fontSize:620 backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+		brandTagLabel.font = [UIFont boldSystemFontOfSize:20];
+		[self addSubview:brandTagLabel];
+		[brandTagLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.center.equalTo(userPhoto);
+		}];
+		
+		userName = [UILabel creatLabelWithText:@"UserName" textColor:[UIColor black13] fontSize:617.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		userName.numberOfLines = 1;
+		[self addSubview:userName];
+		[userName mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(userPhoto).offset(7);
+			make.left.equalTo(self).offset(SERVICEPAGE_MARGIN_LR);
+			make.right.equalTo(userPhoto.mas_left).offset(-20);
+		}];
+		userJob = [UILabel creatLabelWithText:@"UserJob" textColor:[UIColor gary115] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		userJob.numberOfLines = 1;
+		[self addSubview:userJob];
+		[userJob mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.bottom.equalTo(userPhoto).offset(-4);
 			make.left.equalTo(userName);
-			make.top.equalTo(userName.mas_bottom).offset(8);
-			make.size.mas_equalTo(CGSizeMake(11, 11));
-		}];
-        realNameLabel = [Tools creatUILabelWithText:isGettingCertData andTextColor:[Tools garyColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-        [self addSubview:realNameLabel];
-		[realNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(realNameSign.mas_right).offset(4);
-			make.centerY.equalTo(realNameSign);
-        }];
-		
-		phoneNoSign = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"remind_time")];
-		[self addSubview:phoneNoSign];
-		[phoneNoSign mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(realNameLabel.mas_right).offset(16);
-			make.centerY.equalTo(realNameSign);
-			make.size.mas_equalTo(CGSizeMake(11, 11));
-		}];
-		phoneNoLabel = [Tools creatUILabelWithText:isGettingCertData andTextColor:[Tools garyColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		[self addSubview:phoneNoLabel];
-		[phoneNoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(phoneNoSign.mas_right).offset(4);
-			make.centerY.equalTo(phoneNoSign);
+			make.right.equalTo(userName);
 		}];
 		
-		UIImageView *arrow_right = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"details_icon_arrow_right")];
-		[self addSubview:arrow_right];
-		[arrow_right mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerY.equalTo(self);
-			make.right.equalTo(self).offset(-20);
-			make.size.mas_equalTo(CGSizeMake(8, 14));
-		}];
 		
 		UIView *bottom_view = [[UIView alloc] init];
-		bottom_view.backgroundColor = [Tools garyBackgroundColor];
+		bottom_view.backgroundColor = [UIColor garyLine];
 		[self addSubview:bottom_view];
 		[bottom_view mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerX.equalTo(self);
+//			make.top.equalTo(userPhoto.mas_bottom).offset(30);
+			make.left.equalTo(self).offset(SERVICEPAGE_MARGIN_LR);
+			make.right.equalTo(self).offset(-SERVICEPAGE_MARGIN_LR);
 			make.bottom.equalTo(self);
-			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 10));
+			make.height.mas_equalTo(0.5);
 		}];
 		
-		UIView *shadow_view = [[UIView alloc]init];
-		shadow_view.backgroundColor = [Tools whiteColor];
-		shadow_view.layer.shadowColor = [Tools garyColor].CGColor;
-		shadow_view.layer.shadowOffset = CGSizeMake(0, 2.f);
-		shadow_view.layer.shadowOpacity = 0.05f;
-		shadow_view.layer.shadowRadius =1.f;
-		[self addSubview:shadow_view];
-		[shadow_view mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.bottom.equalTo(self).offset(-10);
-			make.centerX.equalTo(self);
-			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 10));
-		}];
-		
-		[self sendSubviewToBack:shadow_view];
-		[self sendSubviewToBack:bottom_view];
-		
-        if (reuseIdentifier != nil) {
-            [self setUpReuseCell];
-        }
     }
     return self;
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-}
-
-#pragma mark -- life cycle
-- (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(@"ServiceOwnerInfoCell", @"ServiceOwnerInfoCell");
-    NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
-    for (NSString* name in cell.commands.allKeys) {
-        AYViewCommand* cmd = [cell.commands objectForKey:name];
-        AYViewCommand* c = [[AYViewCommand alloc]init];
-        c.view = self;
-        c.method_name = cmd.method_name;
-        c.need_args = cmd.need_args;
-        [arr_commands setValue:c forKey:name];
-    }
-    self.commands = [arr_commands copy];
-    
-    NSMutableDictionary* arr_notifies = [[NSMutableDictionary alloc]initWithCapacity:cell.notifies.count];
-    for (NSString* name in cell.notifies.allKeys) {
-        AYViewNotifyCommand* cmd = [cell.notifies objectForKey:name];
-        AYViewNotifyCommand* c = [[AYViewNotifyCommand alloc]init];
-        c.view = self;
-        c.method_name = cmd.method_name;
-        c.need_args = cmd.need_args;
-        [arr_notifies setValue:c forKey:name];
-    }
-    self.notifies = [arr_notifies copy];
-}
-
-#pragma mark -- commands
-- (void)postPerform {
-    
-}
-
-- (void)performWithResult:(NSObject**)obj {
-    
-}
-
-- (NSString*)getViewType {
-    return kAYFactoryManagerCatigoryView;
-}
-
-- (NSString*)getViewName {
-    return [NSString stringWithUTF8String:object_getClassName([self class])];
-}
-
-- (NSString*)getCommandType {
-    return kAYFactoryManagerCatigoryView;
-}
 
 #pragma mark -- actions
+- (void)userPhotoTap {
+	[(AYViewController*)self.controller performAYSel:@"showOwnerInfo" withResult:nil];
+}
 
 #pragma mark -- notifies
 - (id)setCellInfo:(id)args {
@@ -219,36 +161,56 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 		userPhoto.userInteractionEnabled = NO;
 
 	} else {
-		
-		NSDictionary *info_owner = [service_info objectForKey:@"owner"];
 		userPhoto.userInteractionEnabled = YES;
-		NSString *userNameStr = [info_owner objectForKey:@"screen_name"];
-		if (userNameStr && ![userNameStr isEqualToString:@""]) {
+		
+		NSDictionary *info_owner = [service_info objectForKey:kAYBrandArgsSelf];
+		
+		NSString *userNameStr = [info_owner objectForKey:kAYBrandArgsName];
+		if (userNameStr.length != 0) {
 			userName.text = userNameStr;
-		}
-		NSString *screen_photo = [info_owner objectForKey:kAYProfileArgsScreenPhoto];
-		if (screen_photo && ![screen_photo isEqualToString:@""]) {
-			[userPhoto sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", pre, screen_photo]]
-						 placeholderImage:IMGRESOURCE(@"default_user") /*options:SDWebImageRefreshCached*/];
+			userJob.text = [userNameStr stringByAppendingString:@"老师"];
 		}
 		
-		NSString *ownerName = [info_owner objectForKey:@"owner_name"];
-		if (ownerName && ![ownerName isEqualToString:@""]) {
-			realNameLabel.text = VerifiedRealName;
-			realNameSign.image = IMGRESOURCE(@"checked_icon");
-		} else {
-			realNameLabel.text = hasNoRealName;
-		}
+		NSString *tag = [info_owner objectForKey:kAYBrandArgsTag];
+//		userPhoto.image = [self createImageContext:tag];
 		
-		NSString *contcatNo = [info_owner objectForKey:kAYProfileArgsContactNo];
-		if (contcatNo && ![contcatNo isEqualToString:@""]) {
-			phoneNoLabel.text = VerifiedPhoneNo;
-			phoneNoSign.image = IMGRESOURCE(@"checked_icon");
-		} else
-			phoneNoLabel.text = hasNoPhoneNo;
+		brandTagLabel.text = tag;
+		
+//		NSString *screen_photo = [info_owner objectForKey:kAYProfileArgsScreenPhoto];
+//		if (screen_photo && ![screen_photo isEqualToString:@""]) {
+//			[userPhoto sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", pre, screen_photo]]
+//						 placeholderImage:IMGRESOURCE(@"default_user") /*options:SDWebImageRefreshCached*/];
+//		}
+		
 	}
 	
     return nil;
+}
+
+- (UIImage *)createImageContext:(NSString *)text {
+	
+	CGSize imageSize = userPhoto.bounds.size; //画的背景 大小
+	
+	UIGraphicsBeginImageContextWithOptions(imageSize, YES, SCREEN_SCALE);
+	CGContextRef context = UIGraphicsGetCurrentContext();
+	CGContextDrawPath(context, kCGPathStroke);
+	
+	NSDictionary *attributes = @{NSFontAttributeName:[UIFont boldSystemFontOfSize:20]};
+	
+	CGRect sizeToFit = [text boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, 20) options:NSStringDrawingUsesDeviceMetrics attributes:attributes context:nil];
+	
+	NSLog(@"图片: %f %f",imageSize.width,imageSize.height);
+	NSLog(@"sizeToFit: %f %f",sizeToFit.size.width,sizeToFit.size.height);
+	
+	CGContextSetFillColorWithColor(context, [UIColor white].CGColor);
+	
+	[text drawAtPoint:CGPointMake((imageSize.width - sizeToFit.size.width)/2, 0) withAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:20]}];
+	//返回绘制的新图形
+	
+	UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+	
+	UIGraphicsEndImageContext();
+	return newImage;
 }
 
 @end

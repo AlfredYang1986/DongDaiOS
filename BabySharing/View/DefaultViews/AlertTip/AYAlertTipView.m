@@ -9,7 +9,6 @@
 #import "AYAlertTipView.h"
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
-#import "Tools.h"
 #import "AYAlertView.h"
 
 @implementation AYAlertTipView
@@ -51,7 +50,7 @@
     NSString *title = [args objectForKey:@"title"];
     NSNumber *set_y = [args objectForKey:@"set_y"];
     
-    UILabel *titleLabel = [Tools creatUILabelWithText:title andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    UILabel *titleLabel = [Tools creatLabelWithText:title textColor:[Tools black] fontSize:12.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
     [titleLabel sizeToFit];
      CGSize titleSize = titleLabel.frame.size;
     [self addSubview:titleLabel];

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "AYViewBase.h"
+#import "AYCapacityUnitView.h"
 
 @interface AYServiceCapacityCellView : UITableViewCell <AYViewBase>
 

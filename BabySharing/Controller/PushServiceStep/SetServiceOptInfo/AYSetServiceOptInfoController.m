@@ -51,7 +51,7 @@
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    AYInsetLabel *h1 = [[AYInsetLabel alloc]initWithTitle:@"需要家长陪同" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
+    AYInsetLabel *h1 = [[AYInsetLabel alloc]initWithTitle:@"需要家长陪同" andTextColor:[Tools black] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
     h1.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
     [self.view addSubview:h1];
     [h1 mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -73,7 +73,7 @@
     optionBtn.selected = isAllowLeave;
     [optionBtn addTarget:self action:@selector(didYesBtnClick) forControlEvents:UIControlEventTouchUpInside];
     
-    AYInsetLabel *h2 = [[AYInsetLabel alloc]initWithTitle:@"其他守则" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
+    AYInsetLabel *h2 = [[AYInsetLabel alloc]initWithTitle:@"其他守则" andTextColor:[Tools black] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
     h2.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
     [self.view addSubview:h2];
     [h2 mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -102,12 +102,12 @@
 
 #pragma mark -- layout
 - (id)FakeStatusBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view{
-    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+    view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
     id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];

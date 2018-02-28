@@ -59,7 +59,7 @@
 	profile.tabBarItem = [[UITabBarItem alloc]initWithTitle:@"我的" image:[IMGRESOURCE(@"tab_profile") imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] selectedImage:[IMGRESOURCE(@"tab_profile_selected") imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
 	
 	NSDictionary *attr_titleColor_normal = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:10.f], NSFontAttributeName, [Tools garyColor], NSForegroundColorAttributeName, nil];
-	NSDictionary *attr_titleColor_select = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:10.f], NSFontAttributeName, [Tools themeColor], NSForegroundColorAttributeName, nil];
+	NSDictionary *attr_titleColor_select = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:10.f], NSFontAttributeName, [Tools theme], NSForegroundColorAttributeName, nil];
 	[[UITabBarItem appearance] setTitleTextAttributes:attr_titleColor_normal forState:UIControlStateNormal];
 	[[UITabBarItem appearance] setTitleTextAttributes:attr_titleColor_select forState:UIControlStateSelected];
 	
@@ -113,7 +113,7 @@
 	NSDictionary *attr_color_normal = @{NSFontAttributeName:[UIFont systemFontOfSize:10.f], NSForegroundColorAttributeName:[Tools garyColor]};
 	[controller.tabBarItem setTitleTextAttributes:attr_color_normal forState:UIControlStateNormal];
 	
-	NSDictionary *attr_color_select = @{NSFontAttributeName:[UIFont systemFontOfSize:10.f], NSForegroundColorAttributeName:[Tools themeColor]};
+	NSDictionary *attr_color_select = @{NSFontAttributeName:[UIFont systemFontOfSize:10.f], NSForegroundColorAttributeName:[Tools theme]};
 	[controller.tabBarItem setTitleTextAttributes:attr_color_select forState:UIControlStateSelected];
 	
 	UIImage *image = [UIImage imageNamed:imageName];

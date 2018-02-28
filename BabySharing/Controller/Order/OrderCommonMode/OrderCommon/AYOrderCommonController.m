@@ -20,7 +20,6 @@
 #import <objc/runtime.h>
 
 #define TOPHEIGHT		0
-//165
 
 @implementation AYOrderCommonController {
 	
@@ -28,7 +27,6 @@
 	
 	NSArray *result_status_fb;
 	NSArray *OrderOfAll;
-	NSTimeInterval queryTimespan;
 	NSInteger skipCount;
 	
 	dispatch_semaphore_t semaphore;
@@ -59,20 +57,17 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	skipCount = 0;
-	queryTimespan = [NSDate date].timeIntervalSince1970;
 	
-	/****************************************/
-	UITableView *tableView = [self.views objectForKey:kAYTableView];
-	[self.view bringSubviewToFront:tableView];
 	/****************************************/
 	
 	id<AYDelegateBase> delegate = [self.delegates objectForKey:@"OrderCommon"];
 	id obj = (id)delegate;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDelegateMessage, &obj)
 	obj = (id)delegate;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDatasourceMessage, &obj)
 	
 	/****************************************/
+	UITableView *tableView = [self.views objectForKey:kAYTableView];
 	tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
 	[self loadNewData];
 	
@@ -82,6 +77,8 @@
 	class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OTMHistoryCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
 	
+	UITableView *view_status = [self.views objectForKey:kAYFakeStatusBarView];
+	[self.view bringSubviewToFront:view_status];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -94,12 +91,13 @@
 
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
+	view.backgroundColor = [UIColor whiteColor];
 	return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+	view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
 	
 	NSString *title = @"确认信息";
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
@@ -191,8 +189,12 @@
 			id data = [result_status_fb copy];
 			kAYDelegatesSendMessage(@"OrderCommon", @"changeQueryFBData:", &data)
 		} else {
-			NSString *title = @"请改善网络环境并重试";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+//			NSString *message = [result objectForKey:@"message"];
+//			if([message isEqualToString:@"token过期"]) {
+//				NSString *tip = @"当前用户登录实效已过期，请重新登录";
+//				AYShowBtmAlertView(tip, BtmAlertViewTypeHideWithTimer)
+//			} else
+			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
 		}
 		
 		id<AYViewBase> view_future = [self.views objectForKey:@"Table"];

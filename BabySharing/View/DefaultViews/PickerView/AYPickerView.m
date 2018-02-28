@@ -10,7 +10,6 @@
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
 #import "AYFactoryManager.h"
-//#import "AYHomeCellDefines.h"
 
 #define SHOW_OFFSET_Y           SCREEN_HEIGHT - 196
 #define kPickBgHeight             196
@@ -31,17 +30,17 @@
 	self.backgroundColor = [UIColor clearColor];
 	
 	self.userInteractionEnabled = YES;
-	[self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hidePickerView)]];
+	[self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapElse)]];
 	
 	pickBgView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, kPickBgHeight)];
 	[self addSubview:pickBgView];
-	pickBgView.backgroundColor = [Tools whiteColor];
+	pickBgView.backgroundColor = [Tools garyBackgroundColor];
     pickBgView.clipsToBounds = YES;
     
     UIButton *save = [[UIButton alloc]init];
     [pickBgView addSubview:save];
     [save setTitle:@"保存" forState:UIControlStateNormal];
-    [save setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
+    [save setTitleColor:[Tools theme] forState:UIControlStateNormal];
     save.titleLabel.font = [UIFont systemFontOfSize:17.f];
     [save mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(pickBgView);
@@ -53,7 +52,7 @@
     UIButton *cancel = [[UIButton alloc]init];
     [pickBgView addSubview:cancel];
     [cancel setTitle:@"取消" forState:UIControlStateNormal];
-    [cancel setTitleColor:[Tools blackColor] forState:UIControlStateNormal];
+    [cancel setTitleColor:[Tools black] forState:UIControlStateNormal];
     cancel.titleLabel.font = [UIFont systemFontOfSize:17.f];
     [cancel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(pickBgView);
@@ -83,6 +82,11 @@
     return kAYFactoryManagerCatigoryView;
 }
 
+
+#pragma mark -- actions
+- (void)didTapElse {
+	[self didCancelClick:nil];
+}
 
 - (void)didSaveClick:(UIButton*)btn {
     
@@ -119,7 +123,6 @@
     [UIView animateWithDuration:0.25 animations:^{
         pickBgView.frame = CGRectMake(0, SHOW_OFFSET_Y, SCREEN_WIDTH, kPickBgHeight);
     }];
-    
     return nil;
 }
 
@@ -127,16 +130,19 @@
 	
     [UIView animateWithDuration:0.25 animations:^{
         pickBgView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, kPickBgHeight);
-		
 	} completion:^(BOOL finished) {
 		self.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
 	}];
-    
     return nil;
 }
 
 - (id)refresh {
 	[_pickerView reloadAllComponents];
+	return nil;
+}
+
+- (id)setPickerBackground:(id)color {
+	pickBgView.backgroundColor = color;
 	return nil;
 }
 

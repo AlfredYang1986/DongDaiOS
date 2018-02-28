@@ -386,7 +386,7 @@
  */
 - (void)asyncRegisterWithUsername:(NSString *)aUsername
                          password:(NSString *)aPassword
-                          success:(void (^)())aSuccessBlock
+                          success:(void (^)(void))aSuccessBlock
                           failure:(void (^)(EMError *aError))aFailureBlock;
 
 /*!
@@ -409,7 +409,7 @@
  */
 - (void)asyncLoginWithUsername:(NSString *)aUsername
                       password:(NSString *)aPassword
-                       success:(void (^)())aSuccessBlock
+                       success:(void (^)(void))aSuccessBlock
                        failure:(void (^)(EMError *aError))aFailureBlock;
 
 /*!
@@ -429,7 +429,7 @@
  *  @result Error
  */
 - (void)asyncLogout:(BOOL)aIsUnbindDeviceToken
-            success:(void (^)())aSuccessBlock
+            success:(void (^)(void))aSuccessBlock
             failure:(void (^)(EMError *aError))aFailureBlock;
 
 /*!
@@ -448,7 +448,7 @@
  *  @param aFailureBlock    The callback block of failure
  */
 - (void)asyncBindDeviceToken:(NSData *)aDeviceToken
-                     success:(void (^)())aSuccessBlock
+                     success:(void (^)(void))aSuccessBlock
                      failure:(void (^)(EMError *aError))aFailureBlock;
 
 /*!
@@ -468,7 +468,7 @@
  *
  */
 - (void)asyncSetApnsNickname:(NSString *)aNickname
-                     success:(void (^)())aSuccessBlock
+					 success:(void (^)(void))aSuccessBlock
                      failure:(void (^)(EMError *aError))aFailureBlock;
 
 /*!
@@ -501,7 +501,7 @@
  *  @param aFailureBlock    The callback block of failure
  *
  */
-- (void)asyncUpdatePushOptionsToServer:(void (^)())aSuccessBlock
+- (void)asyncUpdatePushOptionsToServer:(void (^)(void))aSuccessBlock
                                failure:(void (^)(EMError *aError))aFailureBlock;
 
 /*!
@@ -517,7 +517,7 @@
  *  @param aSuccessBlock    The callback block of success
  *  @param aFailureBlock    The callback block of failure
  */
-- (void)asyncUploadLogToServer:(void (^)())aSuccessBlock
+- (void)asyncUploadLogToServer:(void (^)(void))aSuccessBlock
                        failure:(void (^)(EMError *aError))aFailureBlock;
 
 #pragma mark - iOS

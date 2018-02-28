@@ -13,9 +13,6 @@
 #define SHOWMOVIE       [self showPostController:@"MovieInit"]
 
 @implementation AYTabBarController {
-
-    UIImage* img_home_with_no_message;
-    UIImage* img_home_with_unread_message;
     
     ModeExchangeType isExchangeModel;
     int expectIndex;
@@ -47,8 +44,8 @@
     [cmd_home_init performWithResult:&home];
 
     id<AYCommand> cmd_friends_init = [self.commands objectForKey:@"MessageInit"];
-    AYViewController* friends = nil;
-    [cmd_friends_init performWithResult:&friends];
+    AYViewController* message = nil;
+    [cmd_friends_init performWithResult:&message];
     
     id<AYCommand> cmd_order_init = [self.commands objectForKey:@"OrderCommonInit"];
     AYViewController* order = nil;
@@ -58,38 +55,33 @@
     AYViewController* profile = nil;
     [cmd_profile_init performWithResult:&profile];
     
-    self.viewControllers = [NSArray arrayWithObjects:home, friends, order, profile, nil];
+    self.viewControllers = [NSArray arrayWithObjects:home, message, order, profile, nil];
     self.delegate = self;
-    
-    img_home_with_no_message = IMGRESOURCE(@"tab_home");
-    img_home_with_unread_message = IMGRESOURCE(@"tab_home_unread");
 	
-    _dongda_tabbar = [[DongDaTabBar alloc]initWithBar:self];
-    [_dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_home") andSelectedImg:IMGRESOURCE(@"tab_home_selected") andTitle:@"首页"];
-    [_dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_message") andSelectedImg:IMGRESOURCE(@"tab_message_selected") andTitle:@"消息"];
-    [_dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_order") andSelectedImg:IMGRESOURCE(@"tab_order_selected") andTitle:@"日程"];
-    [_dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_profile") andSelectedImg:IMGRESOURCE(@"tab_profile_selected") andTitle:@"我的"];
+	[self controller:home Title:@"首页" tabBarImageName:@"tab_home"];
+	[self controller:message Title:@"消息" tabBarImageName:@"tab_message"];
+	[self controller:order Title:@"日程" tabBarImageName:@"tab_order"];
+	[self controller:profile Title:@"我的" tabBarImageName:@"tab_profile"];
 	
-//	home.tabBarItem = [[UITabBarItem alloc]initWithTitle:@"首页" image:[IMGRESOURCE(@"tab_home") imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] selectedImage:[IMGRESOURCE(@"tab_home_selected") imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
-//	friends.tabBarItem = [[UITabBarItem alloc]initWithTitle:@"消息" image:[IMGRESOURCE(@"tab_message") imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] selectedImage:[IMGRESOURCE(@"tab_message_selected") imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
-//	order.tabBarItem = [[UITabBarItem alloc]initWithTitle:@"日程" image:[IMGRESOURCE(@"tab_order") imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] selectedImage:[IMGRESOURCE(@"tab_order_selected") imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
-//	profile.tabBarItem = [[UITabBarItem alloc]initWithTitle:@"我的" image:[IMGRESOURCE(@"tab_profile") imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] selectedImage:[IMGRESOURCE(@"tab_profile_selected") imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
-//	
-//	NSDictionary *attr_titleColor_normal = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:10.f], NSFontAttributeName, [Tools garyColor], NSForegroundColorAttributeName, nil];
-//	NSDictionary *attr_titleColor_select = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:10.f], NSFontAttributeName, [Tools themeColor], NSForegroundColorAttributeName, nil];
-//	[[UITabBarItem appearance] setTitleTextAttributes:attr_titleColor_normal forState:UIControlStateNormal];
-//	[[UITabBarItem appearance] setTitleTextAttributes:attr_titleColor_select forState:UIControlStateSelected];
-//	
+	[[UITabBar appearance] setBarTintColor:[Tools whiteColor]];
+	[UITabBar appearance].translucent = NO;
+	
+	[message.tabBarItem setBadgeColor:[UIColor redColor]];
+//	[message.tabBarItem setBadgeValue:@"3"];
+//	[message.tabBarItem setBadgeValue:nil];
+	
+//    _dongda_tabbar = [[DongDaTabBar alloc]initWithBar:self];
+//    [_dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_home") andSelectedImg:IMGRESOURCE(@"tab_home_selected") andTitle:@"首页"];
+//    [_dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_message") andSelectedImg:IMGRESOURCE(@"tab_message_selected") andTitle:@"消息"];
+//    [_dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_order") andSelectedImg:IMGRESOURCE(@"tab_order_selected") andTitle:@"日程"];
+//    [_dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_profile") andSelectedImg:IMGRESOURCE(@"tab_profile_selected") andTitle:@"我的"];
+	
 //	CALayer* shadow = [CALayer layer];
 //	shadow.borderColor = [UIColor colorWithRed:0.5922 green:0.5922 blue:0.5922 alpha:0.25].CGColor;
 //	shadow.borderWidth = 1.f;
 //	shadow.frame = CGRectMake(0, 0, SCREEN_WIDTH, 1);
 //	[self.tabBar.layer addSublayer:shadow];
-	
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 6) {
-        [[UITabBar appearance] setShadowImage:[UIImage new]];
-        [[UITabBar appearance] setBackgroundImage:[[UIImage alloc]init]];
-    }
+
 }
 
 - (void)performWithResult:(NSObject *__autoreleasing *)obj {
@@ -151,52 +143,56 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    if (isExchangeModel != ModeExchangeTypeDissVC) {
-        self.selectedIndex = expectIndex;
-        DongDaTabBarItem* btn = (DongDaTabBarItem*)[_dongda_tabbar viewWithTag:expectIndex];
-        [_dongda_tabbar itemSelected:btn];
-        
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setValue:[NSNumber numberWithInt:DongDaAppModeCommon] forKey:@"dongda_app_mode"];
-        [defaults synchronize];
-        
-        UIView *cover = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
-        [self.view addSubview:cover];
-        
-        if (isExchangeModel == ModeExchangeTypeNapToCommon) {
-            
-            cover.backgroundColor = [Tools darkBackgroundColor];
-            UILabel *tipsLabel = [Tools creatUILabelWithText:@"切换为预订模式" andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:1];
-            [cover addSubview:tipsLabel];
-            [tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.centerY.equalTo(cover).offset(-60);
-                make.centerX.equalTo(cover);
-            }];
-            
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [UIView animateWithDuration:0.5 animations:^{
-                    cover.alpha = 0;
-                } completion:^(BOOL finished) {
-                    [cover removeFromSuperview];
-                }];
-            });
-        } else if(isExchangeModel == ModeExchangeTypeUnloginToAllModel) {
-            cover.backgroundColor = [UIColor whiteColor];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [UIView animateWithDuration:0.75 animations:^{
-                    cover.alpha = 0;
-                } completion:^(BOOL finished) {
-                    [cover removeFromSuperview];
-                }];
-            });
-        } else {
-            [cover removeFromSuperview];
-        }
-        
-        isExchangeModel = ModeExchangeTypeDissVC;
-    }
-    
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	
+	if (isExchangeModel != ModeExchangeTypeDissVC) {
+		self.selectedIndex = expectIndex;
+		DongDaTabBarItem* btn = (DongDaTabBarItem*)[_dongda_tabbar viewWithTag:expectIndex];
+		[_dongda_tabbar itemSelected:btn];
+		
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		[defaults setValue:[NSNumber numberWithInt:DongDaAppModeCommon] forKey:@"dongda_app_mode"];
+		[defaults synchronize];
+		
+		UIView *cover = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+		[[UIApplication sharedApplication].keyWindow addSubview:cover];
+		
+		if (isExchangeModel == ModeExchangeTypeServantToCommon) {
+			
+			cover.backgroundColor = [Tools darkBackgroundColor];
+			UILabel *tipsLabel = [Tools creatLabelWithText:@"切换为预订模式" textColor:[UIColor whiteColor] fontSize:16.f backgroundColor:nil textAlignment:1];
+			[cover addSubview:tipsLabel];
+			[tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+				make.centerY.equalTo(cover).offset(-60);
+				make.centerX.equalTo(cover);
+			}];
+			
+			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+				[UIView animateWithDuration:0.5 animations:^{
+					cover.alpha = 0;
+				} completion:^(BOOL finished) {
+					[cover removeFromSuperview];
+				}];
+			});
+		} else if(isExchangeModel == ModeExchangeTypeUnloginToAllModel) {
+			cover.backgroundColor = [UIColor whiteColor];
+			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+				[UIView animateWithDuration:0.75 animations:^{
+					cover.alpha = 0;
+				} completion:^(BOOL finished) {
+					[cover removeFromSuperview];
+				}];
+			});
+		} else {
+			[cover removeFromSuperview];
+		}
+		
+		isExchangeModel = ModeExchangeTypeDissVC;
+	}
+	
 }
 
 #pragma mark -- tabbar delegate
@@ -230,13 +226,33 @@
 //    return YES;
 //}
 
-- (void)tabBarController:(UITabBarController *)tabBarController willBeginCustomizingViewControllers:(NSArray *)viewControllers {
-    for (UIViewController * iter in viewControllers) {
-        NSLog(@"%@", iter.title);
-    }
+//- (void)tabBarController:(UITabBarController *)tabBarController willBeginCustomizingViewControllers:(NSArray *)viewControllers {
+//    for (UIViewController * iter in viewControllers) {
+//        NSLog(@"%@", iter.title);
+//    }
+//}
+
+#pragma mark - actions
+- (void)controller:(AYViewController *)controller Title:(NSString *)title tabBarImageName:(NSString *)imageName {
+	controller.tabBarItem = [[UITabBarItem alloc] init];
+	
+	[controller.tabBarItem setTitle:title];
+	NSDictionary *attr_color_normal = @{NSFontAttributeName:[UIFont systemFontOfSize:10.f], NSForegroundColorAttributeName:[Tools garyColor]};
+	[controller.tabBarItem setTitleTextAttributes:attr_color_normal forState:UIControlStateNormal];
+	
+	NSDictionary *attr_color_select = @{NSFontAttributeName:[UIFont systemFontOfSize:10.f], NSForegroundColorAttributeName:[Tools theme]};
+	[controller.tabBarItem setTitleTextAttributes:attr_color_select forState:UIControlStateSelected];
+	
+	UIImage *image = [UIImage imageNamed:imageName];
+	image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+	[controller.tabBarItem setImage:image];
+	
+	UIImage *selectedImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@_selected", imageName]];
+	selectedImage = [selectedImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+	[controller.tabBarItem setSelectedImage:selectedImage];
+	
 }
 
-#pragma mark -- actions
 - (void)showPostController:(NSString*)name {
    
     AYViewController* des = nil;

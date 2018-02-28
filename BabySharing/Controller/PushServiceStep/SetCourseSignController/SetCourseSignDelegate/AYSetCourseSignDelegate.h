@@ -11,6 +11,6 @@
 #import <UIKit/UIKit.h>
 #import "AYViewController.h"
 
-@interface AYSetCourseSignDelegate : NSObject  <AYDelegateBase, UITableViewDelegate, UITableViewDataSource>
+@interface AYSetCourseSignDelegate : NSObject <AYDelegateBase, UITableViewDelegate, UITableViewDataSource>
 
 @end

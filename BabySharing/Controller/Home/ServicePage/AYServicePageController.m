@@ -22,10 +22,8 @@
 #import "AYServicePageBtmView.h"
 
 #define kLIMITEDSHOWNAVBAR			(-70.5)
-#define kFlexibleHeight				300
+#define kFlexibleHeight				280
 #define kBtmViewHeight				56
-#define kChatBtnWidth				69
-#define kBookBtnWidth				152
 #define kBookBtnTitleNormal			@"查看可预订时间"
 #define kBookBtnTitleSeted			@"申请预订"
 
@@ -39,15 +37,19 @@
     CGFloat offset_y;
 	BOOL isBlackLeftBtn;
 	BOOL isStatusHide;
-	NSNumber *cellMinY;
+	
 	
     UIButton *bar_like_btn;
+	UIButton *bar_back_btn;
     UIView *flexibleView;
+	UIScrollView *TAGScrollView;
+	NSMutableArray *imageTagsView;
+	AYImageTagView *tmpImageTag;
+	
 	BOOL isChangeCollect;
 	/****/
 	UICollectionView *CarouselView;
-	UIPageControl *pageControl;
-	int carouselNumb;
+	NSArray *serviceImages;
 	CGFloat HeadViewHeight;
 	/****/
 	
@@ -74,19 +76,21 @@
 
 #pragma mark --<UICollectionViewDataSource,UICollectionViewDelegate>
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-	return carouselNumb == 0 ? 1 : carouselNumb;
+	return serviceImages.count == 0 ? 1 : serviceImages.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 	AYServiceImagesCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AYServiceImagesCell" forIndexPath:indexPath];
 	
-	NSArray *images = [service_info objectForKey:kAYServiceArgsImages];
-	if (images.count != 0) {
-		if ([[images firstObject] isKindOfClass:[NSString class]]) {
-			[cell setItemImageWithImageName:[images objectAtIndex:indexPath.row]];
-		} else {
-			[cell setItemImageWithImage:[images objectAtIndex:indexPath.row]];
-		}
+	if (serviceImages.count != 0) {
+//		if ([[serviceImages firstObject] isKindOfClass:[NSString class]]) {
+//			[cell setItemImageWithImageName:[serviceImages objectAtIndex:indexPath.row]];
+//		} else {
+//		NSDictionary *info_img = [serviceImages objectAtIndex:indexPath.row];
+//		[cell setItemImageWithImage:[info_img objectForKey:@"image"]];
+//		}
+		NSDictionary *info_img = [serviceImages objectAtIndex:indexPath.row];
+		[cell setItemImageWithImageName:[info_img objectForKey:@"image"]];
 		
 	} else
 		[cell setItemImageWithImage:IMGRESOURCE(@"default_image")];
@@ -99,8 +103,37 @@
 
 //设置页码
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-	int page = (int)(scrollView.contentOffset.x / SCREEN_WIDTH + 0.5)%carouselNumb;
-	pageControl.currentPage = page;
+	
+	int page = (int)(scrollView.contentOffset.x / SCREEN_WIDTH + 0.5)% serviceImages.count;
+	NSDictionary *item = [serviceImages objectAtIndex:page];
+	NSString *tag = [item objectForKey:@"tag"];
+	
+	for (AYImageTagView *view in imageTagsView) {
+		if ([view.label.text isEqualToString:tag]) {
+			
+			tmpImageTag.isSelect = NO;
+			view.isSelect = YES;
+			tmpImageTag = view;
+			
+			CGPoint offSet = TAGScrollView.contentOffset;
+			CGFloat x_min = CGRectGetMinX(view.frame);
+			CGFloat x_max = CGRectGetMaxX(view.frame);
+			
+			if (x_min - offSet.x <= 0) {
+				[TAGScrollView scrollRectToVisible:view.frame animated:YES];
+//				TAGScrollView.contentOffset = CGPointMake(view.frame.origin.x, 0);
+				
+			} else if (x_max - offSet.x >= SCREEN_WIDTH) {
+				[TAGScrollView scrollRectToVisible:view.frame animated:YES];
+//				TAGScrollView.contentOffset = CGPointMake(view.frame.origin.x - (SCREEN_WIDTH-view.frame.size.width), 0);
+				
+			} else {
+				
+			}
+		}
+	}
+	
+//	pageControl.currentPage = page;
 }
 
 - (void)viewDidLoad {
@@ -111,14 +144,15 @@
 	
     id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"ServicePage"];
     id obj = (id)cmd_recommend;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDatasourceMessage, &obj)
     obj = (id)cmd_recommend;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDelegateMessage, &obj)
 	
 	NSArray *cell_class_name_arr = @[@"ServiceTitleCell",
 									 @"ServiceOwnerInfoCell",
 									 @"ServiceCapacityCell",
 									 @"ServiceDescCell",
+									 @"ServiceTAGCell",
 									 @"ServiceMapCell",
 									 @"ServiceFacilityCell",
 									 @"ServiceNotiCell"];
@@ -131,22 +165,14 @@
 	/*********************************************/
 	
 	{
-		id<AYViewBase> view_table = [self.views objectForKey:kAYTableView];
-		UITableView *tableView = (UITableView*)view_table;
+		UITableView *tableView = [self.views objectForKey:kAYTableView];
 		flexibleView = [[UIView alloc]init];
 		[tableView addSubview:flexibleView];
-		
-		if (cellMinY) {
-			flexibleView.clipsToBounds = YES;
-			flexibleView.frame = CGRectMake(20, -kFlexibleHeight + cellMinY.floatValue, SCREEN_WIDTH - 40, kFlexibleHeight);
-		}
-		else {
-			[flexibleView mas_makeConstraints:^(MASConstraintMaker *make) {
-				make.top.equalTo(tableView).offset(-kFlexibleHeight);
-				make.centerX.equalTo(tableView);
-				make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kFlexibleHeight));
-			}];
-		}
+		[flexibleView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(tableView).offset(-kFlexibleHeight);
+			make.centerX.equalTo(tableView);
+			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kFlexibleHeight));
+		}];
 		
 		UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
 		layout.minimumLineSpacing = 0.f;
@@ -163,17 +189,31 @@
 		CarouselView.bounces = NO;
 		[CarouselView registerClass:NSClassFromString(@"AYServiceImagesCell") forCellWithReuseIdentifier:@"AYServiceImagesCell"];
 		[flexibleView addSubview:CarouselView];
-//		[CarouselView mas_makeConstraints:^(MASConstraintMaker *make) {
-//			make.center.equalTo(flexibleView);
-//			make.width.mas_equalTo(SCREEN_WIDTH);
-//			make.height.equalTo(flexibleView);
-//		}];
+		
+		UIImageView *mask = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"mask_detail_images")];
+		[flexibleView addSubview:mask];
+//		mask.frame = CGRectMake(0, HeadViewHeight - 42, SCREEN_WIDTH, 42);
+		[mask mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.bottom.equalTo(flexibleView);
+			make.left.equalTo(flexibleView);
+			make.right.equalTo(flexibleView);
+			make.height.equalTo(@42);
+		}];
+		
+		TAGScrollView = [[UIScrollView alloc] init/*WithFrame:CGRectMake(0, HeadViewHeight-30, SCREEN_WIDTH, 30)*/];
+		[flexibleView addSubview:TAGScrollView];
+		TAGScrollView.bounces = NO;
+		[TAGScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.bottom.equalTo(flexibleView);
+			make.left.equalTo(flexibleView);
+			make.right.equalTo(flexibleView);
+			make.height.equalTo(@30);
+		}];
 	}
 	
-	
-	cellMinY = [receiveData objectForKey:@"cell_min_y"];		//首页跳转动画关键值
 	NSNumber *per_mode = [receiveData objectForKey:@"perview_mode"];
-	if (per_mode) {
+	NSString *service_id = [receiveData objectForKey:kAYServiceArgsID];
+	if (per_mode ) {
 		bar_like_btn.hidden = YES;
 		
 		service_info = [receiveData mutableCopy];
@@ -183,21 +223,16 @@
 		
 	} else {
 		
-		AYServicePageBtmView *btmView = [[AYServicePageBtmView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-kBtmViewHeight, SCREEN_WIDTH, kBtmViewHeight)];
-		[self.view addSubview:btmView];
-		[self.view bringSubviewToFront:btmView];
-		[btmView.bookBtn addTarget:self action:@selector(didBookBtnClick) forControlEvents:UIControlEventTouchUpInside];
-		[btmView.chatBtn addTarget:self action:@selector(didChatBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-		
-		NSString *service_id = [receiveData objectForKey:kAYServiceArgsID];
-		NSDictionary *user;
+//		AYServicePageBtmView *btmView = [[AYServicePageBtmView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-kBtmViewHeight-HOME_IND_HEIGHT, SCREEN_WIDTH, kBtmViewHeight)];
+//		[self.view addSubview:btmView];
+//		[self.view bringSubviewToFront:btmView];
+//		[btmView.bookBtn addTarget:self action:@selector(didBookBtnClick) forControlEvents:UIControlEventTouchUpInside];
+//		[btmView.chatBtn addTarget:self action:@selector(didChatBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+		NSDictionary* user = nil;
 		CURRENUSER(user);
-		NSMutableDictionary *dic_detail = [user mutableCopy];
-//		NSDictionary *dic_condt = @{service_id:kAYServiceArgsID};
-		NSMutableDictionary *dic_condt = [[NSMutableDictionary alloc] init];
-		[dic_condt setValue:service_id forKey:kAYServiceArgsID];
-		[dic_condt setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
-		[dic_detail setValue:dic_condt forKey:kAYCommArgsCondition];
+		NSMutableDictionary *dic_detail = [Tools getBaseRemoteData:user];
+		[[dic_detail objectForKey:kAYCommArgsCondition] setValue:service_id forKey:kAYServiceArgsID];
+		[[dic_detail objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
 		
 		id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
 		AYRemoteCallCommand* cmd_search = [f_search.commands objectForKey:@"QueryServiceDetail"];
@@ -221,13 +256,12 @@
 				[tmp_args setValue:[args copy] forKey:kAYServiceArgsOfferDate];
 				service_info = tmp_args;
 				
-				[btmView setViewWithData:service_info];
+//				[btmView setViewWithData:service_info];
 				[self layoutServicePageBannerImages];
-				
+
 				NSDictionary *tmp = [service_info copy];
 				kAYDelegatesSendMessage(@"ServicePage", kAYDelegateChangeDataMessage, &tmp)
 				kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
-				[CarouselView reloadData];
 				
 			} else {
 				AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
@@ -250,61 +284,67 @@
 
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
-	if (cellMinY) {
-		[UIView animateWithDuration:0.45 animations:^{
-			flexibleView.frame = CGRectMake(0, -kFlexibleHeight, SCREEN_WIDTH, kFlexibleHeight);
-		}completion:^(BOOL finished) {
-			flexibleView.clipsToBounds = NO;
-		}];
-	}
 }
 
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
 	return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+    view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
 	
-    UIImage* left = IMGRESOURCE(@"bar_left_white");
-	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
+//    UIImage* left = IMGRESOURCE(@"detail_icon_back_white");
+//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
 	
-    id right = [NSNumber numberWithBool:YES];
-	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &right)
+	bar_back_btn = [[UIButton alloc]init];
+	[bar_back_btn setImage:IMGRESOURCE(@"detail_icon_back_white") forState:UIControlStateNormal];
+	[bar_back_btn setImage:IMGRESOURCE(@"detail_icon_back_black") forState:UIControlStateSelected];
+	[bar_back_btn addTarget:self action:@selector(leftBtnSelected) forControlEvents:UIControlEventTouchUpInside];
+	[view addSubview:bar_back_btn];
+	[bar_back_btn mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(view).offset(-5);
+		make.top.equalTo(view).offset(6);
+		make.size.mas_equalTo(CGSizeMake(36, 36));
+	}];
+	
+    id hidden = [NSNumber numberWithBool:YES];
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &hidden)
+	hidden = [NSNumber numberWithBool:YES];
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnVisibilityMessage, &hidden)
 	
     bar_like_btn = [[UIButton alloc]init];
-    [bar_like_btn setImage:IMGRESOURCE(@"details_icon_love_normal") forState:UIControlStateNormal];
-    [bar_like_btn setImage:IMGRESOURCE(@"details_icon_love_select") forState:UIControlStateSelected];
+    [bar_like_btn setImage:IMGRESOURCE(@"home_icon_love_normal") forState:UIControlStateNormal];
+    [bar_like_btn setImage:IMGRESOURCE(@"home_icon_love_select") forState:UIControlStateSelected];
+	[bar_like_btn setImage:IMGRESOURCE(@"home_icon_love_black") forState:UIControlStateHighlighted];
     [bar_like_btn addTarget:self action:@selector(didCollectionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:bar_like_btn];
     [bar_like_btn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(view).offset(-20);
-        make.centerY.equalTo(view);
-        make.size.mas_equalTo(CGSizeMake(27, 27));
+        make.right.equalTo(view).offset(-8);
+        make.top.equalTo(view).offset(7);
+        make.size.mas_equalTo(CGSizeMake(40, 40));
     }];
 	
     return nil;
 }
 
 - (id)TableLayout:(UIView*)view {
-	NSNumber *per_mode = [receiveData objectForKey:@"perview_mode"];
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - (per_mode ? 0 : kBtmViewHeight));
+//	NSNumber *per_mode = [receiveData objectForKey:@"perview_mode"];
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT /*- (per_mode ? 0 : kBtmViewHeight) - HOME_IND_HEIGHT*/);
     
     ((UITableView*)view).contentInset = UIEdgeInsetsMake(kFlexibleHeight, 0, 0, 0);
-    ((UITableView*)view).estimatedRowHeight = 300;
+    ((UITableView*)view).estimatedRowHeight = kFlexibleHeight;
     ((UITableView*)view).rowHeight = UITableViewAutomaticDimension;
     return nil;
 }
 
 #pragma mark -- notifies
 - (id)leftBtnSelected {
-	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-	[dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 	if (isChangeCollect) {
-		NSDictionary *back_args = @{@"args":service_info, @"key":@"is_change_collect"};
+		NSDictionary *back_args = @{kAYServiceArgsInfo:service_info, kAYServiceArgsIsCollect:[NSNumber numberWithBool:bar_like_btn.selected], kAYVCBackArgsKey:kAYVCBackArgsKeyCollectChange};
 		[dic setValue:back_args forKey:kAYControllerChangeArgsKey];
 	}
 	
@@ -318,40 +358,48 @@
     return nil;
 }
 
--(id)scrollOffsetY:(NSNumber*)y {
+- (id)scrollOffsetY:(NSNumber*)y {
 	
     id<AYViewBase> navBar = [self.views objectForKey:@"FakeNavBar"];
 	id<AYViewBase> statusBar = [self.views objectForKey:@"FakeStatusBar"];
 	
 	offset_y = y.floatValue;
-	if (offset_y < - kStatusAndNavBarH * 2) {
-		((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:0.f];
-	}
-	else if ( offset_y >= -kStatusAndNavBarH * 2) { //偏移的绝对值 小于 abs(-64)
-		
-		CGFloat alp = (kStatusAndNavBarH*2 + offset_y) / (kStatusAndNavBarH);
-		if (alp > 0.5 && !isBlackLeftBtn) {
-			UIImage* left = IMGRESOURCE(@"bar_left_black");
-			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
-			isBlackLeftBtn = YES;
-			NSString *titleStr = @"服务详情";
-			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &titleStr)
-			isStatusHide = NO;
-			[self setNeedsStatusBarAppearanceUpdate];
-			
-		} else if (alp <  0.5 && isBlackLeftBtn) {
-			UIImage* left = IMGRESOURCE(@"bar_left_white");
-			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
-			isBlackLeftBtn = NO;
-			NSString *titleStr = @"";
-			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &titleStr)
-			isStatusHide = YES;
-			[self setNeedsStatusBarAppearanceUpdate];
+	CGFloat alp = (kStatusAndNavBarH*2 + offset_y) / (kStatusAndNavBarH);
+	if (alp > 0.5 && !isBlackLeftBtn) {
+		bar_back_btn.selected = YES;
+		if (!bar_like_btn.selected) {
+			bar_like_btn.highlighted = YES;
 		}
 		
-		((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:alp];
-		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarHideBarBotLineMessage, nil)
+		isBlackLeftBtn = YES;
+		NSString *titleStr = @"服务详情";
+		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &titleStr)
+		isStatusHide = NO;
+		[self setNeedsStatusBarAppearanceUpdate];
+		
+	} else if (alp <=  0.5 && isBlackLeftBtn) {
+		bar_back_btn.selected = NO;
+		if (!bar_like_btn.selected) {
+			bar_like_btn.highlighted = NO;
+		}
+		
+		isBlackLeftBtn = NO;
+		NSString *titleStr = @"";
+		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &titleStr)
+		isStatusHide = YES;
+		[self setNeedsStatusBarAppearanceUpdate];
 	}
+	alp = alp > 1 ? 1 :alp;
+	alp = alp < 0 ? 0 :alp;
+	
+	((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithRED:250 GREEN:250 BLUE:250 ALPHA:alp];
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarHideBarBotLineMessage, nil)
+//	if (offset_y < - kStatusAndNavBarH * 2) {
+//		((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:0.f];
+//	}
+//	else if ( offset_y >= -kStatusAndNavBarH * 2) { //偏移的绝对值 小于 abs(-64)
+//
+//	}
 	
     CGFloat offsetH = kFlexibleHeight + offset_y;
     if (offsetH < 0) {
@@ -387,14 +435,14 @@
 	return nil;
 }
 
-- (id)showCansOrFacility {
+- (id)showOwnerInfo {
     
-    id<AYCommand> des = DEFAULTCONTROLLER(@"Facility");
+    id<AYCommand> des = DEFAULTCONTROLLER(@"OneProfile");
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
     [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic setValue:[service_info objectForKey:@"facility"] forKey:kAYControllerChangeArgsKey];
+    [dic setValue:[service_info objectForKey:kAYBrandArgsSelf] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd_show_module = SHOWMODULEUP;
     [cmd_show_module performWithResult:&dic];
@@ -422,35 +470,75 @@
 - (id)showHideDescDetail:(NSNumber*)args {
 	
 	UITableView *table = [self.views objectForKey:@"Table"];
+//	[table beginUpdates];
 	kAYDelegatesSendMessage(@"ServicePage", @"TransfromExpend:", &args)
 	[table reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-	
-//	[table beginUpdates];
 //	[table endUpdates];
     return nil;
 }
 
 #pragma mark -- actions
 - (void)layoutServicePageBannerImages {
-	carouselNumb = (int)((NSArray*)[service_info objectForKey:@"images"]).count;
+	NSArray *images_service = [service_info objectForKey:kAYServiceArgsImages];
+	NSArray *images_location = [[service_info objectForKey:kAYServiceArgsLocationInfo] objectForKey:@"location_images"];
 	
-	pageControl = [[UIPageControl alloc]init];
-	pageControl.pageIndicatorTintColor = [UIColor colorWithWhite:1.f alpha:0.5f];
-	pageControl.currentPageIndicatorTintColor = [Tools whiteColor];
-	pageControl.transform = CGAffineTransformMakeScale(0.6, 0.6);
-	[flexibleView addSubview:pageControl];
-	pageControl.numberOfPages = carouselNumb;
-	CGSize size = [pageControl sizeForNumberOfPages:carouselNumb];
-	[pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.bottom.equalTo(flexibleView).offset(-5);
-		make.centerX.equalTo(flexibleView);
-		make.size.mas_equalTo(CGSizeMake(size.width, 10));
-	}];
-	pageControl.hidden = carouselNumb == 1;
+	NSMutableArray *tmp_images = [images_service mutableCopy];
+	for (NSMutableDictionary *info_img in tmp_images) {
+		[info_img setValue:@"时刻" forKey:@"tag"];
+	}
+	[tmp_images addObjectsFromArray:images_location];
+	serviceImages = [tmp_images copy];
+	
+	NSMutableArray *tagsArr = [NSMutableArray array];
+	for (NSDictionary *info_img in serviceImages) {
+		NSString *img_tag = [info_img objectForKey:@"tag"];
+		if (![tagsArr containsObject:img_tag]) {
+			[tagsArr addObject:img_tag];
+		}
+	}
+	
+	CGFloat itemHeight = 30;
+	CGFloat marginBetween = 20;
+	CGFloat padding = 15;
+	CGFloat preMaxX = 0;
+	imageTagsView = [NSMutableArray array];
+	for (int i = 0; i < tagsArr.count; ++i) {
+		
+		NSString *title = [tagsArr objectAtIndex:i];
+		CGSize labelSize = [title sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]}];
+		CGRect frame = CGRectMake( i==0 ? 0 : marginBetween + preMaxX, 0, labelSize.width+padding*2, itemHeight);
+		
+		AYImageTagView *item = [[AYImageTagView alloc] initWithFrame:frame title:title];
+		[TAGScrollView addSubview:item];
+		
+		preMaxX = item.frame.origin.x + item.frame.size.width;
+		
+		item.userInteractionEnabled = YES;
+		[item addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didImageTagTap:)]];
+		
+		[imageTagsView addObject:item];
+	}
+	TAGScrollView.contentSize = CGSizeMake(preMaxX, 30);
+	
+	tmpImageTag = imageTagsView.firstObject;
+	tmpImageTag.isSelect = YES;
 	
 	NSNumber *iscollect = [service_info objectForKey:kAYServiceArgsIsCollect];
 	bar_like_btn.selected = iscollect.boolValue;
 	
+	[CarouselView reloadData];
+}
+
+- (void)didImageTagTap:(UITapGestureRecognizer*)tap {
+	UIView *item = tap.view;
+	//正则匹配
+	NSPredicate *pred_tag = [NSPredicate predicateWithFormat:@"SELF.%@=%@", @"tag", ((AYImageTagView*)item).label.text];
+	NSArray *result = [serviceImages filteredArrayUsingPredicate:pred_tag];
+	
+	if (result.count != 0) {
+		int index = (int)[serviceImages indexOfObject:result.firstObject];
+		[CarouselView selectItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0] animated:NO scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+	}
 }
 
 - (void)didBookBtnClick {
@@ -474,7 +562,7 @@
 		return NO;
 }
 
-- (void)didChatBtnClick:(UIButton*)btn{
+- (void)didChatBtnClick:(UIButton*)btn {
 	if ([self isOwnerUserSelf]) {
 		return;
 	}

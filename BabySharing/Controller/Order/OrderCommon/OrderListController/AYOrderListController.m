@@ -70,10 +70,9 @@
     id<AYViewBase> view_reg = [self.views objectForKey:@"DongDaSeg"];
     [view_nav addSubview:(UIView*)view_reg];
     [view_nav bringSubviewToFront:(UIView*)view_reg];
-    
-    AYViewController* compare = DEFAULTCONTROLLER(@"TabBarService");
-    isSer = [self.tabBarController isKindOfClass:[compare class]];
-    
+	
+	DongDaAppMode mode = [[[NSUserDefaults standardUserDefaults] valueForKey:kAYDongDaAppMode] intValue];
+	isSer = mode == DongDaAppModeServant;
     if (isSer) {
         {
             id<AYViewBase> view_future = [self.views objectForKey:@"Table"];
@@ -328,14 +327,14 @@
 
 #pragma mark -- layout commands
 - (id)FakeStatusBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
     view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    view.frame = CGRectMake(0, 20, width, kFakeNavBarH);
+    view.frame = CGRectMake(0, kStatusBarH, width, kFakeNavBarH);
     view.backgroundColor = [UIColor whiteColor];
     
     id<AYViewBase> bar = (id<AYViewBase>)view;

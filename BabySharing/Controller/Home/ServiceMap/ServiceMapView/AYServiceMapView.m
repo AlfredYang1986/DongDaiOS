@@ -18,7 +18,6 @@
 @implementation AYServiceMapView {
 	
 	NSArray *arrayWithLoc;
-	AYAnnonation *currentAnno;
 	NSMutableArray *annoArray;
 	
 	NSDictionary *tpLoc;
@@ -49,6 +48,9 @@
 	}];
 	[showMyself addTarget:self action:@selector(didShowMyselfBtnClick) forControlEvents:UIControlEventTouchUpInside];
 	
+	self.showsUserLocation = YES;
+//	CLLocation *locat = self.userLocation.location;
+	
 }
 
 #pragma mark -- commands
@@ -75,9 +77,6 @@
 		[self removeAnnotations:annoArray];
 		[annoArray removeAllObjects];
 	}
-	if (currentAnno) {
-		[self removeAnnotation:currentAnno];
-	}
 	
 	selfLoc = [dic_p2p objectForKey:@"self"];
 	NSDictionary *service_info = [args objectForKey:kAYServiceArgsInfo];
@@ -90,9 +89,9 @@
 	
 	loc = tp_location;
 	
-	NSDictionary *info_categ = [service_info objectForKey:kAYServiceArgsCategoryInfo];
-	NSString *serviceCat = [info_categ objectForKey:kAYServiceArgsCat];
-	NSString *cansCat = [info_categ objectForKey:kAYServiceArgsCatSecondary];
+//	NSDictionary *info_categ = [service_info objectForKey:kAYServiceArgsCategoryInfo];
+	NSString *serviceCat = [service_info objectForKey:kAYServiceArgsCat];
+	NSString *cansCat = [service_info objectForKey:kAYServiceArgsType];
 	NSString *pre_map_icon_name;
 	NSArray *optios_title_arr;
 	if ([serviceCat isEqualToString:kAYStringCourse]) {
@@ -115,14 +114,6 @@
 	[self addAnnotation:anno];
 	[annoArray addObject:anno];
 	[self setCenterCoordinate:tp_location.coordinate animated:NO];
-	
-	//rang
-//	currentAnno = [[AYAnnonation alloc]init];
-//	currentAnno.coordinate = loc.coordinate;
-//	currentAnno.title = @"定位位置";
-//	currentAnno.imageName = @"location_self";
-//	currentAnno.index = 9999;
-//	[self addAnnotation:currentAnno];
 	
 	return nil;
 }

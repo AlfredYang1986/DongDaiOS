@@ -21,13 +21,14 @@
 @implementation AYMapMatchCellView {
 	
 //	UIImageView *userPhoto;
-	UIImageView *positionSignView;
-	UILabel *titleLabel;
-	UILabel *distanceLabel;
-	UILabel *priceLabel;
 	
 	UIImageView *coverImage;
 	UILabel *descLabel;
+	UILabel *tagLabel;
+	
+	UIImageView *positionSignView;
+	UILabel *addrLabel;
+	UILabel *distanceLabel;
 	
 }
 
@@ -85,11 +86,12 @@
 //	}];
 	
 	UIView *bgView = [UIView new];
-	bgView.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.95f];
-	[Tools setViewBorder:bgView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
+	bgView.backgroundColor = [UIColor white];
+//	[Tools setViewBorder:bgView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
 	[self addSubview:bgView];
 	[bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.edges.equalTo(self).insets(UIEdgeInsetsMake(5, 20, 5, 20));
+//		make.edges.equalTo(self).insets(UIEdgeInsetsMake(5, 20, 5, 20));
+		make.edges.equalTo(self);
 	}];
 	
 //	UIView *shadowView = [[UIView alloc] init];
@@ -105,132 +107,122 @@
 //	}];
 //	[self sendSubviewToBack:shadowView];
 	
-	positionSignView = [[UIImageView alloc]init];
-	[self addSubview:positionSignView];
-	positionSignView.image = IMGRESOURCE(@"home_icon_location_theme");
-	[positionSignView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(bgView).offset(10);
-		make.top.equalTo(bgView).offset(18);
-		make.size.mas_equalTo(CGSizeMake(10, 12));
-	}];
-	
-	distanceLabel = [Tools creatUILabelWithText:@"00m" andTextColor:[Tools RGB127GaryColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
-	[self addSubview:distanceLabel];
-	
-	titleLabel = [Tools creatUILabelWithText:@"服务妈妈的主题服务" andTextColor:[Tools RGB127GaryColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-	[self addSubview:titleLabel];
-	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(positionSignView.mas_right).offset(6);
-		make.centerY.equalTo(positionSignView);
-		make.right.equalTo(distanceLabel.mas_left).offset(-10);
-	}];
-	
 	coverImage = [[UIImageView alloc]init];
 	coverImage.image = IMGRESOURCE(@"default_image");
 	coverImage.contentMode = UIViewContentModeScaleAspectFill;
 	coverImage.clipsToBounds = YES;
-	[Tools setViewBorder:coverImage withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
+//	[Tools setViewBorder:coverImage withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
 	[self addSubview:coverImage];
 	[coverImage mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.bottom.equalTo(bgView).offset(-10);
-		make.left.equalTo(positionSignView);
-		make.size.mas_equalTo(CGSizeMake(125, 89));
+		make.top.equalTo(bgView).offset(15);
+		make.left.equalTo(bgView).offset(15);
+		make.size.mas_equalTo(CGSizeMake(117, 72));
 	}];
 	
-	descLabel = [Tools creatUILabelWithText:@"Service description" andTextColor:[Tools RGB89GaryColor] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-	descLabel.numberOfLines = 3;
-	[self addSubview:descLabel];
-	[descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(coverImage.mas_right).offset(10);
-		make.right.equalTo(bgView).offset(-15);
+	tagLabel = [UILabel creatLabelWithText:@"TAG" textColor:[UIColor gary115] fontSize:315 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	[self addSubview:tagLabel];
+	[tagLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(coverImage.mas_right).offset(15);
 		make.top.equalTo(coverImage);
 	}];
 	
-	priceLabel = [Tools creatUILabelWithText:@"¥Price/Unit" andTextColor:[Tools garyColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-	[self addSubview:priceLabel];
-	[priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+	descLabel = [UILabel creatLabelWithText:@"Service description" textColor:[UIColor black] fontSize:617.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	descLabel.numberOfLines = 2;
+	[self addSubview:descLabel];
+	[descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(tagLabel.mas_bottom).offset(5);
+		make.left.equalTo(tagLabel);
 		make.right.equalTo(bgView).offset(-15);
-		make.bottom.equalTo(coverImage);
+	}];
+	
+	UIView *separView = [[UIView alloc] init];
+	[self addSubview:separView];
+	[separView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(coverImage);
+		make.right.equalTo(descLabel);
+		make.top.equalTo(coverImage.mas_bottom).offset(15);
+		make.height.mas_equalTo(0.5);
+	}];
+	separView.backgroundColor = [UIColor garyLine];
+	
+	positionSignView = [[UIImageView alloc]init];
+	[self addSubview:positionSignView];
+	positionSignView.image = IMGRESOURCE(@"map_icon_location_sign");
+	[positionSignView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(bgView).offset(15);
+		make.top.equalTo(separView.mas_bottom).offset(20);
+		make.size.mas_equalTo(CGSizeMake(11, 13));
+	}];
+	
+	distanceLabel = [UILabel creatLabelWithText:@"00m" textColor:[UIColor gary115] fontSize:314.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
+	[self addSubview:distanceLabel];
+	
+	addrLabel = [Tools creatLabelWithText:@"服务妈妈的主题服务" textColor:[UIColor black] fontSize:315.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	addrLabel.numberOfLines = 1;
+	[self addSubview:addrLabel];
+	[addrLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(positionSignView.mas_right).offset(4);
+		make.centerY.equalTo(positionSignView);
+		make.right.equalTo(bgView).offset(-15);
 	}];
 	
 }
 
 - (void)setService_info:(NSDictionary *)service_info {
+	
 	_service_info = [service_info objectForKey:kAYServiceArgsInfo];
 	
-	NSDictionary *info_location = [_service_info objectForKey:kAYServiceArgsLocationInfo];
-	CLLocation *location_self = [service_info objectForKey:@"location_self"];
-	NSNumber *lat = [[info_location objectForKey:kAYServiceArgsPin] objectForKey:kAYServiceArgsLatitude];
-	NSNumber *lon = [[info_location objectForKey:kAYServiceArgsPin] objectForKey:kAYServiceArgsLongtitude];
-	
-	CLLocation *pinLocation = [[CLLocation alloc] initWithLatitude:lat.doubleValue longitude:lon.doubleValue];
-	CLLocationDistance meters = [location_self distanceFromLocation:pinLocation];
-	distanceLabel.text = [NSString stringWithFormat:@"%.lfm", meters];
-	[distanceLabel sizeToFit];
-	[distanceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.right.equalTo(self).offset(-35);
-		make.centerY.equalTo(positionSignView);
-//		make.width.mas_equalTo(distanceLabel.bounds.size.width);
-		make.width.mas_equalTo(0);
-	}];
-	
-	NSString *addressStr = [info_location objectForKey:kAYServiceArgsAddress];
-//	NSString *adjstAddrStr = [info_location objectForKey:kAYServiceArgsAdjustAddress];
-	if (addressStr && ![addressStr isEqualToString:@""]) {
-		NSString *stringPre = @"中国北京市";
-		if ([addressStr hasPrefix:stringPre]) {
-			addressStr = [addressStr stringByReplacingOccurrencesOfString:stringPre withString:@""];
-		}
-//		titleLabel.text = [NSString stringWithFormat:@"%@%@", addressStr, adjstAddrStr];
-		titleLabel.text = addressStr;
-		[titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(positionSignView.mas_right).offset(6);
-			make.centerY.equalTo(positionSignView);
-			make.right.equalTo(distanceLabel.mas_left).offset(-10);
-		}];
+	NSString *addressStr = [_service_info objectForKey:kAYServiceArgsAddress];
+	if (addressStr.length != 0) {
+//		addressStr = [addressStr substringToIndex:3];
+		addrLabel.text = addressStr;
 	}
 	
-	NSString* photo_name = [_service_info objectForKey:kAYServiceArgsImages];
-	NSString *urlStr = [NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name];
-	[coverImage sd_setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:IMGRESOURCE(@"default_image") /*options:SDWebImageRefreshCached*/];
-	
-	NSDictionary *info_cat = [_service_info objectForKey:kAYServiceArgsCategoryInfo];
-	NSString *service_cat = [info_cat objectForKey:kAYServiceArgsCat];
-	NSString *unitCat = @"UNIT";
-	NSString *nameStr = [[_service_info objectForKey:@"owner"] objectForKey:kAYProfileArgsScreenName];
-	if ([service_cat containsString:@"看"]) {
-		unitCat = @"小时";
+	NSString* photo_name = [_service_info objectForKey:kAYServiceArgsImage];
+	if (photo_name) {
+		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+		AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+		NSString *prefix = cmd.route;
 		
-		NSString *compName = [info_cat objectForKey:kAYServiceArgsCatSecondary];
-		descLabel.text = [NSString stringWithFormat:@"%@的%@", nameStr, compName];
-
+		NSString *urlStr = [NSString stringWithFormat:@"%@%@", prefix, photo_name];
+		[coverImage sd_setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:IMGRESOURCE(@"default_image") /*options:SDWebImageRefreshCached*/];
 	}
-	else if ([service_cat isEqualToString:kAYStringCourse]) {
-		unitCat = @"次";
-		
-		NSString *compName = [info_cat objectForKey:kAYServiceArgsConcert];
-		if (!compName || [compName isEqualToString:@""]) {
-			compName = [info_cat objectForKey:kAYServiceArgsCatThirdly];
-			if (!compName || [compName isEqualToString:@""]) {
-				compName = [info_cat objectForKey:kAYServiceArgsCatSecondary];
+	
+	NSString *type = [_service_info objectForKey:kAYServiceArgsType];
+	tagLabel.text = type;
+	
+	
+	NSString *brand_name = [_service_info objectForKey:kAYBrandArgsName];
+	NSString *leaf = [_service_info objectForKey:kAYServiceArgsLeaf];
+	NSArray *operations = [_service_info objectForKey:kAYServiceArgsOperation];
+	
+	NSString *operation;
+	NSString *categ = [_service_info objectForKey:kAYServiceArgsCat];
+	if ([categ isEqualToString:kAYStringCourse]) {
+		for (NSString *ope in operations) {
+			if ([kAY_operation_fileters_title_course containsObject:ope]) {
+				operation = ope;
 			}
 		}
-		descLabel.text = [NSString stringWithFormat:@"%@的%@%@", nameStr, compName, service_cat];
-
-	} else {
-		NSLog(@"---null---");
+		
+		if (operation.length == 0) {
+			operation = @"";
+		}
+		
+		descLabel.text = [NSString stringWithFormat:@"%@的%@%@课程", brand_name, operation, leaf];
 	}
-	
-	NSDictionary *info_detail = [_service_info objectForKey:kAYServiceArgsDetailInfo];
-	NSNumber *price = [info_detail objectForKey:kAYServiceArgsPrice];
-	NSString *tmp = [NSString stringWithFormat:@"%.f", price.intValue * 0.01];
-	int length = (int)tmp.length;
-	NSString *priceStr = [NSString stringWithFormat:@"¥%@/%@", tmp, unitCat];
-	
-	NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:priceStr];
-	[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, length+1)];
-	[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
-	priceLabel.attributedText = attributedText;
+	else if([categ isEqualToString:kAYStringNursery]) {
+		
+		for (NSString *ope in operations) {
+			if ([kAY_operation_fileters_title_nursery containsObject:ope]) {
+				operation = ope;
+			}
+		}
+		if (operation.length == 0) {
+			operation = @"";
+		}
+		descLabel.text = [NSString stringWithFormat:@"%@的%@%@", brand_name, operation, leaf];
+	}
 	
 }
 
@@ -243,38 +235,13 @@
 }
 
 #pragma mark -- life cycle
-- (void)setUpReuseCell {
-	id<AYViewBase> cell = VIEW(@"MapMatchCell", @"MapMatchCell");
-	
-	NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
-	for (NSString* name in cell.commands.allKeys) {
-		AYViewCommand* cmd = [cell.commands objectForKey:name];
-		AYViewCommand* c = [[AYViewCommand alloc]init];
-		c.view = self;
-		c.method_name = cmd.method_name;
-		c.need_args = cmd.need_args;
-		[arr_commands setValue:c forKey:name];
-	}
-	self.commands = [arr_commands copy];
-	
-	NSMutableDictionary* arr_notifies = [[NSMutableDictionary alloc]initWithCapacity:cell.notifies.count];
-	for (NSString* name in cell.notifies.allKeys) {
-		AYViewNotifyCommand* cmd = [cell.notifies objectForKey:name];
-		AYViewNotifyCommand* c = [[AYViewNotifyCommand alloc]init];
-		c.view = self;
-		c.method_name = cmd.method_name;
-		c.need_args = cmd.need_args;
-		[arr_notifies setValue:c forKey:name];
-	}
-	self.notifies = [arr_notifies copy];
-}
+
 
 #pragma mark -- actions
 
 
 #pragma mark -- messages
 - (id)setCellInfo:(NSArray*)dic_args {
-//	_serviceData = dic_args;
 	
 	return nil;
 }

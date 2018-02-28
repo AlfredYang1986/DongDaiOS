@@ -11,4 +11,6 @@
 
 @interface AYHomeServPerCellView : UITableViewCell <AYViewBase>
 
+@property (nonatomic, strong) UIImageView *coverImage;
+
 @end

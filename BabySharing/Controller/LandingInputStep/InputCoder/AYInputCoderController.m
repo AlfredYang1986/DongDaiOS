@@ -41,25 +41,33 @@
     
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere:)];
     [self.view addGestureRecognizer:tap];
+	
+	
+	/****** *****/
+	UIButton *pri_btn = [[UIButton alloc]init];
+	[self.view addSubview:pri_btn];
+	pri_btn.titleLabel.font = [UIFont systemFontOfSize:11.f];
+	[pri_btn setTitle:@"登录即代表我同意用户 服务条款 及 隐私协议" forState:UIControlStateNormal];
+	[pri_btn setTitleColor:[UIColor theme] forState:UIControlStateNormal];
+	pri_btn.clipsToBounds = YES;
+	[pri_btn addTarget:self action:@selector(pri_btnDidClick) forControlEvents:UIControlEventTouchUpInside];
+	[pri_btn mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(self.view);
+		make.bottom.equalTo(self.view.mas_bottom).offset(-24.5);
+		make.width.mas_equalTo(SCREEN_WIDTH - 30);
+		make.height.mas_equalTo(15);
+	}];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
 }
 
 #pragma mark -- views layouts
 - (id)FakeNavBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 64);
-//    view.backgroundColor = [Tools themeColor];
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusAndNavBarH);
+    view.backgroundColor = [UIColor clearColor];
+	
 //	NSString *title = @"确认信息";
 //	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
 	
@@ -74,11 +82,23 @@
 
 - (id)LandingInputCoderLayout:(UIView*)view {
     CGFloat margin = 25.f;
-    view.frame = CGRectMake(margin, 83, SCREEN_WIDTH - margin*2, 320);
+    view.frame = CGRectMake(margin, kStatusAndNavBarH+20, SCREEN_WIDTH - margin*2, 320);
     return nil;
 }
 
 #pragma mark -- actions
+- (void)pri_btnDidClick {
+	
+	id<AYCommand> UserAgree = DEFAULTCONTROLLER(@"UserAgree");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic setValue:UserAgree forKey:kAYControllerActionDestinationControllerKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	
+	id<AYCommand> cmd = PUSH;
+	[cmd performWithResult:&dic];
+}
+
 - (void)tapElseWhere:(UITapGestureRecognizer*)gusture {
     NSLog(@"tap esle where");
     id<AYViewBase> view = [self.views objectForKey:@"LandingInputCoder"];
@@ -190,7 +210,7 @@
 		} else {
 			NSString* msg = [result objectForKey:@"message"];
 			if([msg isEqualToString:@"电话号码或者验证码出错"]) {
-				NSString *title = @"动态密码不匹配,请重试";
+				NSString *title = @"动态密码输入错误";
 				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 			} else {
 				NSString *title = @"验证动态密码失败，请检查网络是否正常连接";
@@ -207,13 +227,12 @@
 
 - (id)CurrentLoginUserChanged:(id)args {
     NSLog(@"Notify args: %@", args);
-    //    NSLog(@"TODO: 进入咚哒");
 	
     UIViewController* cv = [Tools activityViewController];
     if (cv == self) {
         NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
         [dic_pop setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
-        [dic_pop setValue:[Tools activityViewController] forKey:kAYControllerActionSourceControllerKey];
+        [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
         
         NSString* message_name = @"LoginSuccess";
         [dic_pop setValue:message_name forKey:kAYControllerChangeArgsKey];

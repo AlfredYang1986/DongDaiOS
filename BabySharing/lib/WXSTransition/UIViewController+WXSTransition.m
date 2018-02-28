@@ -18,11 +18,68 @@ WXSTransitionManager *_transtion;
 + (void)load {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
+        
+        
         Method method0 = class_getInstanceMethod(self.class, @selector(wxs_dismissViewControllerAnimated:completion:));
         Method method1 = class_getInstanceMethod(self.class, @selector(dismissViewControllerAnimated:completion:));
         method_exchangeImplementations(method0, method1);
+        
+        SEL originalSelector = @selector(viewDidAppear:);
+        SEL swizzledSelector = @selector(wxs_viewDidAppear:);
+        
+        Method originalMethod = class_getInstanceMethod(self.class, originalSelector);
+        Method swizzledMethod = class_getInstanceMethod(self.class, swizzledSelector);
+        
+        BOOL success = class_addMethod(self.class, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod));
+        if (success) {
+            class_replaceMethod(self.class, swizzledSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));
+        } else {
+            method_exchangeImplementations(originalMethod, swizzledMethod);
+        }
+        
+        
+        
+        
+        originalSelector = @selector(viewWillDisappear:);
+        swizzledSelector = @selector(wxs_viewWillDisappear:);
+        
+        originalMethod = class_getInstanceMethod(self.class, originalSelector);
+        swizzledMethod = class_getInstanceMethod(self.class, swizzledSelector);
+        
+        success = class_addMethod(self.class, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod));
+        if (success) {
+            class_replaceMethod(self.class, swizzledSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));
+        } else {
+            method_exchangeImplementations(originalMethod, swizzledMethod);
+        }
+        
     });
 }
+
+
+
+- (void)wxs_dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion {
+    if (self.wxs_delegateFlag) {
+        self.transitioningDelegate = self;
+        if (self.wxs_transitioningDelegate) {
+            self.transitioningDelegate = self.wxs_transitioningDelegate;
+        }
+    }
+    [self wxs_dismissViewControllerAnimated:flag completion:completion];
+}
+
+- (void)wxs_viewDidAppear:(BOOL)animated {
+    
+    [self wxs_viewDidAppear:animated];
+}
+
+
+- (void)wxs_viewWillDisappear:(BOOL)animated {
+    [self wxs_viewWillDisappear:animated];
+
+}
+
+
 
 #pragma mark Action Method
 
@@ -62,16 +119,6 @@ WXSTransitionManager *_transtion;
     
 }
 
-- (void)wxs_dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion {
-    if (self.wxs_delegateFlag) {
-        self.transitioningDelegate = self;
-        if (self.wxs_transitioningDelegate) {
-            self.transitioningDelegate = self.wxs_transitioningDelegate;
-        }
-    }
-    [self wxs_dismissViewControllerAnimated:flag completion:completion];
-}
-
 
 
 
@@ -88,6 +135,7 @@ WXSTransitionManager *_transtion;
     self.wxs_callBackTransition ? self.wxs_callBackTransition(make) : nil;
     _transtion = [WXSTransitionManager copyPropertyFromObjcet:make toObjcet:_transtion];
     _transtion.transitionType = WXSTransitionTypeDismiss;
+    self.wxs_backGestureEnable =  make.backGestureEnable;
     return _transtion;
     
 }
@@ -103,6 +151,7 @@ WXSTransitionManager *_transtion;
     _transtion = [WXSTransitionManager copyPropertyFromObjcet:make toObjcet:_transtion];
     _transtion.transitionType = WXSTransitionTypePresent;
     self.wxs_delegateFlag = _transtion.isSysBackAnimation ? NO : YES;
+    self.wxs_backGestureEnable =  make.backGestureEnable;
     return _transtion;
     
 }
@@ -130,14 +179,15 @@ WXSTransitionManager *_transtion;
     self.wxs_callBackTransition ? self.wxs_callBackTransition(make) : nil;
     _transtion = [WXSTransitionManager copyPropertyFromObjcet:make toObjcet:_transtion];
     _operation = operation;
+
     
     if ( operation == UINavigationControllerOperationPush ) {
         self.wxs_delegateFlag = _transtion.isSysBackAnimation ? NO : YES;
         _transtion.transitionType = WXSTransitionTypePush;
+        
     }else{
         _transtion.transitionType = WXSTransitionTypePop;
     }
-    
     
     if (_operation == UINavigationControllerOperationPush && _transtion.isSysBackAnimation == NO && _transtion.backGestureEnable) {
         //add gestrue for pop
@@ -150,10 +200,10 @@ WXSTransitionManager *_transtion;
         };
         
     }
+    self.wxs_backGestureEnable =  make.backGestureEnable;
     return _transtion;
     
 }
-
 - (nullable id <UIViewControllerInteractiveTransitioning>)navigationController:(UINavigationController *)navigationController interactionControllerForAnimationController:(id <UIViewControllerAnimatedTransitioning>) animationController {
     
     if (!self.wxs_addTransitionFlag) {

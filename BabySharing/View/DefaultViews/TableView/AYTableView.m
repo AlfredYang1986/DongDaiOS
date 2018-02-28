@@ -10,7 +10,6 @@
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
 #import "AYFactoryManager.h"
-#import "AYHomeCellDefines.h"
 
 @implementation AYTableView
 @synthesize para = _para;
@@ -31,6 +30,9 @@
     self.showsHorizontalScrollIndicator = NO;
     self.showsVerticalScrollIndicator = NO;
     self.backgroundColor = [UIColor clearColor];
+	self.estimatedRowHeight = 0;
+	self.estimatedSectionHeaderHeight = 0;
+	self.estimatedSectionFooterHeight = 0;
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -50,6 +52,12 @@
 }
 
 #pragma mark -- view commands
+- (id)registerDatasourceDelegate:(id)obj {
+	self.dataSource = obj;
+	self.delegate = obj;
+	return nil;
+}
+
 - (id)registerDatasource:(id)obj {
     id<UITableViewDataSource> d = (id<UITableViewDataSource>)obj;
     self.dataSource = d;

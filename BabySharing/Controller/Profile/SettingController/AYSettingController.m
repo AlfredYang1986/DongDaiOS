@@ -57,10 +57,8 @@
         
     }
     
-    UIButton *logout_btn = [Tools creatUIButtonWithTitle:@"退出登录" andTitleColor:[UIColor whiteColor] andFontSize:17.f andBackgroundColor:[Tools themeColor]];
-    logout_btn.layer.cornerRadius = 4.f;
-    logout_btn.clipsToBounds = YES;
-    logout_btn.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    UIButton *logout_btn = [Tools creatBtnWithTitle:@"退出登录" titleColor:[UIColor whiteColor] fontSize:317.f backgroundColor:[Tools theme]];
+	[Tools setViewBorder:logout_btn withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
     [logout_btn addTarget:self action:@selector(signOutSelected) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:logout_btn];
     [logout_btn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -72,13 +70,13 @@
 
 #pragma mark -- layout
 - (id)FakeStatusBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
     view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+    view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
     view.backgroundColor = [UIColor whiteColor];
     
     NSString *title = @"设置";
@@ -114,42 +112,30 @@
 - (id)LogoutCurrentUser {
     NSLog(@"current user logout");
     //    [_lm signOutCurrentUser];
-    
-    NSDictionary* current_login_user = nil;
-    CURRENUSER(current_login_user);
-    
-    id<AYFacadeBase> f_login_remote = [self.facades objectForKey:@"LandingRemote"];
-    AYRemoteCallCommand* cmd_sign_out = [f_login_remote.commands objectForKey:@"AuthSignOut"];
-    [cmd_sign_out performWithResult:current_login_user andFinishBlack:^(BOOL success, NSDictionary * result) {
-        NSLog(@"login out %@", result);
-        NSLog(@"current login user %@", current_login_user);
-        
-        {
-            AYFacade* f = [self.facades objectForKey:@"EM"];
-            id<AYCommand> cmd_xmpp_logout = [f.commands objectForKey:@"LogoutEM"];
-            [cmd_xmpp_logout performWithResult:nil];
-        }
-        
-        {
-            AYFacade* f = LOGINMODEL;
-            id<AYCommand> cmd_sign_out_local = [f.commands objectForKey:@"SignOutLocal"];
-            [cmd_sign_out_local performWithResult:nil];
-        }
-    }];
+	
     
     return nil;
 }
 
 #pragma mark -- actions
 - (void)signOutSelected {
-    NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
-    [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
-    [notify setValue:kAYNotifyCurrentUserLogout forKey:kAYNotifyFunctionKey];
-    
-    NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
-    [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
-    
-    id<AYFacadeBase> f = LOGINMODEL;
-    [f performWithResult:&notify];
+	
+	NSDictionary* current_login_user = nil;
+	CURRENUSER(current_login_user);
+	
+	id<AYFacadeBase> f_login_remote = [self.facades objectForKey:@"LandingRemote"];
+	AYRemoteCallCommand* cmd_sign_out = [f_login_remote.commands objectForKey:@"AuthSignOut"];
+	[cmd_sign_out performWithResult:current_login_user andFinishBlack:^(BOOL success, NSDictionary * result) {
+		NSLog(@"login out %@", result);
+		
+//        AYFacade* f_em = [self.facades objectForKey:@"EM"];
+//        id<AYCommand> cmd_xmpp_logout = [f_em.commands objectForKey:@"LogoutEM"];
+//        [cmd_xmpp_logout performWithResult:nil];
+		
+		AYFacade* f_login = LOGINMODEL;
+		id<AYCommand> cmd_sign_out_local = [f_login.commands objectForKey:@"SignOutLocal"];
+		[cmd_sign_out_local performWithResult:nil];
+		
+	}];
 }
 @end

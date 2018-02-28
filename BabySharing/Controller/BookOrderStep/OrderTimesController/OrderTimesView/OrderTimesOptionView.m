@@ -14,14 +14,14 @@
     self = [super init];
     if (self) {
 		
-        _titleLabel = [Tools creatUILabelWithText:title andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+        _titleLabel = [Tools creatLabelWithText:title textColor:[Tools theme] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
         [self addSubview:_titleLabel];
         [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(8);
             make.centerX.equalTo(self);
         }];
 		
-        _timeLabel = [Tools creatUILabelWithText:nil andTextColor:[Tools themeColor] andFontSize:26.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+        _timeLabel = [Tools creatLabelWithText:nil textColor:[Tools theme] fontSize:26.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
         [self addSubview:_timeLabel];
         [_timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_titleLabel.mas_bottom).offset(8);
@@ -39,12 +39,12 @@
         case 0:
         {
             self.backgroundColor = [UIColor whiteColor];
-            _titleLabel.textColor = _timeLabel.textColor = [Tools themeColor];
+            _titleLabel.textColor = _timeLabel.textColor = [Tools theme];
         }
             break;
         case 1:
         {
-            self.backgroundColor = [Tools themeColor];
+            self.backgroundColor = [Tools theme];
             _titleLabel.textColor = _timeLabel.textColor = [UIColor whiteColor];
         }
             break;

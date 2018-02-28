@@ -12,7 +12,6 @@
 #import "AYViewCommand.h"
 #import "AYFactoryManager.h"
 #import "AYViewNotifyCommand.h"
-//#import "AYHomeCellDefines.h"
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
 
@@ -26,28 +25,28 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
 		
-		UILabel *sumTitleLabel =  [Tools creatUILabelWithText:@"总价" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		UILabel *sumTitleLabel =  [Tools creatLabelWithText:@"总价" textColor:[Tools black] fontSize:17.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:sumTitleLabel];
 		[sumTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(self).offset(15);
 			make.left.equalTo(self).offset(15);
 		}];
 		
-		priceLabel =  [Tools creatUILabelWithText:@"Total Price" andTextColor:[Tools themeColor] andFontSize:317.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+		priceLabel =  [Tools creatLabelWithText:@"Total Price" textColor:[Tools theme] fontSize:317.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
 		[self addSubview:priceLabel];
 		[priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(sumTitleLabel);
 			make.right.equalTo(self).offset(-15);
 		}];
 		
-		UILabel *priceTitleLabel =  [Tools creatUILabelWithText:@"详情" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		UILabel *priceTitleLabel =  [Tools creatLabelWithText:@"详情" textColor:[Tools black] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:priceTitleLabel];
 		[priceTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.bottom.equalTo(self).offset(-15);
 			make.left.equalTo(self).offset(15);
 		}];
 		
-		unitPriceLabel =  [Tools creatUILabelWithText:@"Unit Price" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+		unitPriceLabel =  [Tools creatLabelWithText:@"Unit Price" textColor:[Tools black] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
 		[self addSubview:unitPriceLabel];
 		[unitPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(priceTitleLabel);
@@ -179,8 +178,8 @@
 	NSString *priceStr = [NSString stringWithFormat:@"¥%@/%@ × %d", tmp, unitCat, count_times];
 	
 	NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:priceStr];
-	[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, length+1)];
-	[attributedText setAttributes:@{NSFontAttributeName:kAYFontLight(14.f), NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
+	[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.f], NSForegroundColorAttributeName :[Tools black]} range:NSMakeRange(0, length+1)];
+	[attributedText setAttributes:@{NSFontAttributeName:kAYFontLight(14.f), NSForegroundColorAttributeName :[Tools black]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
 	unitPriceLabel.attributedText = attributedText;
 	
 	CGFloat total_price = price.floatValue * 0.01 * count_times;

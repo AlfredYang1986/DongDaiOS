@@ -39,9 +39,9 @@
 	
 	id<AYDelegateBase> delegate = [self.delegates objectForKey:@"SearchSKU"];
 	id obj = (id)delegate;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDatasourceMessage, &obj)
 	obj = (id)delegate;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDelegateMessage, &obj)
 	
 	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SearchSKUResultCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
@@ -58,26 +58,26 @@
 
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
 	view.backgroundColor = [Tools garyBackgroundColor];
 	return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+	view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
 	view.backgroundColor = [Tools whiteColor];
 	
 	UISearchBar *searchBar = [[UISearchBar alloc]initWithFrame:view.bounds];
 	[view addSubview:searchBar];
 	searchBar.placeholder = @"搜索全部服务";
-	searchBar.tintColor = [Tools blackColor];
+	searchBar.tintColor = [Tools black];
 	searchBar.barTintColor = [Tools garyBackgroundColor];
 	UIImageView* iv = [[UIImageView alloc] initWithImage:[Tools imageWithColor:[Tools garyBackgroundColor] size:CGSizeMake(searchBar.bounds.size.width, searchBar.bounds.size.height)]];
 	iv.tag = -1;
 	[searchBar insertSubview:iv atIndex:1];
 	for (UIView* v in searchBar.subviews.firstObject.subviews) {
 		if ( [v isKindOfClass: [UITextField class]] ) {
-			((UITextField*)v).tintColor = [Tools themeColor];
+			((UITextField*)v).tintColor = [Tools theme];
 			((UITextField*)v).backgroundColor = [Tools whiteColor];
 			((UITextField*)v).textAlignment = NSTextAlignmentLeft;
 			((UITextField*)v).leftView = nil;

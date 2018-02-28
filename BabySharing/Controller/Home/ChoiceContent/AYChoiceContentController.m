@@ -72,13 +72,13 @@
 		make.top.equalTo(bannerView);
 		make.size.mas_equalTo(CGSizeMake(137, 214));
 	}];
-	bannerTitle = [Tools creatUILabelWithText:theTopCateg andTextColor:[Tools themeColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	bannerTitle = [Tools creatLabelWithText:theTopCateg textColor:[Tools theme] fontSize:618.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	[bannerView addSubview:bannerTitle];
 	[bannerTitle mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(choice_logo.mas_bottom).offset(5);
 		make.centerX.equalTo(bannerView);
 	}];
-	bannerCount = [Tools creatUILabelWithText:@"20个服务" andTextColor:[Tools RGB153GaryColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	bannerCount = [Tools creatLabelWithText:@"20个服务" textColor:[Tools RGB153GaryColor] fontSize:313.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	[bannerView addSubview:bannerCount];
 	[bannerCount mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(bannerTitle.mas_bottom).offset(0);
@@ -125,9 +125,9 @@
 	
 	id<AYDelegateBase> delegate = [self.delegates objectForKey:@"ChoiceContent"];
 	id obj = (id)delegate;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDatasourceMessage, &obj)
 	obj = (id)delegate;
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDelegateMessage, &obj)
 	
 	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeServPerCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
@@ -137,7 +137,7 @@
 	NSMutableDictionary *dic_search = [Tools getBaseRemoteData];
 	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
 	[[dic_search objectForKey:kAYCommArgsCondition] setValue:theTopCateg forKey:kAYServiceArgsCategoryInfo];
-	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[NSNumber numberWithLong:([NSDate date].timeIntervalSince1970 * 1000)] forKey:kAYCommArgsRemoteDate];
+	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[NSNumber numberWithLongLong:([NSDate date].timeIntervalSince1970 * 1000)] forKey:kAYCommArgsRemoteDate];
 	
 	id<AYFacadeBase> f_choice = [self.facades objectForKey:@"ChoiceRemote"];
 	AYRemoteCallCommand *cmd_search = [f_choice.commands objectForKey:@"ChoiceSearch"];
@@ -149,8 +149,7 @@
 			kAYDelegatesSendMessage(@"ChoiceContent", kAYDelegateChangeDataMessage, &tmp)
 			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 		} else {
-			NSString *title = @"请改善网络环境并重试";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
 		}
 	}];
 	
@@ -166,17 +165,17 @@
 
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
-	view.backgroundColor = [Tools themeColor];
+	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
+	view.backgroundColor = [Tools theme];
 	return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
-	view.backgroundColor = [Tools themeColor];
+	view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
+	view.backgroundColor = [Tools theme];
 	
 	NSString *title = @"咚哒严选";
-	navTitleLabel = [Tools creatUILabelWithText:title andTextColor:[Tools whiteColor] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	navTitleLabel = [Tools creatLabelWithText:title textColor:[Tools whiteColor] fontSize:615.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	[view addSubview:navTitleLabel];
 	[navTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 //		make.bottom.equalTo(view.mas_centerY).offset(0);
@@ -186,7 +185,7 @@
 	
 //	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
 	
-	navCountLabel = [Tools creatUILabelWithText:@"20个服务" andTextColor:[Tools whiteColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	navCountLabel = [Tools creatLabelWithText:@"20个服务" textColor:[Tools whiteColor] fontSize:311.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
 	[view addSubview:navCountLabel];
 	[navCountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(view.mas_centerY).offset(0);
@@ -239,8 +238,8 @@
 				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 			}
 		} else {
-			NSString *title = @"请改善网络环境并重试";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			
+			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
 		}
 		UITableView *view_table = [self.views objectForKey:@"Table2"];
 		kAYViewsSendMessage(@"Table", kAYTableRefreshMessage, nil)

@@ -32,44 +32,22 @@
     dispatch_async(post_queue, ^(void){
 		
         [RemoteInstance uploadPicture:image withName:photo toUrl:[NSURL URLWithString:self.route] callBack:^(BOOL successs, NSString *message) {
-            
             if (successs) {
                 NSLog(@"post image success");
                 dispatch_async(dispatch_get_main_queue(), ^{
                     block(YES, nil);
+                    [self endAsyncCall];
                 });
                 
             } else {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     block(NO, nil);
+                    [self endAsyncCall];
                 });
             }
-            
-            [self endAsyncCall];
-            
         }];
     });
 }
 
-- (void)beforeAsyncCall {
-    NSString* name = [NSString stringWithUTF8String:object_getClassName(self)];
-    UIViewController* cur = [Tools activityViewController];
-    SEL sel = NSSelectorFromString(kAYRemoteCallStartFuncName);
-    Method m = class_getInstanceMethod([((UIViewController*)cur) class], sel);
-    if (m) {
-        id (*func)(id, SEL, id) = (id (*)(id, SEL, id))method_getImplementation(m);
-        func(cur, sel, name);
-    }
-}
 
-- (void)endAsyncCall {
-    NSString* name = [NSString stringWithUTF8String:object_getClassName(self)];
-    UIViewController* cur = [Tools activityViewController];
-    SEL sel = NSSelectorFromString(kAYRemoteCallEndFuncName);
-    Method m = class_getInstanceMethod([((UIViewController*)cur) class], sel);
-    if (m) {
-        id (*func)(id, SEL, id) = (id (*)(id, SEL, id))method_getImplementation(m);
-        func(cur, sel, name);
-    }
-}
 @end

@@ -17,15 +17,15 @@
 #import "AYModelFacade.h"
 #import "AYViewController.h"
 
-@implementation AYHomeTopicsCellView {
-	UIImageView *imageView00;
-	UIImageView *imageView01;
+@implementation AYHomeTopicsCellView  {
+	UILabel *titleLabel;
+	UILabel *subTitleLabel;
 	
-	UILabel *topicTitle00;
-	UILabel *topicTitle01;
+	UICollectionView *collectionView;
 	
-	UILabel *topicCount00;
-	UILabel *topicCount01;
+	NSArray *EngArr;
+	NSArray *topicsArr;
+	NSArray *subTopicsArr;
 }
 
 @synthesize para = _para;
@@ -33,118 +33,8 @@
 @synthesize commands = _commands;
 @synthesize notifies = _notiyies;
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-	if (self) {
-		
-		UILabel *titleLabel = [Tools creatUILabelWithText:@"Least Topics" andTextColor:[Tools blackColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		[self addSubview:titleLabel];
-		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(self).offset(20);
-			make.top.equalTo(self).offset(10);
-		}];
-		
-		UIButton *moreBtn = [Tools creatUIButtonWithTitle:@"查看更多" andTitleColor:[Tools RGB153GaryColor] andFontSize:313.f andBackgroundColor:nil];
-		[moreBtn addTarget:self action:@selector(didTopicsMoreBtnClick) forControlEvents:UIControlEventTouchUpInside];
-		[self addSubview:moreBtn];
-		[moreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.right.equalTo(self).offset(-15);
-			make.centerY.equalTo(titleLabel);
-			make.size.mas_equalTo(CGSizeMake(60, 20));
-		}];
-		
-		imageView00 = [[UIImageView alloc]init];
-		imageView00.backgroundColor = [UIColor orangeColor];
-		[Tools setViewBorder:imageView00 withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
-		[self addSubview: imageView00];
-		[imageView00 mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(titleLabel.mas_bottom).offset(20);
-			make.centerX.equalTo(self);
-			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 85));
-		}];
-		
-		topicTitle00 = [Tools creatUILabelWithText:@"#Topics' title#" andTextColor:[Tools whiteColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		[self addSubview:topicTitle00];
-		[topicTitle00 mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(imageView00).offset(10);
-			make.centerX.equalTo(self);
-		}];
-		
-		topicCount00 = [Tools creatUILabelWithText:@"Topics' count" andTextColor:[Tools RGB127GaryColor] andFontSize:11.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		[Tools setViewBorder:topicCount00 withRadius:10.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools borderAlphaColor]];
-		[self addSubview:topicCount00];
-		[topicCount00 sizeToFit];
-		[topicCount00 mas_remakeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(topicTitle00.mas_bottom).offset(10);
-			make.centerX.equalTo(self);
-			make.size.mas_equalTo(CGSizeMake(topicCount00.bounds.size.width + 20, 20));
-		}];
-		
-		
-		imageView01 = [[UIImageView alloc]init];
-		imageView01.backgroundColor = [UIColor orangeColor];
-		[Tools setViewBorder:imageView01 withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
-		[self addSubview: imageView01];
-		[imageView01 mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(imageView00.mas_bottom).offset(10);
-			make.centerX.equalTo(self);
-			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 85));
-		}];
-		
-		topicTitle01 = [Tools creatUILabelWithText:@"Topics' title" andTextColor:[Tools whiteColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		[self addSubview:topicTitle01];
-		[topicTitle01 mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(imageView01).offset(10);
-			make.centerX.equalTo(self);
-		}];
-		
-		topicCount01 = [Tools creatUILabelWithText:@"Topics' count" andTextColor:[Tools RGB127GaryColor] andFontSize:11.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		[Tools setViewBorder:topicCount01 withRadius:10.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools borderAlphaColor]];
-		[self addSubview:topicCount01];
-		[topicCount01 sizeToFit];
-		[topicCount01 mas_remakeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(topicTitle01.mas_bottom).offset(10);
-			make.centerX.equalTo(self);
-			make.size.mas_equalTo(CGSizeMake(topicCount00.bounds.size.width + 20, 20));
-		}];
-		
-		if (reuseIdentifier != nil) {
-			[self setUpReuseCell];
-		}
-	}
-	return self;
-}
-
-#pragma mark -- life cycle
-- (void)setUpReuseCell {
-	id<AYViewBase> cell = VIEW(@"HomeTopicsCell", @"HomeTopicsCell");
-	
-	NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
-	for (NSString* name in cell.commands.allKeys) {
-		AYViewCommand* cmd = [cell.commands objectForKey:name];
-		AYViewCommand* c = [[AYViewCommand alloc]init];
-		c.view = self;
-		c.method_name = cmd.method_name;
-		c.need_args = cmd.need_args;
-		[arr_commands setValue:c forKey:name];
-	}
-	self.commands = [arr_commands copy];
-	
-	NSMutableDictionary* arr_notifies = [[NSMutableDictionary alloc]initWithCapacity:cell.notifies.count];
-	for (NSString* name in cell.notifies.allKeys) {
-		AYViewNotifyCommand* cmd = [cell.notifies objectForKey:name];
-		AYViewNotifyCommand* c = [[AYViewNotifyCommand alloc]init];
-		c.view = self;
-		c.method_name = cmd.method_name;
-		c.need_args = cmd.need_args;
-		[arr_notifies setValue:c forKey:name];
-	}
-	self.notifies = [arr_notifies copy];
-}
-
 #pragma mark -- commands
 - (void)postPerform {
-	
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -163,6 +53,73 @@
 	return kAYFactoryManagerCatigoryView;
 }
 
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+	if (self) {
+		
+		self.selectionStyle = UITableViewCellSelectionStyleNone;
+		EngArr = @[@"Montessori", @"Native Speaker", @"Extreme Sports", @"Art", @"Science Technology"];
+		topicsArr = kAY_home_album_titles;
+		subTopicsArr = kAY_home_album_titles_sub;
+		
+		titleLabel = [UILabel creatLabelWithText:@"精选主题" textColor:[Tools black] fontSize:628 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		[self addSubview:titleLabel];
+		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(self).offset(SCREEN_MARGIN_LR);
+			make.top.equalTo(self).offset(15);
+		}];
+		
+		subTitleLabel = [UILabel creatLabelWithText:@"一句话简单描述" textColor:[UIColor gary] fontSize:13 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+		[self addSubview:subTitleLabel];
+		[subTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(titleLabel);
+			make.top.equalTo(titleLabel.mas_bottom).offset(2);
+		}];
+		subTitleLabel.hidden = YES;
+		
+		UICollectionViewFlowLayout *flowLayout = [UICollectionViewFlowLayout new];
+		flowLayout.itemSize  = CGSizeMake(235, 310);
+		flowLayout.scrollDirection  = UICollectionViewScrollDirectionHorizontal;
+		flowLayout.minimumInteritemSpacing = 0;
+		flowLayout.minimumLineSpacing = 16;
+		
+		collectionView = [[UICollectionView  alloc] initWithFrame:CGRectMake(0, 15+45, SCREEN_WIDTH, 330) collectionViewLayout:flowLayout];
+		collectionView.delegate = self;
+		collectionView.dataSource = self;
+		collectionView.showsVerticalScrollIndicator = NO;
+		collectionView.showsHorizontalScrollIndicator = NO;
+		collectionView.contentInset = UIEdgeInsetsMake(5, SCREEN_MARGIN_LR, 15, SCREEN_MARGIN_LR);
+		[collectionView setBackgroundColor:[UIColor clearColor]];
+		[collectionView registerClass:NSClassFromString(@"AYHomeTopicItem") forCellWithReuseIdentifier:@"AYHomeTopicItem"];
+		[self addSubview:collectionView];
+		
+	}
+	return self;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+	return topicsArr.count;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+	AYHomeTopicItem *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AYHomeTopicItem" forIndexPath:indexPath];
+	
+	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
+	[tmp setValue:[EngArr objectAtIndex:indexPath.row] forKey:@"eng"];
+	[tmp setValue:[topicsArr objectAtIndex:indexPath.row] forKey:@"title"];
+	[tmp setValue:[subTopicsArr objectAtIndex:indexPath.row] forKey:@"title_sub"];
+	[tmp setValue:[NSString stringWithFormat:@"home_album_%d", (int)indexPath.row] forKey:@"img"];
+	//	[tmp setValue:[NSNumber numberWithInteger:100] forKey:@"count_skiped"];
+//	[tmp setValue:[NSString stringWithFormat:@"topsort_home_%ld", indexPath.row] forKey:@"assortment_img"];
+	[cell setItemInfo:[tmp copy]];
+	return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+	NSString *sort = [topicsArr objectAtIndex:indexPath.row];
+	[(AYViewController*)self.controller performAYSel:@"didOneTopicClick:" withResult:&sort];
+}
+
 #pragma mark -- actions
 - (void)didTopicsMoreBtnClick {
 	kAYViewSendNotify(self, @"didTopicsMoreBtnClick", nil)
@@ -170,7 +127,7 @@
 
 #pragma mark -- messages
 - (id)setCellInfo:(id)args {
-	
+	[collectionView setContentOffset:CGPointMake(-SCREEN_MARGIN_LR, -5)];
 	return nil;
 }
 

@@ -60,27 +60,24 @@
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
         
         id backArgs = [dic objectForKey:kAYControllerChangeArgsKey];
-        if (backArgs) {
-            
+		if (backArgs) {
+			if ([backArgs isKindOfClass:[NSString class]]) {
+				NSString *title = (NSString*)backArgs;
+				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			} else {
+			}
+			
             NSDictionary *user_info = nil;
             CURRENPROFILE(user_info)
             
-            AYViewController* des = DEFAULTCONTROLLER(@"TabBar");
-            BOOL isNap = ![self.tabBarController isKindOfClass:[des class]];
+			DongDaAppMode mode = [[[NSUserDefaults standardUserDefaults] valueForKey:kAYDongDaAppMode] intValue];
+			BOOL isServantMode = mode == DongDaAppModeServant;
+			
             NSMutableDictionary *tmp = [user_info mutableCopy];
-            [tmp setValue:[NSNumber numberWithBool:isNap] forKey:@"is_nap"];
+            [tmp setValue:[NSNumber numberWithBool:isServantMode] forKey:@"is_nap"];
             kAYDelegatesSendMessage(@"Profile", @"changeQueryData:", &tmp)
             kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
-            
-            if ([backArgs isKindOfClass:[NSString class]]) {
-                NSString *title = (NSString*)backArgs;
-//                if ([title isEqualToString:@"服务发布成功,去管理服务?"]) {
-//                    AYShowBtmAlertView(title, BtmAlertViewTypeWitnBtn)
-//                } else {
-//                }
-                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-            }//
-            
+			
         }//
     }
 }
@@ -88,10 +85,10 @@
 - (void)BtmAlertOtherBtnClick {
     [super BtmAlertOtherBtnClick];
     
-    AYViewController* compare = DEFAULTCONTROLLER(@"TabBar");
-    BOOL isNap = ![self.tabBarController isKindOfClass:[compare class]];
-    
-    if (isNap) {
+	DongDaAppMode mode = [[[NSUserDefaults standardUserDefaults] valueForKey:kAYDongDaAppMode] intValue];
+	BOOL isServantMode = mode == DongDaAppModeServant;
+	
+    if (isServantMode) {
         [super tabBarVCSelectIndex:2];
         
     } else {
@@ -104,7 +101,7 @@
         
         NSMutableDictionary *dic_exchange = [[NSMutableDictionary alloc]init];
         [dic_exchange setValue:[NSNumber numberWithInteger:2] forKey:@"index"];
-        [dic_exchange setValue:[NSNumber numberWithInteger:ModeExchangeTypeCommonToNapPersonal] forKey:@"type"];
+        [dic_exchange setValue:[NSNumber numberWithInteger:ModeExchangeTypeCommonToServant] forKey:@"type"];
         [dic_show_module setValue:dic_exchange forKey:kAYControllerChangeArgsKey];
         
         id<AYCommand> cmd_show_module = EXCHANGEWINDOWS;
@@ -116,37 +113,27 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    {
-        id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
-        id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"Profile"];
-        
-        id<AYCommand> cmd_datasource = [view_notify.commands objectForKey:@"registerDatasource:"];
-        id obj = (id)cmd_notify;
-        [cmd_datasource performWithResult:&obj];
-        
-        id<AYCommand> cmd_delegate = [view_notify.commands objectForKey:@"registerDelegate:"];
-        obj = (id)cmd_notify;
-        [cmd_delegate performWithResult:&obj];
-        
-        id<AYCommand> cmd_cell = [view_notify.commands objectForKey:@"registerCellWithNib:"];
-        NSString* nib_name = @"AYProfileHeadCellView";
-        [cmd_cell performWithResult:&nib_name];
-        
-        id<AYCommand> cmd_class = [view_notify.commands objectForKey:@"registerCellWithClass:"];
-        NSString* class_name = @"AYProfileOrigCellView";
-        [cmd_class performWithResult:&class_name];
-        
-        AYViewController* des = DEFAULTCONTROLLER(@"TabBar");
-        BOOL isNap = ![self.tabBarController isKindOfClass:[des class]];
-        
-        NSDictionary *user_info = nil;
-        CURRENPROFILE(user_info)
-        
-        NSMutableDictionary *tmp = [user_info mutableCopy];
-        [tmp setValue:[NSNumber numberWithBool:isNap] forKey:@"is_nap"];
-        kAYDelegatesSendMessage(@"Profile", @"changeQueryData:", &tmp)
-    }
+	
+	id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"Profile"];
+	id obj = (id)cmd_notify;
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDelegateMessage, &obj)
+	obj = (id)cmd_notify;
+	kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDatasourceMessage, &obj)
+	
+	NSString* class_name = @"AYProfileHeadCellView";
+	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
+	class_name = @"AYProfileOrigCellView";
+	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
+	
+	
+	NSDictionary *user_info = nil;
+	CURRENPROFILE(user_info)
+	NSMutableDictionary *tmp = [user_info mutableCopy];
+	
+	DongDaAppMode mode = [[[NSUserDefaults standardUserDefaults] valueForKey:kAYDongDaAppMode] intValue];
+	BOOL isServantMode = mode == DongDaAppModeServant;
+	[tmp setValue:[NSNumber numberWithBool:isServantMode] forKey:@"is_nap"];
+	kAYDelegatesSendMessage(@"Profile", @"changeQueryData:", &tmp)
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -161,12 +148,12 @@
 
 #pragma mark -- layout
 - (id)FakeStatusBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
+    view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
     id<AYCommand> cmd_left_vis = [bar.commands objectForKey:@"setLeftBtnVisibility:"];
@@ -210,25 +197,25 @@
 }
 
 - (id)sendRegMessage:(NSNumber*)type {
-    
-    AYViewController* compare = DEFAULTCONTROLLER(@"TabBar");
-    BOOL isNap = ![self.tabBarController isKindOfClass:[compare class]];
-    
-    AYViewController *des;
+	
+	DongDaAppMode mode = [[[NSUserDefaults standardUserDefaults] valueForKey:kAYDongDaAppMode] intValue];
+	BOOL isServantMode = mode == DongDaAppModeServant;
+	
+    id<AYCommand> des;
     NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
     [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
     [dic_show_module setValue:self.tabBarController forKey:kAYControllerActionSourceControllerKey];
     NSMutableDictionary *dic_exchange = [[NSMutableDictionary alloc]init];
     
-    if (isNap) {
-        des = compare;
+    if (isServantMode) {
+        des = DEFAULTCONTROLLER(@"TabBar");
         [dic_exchange setValue:[NSNumber numberWithInteger:3] forKey:@"index"];
-        [dic_exchange setValue:[NSNumber numberWithInteger:ModeExchangeTypeNapToCommon] forKey:@"type"];
+        [dic_exchange setValue:[NSNumber numberWithInteger:ModeExchangeTypeServantToCommon] forKey:@"type"];
         
     } else {
         des = DEFAULTCONTROLLER(@"TabBarService");
         [dic_exchange setValue:[NSNumber numberWithInteger:3] forKey:@"index"];
-        [dic_exchange setValue:[NSNumber numberWithInteger:ModeExchangeTypeCommonToNapPersonal] forKey:@"type"];
+        [dic_exchange setValue:[NSNumber numberWithInteger:ModeExchangeTypeCommonToServant] forKey:@"type"];
     }
     
     [dic_show_module setValue:dic_exchange forKey:kAYControllerChangeArgsKey];

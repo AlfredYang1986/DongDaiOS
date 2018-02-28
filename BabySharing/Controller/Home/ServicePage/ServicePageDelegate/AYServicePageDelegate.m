@@ -35,13 +35,15 @@
 #pragma mark -- life cycle
 - (void)postPerform {
     isExpend = NO;
+	
 	CellNameArr = @[@"AYServiceTitleCellView",
-					@"AYServiceOwnerInfoCellView",
 					@"AYServiceCapacityCellView",
+					@"AYServiceOwnerInfoCellView",
 					@"AYServiceDescCellView",
-					@"AYServiceMapCellView",
 					@"AYServiceFacilityCellView",
-					@"AYServiceNotiCellView", ];
+					@"AYServiceMapCellView",
+					/*@"AYServiceNotiCellView",
+					 @"AYServiceTAGCellView",*/ ];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -63,11 +65,22 @@
 
 - (id)changeQueryData:(NSDictionary*)args {
     querydata = args;
+	
+//	NSString *service_cat = [querydata objectForKey:kAYServiceArgsCat];
+	NSArray *facilities = [[querydata objectForKey:kAYServiceArgsLocationInfo] objectForKey:@"friendliness"];;
+	if (facilities.count == 0 || (facilities.count == 1 && [facilities.firstObject length] == 0)) {
+		
+		CellNameArr = @[@"AYServiceTitleCellView",
+						@"AYServiceCapacityCellView",
+						@"AYServiceOwnerInfoCellView",
+						@"AYServiceDescCellView",
+						@"AYServiceMapCellView", ];
+	}
     return nil;
 }
 
 - (id)TransfromExpend:(NSNumber*)args {
-//    isExpend = args.boolValue;
+
 	isExpend = !isExpend;
     expendHeight = args.floatValue;
     return nil;
@@ -75,7 +88,8 @@
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 7;
+	
+	return querydata ? CellNameArr.count : 0;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -84,15 +98,16 @@
     id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 	
 	id tmp = [querydata copy];
-	if (indexPath.row == 3) {
-		NSMutableDictionary *dic_desc = [querydata mutableCopy];
-		[dic_desc setValue:[NSNumber numberWithBool:isExpend] forKey:@"is_expend"];
-		tmp = [dic_desc copy];
+	if (tmp) {
+		if (indexPath.row == 3) {
+			NSMutableDictionary *dic_desc = [querydata mutableCopy];
+			[dic_desc setValue:[NSNumber numberWithBool:isExpend] forKey:@"is_expend"];
+			tmp = [dic_desc copy];
+		}
+		
+		[(UITableViewCell*)cell performAYSel:@"setCellInfo:" withResult:&tmp];
 	}
-	
-	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
     cell.controller = self.controller;
-    ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
     return (UITableViewCell*)cell;
 }
 
@@ -134,10 +149,10 @@
 //}
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.row == 1) {
-		return YES;
-	} else
-		return NO;
+//	if (indexPath.row == 1) {
+//		return YES;
+//	} else
+	return NO;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -12,7 +12,6 @@
 #import "AYViewCommand.h"
 #import "AYFactoryManager.h"
 #import "AYViewNotifyCommand.h"
-//#import "AYHomeCellDefines.h"
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
 
@@ -35,28 +34,28 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        UILabel *titleLabel = [Tools creatUILabelWithText:@"价格" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        UILabel *titleLabel = [Tools creatLabelWithText:@"价格" textColor:[Tools black] fontSize:17.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(25);
             make.left.equalTo(self).offset(15);
         }];
 		
-        priceLabel = [Tools creatUILabelWithText:@"￥ 000" andTextColor:[Tools blackColor] andFontSize:30.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+        priceLabel = [Tools creatLabelWithText:@"￥ 000" textColor:[Tools black] fontSize:30.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
         [self addSubview:priceLabel];
         [priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(titleLabel);
             make.right.equalTo(self).offset(-15);
         }];
 		
-        themeTitleLabel = [Tools creatUILabelWithText:@"主题服务" andTextColor:[Tools garyColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        themeTitleLabel = [Tools creatLabelWithText:@"主题服务" textColor:[Tools garyColor] fontSize:15.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
         [self addSubview:themeTitleLabel];
         [themeTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(titleLabel.mas_bottom).offset(45);
             make.left.equalTo(titleLabel);
         }];
 		
-        themePriceLabel = [Tools creatUILabelWithText:@"￥ 00 × 0 Hour" andTextColor:[Tools garyColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        themePriceLabel = [Tools creatLabelWithText:@"￥ 00 × 0 Hour" textColor:[Tools garyColor] fontSize:15.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
         [self addSubview:themePriceLabel];
         [themePriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(themeTitleLabel);
@@ -75,7 +74,7 @@
         
         isShowDetail = [[UIButton alloc]init];
         [isShowDetail setTitle:@"查看详情" forState:UIControlStateNormal];
-        [isShowDetail setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
+        [isShowDetail setTitleColor:[Tools theme] forState:UIControlStateNormal];
         isShowDetail.titleLabel.font = kAYFontLight(15.f);
         isShowDetail.titleLabel.textAlignment = NSTextAlignmentRight;
         [isShowDetail sizeToFit];

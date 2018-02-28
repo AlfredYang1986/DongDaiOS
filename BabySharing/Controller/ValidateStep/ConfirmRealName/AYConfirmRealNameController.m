@@ -18,9 +18,10 @@
 #import "AYModelFacade.h"
 
 
-@implementation AYConfirmRealNameController{
+@implementation AYConfirmRealNameController {
     UITextField *nameTextField;
     UITextField *coderTextField;
+	BOOL isRightBtnEnable;
 }
 
 #pragma mark -- commands
@@ -40,67 +41,60 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-    UILabel *title = [Tools creatUILabelWithText:@"还差一步，实名认证" andTextColor:[Tools blackColor] andFontSize:320.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    UILabel *title = [Tools creatLabelWithText:@"实名认证" textColor:[Tools black] fontSize:622.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
     [self.view addSubview:title];
     [title mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(92);
+        make.top.equalTo(self.view).offset(kStatusAndNavBarH+28);
         make.left.equalTo(self.view).offset(20);
     }];
-    
-    UILabel *descLabel = [Tools creatUILabelWithText:@"实名信息认证,为您的服务提高可信度" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-    descLabel.numberOfLines = 0;
-    [self.view addSubview:descLabel];
-    [descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(title.mas_bottom).offset(8);
-        make.left.equalTo(title);
-    }];
 	
-	CGFloat inputTextFieldHeight = 60;
+	UILabel *nameLabel = [Tools creatLabelWithText:@"姓名" textColor:[Tools black] fontSize:313.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	[self.view addSubview:nameLabel];
+	[nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(title);
+		make.top.equalTo(title.mas_bottom).offset(75);
+	}];
+	
+	
+	CGFloat inputTextFieldWidth = 276;
+	CGFloat inputTextFieldHeight = 50;
 	
     nameTextField = [[UITextField alloc]init];
-    nameTextField.placeholder = @"真实姓名";
-    nameTextField.font = [UIFont boldSystemFontOfSize:18.f];
-    nameTextField.textColor = [Tools themeColor];
-    nameTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
-//    nameTextField.backgroundColor = [Tools whiteColor];
-//    UIView *paddingView = [[UIView alloc]init];
-//    paddingView.bounds = CGRectMake(0, 0, 10, 1);
-//    nameTextField.leftView = paddingView;
-//    nameTextField.leftViewMode = UITextFieldViewModeAlways;
+    nameTextField.font = kAYFontMedium(17.f);
+    nameTextField.textColor = [Tools black];
+	nameTextField.delegate = self;
     [self.view addSubview:nameTextField];
     [nameTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(descLabel.mas_bottom).offset(25);
-        make.centerX.equalTo(self.view);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, inputTextFieldHeight));
+        make.top.equalTo(nameLabel.mas_bottom);
+        make.left.equalTo(nameLabel);
+        make.size.mas_equalTo(CGSizeMake(inputTextFieldWidth, inputTextFieldHeight));
     }];
-    [Tools creatCALayerWithFrame:CGRectMake(0, inputTextFieldHeight - 0.5, SCREEN_WIDTH - 50, 0.5) andColor:[Tools themeColor] inSuperView:nameTextField];
+    [Tools creatCALayerWithFrame:CGRectMake(0, inputTextFieldHeight - 1, inputTextFieldWidth, 1) andColor:[Tools garyLineColor] inSuperView:nameTextField];
+	
+	UILabel *socialLabel = [Tools creatLabelWithText:@"身份证号" textColor:[Tools black] fontSize:313.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
+	[self.view addSubview:socialLabel];
+	[socialLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(nameLabel);
+		make.top.equalTo(nameTextField.mas_bottom).offset(45);
+	}];
 	
     coderTextField = [[UITextField alloc]init];
-    coderTextField.placeholder = @"身份证号";
-    coderTextField.font = [UIFont boldSystemFontOfSize:18.f];
-    coderTextField.textColor = [Tools themeColor];
-    coderTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
-//    coderTextField.backgroundColor = [Tools whiteColor];
-//    UIView *paddingView2 = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 10, 1)];
-//    coderTextField.leftView = paddingView2;
-//    coderTextField.leftViewMode = UITextFieldViewModeAlways;
+    coderTextField.font = kAYFontMedium(22.f);
+    coderTextField.textColor = [Tools black];
+	coderTextField.delegate = self;
+//	coderTextField.keyboardType = UIKeyboardTypeNumberPad;		// X
     [self.view addSubview:coderTextField];
     [coderTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(nameTextField.mas_bottom).offset(10);
-        make.centerX.equalTo(nameTextField);
+        make.top.equalTo(socialLabel.mas_bottom);
+        make.left.equalTo(nameLabel);
         make.size.equalTo(nameTextField);
     }];
-	[Tools creatCALayerWithFrame:CGRectMake(0, inputTextFieldHeight - 0.5, SCREEN_WIDTH - 50, 0.5) andColor:[Tools themeColor] inSuperView:coderTextField];
+	[Tools creatCALayerWithFrame:CGRectMake(0, inputTextFieldHeight - 1, inputTextFieldWidth, 1) andColor:[Tools garyLineColor] inSuperView:coderTextField];
+//	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(nameOrCodeTextDidChange:) name:UITextFieldTextDidChangeNotification object:coderTextField];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(nameOrCodeTextDidChange:) name:UITextFieldTextDidChangeNotification object:nameTextField];
 	
-	UIButton *enterBtn = [Tools creatUIButtonWithTitle:@"提交" andTitleColor:[Tools whiteColor] andFontSize:318.f andBackgroundColor:[Tools themeColor]];
-	[Tools setViewBorder:enterBtn withRadius:22.5f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
-	[enterBtn addTarget:self action:@selector(rightBtnSelected) forControlEvents:UIControlEventTouchUpInside];
-	[self.view addSubview:enterBtn];
-	[enterBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(coderTextField.mas_bottom).offset(30);
-		make.centerX.equalTo(self.view);
-		make.size.mas_equalTo(CGSizeMake(130, 45));
-	}];
+	UIView *loadingView = [self.views objectForKey:kValidatingView];
+	[self.view bringSubviewToFront:loadingView];
 	
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGesture:)];
     [self.view addGestureRecognizer:tap];
@@ -115,21 +109,45 @@
     [super viewWillDisappear:animated];
 }
 
+- (void)nameOrCodeTextDidChange:(NSNotification*)tf {
+	
+	if (![nameTextField.text isEqualToString:kAYStringNull] && ![coderTextField.text isEqualToString:kAYStringNull]) {
+		if (!isRightBtnEnable) {
+			UIButton *btn_right = [Tools creatBtnWithTitle:@"下一步" titleColor:[Tools theme] fontSize:316 backgroundColor:nil];
+			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &btn_right)
+			isRightBtnEnable = YES;
+		}
+	} else {
+		UIButton *btn_right = [Tools creatBtnWithTitle:@"下一步" titleColor:[Tools RGB225GaryColor] fontSize:316 backgroundColor:nil];
+		btn_right.userInteractionEnabled = NO;
+		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &btn_right)
+		isRightBtnEnable = NO;
+	}
+}
+
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+    view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
 	
 	UIImage* left = IMGRESOURCE(@"bar_left_theme");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
 	
-	NSNumber* right_hidden = [NSNumber numberWithBool:YES];
-	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &right_hidden)
+	UIButton *btn_right = [Tools creatBtnWithTitle:@"下一步" titleColor:[Tools RGB225GaryColor] fontSize:316 backgroundColor:nil];
+	btn_right.userInteractionEnabled = NO;
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &btn_right)
+	
     return nil;
+}
+
+- (id)ValidatingLayout:(UIView*)view {
+	NSString *tip = @"身份验证中";
+	kAYViewsSendMessage(kValidatingView, @"setTipContext:", &tip)
+	return nil;
 }
 
 #pragma mark -- notifies
@@ -173,52 +191,114 @@
 	
 	NSMutableDictionary *info_profile = [[NSMutableDictionary alloc] init];
 	[info_profile setValue:nameTextField.text forKey:kAYProfileArgsOwnerName];
-	[info_profile setValue:coderTextField.text forKey:kAYProfileArgsSocialId];
+	[info_profile setValue:[coderTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""] forKey:kAYProfileArgsSocialId];
 	
 	[dic_update setValue:info_profile forKey:@"profile"];
 	
-    [cmd performWithResult:[dic_update copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+	[self.view endEditing:YES];
+	kAYViewsSendMessage(kValidatingView, @"showValidatingViewWithAnimate", nil);
+	
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 		
-        if (success) {
-            //save to coredata
-            id<AYFacadeBase> facade = LOGINMODEL;
-            id<AYCommand> cmd_profile = [facade.commands objectForKey:@"UpdateLocalCurrentUserProfile"];
-            
-            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-            [dic setValue:[NSNumber numberWithInt:1] forKey:@"is_real_name_cert"];
-            [cmd_profile performWithResult:&dic];
+		[cmd performWithResult:[dic_update copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+			if (success) {
+				
+//				kAYViewsSendMessage(kValidatingView, @"hideValidatingView", nil);
+				NSString *tip = @"身份验证成功";
+				kAYViewsSendMessage(kValidatingView, @"changeStatusWithSuccessTip:", &tip);
+				
+				//save to coredata
+				id<AYFacadeBase> facade = LOGINMODEL;
+				id<AYCommand> cmd_profile = [facade.commands objectForKey:@"UpdateLocalCurrentUserProfile"];
+	
+				NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
+				[dic setValue:[NSNumber numberWithInt:1] forKey:kAYProfileArgsIsProvider];
+				[cmd_profile performWithResult:&dic];
+				
+				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+					id<AYCommand> des = DEFAULTCONTROLLER(@"TabBarService");
+					[self exchangeWindowsWithDest:des];
+				});
+				
+				// go on
+//				AYViewController* des = DEFAULTCONTROLLER(@"ConfirmFinish");
+//				NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+//				[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+//				[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+//				[dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+//	
+//				NSString *tip = @"您的信息已成功提交";
+//				[dic_push setValue:tip forKey:kAYControllerChangeArgsKey];
+//	
+//				id<AYCommand> cmd = PUSH;
+//				[cmd performWithResult:&dic_push];
+				
+			} else {
+				AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
+			}
 			
-			// go on
-			AYViewController* des = DEFAULTCONTROLLER(@"ConfirmFinish");
-			NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-			[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-			[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-			[dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-			
-			NSString *tip = @"您的信息已成功提交";
-			[dic_push setValue:tip forKey:kAYControllerChangeArgsKey];
-			
-			id<AYCommand> cmd = PUSH;
-			[cmd performWithResult:&dic_push];
-			
-		} else {
-			NSString *title = @"请改善网络环境并重试";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-		}
-		
-    }];
+		}];
+	});
+	
 	
     return nil;
 }
 
 - (void)tapGesture:(UITapGestureRecognizer*)gesture {
-    
-    if ([nameTextField isFirstResponder]) {
-        [nameTextField resignFirstResponder];
-    }
-    if ([coderTextField isFirstResponder]) {
-        [coderTextField resignFirstResponder];
-    }
+	[self.view endEditing:YES];
+}
+- (void)exchangeWindowsWithDest:(id)dest {
+	AYViewController *des = dest;
+	NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc] init];
+	[dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
+	[dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic_show_module setValue:self.tabBarController forKey:kAYControllerActionSourceControllerKey];
+	
+	NSMutableDictionary *dic_exchange = [[NSMutableDictionary alloc] init];
+	[dic_exchange setValue:[NSNumber numberWithInteger:3] forKey:@"index"];
+	[dic_exchange setValue:[NSNumber numberWithInteger:ModeExchangeTypeUnloginToAllModel] forKey:@"type"];
+	[dic_show_module setValue:dic_exchange forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd_show_module = EXCHANGEWINDOWS;
+	[cmd_show_module performWithResult:&dic_show_module];
+	
+}
+#pragma mark -- UITextFiled Delegate
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+	
+	if (textField == coderTextField) {
+		NSString *existStr = textField.text;
+		NSString *progressStr;
+		if (string.length == 0) {
+			progressStr = [existStr substringToIndex:existStr.length - 1];
+			if ([progressStr hasSuffix:@" "]) {
+				progressStr = [progressStr substringToIndex:progressStr.length - 1];
+			}
+		}
+		else if(string.length == 1){
+			if (existStr.length == 6 || existStr.length == 15) {
+				progressStr = [[existStr stringByAppendingString:@" "] stringByAppendingString:string];
+			} else if(existStr.length < 20) {
+				progressStr = [existStr stringByAppendingString:string];
+			} else
+				return NO;
+		}
+		else {
+//			TODO:copy action
+		}
+		textField.text = progressStr;
+		[self nameOrCodeTextDidChange:nil];
+		return NO;
+	} else {
+		return YES;
+	}
+}
+
+- (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
+	//禁止粘贴
+	if (action == @selector(paste:))
+		return NO;
+	return [super canPerformAction:action withSender:sender];
 }
 
 #pragma mark -- Keyboard facade

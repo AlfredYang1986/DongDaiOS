@@ -17,13 +17,20 @@
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
 
-@implementation AYRemoteCallCommand
+#import "MBProgressHUD.h"
+
+@implementation AYRemoteCallCommand {
+//	int count_loading;
+//	int time_count;
+//	NSTimer *timer_loding;
+}
 
 @synthesize para = _para;
 @synthesize route = _route;
 
 - (void)postPerform {
-    
+//    count_loading = 0;
+//	timer_loding = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerRun) userInfo:nil repeats:YES];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -42,6 +49,17 @@
         id (*func)(id, SEL, id) = (id (*)(id, SEL, id))method_getImplementation(m);
         func(cur, sel, name);
     }
+	
+	/*直接盖到keywindow上*/
+//	time_count = 30;            //star a new remote, so reset time count to 120
+//	if (count_loading == 0) {
+//		[timer_loding setFireDate:[NSDate distantPast]];
+//		dispatch_async(dispatch_get_main_queue(), ^{
+//			[MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
+//		});
+//	}
+//	count_loading++;
+	
 }
 
 - (void)endAsyncCall {
@@ -56,7 +74,27 @@
         id (*func)(id, SEL, id) = (id (*)(id, SEL, id))method_getImplementation(m);
         func(cur, sel, name);
     }
+	
+//	count_loading --;
+//	if (count_loading == 0) {
+//		[timer_loding setFireDate:[NSDate distantFuture]];
+//		dispatch_async(dispatch_get_main_queue(), ^{
+//			[MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
+//		});
+//	}
 }
+
+//- (void)timerRun {
+//	time_count -- ;
+//	if (time_count == 0) {
+//		count_loading = 0;
+//		[timer_loding setFireDate:[NSDate distantFuture]];
+//		dispatch_async(dispatch_get_main_queue(), ^{
+//			[MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
+//		});
+//	}
+//}
+
 
 - (void)performWithResult:(NSDictionary*)args andFinishBlack:(asynCommandFinishBlock)block {
     NSLog(@"request confirm code from sever: %@", args);
@@ -78,7 +116,26 @@
                 block(YES, reVal);
             } else {
                 NSDictionary* reError = [result objectForKey:@"error"];
-                block(NO, reError);
+				NSNumber *code = [reError objectForKey:@"code"];
+				if (code.intValue == -9004 || code.intValue == -9005) {
+					
+					AYFacade* f_login = LOGINMODEL;
+					id<AYCommand> cmd_sign_out_local = [f_login.commands objectForKey:@"SignOutLocal"];
+					[cmd_sign_out_local performWithResult:nil];
+					
+					NSString *tip = @"当前用户登录实效已过期，请重新登录";
+					AYShowBtmAlertView(tip, BtmAlertViewTypeHideWithTimer)
+				} else
+					block(NO, reError);
+				
+//				if ([[reError objectForKey:@"message"] isEqualToString:@"token过期"]) {
+//					AYFacade* f_login = LOGINMODEL;
+//					id<AYCommand> cmd_sign_out_local = [f_login.commands objectForKey:@"SignOutLocal"];
+//					[cmd_sign_out_local performWithResult:nil];
+//
+//					NSString *tip = @"当前用户登录实效已过期，请重新登录";
+//					AYShowBtmAlertView(tip, BtmAlertViewTypeHideWithTimer)
+//				}
             }
            
             [self endAsyncCall];

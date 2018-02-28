@@ -74,7 +74,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:@"标题" andTextColor:[Tools themeColor] andFontSize:620.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatLabelWithText:@"标题" textColor:[Tools theme] fontSize:620.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(80);
@@ -82,7 +82,7 @@
 	}];
 	
 	CGFloat insetLabelHeight = 64.f;
-    AYInsetLabel *h1 = [[AYInsetLabel alloc]initWithTitle:@"" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
+    AYInsetLabel *h1 = [[AYInsetLabel alloc]initWithTitle:@"" andTextColor:[Tools black] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
     h1.textInsets = UIEdgeInsetsMake(0, 5, 0, 0);
     [self.view addSubview:h1];
     [h1 mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -94,7 +94,7 @@
     costTextField = [[UITextField alloc]init];
     [self.view addSubview:costTextField];
     costTextField.font = [UIFont boldSystemFontOfSize:16.f];
-    costTextField.textColor = [Tools themeColor];
+    costTextField.textColor = [Tools theme];
     costTextField.textAlignment = NSTextAlignmentRight;
     costTextField.keyboardType = UIKeyboardTypeNumberPad;
     //    costTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -106,7 +106,7 @@
         costTextField.text = price;
     }
     
-    UILabel *RMBSign = [Tools creatUILabelWithText:@"元" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    UILabel *RMBSign = [Tools creatLabelWithText:@"元" textColor:[Tools black] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
     [self.view addSubview:RMBSign];
     [RMBSign mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(h1);
@@ -114,11 +114,11 @@
     }];
     
     /***************************************/
-    AYInsetLabel *h3 = [[AYInsetLabel alloc]initWithTitle:@"单次最少预定时长" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
+    AYInsetLabel *h3 = [[AYInsetLabel alloc]initWithTitle:@"单次最少预定时长" andTextColor:[Tools black] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
     h3.textInsets = UIEdgeInsetsMake(0, 5, 0, 0);
     [self.view addSubview:h3];
 	
-	UILabel *iconLael = [Tools creatUILabelWithText:@"小时" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+	UILabel *iconLael = [Tools creatLabelWithText:@"小时" textColor:[Tools black] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
     [self.view addSubview:iconLael];
     [iconLael mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(h3);
@@ -131,7 +131,7 @@
 		currentNumbCount = 1;
     }
     [plusBtn setTitle:[NSString stringWithFormat:@"%d",(int)currentNumbCount] forState:UIControlStateNormal];
-	[Tools setViewBorder:plusBtn withRadius:btnWH*0.5 andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
+	[Tools setViewBorder:plusBtn withRadius:btnWH*0.5 andBorderWidth:0 andBorderColor:nil andBackground:[Tools theme]];
     plusBtn.titleLabel.font = [UIFont systemFontOfSize:14.f];
     [plusBtn setTitleColor:[Tools whiteColor] forState:UIControlStateNormal];
     [self.view addSubview:plusBtn];
@@ -146,7 +146,7 @@
     CALayer *minusLayer = [CALayer layer];
     minusLayer.frame = CGRectMake(0, 0, btnWH * 0.6, 2);
     minusLayer.position = CGPointMake(btnWH * 0.5, btnWH * 0.5);
-    minusLayer.backgroundColor = [Tools themeColor].CGColor;
+    minusLayer.backgroundColor = [Tools theme].CGColor;
     [minusBtn.layer addSublayer:minusLayer];
     [self.view addSubview:minusBtn];
     [minusBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -163,7 +163,7 @@
 		h1.text = @"单次课程价格";
 		titleStr = @"课程价格";
 		
-		AYInsetLabel *h2 = [[AYInsetLabel alloc]initWithTitle:@"课程时长" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
+		AYInsetLabel *h2 = [[AYInsetLabel alloc]initWithTitle:@"课程时长" andTextColor:[Tools black] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
 		h2.textInsets = UIEdgeInsetsMake(0, 5, 0, 0);
 		[self.view addSubview:h2];
 		[h2 mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -175,7 +175,7 @@
 		timeTextField = [[UITextField alloc]init];
 		[self.view addSubview:timeTextField];
 		timeTextField.font = [UIFont boldSystemFontOfSize:16.f];
-		timeTextField.textColor = [Tools themeColor];
+		timeTextField.textColor = [Tools theme];
 		timeTextField.textAlignment = NSTextAlignmentRight;
 		timeTextField.keyboardType = UIKeyboardTypeNumberPad;
 		[timeTextField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -186,7 +186,7 @@
 			timeTextField.text = duration;
 		}
 		
-		UILabel *TIMESign = [Tools creatUILabelWithText:@"分钟" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+		UILabel *TIMESign = [Tools creatLabelWithText:@"分钟" textColor:[Tools black] fontSize:14.f backgroundColor:nil textAlignment:NSTextAlignmentRight];
 		[self.view addSubview:TIMESign];
 		[TIMESign mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(h2);
@@ -233,17 +233,17 @@
 
 #pragma mark -- layout
 - (id)FakeStatusBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view{
-    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
+    view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
     
     UIImage* left = IMGRESOURCE(@"bar_left_black");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
     
-    UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
+    UIButton* bar_right_btn = [Tools creatBtnWithTitle:@"保存" titleColor:[Tools theme] fontSize:16.f backgroundColor:nil];
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
     
 //    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)

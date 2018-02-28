@@ -45,7 +45,7 @@
 
 - (void)postPerform {
 	
-	UILabel *tips = [Tools creatUILabelWithText:@"还有，您的姓名" andTextColor:[Tools themeColor] andFontSize:20.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *tips = [Tools creatLabelWithText:@"还有，您的姓名" textColor:[Tools theme] fontSize:20.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 	[self addSubview:tips];
 	[tips mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self);
@@ -62,12 +62,12 @@
         make.width.equalTo(self);
         make.height.mas_equalTo(inputBgHeight);
     }];
-	[Tools creatCALayerWithFrame:CGRectMake(0, inputBgHeight - 0.5, SCREEN_WIDTH - 50, 0.5) andColor:[Tools themeColor] inSuperView:inputView];
+	[Tools creatCALayerWithFrame:CGRectMake(0, inputBgHeight - 0.5, SCREEN_WIDTH - 50, 0.5) andColor:[Tools theme] inSuperView:inputView];
 	
     name_area = [[UITextField alloc]init];
     name_area.delegate = self;
     name_area.font = [UIFont boldSystemFontOfSize:20.f];
-    name_area.textColor = [Tools themeColor];
+    name_area.textColor = [Tools theme];
 //    name_area.clearButtonMode = UITextFieldViewModeWhileEditing;
     name_area.placeholder = @"您的姓名";
     [inputView addSubview:name_area];
@@ -91,7 +91,7 @@
 	}];
 	checkIcon.hidden = YES;
 	
-	nextBtn = [[UIButton alloc]init];
+	nextBtn = [[UIButton alloc] init];
 	[nextBtn setImage:IMGRESOURCE(@"loginstep_next_icon") forState:UIControlStateNormal];
 	[self addSubview:nextBtn];
 	[nextBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -120,33 +120,23 @@
     return kAYFactoryManagerCatigoryView;
 }
 
--(void)layoutSubviews{
-    [super layoutSubviews];
-}
-
 - (void)didNextBtnClick {
 	
-	if (!isLegalName || name_area.text.length < 1) {
+	NSString *name = name_area.text;
+	if (!isLegalName || name.length < 1 || [Tools bityWithStr:name] > 32) {
 		[name_area resignFirstResponder];
 		NSString *title = @"1-32个字符,仅限中英文";
 		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 		return;
 	}
 	
-	id<AYCommand> cmd = [self.notifies objectForKey:@"rightBtnSelected"];
-	[cmd performWithResult:nil];
+	id<AYCommand> cmd = [self.notifies objectForKey:@"queryCurUserName:"];
+	[cmd performWithResult:&name];
 }
 
 #pragma mark -- handle
 - (void)nameTextFieldTextDidChange:(UITextField*)tf {
 	
-//	NSString *tmp = textField.text;
-//	if (![string isEqualToString:@""]) {
-//		tmp = [tmp stringByAppendingString:string];
-//	}
-//	else if([string isEqualToString:@""] && tmp.length != 0) {
-//		tmp = [tmp substringToIndex:tmp.length-1];
-//	}
 	NSString *tmp = name_area.text;
 	NSString *regex = @"[a-zA-Z\u4e00-\u9fa5]+";
 	NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
@@ -156,15 +146,15 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
 	
-	NSString *tmp = textField.text;
-	if ([Tools bityWithStr:tmp] >= 32) {
-		
-		[name_area resignFirstResponder];
-		NSString *title = @"1-32个字符,仅限中英文";
-		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithAction)
-		return NO;
-	} else {
+	if ([string isEqualToString:@""]) {
 		return YES;
+	} else {
+		NSString *tmp = textField.text;
+		if ([Tools bityWithStr:tmp] >= 32) {
+			return NO;
+		} else {
+			return YES;
+		}
 	}
 	
 }
@@ -185,7 +175,7 @@
     return nil;
 }
 
--(id)queryInputName:(NSString*)args{
+- (id)queryInputName:(NSString*)args {
     return name_area.text;
 }
 
