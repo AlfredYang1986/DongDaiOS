@@ -262,9 +262,6 @@
 		703CCDBF1CC9D71000CF4563 /* AYQueryNotificationsCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 703CCDBE1CC9D71000CF4563 /* AYQueryNotificationsCommand.m */; };
 		703CCDC41CC9D96F00CF4563 /* AYRemoveNotificationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 703CCDC31CC9D96F00CF4563 /* AYRemoveNotificationCommand.m */; };
 		703CCDC71CC9D9E400CF4563 /* AYClearNotificationsCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 703CCDC61CC9D9E400CF4563 /* AYClearNotificationsCommand.m */; };
-		703E6072200DDB9100145889 /* AYNurseryCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 703E606D200DDB9000145889 /* AYNurseryCellView.m */; };
-		703E6073200DDB9100145889 /* AYNurseryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 703E606F200DDB9000145889 /* AYNurseryItem.m */; };
-		703E6074200DDB9100145889 /* AYNurseryMoreItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 703E6071200DDB9000145889 /* AYNurseryMoreItem.m */; };
 		703E6077200DEE0700145889 /* AYTopicImageCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 703E6076200DEE0700145889 /* AYTopicImageCellView.m */; };
 		703E607A200DEE3400145889 /* AYTopicDescCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 703E6079200DEE3300145889 /* AYTopicDescCellView.m */; };
 		703E609F201073FD00145889 /* AYViewController+RunTimeCmd.m in Sources */ = {isa = PBXBuildFile; fileRef = 703E607E201073FD00145889 /* AYViewController+RunTimeCmd.m */; };
@@ -556,6 +553,13 @@
 		709BEE7C1EE00FD4006987D1 /* AYServiceOwnerInfoCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 709BEE7B1EE00FD4006987D1 /* AYServiceOwnerInfoCellView.m */; };
 		709BEE841EE010DE006987D1 /* AYServiceFacilityCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 709BEE831EE010DE006987D1 /* AYServiceFacilityCellView.m */; };
 		709BEE881EE01C92006987D1 /* AYServiceCapacityCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 709BEE871EE01C92006987D1 /* AYServiceCapacityCellView.m */; };
+		709D26812046B1710098C005 /* AYNurseryMoreItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 709D267B2046B1700098C005 /* AYNurseryMoreItem.m */; };
+		709D26822046B1710098C005 /* AYNurseryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 709D267C2046B1700098C005 /* AYNurseryItem.m */; };
+		709D26832046B1710098C005 /* AYNurseryCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 709D267D2046B1710098C005 /* AYNurseryCellView.m */; };
+		709D268B2046BFB00098C005 /* AYAliyunOSSFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 709D26892046BFAF0098C005 /* AYAliyunOSSFacade.m */; };
+		709D268F2046C0210098C005 /* AYOSSPutCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 709D268E2046C0210098C005 /* AYOSSPutCommand.m */; };
+		709D26932046C1310098C005 /* AYOSSGetCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 709D26922046C1310098C005 /* AYOSSGetCommand.m */; };
+		709D26952046C27B0098C005 /* AliyunOSSiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 709D26942046C27A0098C005 /* AliyunOSSiOS.framework */; };
 		70A27C001D0EBA3C00B131AB /* AYKidNapRemoteFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A27BFF1D0EBA3C00B131AB /* AYKidNapRemoteFacade.m */; };
 		70A27C0D1D0EFBE300B131AB /* AYPublishServiceCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A27C0C1D0EFBE300B131AB /* AYPublishServiceCommand.m */; };
 		70A333751E095BE800C1517C /* AYFilterThemeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A3336E1E095BE800C1517C /* AYFilterThemeController.m */; };
@@ -1370,12 +1374,6 @@
 		703CCDC31CC9D96F00CF4563 /* AYRemoveNotificationCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYRemoveNotificationCommand.m; sourceTree = "<group>"; };
 		703CCDC51CC9D9E400CF4563 /* AYClearNotificationsCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYClearNotificationsCommand.h; sourceTree = "<group>"; };
 		703CCDC61CC9D9E400CF4563 /* AYClearNotificationsCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYClearNotificationsCommand.m; sourceTree = "<group>"; };
-		703E606C200DDB9000145889 /* AYNurseryCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNurseryCellView.h; sourceTree = "<group>"; };
-		703E606D200DDB9000145889 /* AYNurseryCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNurseryCellView.m; sourceTree = "<group>"; };
-		703E606E200DDB9000145889 /* AYNurseryItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNurseryItem.h; sourceTree = "<group>"; };
-		703E606F200DDB9000145889 /* AYNurseryItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNurseryItem.m; sourceTree = "<group>"; };
-		703E6070200DDB9000145889 /* AYNurseryMoreItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNurseryMoreItem.h; sourceTree = "<group>"; };
-		703E6071200DDB9000145889 /* AYNurseryMoreItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNurseryMoreItem.m; sourceTree = "<group>"; };
 		703E6075200DEE0700145889 /* AYTopicImageCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYTopicImageCellView.h; sourceTree = "<group>"; };
 		703E6076200DEE0700145889 /* AYTopicImageCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AYTopicImageCellView.m; sourceTree = "<group>"; };
 		703E6078200DEE3300145889 /* AYTopicDescCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYTopicDescCellView.h; sourceTree = "<group>"; };
@@ -1949,6 +1947,19 @@
 		709BEE831EE010DE006987D1 /* AYServiceFacilityCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYServiceFacilityCellView.m; sourceTree = "<group>"; };
 		709BEE861EE01C92006987D1 /* AYServiceCapacityCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYServiceCapacityCellView.h; sourceTree = "<group>"; };
 		709BEE871EE01C92006987D1 /* AYServiceCapacityCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYServiceCapacityCellView.m; sourceTree = "<group>"; };
+		709D267B2046B1700098C005 /* AYNurseryMoreItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNurseryMoreItem.m; sourceTree = "<group>"; };
+		709D267C2046B1700098C005 /* AYNurseryItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNurseryItem.m; sourceTree = "<group>"; };
+		709D267D2046B1710098C005 /* AYNurseryCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNurseryCellView.m; sourceTree = "<group>"; };
+		709D267E2046B1710098C005 /* AYNurseryCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNurseryCellView.h; sourceTree = "<group>"; };
+		709D267F2046B1710098C005 /* AYNurseryMoreItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNurseryMoreItem.h; sourceTree = "<group>"; };
+		709D26802046B1710098C005 /* AYNurseryItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNurseryItem.h; sourceTree = "<group>"; };
+		709D26882046BFAF0098C005 /* AYAliyunOSSFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAliyunOSSFacade.h; sourceTree = "<group>"; };
+		709D26892046BFAF0098C005 /* AYAliyunOSSFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAliyunOSSFacade.m; sourceTree = "<group>"; };
+		709D268D2046C0210098C005 /* AYOSSPutCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYOSSPutCommand.h; sourceTree = "<group>"; };
+		709D268E2046C0210098C005 /* AYOSSPutCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AYOSSPutCommand.m; sourceTree = "<group>"; };
+		709D26912046C1310098C005 /* AYOSSGetCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOSSGetCommand.h; sourceTree = "<group>"; };
+		709D26922046C1310098C005 /* AYOSSGetCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOSSGetCommand.m; sourceTree = "<group>"; };
+		709D26942046C27A0098C005 /* AliyunOSSiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AliyunOSSiOS.framework; sourceTree = "<group>"; };
 		70A1A4E21D1D3BC60063FC7F /* EMCallLocalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMCallLocalView.h; sourceTree = "<group>"; };
 		70A1A4E31D1D3BC60063FC7F /* EMCallManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMCallManagerDelegate.h; sourceTree = "<group>"; };
 		70A1A4E41D1D3BC60063FC7F /* EMCallRemoteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMCallRemoteView.h; sourceTree = "<group>"; };
@@ -2554,6 +2565,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				709D26952046C27B0098C005 /* AliyunOSSiOS.framework in Frameworks */,
 				706CD7AE1F56928900936870 /* StoreKit.framework in Frameworks */,
 				80F059911E5C47E3002B105F /* CoreMotion.framework in Frameworks */,
 				80F058D71E5C2FD7002B105F /* AlipaySDK.framework in Frameworks */,
@@ -3565,6 +3577,7 @@
 		701D8A441CA7B9C200B5D4C1 /* LogicFacade */ = {
 			isa = PBXGroup;
 			children = (
+				709D26842046BFAF0098C005 /* AliyunOSS */,
 				80F058D81E5C38D5002B105F /* Alipay */,
 				80198C371E5470C600149F97 /* TimeManagement */,
 				704D48DE1DAE334800A69AF4 /* Alert */,
@@ -4777,12 +4790,12 @@
 		703E606B200DDB9000145889 /* Nursery */ = {
 			isa = PBXGroup;
 			children = (
-				703E606C200DDB9000145889 /* AYNurseryCellView.h */,
-				703E606D200DDB9000145889 /* AYNurseryCellView.m */,
-				703E606E200DDB9000145889 /* AYNurseryItem.h */,
-				703E606F200DDB9000145889 /* AYNurseryItem.m */,
-				703E6070200DDB9000145889 /* AYNurseryMoreItem.h */,
-				703E6071200DDB9000145889 /* AYNurseryMoreItem.m */,
+				709D267E2046B1710098C005 /* AYNurseryCellView.h */,
+				709D267D2046B1710098C005 /* AYNurseryCellView.m */,
+				709D26802046B1710098C005 /* AYNurseryItem.h */,
+				709D267C2046B1700098C005 /* AYNurseryItem.m */,
+				709D267F2046B1710098C005 /* AYNurseryMoreItem.h */,
+				709D267B2046B1700098C005 /* AYNurseryMoreItem.m */,
 			);
 			path = Nursery;
 			sourceTree = "<group>";
@@ -5068,6 +5081,7 @@
 		70490DA51CA2339D0093D5DA /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				709D26942046C27A0098C005 /* AliyunOSSiOS.framework */,
 				705E719D1FFB777F003E9646 /* MJRefresh */,
 				701C731E1F9063B800165163 /* WXSTransition */,
 				80F058D31E5C2FD7002B105F /* libAlipaySDK */,
@@ -6895,6 +6909,35 @@
 				700131131CA458DF006003C8 /* AYViewBase.h */,
 			);
 			path = ViewBase;
+			sourceTree = "<group>";
+		};
+		709D26842046BFAF0098C005 /* AliyunOSS */ = {
+			isa = PBXGroup;
+			children = (
+				709D26902046C1310098C005 /* AliyunOSSGet */,
+				709D268C2046BFE40098C005 /* AliyunOSSPut */,
+				709D26882046BFAF0098C005 /* AYAliyunOSSFacade.h */,
+				709D26892046BFAF0098C005 /* AYAliyunOSSFacade.m */,
+			);
+			path = AliyunOSS;
+			sourceTree = "<group>";
+		};
+		709D268C2046BFE40098C005 /* AliyunOSSPut */ = {
+			isa = PBXGroup;
+			children = (
+				709D268D2046C0210098C005 /* AYOSSPutCommand.h */,
+				709D268E2046C0210098C005 /* AYOSSPutCommand.m */,
+			);
+			path = AliyunOSSPut;
+			sourceTree = "<group>";
+		};
+		709D26902046C1310098C005 /* AliyunOSSGet */ = {
+			isa = PBXGroup;
+			children = (
+				709D26912046C1310098C005 /* AYOSSGetCommand.h */,
+				709D26922046C1310098C005 /* AYOSSGetCommand.m */,
+			);
+			path = AliyunOSSGet;
 			sourceTree = "<group>";
 		};
 		70A1A4E01D1D3BC60063FC7F /* HyphenateFullSDK */ = {
@@ -9041,6 +9084,7 @@
 				705E71CE1FFB7780003E9646 /* MJRefreshComponent.m in Sources */,
 				70CDF63C1CBD033900311841 /* QueryLikes.m in Sources */,
 				704697DC1CE047F200DACD8A /* UIImageView+HighlightedWebCache.m in Sources */,
+				709D26832046B1710098C005 /* AYNurseryCellView.m in Sources */,
 				70AC5BAC1CC8C6B600E2568F /* AYPostPushContentCommand.m in Sources */,
 				70CDF63E1CBD033900311841 /* QueryTimeSpan.m in Sources */,
 				7056B9E11F1F2BF400386E3A /* AYFutureOrderDelegate.m in Sources */,
@@ -9112,6 +9156,7 @@
 				8048BFF81D9CF4C30026436E /* AYQueryCurrentUserProfileCommand.m in Sources */,
 				7039CBDD1CBB84F300BE60C7 /* AYDongDaSegView.m in Sources */,
 				7048AEA01F208C8600C7BE8D /* AYHomeTopicsCellView.m in Sources */,
+				709D268F2046C0210098C005 /* AYOSSPutCommand.m in Sources */,
 				70C41E0C1DB9FEFE00C77B10 /* AYMessageInitCommand.m in Sources */,
 				705E71D31FFB7780003E9646 /* MJRefreshAutoStateFooter.m in Sources */,
 				70C41E1B1DBA06D000C77B10 /* AYSettingController.m in Sources */,
@@ -9155,7 +9200,6 @@
 				7025FE5D1DF660A200044CD9 /* AYOtherNoticeTextController.m in Sources */,
 				702D84DF1F42E9C900418D8D /* AYQueryOrderDetailCommand.m in Sources */,
 				70D657091D1D410F003D1D7D /* AYExposeRemoteFacade.m in Sources */,
-				703E6072200DDB9100145889 /* AYNurseryCellView.m in Sources */,
 				700693141CC4A3AF00B511FF /* DropDownItem.m in Sources */,
 				70360B501E56F0A300D5332F /* AYNewVersionNavController.m in Sources */,
 				70F34D7D1CA549B900CEF7C1 /* AYLandingAreaCodeCommand.m in Sources */,
@@ -9231,6 +9275,7 @@
 				702E7A831CA150A00097867E /* main.m in Sources */,
 				80D5E7E61CCCCF9A00A82117 /* AYSamePersonBtnView.m in Sources */,
 				702505231F6B72A800BA77E0 /* AYInputCoustomController.m in Sources */,
+				709D268B2046BFB00098C005 /* AYAliyunOSSFacade.m in Sources */,
 				70C41F171DBA17B800C77B10 /* AYMyServiceCellView.m in Sources */,
 				70CDF63A1CBD033900311841 /* QueryContentItem.m in Sources */,
 				70305FAC1F4AE36C00E402A7 /* AYSortServiceListController.m in Sources */,
@@ -9257,7 +9302,6 @@
 				702EBB021F43E8F000CD2783 /* AYTMsUpdateCommand.m in Sources */,
 				70C41EDB1DBA122500C77B10 /* AYMainInfoDelegate.m in Sources */,
 				80D5E7E91CCCD09600A82117 /* AYFollowedBtnView.m in Sources */,
-				703E6073200DDB9100145889 /* AYNurseryItem.m in Sources */,
 				70EAD8051CA64B7B007965D2 /* AYLoadingView.m in Sources */,
 				705EC8831CE4BC1D0008D5EA /* AYTagContentModelFacade.m in Sources */,
 				708235C91CA2563400658531 /* AYDefaultControllerFactoy.m in Sources */,
@@ -9346,7 +9390,6 @@
 				7056BA151F1F2BF400386E3A /* AYOrderListPendingDelegate.m in Sources */,
 				70F369AA1CC362950067B62E /* AYAlbumDelegate.m in Sources */,
 				7056B9EE1F1F2BF400386E3A /* AYOrderHeadCellView.m in Sources */,
-				703E6074200DDB9100145889 /* AYNurseryMoreItem.m in Sources */,
 				7012C9731E16156800C8F510 /* AYOrderTimesDelegate.m in Sources */,
 				70C41EE91DBA122500C77B10 /* TZTestCell.m in Sources */,
 				702C3B9F1EAF27C6007F3303 /* AYAddOTimeCellView.m in Sources */,
@@ -9376,6 +9419,7 @@
 				70AC5BB01CC8C6DD00E2568F /* AYPostContentCommand.m in Sources */,
 				70F967A31E29003800B3805B /* AYSetServiceCapacityDelegate.m in Sources */,
 				805218A41CCBA097006EF119 /* AYReleaseScreenNameAndPhotoCommand.m in Sources */,
+				709D26932046C1310098C005 /* AYOSSGetCommand.m in Sources */,
 				705CF2491FDFD95B00DDF570 /* AYPushSplitAnimationCommand.m in Sources */,
 				705195601E1B909000F1F761 /* AYServiceMapView.m in Sources */,
 				702510A61CC0F5CF00DADF2B /* AYChatSessionModelFacade.m in Sources */,
@@ -9670,6 +9714,7 @@
 				70EAD82B1CA673E7007965D2 /* AYNotiyCommand.m in Sources */,
 				7025FE671DF6B0A300044CD9 /* AYEditAdvanceInfoController.m in Sources */,
 				70CB482E1DFAAB6D003D38FB /* AYInputNapTitleController.m in Sources */,
+				709D26822046B1710098C005 /* AYNurseryItem.m in Sources */,
 				70F4287E1CC7B18F00A69977 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				70C41E141DBA010B00C77B10 /* AYUserScreenPhoteView.m in Sources */,
 				703B4C4B1DCC288300B1088C /* AYPushCommentsCommand.m in Sources */,
@@ -9682,6 +9727,7 @@
 				702B7A481DAF286700D8715B /* AYShowAlertCommand.m in Sources */,
 				7056BA061F1F2BF400386E3A /* AYUnSubsCellView.m in Sources */,
 				80802E5A1D9EA54C006A4F3D /* AYUpdateLocalCurrentUserProfileCommand.m in Sources */,
+				709D26812046B1710098C005 /* AYNurseryMoreItem.m in Sources */,
 				704651761FFC8C5E0086B350 /* AYCapacityUnitView.m in Sources */,
 				7025109F1CC0F5AB00DADF2B /* NotificationOwner.m in Sources */,
 				70E9AB7E1CF401DB0019D33A /* AYNotifyUnFollowBtnView.m in Sources */,

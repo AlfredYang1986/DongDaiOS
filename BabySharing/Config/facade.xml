@@ -271,6 +271,11 @@
 		<command type="Remote" name="ChoiceSearch" />
 		<command type="Remote" name="ChoicePush" />
 		<command type="Remote" name="ChoicePop" />
-        <command type="Remote" name="ChoiceMapSearch" />
+		<command type="Remote" name="ChoiceMapSearch" />
+	</facade>
+	
+	<facade type="DefaultFacade" name="AliyunOSS" factory="AYDefaultFacadeFactory" >
+		<command type="Module" name="OSSPut" />
+		<command type="Module" name="OSSGet" />
 	</facade>
 </facades>

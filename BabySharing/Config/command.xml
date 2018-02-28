@@ -184,6 +184,9 @@
 	<command type="Module" name="PushServiceTM" factory="AYDefaultModuleFactory" />
 	<command type="Module" name="ParseServiceTM" factory="AYDefaultModuleFactory" />
 	
+	<command type="Module" name="OSSPut" factory="AYDefaultModuleFactory" />
+	<command type="Module" name="OSSGet" factory="AYDefaultModuleFactory" />
+	
     <command type="Remote" name="PostPhotos" factory="AYDefaultModuleFactory" />
     <command type="Remote" name="PostMovie" factory="AYDefaultModuleFactory" />
     
