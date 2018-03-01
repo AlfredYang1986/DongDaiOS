@@ -594,6 +594,7 @@
 		70B820A71CAA71CC001EEAF2 /* AYGernarateImgUUIDCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B820A61CAA71CC001EEAF2 /* AYGernarateImgUUIDCommand.m */; };
 		70B820AA1CAA75C1001EEAF2 /* AYSaveImgLocalCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B820A91CAA75C1001EEAF2 /* AYSaveImgLocalCommand.m */; };
 		70B820B41CAA9BD5001EEAF2 /* AYViewNotifyCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B820B31CAA9BD5001EEAF2 /* AYViewNotifyCommand.m */; };
+		70BBB36A204827E9008A1584 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 70BBB369204827E9008A1584 /* libresolv.tbd */; };
 		70C2DF681D24CE3B00A9F217 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70C2DF641D24CE3B00A9F217 /* libcrypto.a */; };
 		70C2DF691D24CE3B00A9F217 /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70C2DF651D24CE3B00A9F217 /* libcurl.a */; };
 		70C2DF6A1D24CE3B00A9F217 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70C2DF661D24CE3B00A9F217 /* libssl.a */; };
@@ -2066,6 +2067,7 @@
 		70B820A91CAA75C1001EEAF2 /* AYSaveImgLocalCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSaveImgLocalCommand.m; sourceTree = "<group>"; };
 		70B820B21CAA9BD5001EEAF2 /* AYViewNotifyCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYViewNotifyCommand.h; sourceTree = "<group>"; };
 		70B820B31CAA9BD5001EEAF2 /* AYViewNotifyCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYViewNotifyCommand.m; sourceTree = "<group>"; };
+		70BBB369204827E9008A1584 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
 		70C2DF641D24CE3B00A9F217 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
 		70C2DF651D24CE3B00A9F217 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcurl.a; sourceTree = "<group>"; };
 		70C2DF661D24CE3B00A9F217 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
@@ -2565,6 +2567,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				708235B71CA241F800658531 /* libiconv.tbd in Frameworks */,
+				70BBB36A204827E9008A1584 /* libresolv.tbd in Frameworks */,
 				709D26952046C27B0098C005 /* AliyunOSSiOS.framework in Frameworks */,
 				706CD7AE1F56928900936870 /* StoreKit.framework in Frameworks */,
 				80F059911E5C47E3002B105F /* CoreMotion.framework in Frameworks */,
@@ -2579,7 +2583,6 @@
 				7058216D1DB9F80800CFE6DD /* AMapSearchKit.framework in Frameworks */,
 				708235BB1CA2421B00658531 /* libstdc++.tbd in Frameworks */,
 				708235B91CA2420A00658531 /* libsqlite3.tbd in Frameworks */,
-				708235B71CA241F800658531 /* libiconv.tbd in Frameworks */,
 				70490DEA1CA23B180093D5DA /* MediaPlayer.framework in Frameworks */,
 				70490DE81CA23B0E0093D5DA /* AVFoundation.framework in Frameworks */,
 				70490DE61CA23B090093D5DA /* Foundation.framework in Frameworks */,
@@ -8878,6 +8881,7 @@
 		80F0598F1E5C47E3002B105F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				70BBB369204827E9008A1584 /* libresolv.tbd */,
 				706CD7AD1F56928900936870 /* StoreKit.framework */,
 				80F059901E5C47E3002B105F /* CoreMotion.framework */,
 			);

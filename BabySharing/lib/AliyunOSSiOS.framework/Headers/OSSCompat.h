@@ -13,13 +13,11 @@
 
 typedef OSSCancellationTokenSource OSSTaskHandler;
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface OSSClient (Compat)
 
 /**
- The old version's upload API.
- Please use putObject instead.
+ 兼容老版本用法的上传数据接口
+ 建议更换使用：putObject
  */
 - (OSSTaskHandler *)uploadData:(NSData *)data
                withContentType:(NSString *)contentType
@@ -30,8 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
                     onProgress:(void(^)(float progress))onProgress;
 
 /**
- The old version's download API.
- Please use getObject instead.
+ 兼容老版本用法的下载数据接口
+ 建议更换使用：getObject
  */
 - (OSSTaskHandler *)downloadToDataFromBucket:(NSString *)bucketName
                    objectKey:(NSString *)objectKey
@@ -39,8 +37,8 @@ NS_ASSUME_NONNULL_BEGIN
                   onProgress:(void(^)(float progress))onProgress;
 
 /**
- The old version's upload API.
- Please use putObject instead.
+ 兼容老版本用法的上传文件接口
+ 建议更换使用：putObject
  */
 - (OSSTaskHandler *)uploadFile:(NSString *)filePath
                 withContentType:(NSString *)contentType
@@ -51,8 +49,8 @@ NS_ASSUME_NONNULL_BEGIN
                      onProgress:(void(^)(float progress))onProgress;
 
 /**
- The old version's download API.
- Please use getObject instead.
+ 兼容老版本用法的下载文件接口
+ 建议更换使用：getObject
  */
 - (OSSTaskHandler *)downloadToFileFromBucket:(NSString *)bucketName
                   objectKey:(NSString *)objectKey
@@ -62,8 +60,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
- The old version's upload API with resumable upload support.
- Please use resumableUpload instead.
+ 兼容老版本用法的断点上传文件接口
+ 建议更换使用：resumableUpload
  */
 - (OSSTaskHandler *)resumableUploadFile:(NSString *)filePath
           withContentType:(NSString *)contentType
@@ -74,12 +72,10 @@ NS_ASSUME_NONNULL_BEGIN
                onProgress:(void(^)(float progress))onProgress;
 
 /**
- The old version's delete API.
- Please use deleteObject instead.
+ 兼容老版本用法的删除Object接口
+ 建议更换使用：deleteObject
  */
 - (void)deleteObjectInBucket:(NSString *)bucketName
                    objectKey:(NSString *)objectKey
                  onCompleted:(void(^)(BOOL, NSError *))onCompleted;
 @end
-
-NS_ASSUME_NONNULL_END

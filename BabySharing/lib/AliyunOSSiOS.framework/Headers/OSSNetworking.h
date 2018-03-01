@@ -14,7 +14,7 @@
 @class OSSExecutor;
 
 /**
- Retry type definition
+ 定义重试类型
  */
 typedef NS_ENUM(NSInteger, OSSNetworkingRetryType) {
     OSSNetworkingRetryTypeUnknown,
@@ -25,7 +25,7 @@ typedef NS_ENUM(NSInteger, OSSNetworkingRetryType) {
 };
 
 /**
- The retry handler interface
+ 重试处理器
  */
 @interface OSSURLRequestRetryHandler : NSObject
 @property (nonatomic, assign) uint32_t maxRetryCount;
@@ -42,7 +42,7 @@ typedef NS_ENUM(NSInteger, OSSNetworkingRetryType) {
 @end
 
 /**
- Network parameters
+ 网络参数设置
  */
 @interface OSSNetworkingConfiguration : NSObject
 @property (nonatomic, assign) uint32_t maxRetryCount;
@@ -56,7 +56,7 @@ typedef NS_ENUM(NSInteger, OSSNetworkingRetryType) {
 @end
 
 /**
- The proxy object class for each OSS request.
+ 对操作发起的每一次请求构造一个信息代理
  */
 @interface OSSNetworkingRequestDelegate : NSObject
 
@@ -88,25 +88,8 @@ typedef NS_ENUM(NSInteger, OSSNetworkingRetryType) {
 
 @property (nonatomic, copy) OSSNetworkingUploadProgressBlock uploadProgress;
 @property (nonatomic, copy) OSSNetworkingDownloadProgressBlock downloadProgress;
-@property (nonatomic, copy) OSSNetworkingRetryBlock retryCallback;
 @property (nonatomic, copy) OSSNetworkingCompletionHandlerBlock completionHandler;
 @property (nonatomic, copy) OSSNetworkingOnRecieveDataBlock onRecieveData;
-
-/**
- * when put object to server,client caculate crc64 code and assigns it to
- * this property.
- */
-@property (nonatomic, copy) NSString *contentCRC;
-
-/** last crc64 code */
-@property (nonatomic, copy) NSString *lastCRC;
-
-/**
- * determine whether to verify crc64 code
- */
-@property (nonatomic, assign) BOOL crc64Verifiable;
-
-
 
 - (OSSTask *)buildInternalHttpRequest;
 - (void)reset;
@@ -114,7 +97,7 @@ typedef NS_ENUM(NSInteger, OSSNetworkingRetryType) {
 @end
 
 /**
- All necessary information in one OSS request.
+ 包含一次网络请求所需的所有信息
  */
 @interface OSSAllRequestNeededMessage : NSObject
 @property (nonatomic, strong) NSString * endpoint;
@@ -127,7 +110,6 @@ typedef NS_ENUM(NSInteger, OSSNetworkingRetryType) {
 @property (nonatomic, strong) NSString * date;
 @property (nonatomic, strong) NSMutableDictionary * headerParams;
 @property (nonatomic, strong) NSMutableDictionary * querys;
-@property (nonatomic, copy) NSString *contentSHA1;
 
 @property (nonatomic, assign) BOOL isHostInCnameExcludeList;
 
@@ -140,27 +122,15 @@ typedef NS_ENUM(NSInteger, OSSNetworkingRetryType) {
                            range:(NSString *)range
                             date:(NSString *)date
                     headerParams:(NSMutableDictionary *)headerParams
-                          querys:(NSMutableDictionary *)querys __attribute__((deprecated("Use -initWithEndpoint:httpMethod:bucketName:objectKey:type:md5:range:date:headerParams:querys:sha1: instead")));
-
-- (instancetype)initWithEndpoint:(NSString *)endpoint
-                      httpMethod:(NSString *)httpMethod
-                      bucketName:(NSString *)bucketName
-                       objectKey:(NSString *)objectKey
-                            type:(NSString *)contentType
-                             md5:(NSString *)contentMd5
-                           range:(NSString *)range
-                            date:(NSString *)date
-                    headerParams:(NSMutableDictionary *)headerParams
-                          querys:(NSMutableDictionary *)querys
-                            sha1:(NSString *)contentSHA1;
+                          querys:(NSMutableDictionary *)querys;
 
 - (OSSTask *)validateRequestParamsInOperationType:(OSSOperationType)operType;
 @end
 
 /**
- The network interface which OSSClient uses for network read and write operations.
+ 每个OSSClient持有一个OSSNetworking用以收发网络请求
  */
-@interface OSSNetworking : NSObject <NSURLSessionDelegate, NSURLSessionDataDelegate>
+@interface OSSNetworking : NSObject <NSURLSessionDelegate>
 @property (nonatomic, strong) NSURLSession * dataSession;
 @property (nonatomic, strong) NSURLSession * uploadFileSession;
 @property (nonatomic, assign) BOOL isUsingBackgroundSession;
