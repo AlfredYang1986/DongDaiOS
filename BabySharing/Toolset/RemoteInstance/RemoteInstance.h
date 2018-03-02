@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "AYFacadeBase.h"
 
 @interface RemoteInstance : NSObject
 //+ (BOOL)downloadDataPackageToPath:(NSString*)path;

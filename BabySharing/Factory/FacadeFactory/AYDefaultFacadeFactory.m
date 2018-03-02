@@ -38,6 +38,8 @@
         
         NSDictionary* cmds = [_para objectForKey:@"commands"];
         result.commands = cmds;
+		
+		[facade postPerform];
     }
     
     return facade;

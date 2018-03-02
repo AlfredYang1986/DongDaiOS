@@ -189,6 +189,8 @@
 	
     <command type="Remote" name="PostPhotos" factory="AYDefaultModuleFactory" />
     <command type="Remote" name="PostMovie" factory="AYDefaultModuleFactory" />
+	
+	<command type="Remote" name="OSSSTSQuery"			route="al/oss/gst" factory="AYRemoteCallFactory" />
     
     <command type="Remote" name="LandingReqConfirmCode" route="al/code/send" factory="AYRemoteCallFactory" />
 	<command type="Remote" name="AuthPhoneCode"			route="al/auth/code" factory="AYRemoteCallFactory" />

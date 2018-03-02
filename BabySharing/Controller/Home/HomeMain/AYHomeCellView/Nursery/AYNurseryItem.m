@@ -100,18 +100,23 @@
 - (void)setItemInfo:(NSDictionary *)itemInfo {
 	_itemInfo = itemInfo;
 	
-//	id<AYFacadeBase> oss_f = DEFAULTFACADE(@"ProfileRemote");
-//	id<AYCommand> cmd_oss_get = [oss_f.commands objectForKey:@"OSSGet"];
-//	[cmd_oss_get performWithResult:nil];
-	
 	NSString *photoName = [_itemInfo objectForKey:kAYServiceArgsImage];
 	if (photoName) {
+		
+		NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+		[dic setValue:photoName forKey:@"key"];
+		[dic setValue:_coverImage forKey:@"imageView"];
+		id tmp = [dic copy];
+		id<AYFacadeBase> oss_f = DEFAULTFACADE(@"AliyunOSS");
+		id<AYCommand> cmd_oss_get = [oss_f.commands objectForKey:@"OSSGet"];
+		[cmd_oss_get performWithResult:&tmp];
+		
 //		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
 //		AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
 //		NSString *prefix = cmd.route;
 		
-		NSString *prefix = @"http://blackmirror.oss-cn-beijing.aliyuncs.com/upload/";
-		[_coverImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", prefix, photoName]] placeholderImage:IMGRESOURCE(@"default_image")];
+//		NSString *prefix = @"http://blackmirror.oss-cn-beijing.aliyuncs.com/upload/";
+//		[_coverImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", prefix, photoName]] placeholderImage:IMGRESOURCE(@"default_image")];
 	}
 	
 	_likeBtn.selected = [[_itemInfo objectForKey:kAYServiceArgsIsCollect] boolValue];

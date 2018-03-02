@@ -93,10 +93,18 @@ typedef void(^queryContentFinish)(void);
 			CURRENPROFILE(user_info)
 			NSString* photo_name = [user_info objectForKey:kAYProfileArgsScreenPhoto];
 			if (photo_name) {
-				id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-				AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-				NSString *prefix = cmd.route;
-				[profilePhoto sd_setImageWithURL:[NSURL URLWithString:[prefix stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"default_user")];
+				NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+				[dic setValue:photo_name forKey:@"key"];
+				[dic setValue:profilePhoto forKey:@"imageView"];
+				id brige = [dic copy];
+				id<AYFacadeBase> oss_f = DEFAULTFACADE(@"AliyunOSS");
+				id<AYCommand> cmd_oss_get = [oss_f.commands objectForKey:@"OSSGet"];
+				[cmd_oss_get performWithResult:&brige];
+				
+//				id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+//				AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+//				NSString *prefix = cmd.route;
+//				[profilePhoto sd_setImageWithURL:[NSURL URLWithString:[prefix stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"default_user")];
 			}
 		}
 		
@@ -122,16 +130,32 @@ typedef void(^queryContentFinish)(void);
 	CURRENPROFILE(user_info)
 	NSString* photo_name = [user_info objectForKey:@"screen_photo"];
 	
+//	NSDictionary *oss_dic = @{kAYCommArgsToken:[user_info objectForKey:kAYCommArgsToken]};
+//	id<AYFacadeBase> oss_f = DEFAULTFACADE(@"OSSSTSRemote");
+//	AYRemoteCallCommand* oss_cmd = [oss_f.commands objectForKey:@"OSSSTSQuery"];
+//	[oss_cmd performWithResult:[oss_dic copy] andFinishBlack:^(BOOL success, NSDictionary* result) {
+//		NSLog(@"michauxs:%@", result);
+//	}];
+	
 	CGFloat photoWidth = 36;
 	profilePhoto = [[UIImageView alloc] initWithFrame:CGRectMake(SCREEN_MARGIN_LR, (kHOMENAVHEIGHT-photoWidth)*0.5+kStatusBarH, photoWidth, photoWidth)];
 	profilePhoto.image = IMGRESOURCE(@"default_user");
 	[profilePhoto setRadius:photoWidth*0.5 borderWidth:0 borderColor:nil background:nil];
 	[HomeHeadView addSubview:profilePhoto];
 	if (photo_name) {
-		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-		AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-		NSString *prefix = cmd.route;
-		[profilePhoto sd_setImageWithURL:[NSURL URLWithString:[prefix stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"default_user")];
+		
+		NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+		[dic setValue:photo_name forKey:@"key"];
+		[dic setValue:profilePhoto forKey:@"imageView"];
+		id brige = [dic copy];
+		id<AYFacadeBase> oss_f = DEFAULTFACADE(@"AliyunOSS");
+		id<AYCommand> cmd_oss_get = [oss_f.commands objectForKey:@"OSSGet"];
+		[cmd_oss_get performWithResult:&brige];
+		
+//		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+//		AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+//		NSString *prefix = cmd.route;
+//		[profilePhoto sd_setImageWithURL:[NSURL URLWithString:[prefix stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"default_user")];
 	}
 	profilePhoto.userInteractionEnabled = YES;
 	[profilePhoto addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(profilePhotoTap)]];

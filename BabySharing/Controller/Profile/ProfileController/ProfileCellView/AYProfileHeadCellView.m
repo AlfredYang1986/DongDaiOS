@@ -124,11 +124,25 @@
 -(id)setCellInfo:(NSDictionary*)args{
 	
 	NSString *screen_photo = [args objectForKey:kAYProfileArgsScreenPhoto];
-	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-	NSString *prefix = cmd.route;
-	[user_screen sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", prefix, screen_photo]] placeholderImage:IMGRESOURCE(@"default_user")];
-    
+	
+	NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+	[dic setValue:screen_photo forKey:@"key"];
+	id tmp = [dic copy];
+	id<AYFacadeBase> oss_f = DEFAULTFACADE(@"AliyunOSS");
+	id<AYCommand> cmd_oss_get = [oss_f.commands objectForKey:@"OSSGet"];
+	[cmd_oss_get performWithResult:&tmp];
+	
+	if (tmp) {
+		user_screen.image = tmp;
+	} else {
+		
+	}
+	
+//	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+//	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+//	NSString *prefix = cmd.route;
+//	[user_screen sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", prefix, screen_photo]] placeholderImage:IMGRESOURCE(@"default_user")];
+	
     NSString *name = [args objectForKey:@"screen_name"];
     if (name && ![name isEqualToString:@""]) {
         user_name.text = name;

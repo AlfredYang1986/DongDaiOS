@@ -170,13 +170,25 @@
 	
 	personal_info = user_info;
 	
-	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-	AYRemoteCallCommand* cmd_load = [f.commands objectForKey:@"DownloadUserFiles"];
-	NSString *pre = cmd_load.route;
 	NSString* photo_name = [personal_info objectForKey:@"screen_photo"];
-	if (photo_name) {
-		[coverImg sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"profile_defaultavatar")];
+	
+	NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+	[dic setValue:photo_name forKey:@"key"];
+	id brige = [dic copy];
+	id<AYFacadeBase> oss_f = DEFAULTFACADE(@"AliyunOSS");
+	id<AYCommand> cmd_oss_get = [oss_f.commands objectForKey:@"OSSGet"];
+	[cmd_oss_get performWithResult:&brige];
+	
+	if (brige) {
+		coverImg.image = brige;
 	}
+	
+//	if (photo_name) {
+//		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+//		AYRemoteCallCommand* cmd_load = [f.commands objectForKey:@"DownloadUserFiles"];
+//		NSString *pre = cmd_load.route;
+//		[coverImg sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"profile_defaultavatar")];
+//	}
 	
 	NSDictionary *tmp = [personal_info copy];
 	kAYDelegatesSendMessage(@"PersonalInfo", @"changeQueryData:", &tmp)

@@ -151,6 +151,7 @@
         <command type="Remote" name="UploadFile" />
         <command type="Remote" name="DownloadUserFiles" />
         <command type="Remote" name="DownloadMovieFiles" />
+<!--		<command type="Remote" name="DownloadImage" />-->
     </facade>
 	
 	<facade type="DefaultFacade" name="SendRemote" factory="AYDefaultFacadeFactory" >
@@ -272,6 +273,10 @@
 		<command type="Remote" name="ChoicePush" />
 		<command type="Remote" name="ChoicePop" />
 		<command type="Remote" name="ChoiceMapSearch" />
+	</facade>
+	
+	<facade type="DefaultFacade" name="OSSSTSRemote" factory="AYDefaultFacadeFactory" >
+		<command type="Remote" name="OSSSTSQuery" />
 	</facade>
 	
 	<facade type="DefaultFacade" name="AliyunOSS" factory="AYDefaultFacadeFactory" >

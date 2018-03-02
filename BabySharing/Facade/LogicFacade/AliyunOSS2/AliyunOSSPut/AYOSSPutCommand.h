@@ -1,5 +1,5 @@
 //
-//  AYOSSGetCommand.h
+//  AYOSSPutCommand.h
 //  BabySharing
 //
 //  Created by Alfred Yang on 28/2/18.
@@ -7,8 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AYCommand.h"
 
-@interface AYOSSGetCommand : NSObject 
+#import "AYAliyunOSSFacade.h"
 
+@interface AYOSSPutCommand : NSObject <AYCommand>
 
 @end

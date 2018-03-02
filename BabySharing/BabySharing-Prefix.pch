@@ -30,7 +30,7 @@ static NSString* const kAYNetworkSlowTip =				@"网络不通畅，换个地方�
 
 static NSString* const kAYDongDaAppMode =				@"dongda_app_mode";
 static NSString* const kAYDongDaAppVersion =			@"dongda_app_version";
-
+static NSString* const kAYDongDaOSSSTSTokenAuth =		@"dongda_app_aliyunosssts_token_auth";
 
 // 判断是否是iPhone X
 #define iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
