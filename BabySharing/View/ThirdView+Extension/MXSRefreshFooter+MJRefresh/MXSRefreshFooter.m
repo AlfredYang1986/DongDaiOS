@@ -146,9 +146,10 @@
 	}
 }
 
+@synthesize state = _state;
 - (void)setState:(MJRefreshState)state {
 	
-	MJRefreshState oldState = self.state;
+	MJRefreshState oldState = _state;
 	if (state == oldState) return;
 	
 	if (oldState == MJRefreshStateNoMoreData) {
@@ -156,8 +157,11 @@
 			return;
 		}
 	}
-	
-	[super setState:state];
+	_state = state;
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self setNeedsLayout];
+	});
+//	[super setState:state];
 	
 //	MJRefreshCheckState
 	

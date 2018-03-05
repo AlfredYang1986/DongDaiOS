@@ -180,12 +180,21 @@
 	
 	NSString* photo_name = [_service_info objectForKey:kAYServiceArgsImage];
 	if (photo_name) {
-		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-		AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-		NSString *prefix = cmd.route;
 		
-		NSString *urlStr = [NSString stringWithFormat:@"%@%@", prefix, photo_name];
-		[coverImage sd_setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:IMGRESOURCE(@"default_image") /*options:SDWebImageRefreshCached*/];
+		NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+		[dic setValue:photo_name forKey:@"key"];
+		[dic setValue:coverImage forKey:@"imageView"];
+		id tmp = [dic copy];
+		id<AYFacadeBase> oss_f = DEFAULTFACADE(@"AliyunOSS");
+		id<AYCommand> cmd_oss_get = [oss_f.commands objectForKey:@"OSSGet"];
+		[cmd_oss_get performWithResult:&tmp];
+		
+//		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+//		AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+//		NSString *prefix = cmd.route;
+//
+//		NSString *urlStr = [NSString stringWithFormat:@"%@%@", prefix, photo_name];
+//		[coverImage sd_setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:IMGRESOURCE(@"default_image") /*options:SDWebImageRefreshCached*/];
 	}
 	
 	NSString *type = [_service_info objectForKey:kAYServiceArgsType];

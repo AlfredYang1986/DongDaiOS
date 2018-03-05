@@ -49,7 +49,7 @@
 		make.left.equalTo(self).offset(0);
 		make.right.equalTo(self);
 		make.top.equalTo(self);
-		make.height.mas_equalTo(104);
+		make.height.mas_equalTo(100);
 	}];
 	
 	_likeBtn  = [[UIButton alloc] init];
@@ -97,10 +97,18 @@
 	
 	NSString *photoName = [_itemInfo objectForKey:kAYServiceArgsImage];
 	if (photoName) {
-		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-		AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-		NSString *prefix = cmd.route;
-		[_coverImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", prefix, photoName]] placeholderImage:IMGRESOURCE(@"default_image")];
+		NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+		[dic setValue:photoName forKey:@"key"];
+		[dic setValue:_coverImage forKey:@"imageView"];
+		id tmp = [dic copy];
+		id<AYFacadeBase> oss_f = DEFAULTFACADE(@"AliyunOSS");
+		id<AYCommand> cmd_oss_get = [oss_f.commands objectForKey:@"OSSGet"];
+		[cmd_oss_get performWithResult:&tmp];
+		
+//		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+//		AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+//		NSString *prefix = cmd.route;
+//		[_coverImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", prefix, photoName]] placeholderImage:IMGRESOURCE(@"default_image")];
 	}
 	
 	_likeBtn.selected = [[_itemInfo objectForKey:kAYServiceArgsIsCollect] boolValue];

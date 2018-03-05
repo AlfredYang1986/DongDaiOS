@@ -47,7 +47,7 @@
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		
 		BGImgView = [[UIImageView alloc] init];
-		[BGImgView setImgContentMode];
+		[BGImgView setImageViewContentMode];
 		[self addSubview:BGImgView];
 		[BGImgView mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(self);

@@ -171,17 +171,27 @@
 	personal_info = user_info;
 	
 	NSString* photo_name = [personal_info objectForKey:@"screen_photo"];
-	
-	NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-	[dic setValue:photo_name forKey:@"key"];
-	id brige = [dic copy];
-	id<AYFacadeBase> oss_f = DEFAULTFACADE(@"AliyunOSS");
-	id<AYCommand> cmd_oss_get = [oss_f.commands objectForKey:@"OSSGet"];
-	[cmd_oss_get performWithResult:&brige];
-	
-	if (brige) {
-		coverImg.image = brige;
+	if (photo_name) {
+		
+		NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+		[dic setValue:photo_name forKey:@"key"];
+		[dic setValue:coverImg forKey:@"imageView"];
+		id tmp = [dic copy];
+		id<AYFacadeBase> oss_f = DEFAULTFACADE(@"AliyunOSS");
+		id<AYCommand> cmd_oss_get = [oss_f.commands objectForKey:@"OSSGet"];
+		[cmd_oss_get performWithResult:&tmp];
 	}
+	
+//	NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+//	[dic setValue:photo_name forKey:@"key"];
+//	id brige = [dic copy];
+//	id<AYFacadeBase> oss_f = DEFAULTFACADE(@"AliyunOSS");
+//	id<AYCommand> cmd_oss_get = [oss_f.commands objectForKey:@"OSSGet"];
+//	[cmd_oss_get performWithResult:&brige];
+//
+//	if (brige) {
+//		coverImg.image = brige;
+//	}
 	
 //	if (photo_name) {
 //		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");

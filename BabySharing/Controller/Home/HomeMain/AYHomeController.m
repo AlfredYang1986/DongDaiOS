@@ -141,6 +141,7 @@ typedef void(^queryContentFinish)(void);
 	profilePhoto = [[UIImageView alloc] initWithFrame:CGRectMake(SCREEN_MARGIN_LR, (kHOMENAVHEIGHT-photoWidth)*0.5+kStatusBarH, photoWidth, photoWidth)];
 	profilePhoto.image = IMGRESOURCE(@"default_user");
 	[profilePhoto setRadius:photoWidth*0.5 borderWidth:0 borderColor:nil background:nil];
+	[profilePhoto setImageViewContentMode];
 	[HomeHeadView addSubview:profilePhoto];
 	if (photo_name) {
 		

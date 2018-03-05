@@ -46,18 +46,22 @@
 
 - (void)setItemImageWithImageName:(NSString *)imageName {
 	
-//	[[SDWebImageDownloader sharedDownloader] downloadImageWithURL:[NSURL URLWithString:imageName] options:SDWebImageDownloaderLowPriority progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-//		
-//	} completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-//		if (!error) {
-//			imageView.image = image;
-//		}
-//	}];
+	if (imageName) {
+		
+		NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+		[dic setValue:imageName forKey:@"key"];
+		[dic setValue:imageView forKey:@"imageView"];
+		id tmp = [dic copy];
+		id<AYFacadeBase> oss_f = DEFAULTFACADE(@"AliyunOSS");
+		id<AYCommand> cmd_oss_get = [oss_f.commands objectForKey:@"OSSGet"];
+		[cmd_oss_get performWithResult:&tmp];
+		
+//		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+//		AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+//		NSString *prefix = cmd.route;
+//		[imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", prefix, imageName]] placeholderImage:IMGRESOURCE(@"default_image") options:SDWebImageLowPriority];
+	}
 	
-	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-	NSString *prefix = cmd.route;
-	[imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", prefix, imageName]] placeholderImage:IMGRESOURCE(@"default_image") options:SDWebImageLowPriority];
 }
 
 - (void)setItemImageWithImage:(UIImage *)image {

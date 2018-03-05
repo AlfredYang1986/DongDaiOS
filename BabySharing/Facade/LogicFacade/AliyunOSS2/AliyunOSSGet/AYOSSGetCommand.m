@@ -17,7 +17,10 @@
 	
 	NSDictionary *args = (NSDictionary*)*obj;
 	NSString *img_name = [args objectForKey:@"key"];
-	UIImageView *imageView = [args objectForKey:@"iamgeView"];
+	UIImageView *imageView = [args objectForKey:@"imageView"];
+	
+	//imageView holdImage
+	imageView.image = IMGRESOURCE(@"default_image");
 	
 	UIImage *cacheImg = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:img_name];
 	if (cacheImg) {
@@ -41,6 +44,9 @@
 
 	AYAliyunOSSFacade *ossFacade = DEFAULTFACADE(@"AliyunOSS");
 	OSSTask * getTask = [ossFacade.client getObject:request];
+	if (!getTask) {
+		getTask = [ossFacade.client getObject:request];
+	}
 	[getTask continueWithBlock:^id(OSSTask *task) {
 		if (!task.error) {
 			NSLog(@"download object success!");
@@ -48,7 +54,6 @@
 			NSLog(@"download result: %@", getResult.downloadedData);
 			UIImage *getImg = [UIImage imageWithData:getResult.downloadedData];
 			dispatch_async(dispatch_get_main_queue(), ^{
-				
 				imageView.image = getImg;
 			});
 			
@@ -56,7 +61,7 @@
 			
 		} else {
 			NSLog(@"download object failed, error: %@" ,task.error);
-			imageView.image = IMGRESOURCE(@"default_image");
+//			imageView.image = IMGRESOURCE(@"default_image");
 		}
 		return nil;
 	}];

@@ -124,7 +124,7 @@
 	
 	servCollectionView.mj_header = [MXSRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
 	servCollectionView.mj_footer = [MXSRefreshFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-	
+//	servCollectionView.mj_footer = [MXSRefreshFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
 	[self loadNewData];
 }
 
@@ -145,6 +145,11 @@
 			remoteDataArr = [tmp mutableCopy];
 			skipedCount = remoteDataArr.count;
 			[servCollectionView reloadData];
+			
+			if (servCollectionView.mj_footer.state == MJRefreshStateNoMoreData) {
+				servCollectionView.mj_footer.state = MJRefreshStateResetIdle;
+			}
+			
 		} else {
 			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
 		}
