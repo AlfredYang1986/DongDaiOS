@@ -127,6 +127,8 @@
 	
 	NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
 	[dic setValue:screen_photo forKey:@"key"];
+	[dic setValue:user_screen forKey:@"imageView"];
+	[dic setValue:@228 forKey:@"wh"];
 	id tmp = [dic copy];
 	id<AYFacadeBase> oss_f = DEFAULTFACADE(@"AliyunOSS");
 	id<AYCommand> cmd_oss_get = [oss_f.commands objectForKey:@"OSSGet"];

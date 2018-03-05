@@ -22,8 +22,9 @@
 	
 	OSSPutObjectRequest * put = [OSSPutObjectRequest new];
 	// 必填字段
-	put.bucketName = @"blackmirror";
-	put.objectKey = [OSSFilePathPrefix stringByAppendingString:img_name];
+	put.bucketName = AYOSSBucketName;
+//	put.objectKey = [OSSFilePathPrefix stringByAppendingString:img_name];
+	put.objectKey = [img_name stringByAppendingString:OSSFileSurfix];
 //	put.uploadingFileURL = [NSURL fileURLWithPath:@"<filepath>"];
 	put.uploadingData = img_data; // 直接上传NSData UIImagePNGRepresentation(img)
 	// 可选字段，可不设置
