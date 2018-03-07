@@ -53,16 +53,26 @@
 }
 
 - (id)changeScreenPhoto:(id)obj {
-	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-	NSString *prefix = cmd.route;
     if ([obj isKindOfClass:[UIImage class]]) {
         UIImage* img = (UIImage*)obj;
         self.image = img;
     } else if ([obj isKindOfClass:[NSString class]]) {
         NSString* photo_name = (NSString*)obj;
-        [self sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", prefix, photo_name]]
-                placeholderImage:IMGRESOURCE(@"default_user")];
+		
+		NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+		[dic setValue:photo_name forKey:@"key"];
+		[dic setValue:self forKey:@"imageView"];
+		[dic setValue:@228 forKey:@"wh"];
+		id brige = [dic copy];
+		id<AYFacadeBase> oss_f = DEFAULTFACADE(@"AliyunOSS");
+		id<AYCommand> cmd_oss_get = [oss_f.commands objectForKey:@"OSSGet"];
+		[cmd_oss_get performWithResult:&brige];
+		
+//		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+//		AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+//		NSString *prefix = cmd.route;
+//        [self sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", prefix, photo_name]]
+//                placeholderImage:IMGRESOURCE(@"default_user")];
 	} else {
 		self.image = IMGRESOURCE(@"default_user");
 	}

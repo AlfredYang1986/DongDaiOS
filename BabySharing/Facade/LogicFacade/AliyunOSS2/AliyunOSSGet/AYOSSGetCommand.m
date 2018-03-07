@@ -56,7 +56,7 @@
 		if (!task.error) {
 			NSLog(@"download object success!");
 			OSSGetObjectResult * getResult = task.result;
-			NSLog(@"download result: %@", getResult.downloadedData);
+//			NSLog(@"download result: %@", getResult.downloadedData);
 			UIImage *getImg = [UIImage imageWithData:getResult.downloadedData];
 			dispatch_async(dispatch_get_main_queue(), ^{
 				imageView.image = getImg;

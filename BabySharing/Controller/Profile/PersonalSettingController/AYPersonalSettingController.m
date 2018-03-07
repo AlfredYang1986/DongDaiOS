@@ -89,12 +89,25 @@ static NSString* const descInitStr =			@"一句话很短，高调的夸一夸自
         make.size.mas_equalTo(CGSizeMake(69, 69));
     }];
     [cameraBtn addTarget:self action:@selector(didSelfPhotoClick) forControlEvents:UIControlEventTouchUpInside];
-    
-    
-    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-    NSString *pre = cmd.route;
-    [user_photo sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:[profile_dic objectForKey:@"screen_photo"]]] placeholderImage:IMGRESOURCE(@"profile_defaultavatar")];
+	
+	NSString* photo_name = [profile_dic objectForKey:@"screen_photo"];
+	if (photo_name) {
+		
+		NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+		[dic setValue:photo_name forKey:@"key"];
+		[dic setValue:user_photo forKey:@"imageView"];
+		[dic setValue:@750 forKey:@"wh"];
+		id brige = [dic copy];
+		id<AYFacadeBase> oss_f = DEFAULTFACADE(@"AliyunOSS");
+		id<AYCommand> cmd_oss_get = [oss_f.commands objectForKey:@"OSSGet"];
+		[cmd_oss_get performWithResult:&brige];
+		
+//		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+//		AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+//		NSString *pre = cmd.route;
+//		[user_photo sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"profile_defaultavatar")];
+	}
+	
     UILabel *nameLabel = [Tools creatLabelWithText:@"昵称" textColor:[UIColor gary] fontSize:315 backgroundColor:nil textAlignment:NSTextAlignmentLeft];
     [mainView addSubview:nameLabel];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
