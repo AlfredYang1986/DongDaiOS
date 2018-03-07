@@ -134,7 +134,7 @@ static NSString* const kAYEMAppKey = @"blackmirror#dongda";
     //        application.applicationIconBadgeNumber = 0;
     //    }
     //注册远程通知
-    [application registerForRemoteNotifications];
+//    [application registerForRemoteNotifications];
 }
 
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken {
