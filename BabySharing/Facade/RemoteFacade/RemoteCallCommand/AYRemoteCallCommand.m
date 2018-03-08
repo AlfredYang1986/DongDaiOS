@@ -101,7 +101,7 @@
     
     [self beforeAsyncCall];
     
-    dispatch_queue_t rq = dispatch_queue_create("remote call", nil);
+    dispatch_queue_t rq = dispatch_queue_create("remote call", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(rq, ^{
         NSError * error = nil;
         NSData* jsonData =[NSJSONSerialization dataWithJSONObject:args options:NSJSONWritingPrettyPrinted error:&error];
@@ -127,15 +127,6 @@
 					AYShowBtmAlertView(tip, BtmAlertViewTypeHideWithTimer)
 				} else
 					block(NO, reError);
-				
-//				if ([[reError objectForKey:@"message"] isEqualToString:@"token过期"]) {
-//					AYFacade* f_login = LOGINMODEL;
-//					id<AYCommand> cmd_sign_out_local = [f_login.commands objectForKey:@"SignOutLocal"];
-//					[cmd_sign_out_local performWithResult:nil];
-//
-//					NSString *tip = @"当前用户登录实效已过期，请重新登录";
-//					AYShowBtmAlertView(tip, BtmAlertViewTypeHideWithTimer)
-//				}
             }
            
             [self endAsyncCall];
@@ -165,9 +156,6 @@
     id<AYFacadeBase> f_comment = DEFAULTFACADE(@"OrderRemote");
     AYRemoteCallCommand* cmd_query = [f_comment.commands objectForKey:@"QueryComments"];
     NSString *query_comments = cmd_query.route;
-//    NSLog(@"%@",tmpRoute);
-//    NSLog(@"%@",load_route);
-//    NSLog(@"%@",profile_route);
     
     if ([tmpRoute isEqualToString:load_route] || [tmpRoute isEqualToString:profile_route] || [tmpRoute isEqualToString:query_comments]) {
         return YES;

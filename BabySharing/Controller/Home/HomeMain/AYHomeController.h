@@ -10,6 +10,7 @@
 #import "AYViewController.h"
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "AYRemoteCallManager.h"
 
 @interface AYHomeController : AYViewController <CLLocationManagerDelegate>
 @property (nonatomic, strong) CLLocationManager  *manager;

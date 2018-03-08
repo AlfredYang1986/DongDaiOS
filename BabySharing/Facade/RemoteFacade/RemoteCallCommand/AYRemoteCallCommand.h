@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "AYCommand.h"
 #import "AYCommandDefines.h"
-
 #import "AYFacade.h"
+//#import "AYRemoteCallManager.h"
 
 @interface AYRemoteCallCommand : NSObject <AYCommand>
 

@@ -174,7 +174,7 @@
 
 - (id)startRemoteCall:(id)obj {
     
-    time_count = 30;            //star a new remote, so reset time count to 120
+    time_count = 10;            //star a new remote, so reset minter to 10
     if (count_loading == 0) {
         timer_loding = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerRun) userInfo:nil repeats:YES];
         [timer_loding fire];

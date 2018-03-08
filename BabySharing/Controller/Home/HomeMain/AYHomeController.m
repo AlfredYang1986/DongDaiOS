@@ -394,14 +394,14 @@ typedef void(^queryContentFinish)(void);
 	
 	id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
 	AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"HomeQuery"];
-	[cmd_tags performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+	[[AYRemoteCallManager shared] performWithRemoteCmd:cmd_tags andArgs:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		
 		UITableView *view_table = [self.views objectForKey:@"Table"];
 		if (success) {
 			
-//			timeIntervalFound = ((NSNumber*)[[result objectForKey:@"result"] objectForKey:kAYCommArgsRemoteDate]).longValue * 0.001;
-//			serviceData = [[[result objectForKey:@"result"] objectForKey:@"services"] mutableCopy];
-//			skipCountFound = serviceData.count;			//刷新重置 计数为当前请求service数据个数
+			//			timeIntervalFound = ((NSNumber*)[[result objectForKey:@"result"] objectForKey:kAYCommArgsRemoteDate]).longValue * 0.001;
+			//			serviceData = [[[result objectForKey:@"result"] objectForKey:@"services"] mutableCopy];
+			//			skipCountFound = serviceData.count;			//刷新重置 计数为当前请求service数据个数
 			serviceData = [[result objectForKey:@"homepage_services"] mutableCopy];
 			id tmp = [serviceData copy];
 			kAYDelegatesSendMessage(@"Home", kAYDelegateChangeDataMessage, &tmp)
@@ -413,11 +413,14 @@ typedef void(^queryContentFinish)(void);
 				AYShowBtmAlertView(tip, BtmAlertViewTypeHideWithTimer)
 			} else
 				AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
-		}
+				}
 		
 		[view_table.mj_header endRefreshing];
-		
 	}];
+//	[cmd_tags performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+//
+//
+//	}];
 }
 
 #pragma mark -- notifies
