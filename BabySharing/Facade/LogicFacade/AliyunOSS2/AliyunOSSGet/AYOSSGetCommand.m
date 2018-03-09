@@ -49,9 +49,6 @@
 
 	AYAliyunOSSFacade *ossFacade = DEFAULTFACADE(@"AliyunOSS");
 	OSSTask * getTask = [ossFacade.client getObject:request];
-	if (!getTask) {
-		getTask = [ossFacade.client getObject:request];
-	}
 	[getTask continueWithBlock:^id(OSSTask *task) {
 		if (!task.error) {
 			NSLog(@"download object success!");

@@ -13,7 +13,6 @@
 #import "AYCommandDefines.h"
 #import "AYModel.h"
 #import "AYFactoryManager.h"
-#import "AYRemoteCallCommand.h"
 
 #define SCREEN_PHOTO_WIDTH						100
 #define WELCOMEY								83
@@ -150,7 +149,8 @@
 	
     id<AYFacadeBase> profileRemote = DEFAULTFACADE(@"ProfileRemote");
     AYRemoteCallCommand* cmd_profile = [profileRemote.commands objectForKey:@"UpdateUserDetail"];
-    [cmd_profile performWithResult:dic andFinishBlack:^(BOOL success, NSDictionary * result) {
+	[[AYRemoteCallManager shared] performWithRemoteCmd:cmd_profile andArgs:dic andFinishBlack:^(BOOL success, NSDictionary *result) {
+//    [cmd_profile performWithResult:dic andFinishBlack:^(BOOL success, NSDictionary * result) {
         NSLog(@"Update user detail remote result: %@", result);
         
         dispatch_async(dispatch_get_main_queue(), ^{

@@ -31,9 +31,9 @@
 	_remoteCount++;
 	if (_remoteCount < 6) {
 		[cmd performWithResult:args andFinishBlack:^(BOOL success, NSDictionary *result) {
-			block(success, result);
 			
 			dispatch_async(dispatch_get_main_queue(), ^{
+				block(success, result);
 				[self performNextCmd];
 			});
 		}];
@@ -56,9 +56,9 @@
 		[_remoteCmdArr removeObject:cmdArgs];
 		
 		[cmd performWithResult:args andFinishBlack:^(BOOL success, NSDictionary *result) {
-			block(success, result);
-			
 			dispatch_async(dispatch_get_main_queue(), ^{
+				block(success, result);
+			
 				[self performNextCmd];
 			});
 		}];

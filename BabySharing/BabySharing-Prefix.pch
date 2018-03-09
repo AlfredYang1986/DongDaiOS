@@ -18,6 +18,8 @@
 #import "AYCommandsCommand.h"
 #import "AYServiceArgsDefines.h"
 
+#import "AYRemoteCallManager.h"
+
 #import "UIView+RunTimeCmd.h"
 #import "UIColor+Custom.h"
 #import "UILabel+Factory.h"

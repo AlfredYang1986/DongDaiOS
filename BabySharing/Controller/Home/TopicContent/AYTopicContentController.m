@@ -126,7 +126,8 @@
 	
 	id<AYFacadeBase> f_choice = [self.facades objectForKey:@"ChoiceRemote"];
 	AYRemoteCallCommand *cmd_search = [f_choice.commands objectForKey:@"ChoiceSearch"];
-	[cmd_search performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+	[[AYRemoteCallManager shared] performWithRemoteCmd:cmd_search andArgs:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+//	[cmd_search performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		UITableView *tableView = [self.views objectForKey:kAYTableView];
 		if (success) {
 			remoteDataArr = [[result objectForKey:@"services"] mutableCopy];
@@ -153,7 +154,8 @@
 	
 	id<AYFacadeBase> f_choice = [self.facades objectForKey:@"ChoiceRemote"];
 	AYRemoteCallCommand *cmd_search = [f_choice.commands objectForKey:@"ChoiceSearch"];
-	[cmd_search performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+	[[AYRemoteCallManager shared] performWithRemoteCmd:cmd_search andArgs:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+//	[cmd_search performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		
 		UITableView *tableView = [self.views objectForKey:kAYTableView];
 		if (success) {

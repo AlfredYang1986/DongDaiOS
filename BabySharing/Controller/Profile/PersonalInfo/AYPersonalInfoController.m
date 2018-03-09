@@ -231,7 +231,8 @@
 		
 		id<AYFacadeBase> f_login_remote = [self.facades objectForKey:@"LandingRemote"];
 		AYRemoteCallCommand* cmd_sign_out = [f_login_remote.commands objectForKey:@"AuthSignOut"];
-		[cmd_sign_out performWithResult:current_login_user andFinishBlack:^(BOOL success, NSDictionary * result) {
+		[[AYRemoteCallManager shared] performWithRemoteCmd:cmd_sign_out andArgs:[current_login_user copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+//		[cmd_sign_out performWithResult:current_login_user andFinishBlack:^(BOOL success, NSDictionary * result) {
 			NSLog(@"login out %@", result);
 			
 //            AYFacade* f_em = [self.facades objectForKey:@"EM"];

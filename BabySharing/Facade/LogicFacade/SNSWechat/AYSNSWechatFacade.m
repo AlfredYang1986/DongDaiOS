@@ -12,7 +12,6 @@
 #import "AYFactoryManager.h"
 #import "AYNotifyDefines.h"
 #import "AYRemoteCallCommand.h"
-#import "Tools.h"
 #import "WeiboSDK.h"
 #import "AYModel.h"
 #import "RemoteInstance.h"
@@ -178,7 +177,8 @@ static NSString* const kWechatDescription = @"wechat";
 	
 	id<AYFacadeBase> landing_facade = DEFAULTFACADE(@"LandingRemote");
 	AYRemoteCallCommand* cmd_sns = [landing_facade.commands objectForKey:@"AuthWithSNS"];
-    [cmd_sns performWithResult:[dic_authsns copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+	[[AYRemoteCallManager shared] performWithRemoteCmd:cmd_sns andArgs:[dic_authsns copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+//    [cmd_sns performWithResult:[dic_authsns copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         NSLog(@"new user info %@", result);
 		if (success) {
 			
@@ -216,7 +216,8 @@ static NSString* const kWechatDescription = @"wechat";
 						
 						id<AYFacadeBase> profileRemote = DEFAULTFACADE(@"ProfileRemote");
 						AYRemoteCallCommand* cmd_profile = [profileRemote.commands objectForKey:@"UpdateUserDetail"];
-						[cmd_profile performWithResult:[dic_update copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+						[[AYRemoteCallManager shared] performWithRemoteCmd:cmd_profile andArgs:[dic_update copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+//						[cmd_profile performWithResult:[dic_update copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
 							if (success) {
 								[reVal setValue:screen_photo forKey:kAYProfileArgsScreenPhoto];
 								id tmp = [reVal copy];

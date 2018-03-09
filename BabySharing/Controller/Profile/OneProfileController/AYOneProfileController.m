@@ -210,7 +210,8 @@
         
         id<AYFacadeBase> expose_remote = [self.facades objectForKey:@"ExposeRemote"];
         AYRemoteCallCommand* cmd = [expose_remote.commands objectForKey:@"ExposeUser"];
-        [cmd performWithResult:expose andFinishBlack:^(BOOL success, NSDictionary * result) {
+		[[AYRemoteCallManager shared] performWithRemoteCmd:cmd andArgs:[expose copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+//        [cmd performWithResult:expose andFinishBlack:^(BOOL success, NSDictionary * result) {
             if (success) {
 				NSString *title = @"我们将尽快审查您举报的用户！\n感谢您的监督和支持！";
 				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)

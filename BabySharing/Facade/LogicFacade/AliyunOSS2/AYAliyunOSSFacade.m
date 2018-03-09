@@ -29,12 +29,13 @@
 }
 
 - (OSSClient*)client {
-	__block BOOL isWaiting = YES;
 	
-	dispatch_async(queueSerial, ^{
-//	dispatch_sync(dispatch_get_global_queue(0, 0), ^{
+//	dispatch_async(queueSerial, ^{
+	dispatch_sync(dispatch_get_global_queue(0, 0), ^{
+		__block BOOL isWaiting = NO;
 		
 		if (!_client) {
+			isWaiting = YES;
 			NSDictionary *user;
 			CURRENUSER(user);
 			NSDictionary *oss_dic = @{kAYCommArgsToken:[user objectForKey:kAYCommArgsToken]};
@@ -63,6 +64,7 @@
 			NSTimeInterval note = [[defUser objectForKey:kAYDongDaOSSSTSTokenAuth] doubleValue];
 			NSTimeInterval now = [NSDate date].timeIntervalSince1970;
 			if (note+3600 <= now) {
+				isWaiting = YES;
 				NSDictionary *user;
 				CURRENUSER(user);
 				NSDictionary *oss_dic = @{kAYCommArgsToken:[user objectForKey:kAYCommArgsToken]};
@@ -95,54 +97,14 @@
 //		dispatch_async(dispatch_get_global_queue(0, 0), ^{
 //
 //		});
+		
+		while (isWaiting) {
+			[[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+		}
 	});
 	
-	while (isWaiting) {
-		[[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
-	}
-	
 	return _client;
 }
 
-
-- (OSSClient*)getClient {
-	
-	NSUserDefaults *defUser = [NSUserDefaults standardUserDefaults];
-	NSTimeInterval note = [[defUser objectForKey:kAYDongDaOSSSTSTokenAuth] doubleValue];
-	NSTimeInterval now = [NSDate date].timeIntervalSince1970;
-	if (note+3600 <= now) {
-		
-		dispatch_semaphore_t semap = dispatch_semaphore_create(0);
-		dispatch_async(dispatch_queue_create("quert token thread", nil), ^{
-			NSDictionary *user;
-			CURRENUSER(user);
-			
-			NSDictionary *oss_dic = @{kAYCommArgsToken:[user objectForKey:kAYCommArgsToken]};
-			id<AYFacadeBase> oss_f = DEFAULTFACADE(@"OSSSTSRemote");
-			AYRemoteCallCommand* oss_cmd = [oss_f.commands objectForKey:@"OSSSTSQuery"];
-			[oss_cmd performWithResult:[oss_dic copy] andFinishBlack:^(BOOL success, NSDictionary* result) {
-				NSLog(@"michauxs:%@", result);
-				
-				stsID = [result objectForKey:@"accessKeyId"];
-				stsSecretKey = [result objectForKey:@"accessKeySecret"];
-				stsToken = [result objectForKey:@"SecurityToken"];
-				
-				id<OSSCredentialProvider> credential = [[OSSStsTokenCredentialProvider alloc] initWithAccessKeyId:stsID secretKeyId:stsSecretKey securityToken:stsToken];
-				_client = [[OSSClient alloc] initWithEndpoint:AYOSSEndPoint credentialProvider:credential];
-				
-				NSUserDefaults *defUser = [NSUserDefaults standardUserDefaults];
-				[defUser setValue:[NSNumber numberWithDouble:([NSDate date].timeIntervalSince1970)] forKey:kAYDongDaOSSSTSTokenAuth];
-				[defUser synchronize];
-				
-				dispatch_semaphore_signal(semap);
-				
-			}];
-			dispatch_semaphore_wait(semap, dispatch_time(DISPATCH_TIME_NOW, 30 * NSEC_PER_SEC));
-		});
-	}
-	
-	
-	return _client;
-}
 
 @end

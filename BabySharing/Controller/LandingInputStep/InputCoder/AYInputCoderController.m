@@ -13,9 +13,7 @@
 #import "AYCommandDefines.h"
 #import "AYModel.h"
 #import "AYFactoryManager.h"
-#import "AYRemoteCallCommand.h"
 #import "OBShapedButton.h"
-
 
 @interface AYInputCoderController () <UINavigationControllerDelegate>
 @property (nonatomic, strong) NSString* reg_token;
@@ -136,7 +134,8 @@
     
     AYFacade* f = [self.facades objectForKey:@"LandingRemote"];
     AYRemoteCallCommand* cmd_coder = [f.commands objectForKey:@"LandingReqConfirmCode"];
-    [cmd_coder performWithResult:[dic_coder copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+	[[AYRemoteCallManager shared] performWithRemoteCmd:cmd_coder andArgs:[dic_coder copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+//    [cmd_coder performWithResult:[dic_coder copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
             NSLog(@"验证码已发送");//is_reg
 			NSDictionary *reg_info = [result objectForKey:@"reg"];
@@ -176,7 +175,8 @@
 	
 	AYFacade* f_auth = [self.facades objectForKey:@"LandingRemote"];
 	AYRemoteCallCommand* cmd_auth = [f_auth.commands objectForKey:@"AuthPhoneCode"];
-	[cmd_auth performWithResult:[dic_auth copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+	[[AYRemoteCallManager shared] performWithRemoteCmd:cmd_auth andArgs:[dic_auth copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+//	[cmd_auth performWithResult:[dic_auth copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		if (success) {
 			
 			NSMutableDictionary *user = [[NSMutableDictionary alloc] initWithDictionary:[result objectForKey:@"user"]];

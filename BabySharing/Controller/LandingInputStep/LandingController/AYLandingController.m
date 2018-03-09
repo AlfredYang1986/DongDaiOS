@@ -76,7 +76,8 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 				dispatch_async(dispatch_get_main_queue(), ^{
 					id<AYFacadeBase> auth_facade = DEFAULTFACADE(@"AuthRemote");
 					AYRemoteCallCommand* auth_cmd = [auth_facade.commands objectForKey:@"IsTokenExpired"];
-					[auth_cmd performWithResult:[user copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+					[[AYRemoteCallManager shared] performWithRemoteCmd:auth_cmd andArgs:[user copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+//					[auth_cmd performWithResult:[user copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
 						if (success) {
 							[self LoginSuccess];
 						} else {
@@ -405,7 +406,8 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
    
     id<AYFacadeBase> f_login_remote = [self.facades objectForKey:@"LandingRemote"];
     AYRemoteCallCommand* cmd_sign_out = [f_login_remote.commands objectForKey:@"AuthSignOut"];
-    [cmd_sign_out performWithResult:current_login_user andFinishBlack:^(BOOL success, NSDictionary * result) {
+	[[AYRemoteCallManager shared] performWithRemoteCmd:cmd_sign_out andArgs:[current_login_user copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+//    [cmd_sign_out performWithResult:current_login_user andFinishBlack:^(BOOL success, NSDictionary * result) {
         NSLog(@"login out %@", result);
         NSLog(@"current login user %@", current_login_user);
         

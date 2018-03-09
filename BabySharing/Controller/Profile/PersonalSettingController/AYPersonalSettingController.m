@@ -324,7 +324,8 @@ static NSString* const descInitStr =			@"一句话很短，高调的夸一夸自
 	
     id<AYFacadeBase> f = [self.facades objectForKey:@"ProfileRemote"];
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"UpdateUserDetail"];
-    [cmd performWithResult:[dic_update copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+	[[AYRemoteCallManager shared] performWithRemoteCmd:cmd andArgs:[dic_update copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+//    [cmd performWithResult:[dic_update copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         if (success) {
 			
 			id tmp = [result objectForKey:kAYProfileArgsSelf];

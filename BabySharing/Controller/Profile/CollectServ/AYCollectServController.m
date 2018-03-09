@@ -137,7 +137,8 @@
     
     id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
     AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"AllCollectService"];
-    [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+	[[AYRemoteCallManager shared] performWithRemoteCmd:cmd_push andArgs:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+//    [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
             
             NSArray *data = [result objectForKey:@"services"];
@@ -191,7 +192,8 @@
 	id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
 	if (!likeBtn.selected) {
 		AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"CollectService"];
-		[cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+		[[AYRemoteCallManager shared] performWithRemoteCmd:cmd_push andArgs:[dic_collect copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+//		[cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 			if (success) {
 				likeBtn.selected = YES;
 			} else {
@@ -206,7 +208,8 @@
 		UIAlertAction *certainAction = [UIAlertAction actionWithTitle:@"移除" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 			
 			AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"UnCollectService"];
-			[cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+			[[AYRemoteCallManager shared] performWithRemoteCmd:cmd_push andArgs:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+//			[cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 				if (success) {
 					NSInteger row = [resultArr indexOfObject:result_pred.firstObject];
 					[resultArr removeObject:result_pred.firstObject];

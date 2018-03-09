@@ -236,7 +236,8 @@
 		
 		id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
 		AYRemoteCallCommand* cmd_search = [f_search.commands objectForKey:@"QueryServiceDetail"];
-		[cmd_search performWithResult:[dic_detail copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+		[[AYRemoteCallManager shared] performWithRemoteCmd:cmd_search andArgs:[dic_detail copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+//		[cmd_search performWithResult:[dic_detail copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
 			if(success) {
 				
 				NSMutableDictionary *tmp_args = [[result objectForKey:@"service"] mutableCopy];

@@ -9,11 +9,9 @@
 #import "AYInputNameController.h"
 #import "AYViewBase.h"
 #import "AYFacade.h"
-#import "AYRemoteCallCommand.h"
 #import "AYCommandDefines.h"
 #import "AYModel.h"
 #import "AYFactoryManager.h"
-#import "AYRemoteCallCommand.h"
 #import "OBShapedButton.h"
 #import "TmpFileStorageModel.h"
 
