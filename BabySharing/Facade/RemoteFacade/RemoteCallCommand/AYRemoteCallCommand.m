@@ -140,8 +140,8 @@
 
 - (BOOL)isDownloadUserFilesOrQueryUserProfile {
     
-    //    profile/userProfile           QueryUserProfile            ProfileRemote
-    //    query/downloadFile/       DownloadUserFiles           FileRemote
+    //    profile/userProfile		QueryUserProfile			ProfileRemote
+    //    query/downloadFile/		DownloadUserFiles			FileRemote
     
     NSString *tmpRoute = self.route;
     
@@ -156,8 +156,9 @@
     id<AYFacadeBase> f_comment = DEFAULTFACADE(@"OrderRemote");
     AYRemoteCallCommand* cmd_query = [f_comment.commands objectForKey:@"QueryComments"];
     NSString *query_comments = cmd_query.route;
-    
-    if ([tmpRoute isEqualToString:load_route] || [tmpRoute isEqualToString:profile_route] || [tmpRoute isEqualToString:query_comments]) {
+	
+	NSArray *RouteDiv = @[load_route, profile_route, query_comments];
+    if ([RouteDiv containsObject:tmpRoute]) {
         return YES;
     } else return NO;
     

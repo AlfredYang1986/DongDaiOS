@@ -8,6 +8,8 @@
 
 #import "RemoteInstance.h"
 
+#define AYREMOTETIMEOUT		10.f
+
 @implementation RemoteInstance
 
 + (NSData*)remoteDownloadFileWithName:(NSString*)name andHost:(NSString*)host {
@@ -60,7 +62,7 @@
     [dataM appendData:data];
     
     // 1. Request
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:0 timeoutInterval:2000.0f];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:0 timeoutInterval:AYREMOTETIMEOUT];
     
     // dataM出了作用域就会被释放,因此不用copy
     request.HTTPBody = dataM;
@@ -102,7 +104,7 @@
     //根据url初始化request
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL: url
                                                            cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
-                                                       timeoutInterval:10];
+                                                       timeoutInterval:AYREMOTETIMEOUT];
     //分界线 --AaB03x
     NSString *MPboundary=[[NSString alloc]initWithFormat:@"--%@",TWITTERFON_FORM_BOUNDARY];
     //结束符 AaB03x--
@@ -186,7 +188,7 @@
     //根据url初始化request
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL: url
                                                            cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
-                                                       timeoutInterval:10];
+                                                       timeoutInterval:AYREMOTETIMEOUT];
     //分界线 --AaB03x
     NSString *MPboundary=[[NSString alloc]initWithFormat:@"--%@",TWITTERFON_FORM_BOUNDARY];
     //结束符 AaB03x--
@@ -328,7 +330,7 @@
 //	//根据url初始化request
 //	NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL: url
 //														   cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
-//													   timeoutInterval:10];
+//													   timeoutInterval:AYREMOTETIMEOUT];
 //	//分界线 --AaB03x
 //	NSString *MPboundary=[[NSString alloc]initWithFormat:@"--%@",TWITTERFON_FORM_BOUNDARY];
 //	//结束符 AaB03x--

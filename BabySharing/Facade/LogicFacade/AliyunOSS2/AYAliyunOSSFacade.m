@@ -30,9 +30,9 @@
 
 - (OSSClient*)client {
 	
+	__block BOOL isWaiting = NO;
 //	dispatch_async(queueSerial, ^{
 	dispatch_sync(dispatch_get_global_queue(0, 0), ^{
-		__block BOOL isWaiting = NO;
 		
 		if (!_client) {
 			isWaiting = YES;
