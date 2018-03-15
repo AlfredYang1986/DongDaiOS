@@ -25,11 +25,11 @@
 	label.numberOfLines = 0;
 	
 	if (font > 600.f) {
-		label.font = kAYFontMedium(font - 600);
+		label.font = kAYFontMedium(font - 600);		//粗体
 	} else if (font < 600.f && font > 300.f) {
-		label.font = [UIFont systemFontOfSize:(font - 300)];
+		label.font = [UIFont systemFontOfSize:(font - 300)];	//正常
 	} else {
-		label.font = kAYFontLight(font);
+		label.font = kAYFontLight(font);	//细体
 	}
 	
 	if (backgroundColor) {

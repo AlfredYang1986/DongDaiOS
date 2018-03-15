@@ -37,24 +37,24 @@ static NSString* const kAYDongDaOSSSTSTokenAuth =		@"dongda_app_aliyunosssts_tok
 // 判断是否是iPhone X
 #define iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
 
-#define SCREEN_WIDTH                                    [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT                                   [UIScreen mainScreen].bounds.size.height
-#define SCREEN_SCALE									[UIScreen mainScreen].scale
-#define SCREEN_MARGIN_LR								15
-#define kStatusBarH										(iPhoneX ? 44.f : 20.f)
-#define kNavBarH										44
-#define kStatusAndNavBarH								(iPhoneX ? 88.f : 64.f)
-#define kTabBarH										(iPhoneX ? (49.f+34.f) : 49.f)
-#define BOTTOM_HEIGHT									49
-#define HOME_IND_HEIGHT									(iPhoneX ? 34.f : 0.f)
+#define SCREEN_WIDTH							[UIScreen mainScreen].bounds.size.width
+#define SCREEN_HEIGHT							[UIScreen mainScreen].bounds.size.height
+#define SCREEN_SCALE							[UIScreen mainScreen].scale
+#define SCREEN_MARGIN_LR						15
+#define kStatusBarH								(iPhoneX ? 44.f : 20.f)
+#define kNavBarH								44
+#define kStatusAndNavBarH						(iPhoneX ? 88.f : 64.f)
+#define kTabBarH								(iPhoneX ? (49.f+34.f) : 49.f)
+#define BOTTOM_HEIGHT							49
+#define HOME_IND_HEIGHT							(iPhoneX ? 34.f : 0.f)
 
-#define NavBarRightBtnFontSize							616
-#define OneDayTimeInterval								86400
-#define HOMECOMMONCELLHEIGHT							390
-#define SERVICEPAGE_MARGIN_LR							24
+#define NavBarRightBtnFontSize					616
+#define OneDayTimeInterval						86400
+#define HOMECOMMONCELLHEIGHT					390
+#define SERVICEPAGE_MARGIN_LR					24
 
-#define HOME_NURSERY_CELL_HEIGHT						376
-#define HOME_COURSE_CELL_HEIGHT							297
+#define HOME_NURSERY_CELL_HEIGHT				376
+#define HOME_COURSE_CELL_HEIGHT					297
 
 
 #define kAYStringCourse							@"课程"

@@ -9,7 +9,7 @@
 #ifndef AYCommandsCommand_h
 #define AYCommandsCommand_h
 
-#pragma mark --  default views define
+#pragma mark -  default views define
 //default views and views'messages  define
 static NSString* const kAYFakeStatusBarView =					@"FakeStatusBar";
 static NSString* const kAYFakeNavBarView =          	        @"FakeNavBar";
@@ -32,10 +32,10 @@ static NSString* const kAYNavBarSetRightBtnVisibilityMessage =  @"setRightBtnVis
 static NSString* const kAYNavBarSetBarBotLineMessage =          @"setBarBotLine";
 static NSString* const kAYNavBarHideBarBotLineMessage =			@"hideBarBotLine";
 
-//Table/Collection View
+//Table/Collection View TC-Table/Collection
 static NSString* const kAYTCViewRegisterDatasourceMessage =		@"registerDatasource:";
 static NSString* const kAYTCViewRegisterDelegateMessage =		@"registerDelegate:";
-static NSString* const kAYTCViewRegisterDatasourseDelegateMsg =		@"registerDatasourceDelegate:";
+static NSString* const kAYTCViewRegisterDatasourseDelegateMsg =		@"registerDatasourceDelegate:";	//一次把两个代理都注册了
 static NSString* const kAYTableRegisterCellWithClassMessage =   @"registerCellWithClass:";
 static NSString* const kAYTableRegisterCellWithNibMessage =     @"registerCellWithNib:";
 static NSString* const kAYTableRefreshMessage =                 @"refresh";
@@ -51,7 +51,7 @@ static NSString* const kAYDelegateChangeDataMessage =			@"changeQueryData:";
 //Cell common message
 static NSString* const kAYCellSetInfoMessage =					@"setCellInfo:";
 
-#pragma mark -- VC中的views发消息 / 发通知
+#pragma mark - VC.views发消息 / 发通知
 #define kAYViewsSendMessage(VIEW,MESSAGE,ARGS)              {\
                                                                 id<AYViewBase> kAYView = [self.views objectForKey:VIEW];\
                                                                 id<AYCommand> kAYCommand = [kAYView.commands objectForKey:MESSAGE];\
@@ -63,7 +63,7 @@ static NSString* const kAYCellSetInfoMessage =					@"setCellInfo:";
                                                                 id<AYCommand> kAYCommand = [kAYView.notifies objectForKey:MESSAGE];\
                                                                 [kAYCommand performWithResult:ARGS];\
                                                             }
-#pragma mark -- 一个view发消息 / 发通知
+#pragma mark - view发消息 / 发通知
 #define kAYViewSendMessage(VIEW,MESSAGE,ARGS)              {\
                                                                 id<AYCommand> kAYCommand = [VIEW.commands objectForKey:MESSAGE];\
                                                                 [kAYCommand performWithResult:ARGS];\
@@ -74,13 +74,13 @@ static NSString* const kAYCellSetInfoMessage =					@"setCellInfo:";
                                                                 [kAYCommand performWithResult:ARGS];\
                                                             }
 
-#pragma mark -- VC中的delagates发消息
+#pragma mark - VC.delagates发消息
 #define kAYDelegatesSendMessage(DELEGATE,MESSAGE,ARGS)      {\
                                                                 id<AYDelegateBase> kAYDelegate = [self.delegates objectForKey:DELEGATE];\
                                                                 id<AYCommand> kAYCommand = [kAYDelegate.commands objectForKey:MESSAGE];\
                                                                 [kAYCommand performWithResult:ARGS];\
                                                             }
-#pragma mark -- delagate 发通知
+#pragma mark - delagate 发通知
 #define kAYDelegateSendNotify(DELEGATE,MESSAGE,ARGS)        {\
                                                                 id<AYCommand> kAYCommand = [DELEGATE.notifies objectForKey:MESSAGE];\
                                                                 [kAYCommand performWithResult:ARGS];\
@@ -88,12 +88,11 @@ static NSString* const kAYCellSetInfoMessage =					@"setCellInfo:";
 
 
 
-
-
-#pragma mark -- 系统提示弹框
+#pragma mark - 系统提示弹框
 #define kAYUIAlertView(TITLE,MESSAGE)               [[[UIAlertView alloc]initWithTitle:TITLE message:MESSAGE delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show]
 
-#pragma mark -- AYBtmAlert
+
+#pragma mark - AYBtmAlert
 //BtmAlertViewType
 typedef enum : int {
     BtmAlertViewTypeCommon,
@@ -118,16 +117,6 @@ typedef enum : int {
                                                                         id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"HideAlert"];\
                                                                         [cmd_alert performWithResult:nil];\
                                                                         }
-
-#pragma mark -- popToRoot
-#define kAYPopToRootVC                              {\
-                                                        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];\
-                                                        [dic setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];\
-                                                        [dic setValue:self forKey:kAYControllerActionSourceControllerKey];\
-                                                        \
-                                                        id<AYCommand> cmd = POPTOROOT;\
-                                                        [cmd performWithResult:&dic];\
-                                                    }
 
 
 #endif /* AYCommandsCommand_h */

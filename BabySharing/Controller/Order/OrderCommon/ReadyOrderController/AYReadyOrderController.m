@@ -287,7 +287,6 @@
     [cmd_reject performWithResult:dic andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
 //            kAYUIAlertView(@"提示", @"订单已完成");
-//            kAYPopToRootVC
             NSString *title = @"订单已完成";
             [self popToRootVCWithTip:title];
         } else {
