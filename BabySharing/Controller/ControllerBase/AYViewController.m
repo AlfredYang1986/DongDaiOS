@@ -172,6 +172,7 @@
     return (id)args;
 }
 
+#pragma mark - remote call
 - (id)startRemoteCall:(id)obj {
     
     time_count = 10;            //star a new remote, so reset minter to 10
@@ -210,7 +211,7 @@
     }
 }
 
-#pragma mark -- order
+#pragma mark - order
 - (id)OrderAccomplished:(id)args {
   
     UIViewController *activeVC = [Tools activityViewController];
@@ -340,7 +341,7 @@
 	
 }
 
-#pragma mark -- tabBarViewController selectedIndex
+#pragma mark - tabBarViewController selectedIndex
 - (void)tabBarVCSelectIndex:(NSInteger)index {
     
     dispatch_async(dispatch_get_main_queue(), ^{
