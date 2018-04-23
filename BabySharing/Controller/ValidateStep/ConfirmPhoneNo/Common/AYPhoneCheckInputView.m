@@ -185,7 +185,7 @@
         }
     } else if (tf.object == inputPhoneNo) {
         if (inputPhoneNo.text.length >= kPhoneNoLimit) {
-            if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"^1[3,4,5,7,8]\\d{1} \\d{4} \\d{4}$"] evaluateWithObject:inputPhoneNo.text]) {
+            if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"^1[3,4,5,6,7,8]\\d{1} \\d{4} \\d{4}$"] evaluateWithObject:inputPhoneNo.text]) {
                 
                 [inputPhoneNo resignFirstResponder];
                 NSString *title = @"您输入了错误的电话号码";
@@ -228,7 +228,7 @@
 
 - (void)getcodeBtnClick {
     
-    if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"^1[3,4,5,7,8]\\d{1} \\d{4} \\d{4}$"] evaluateWithObject:inputPhoneNo.text]) {
+    if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"^1[3,4,5,6,7,8]\\d{1} \\d{4} \\d{4}$"] evaluateWithObject:inputPhoneNo.text]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您输入了错误的电话号码" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil];
         [alert show];
         return;

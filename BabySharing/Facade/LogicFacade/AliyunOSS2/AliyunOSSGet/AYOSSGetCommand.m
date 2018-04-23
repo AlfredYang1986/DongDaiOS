@@ -21,15 +21,25 @@
 	NSNumber *processWH = [args objectForKey:@"wh"];
 	//imageView holdImage
 	imageView.image = IMGRESOURCE(@"default_image");
+    
+    if ([args objectForKey:@"headImage"]) {
+        
+        [imageView setImage:IMGRESOURCE(@"default_user")];
+        
+    }
+    
+    
+    
 	
 	//cache
 	NSString *img_name_storage = [NSString stringWithFormat:@"%@_%@", img_name, processWH];
 	
 	UIImage *cacheImg = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:img_name_storage];
 	if (cacheImg) {
+        
 		imageView.image = cacheImg;
 		return;
-	}
+    }
 	
 //	__block UIImage *img;
 	OSSGetObjectRequest * request = [OSSGetObjectRequest new];
@@ -65,8 +75,10 @@
 			[[SDImageCache sharedImageCache] storeImage:getImg forKey:img_name_storage];
 			
 		} else {
+            
 			NSLog(@"download object failed, error: %@" ,task.error);
-//			imageView.image = IMGRESOURCE(@"default_image");
+			//imageView.image = IMGRESOURCE(@"default_image");
+            
 		}
 		return nil;
 	}];

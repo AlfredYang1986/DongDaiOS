@@ -17,6 +17,8 @@
 #import "AYDongDaSegDefines.h"
 #import "AYRemoteCallDefines.h"
 
+#import "AYNavigationController.h"
+
 #import "AYModelFacade.h"
 
 #define STATUS_BAR_HEIGHT       20
@@ -122,9 +124,13 @@
 	
 	NSString* class_name = @"AYProfileHeadCellView";
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
+    
 	class_name = @"AYProfileOrigCellView";
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
-	
+    
+    class_name = @"AYProfilePublishCellView";
+    kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
+    
 	
 	NSDictionary *user_info = nil;
 	CURRENPROFILE(user_info)
@@ -148,34 +154,30 @@
 
 #pragma mark -- layout
 - (id)FakeStatusBarLayout:(UIView*)view {
+    
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
+    view.backgroundColor = [UIColor garyBackground];
     return nil;
+    
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
     
-    id<AYViewBase> bar = (id<AYViewBase>)view;
-    id<AYCommand> cmd_left_vis = [bar.commands objectForKey:@"setLeftBtnVisibility:"];
-    NSNumber* left_hidden = [NSNumber numberWithBool:YES];
-    [cmd_left_vis performWithResult:&left_hidden];
+    view.frame = CGRectMake(0, kStatusBarH, SCREEN_WIDTH, kNavBarH);
+    view.backgroundColor = [UIColor garyBackground];
     
-//    NSString *title = @"我的";
-//    kAYViewsSendMessage(@"FakeNavBar", @"setTitleText:", &title)
+    UIImage* left = IMGRESOURCE(@"bar_left_black");
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
     
-    id<AYCommand> cmd_right_vis = [bar.commands objectForKey:@"setRightBtnVisibility:"];
-    NSNumber* right_hidden = [NSNumber numberWithBool:YES];
-    [cmd_right_vis performWithResult:&right_hidden];
     
-//    id<AYCommand> cmd_bot = [bar.commands objectForKey:@"setBarBotLine"];
-//    [cmd_bot performWithResult:nil];
+    
     return nil;
 }
 
 - (id)TableLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - kTabBarH);
+    view.frame = CGRectMake(0, kStatusBarH + kNavBarH, SCREEN_WIDTH, SCREEN_HEIGHT - kTabBarH);
     view.backgroundColor = [UIColor clearColor];
-    ((UITableView*)view).contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
+    ((UITableView*)view).contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
     return nil;
 }
 
@@ -201,25 +203,37 @@
 	DongDaAppMode mode = [[[NSUserDefaults standardUserDefaults] valueForKey:kAYDongDaAppMode] intValue];
 	BOOL isServantMode = mode == DongDaAppModeServant;
 	
-    id<AYCommand> des;
+    AYViewController *des;
     NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
     [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
     [dic_show_module setValue:self.tabBarController forKey:kAYControllerActionSourceControllerKey];
     NSMutableDictionary *dic_exchange = [[NSMutableDictionary alloc]init];
+    AYNavigationController *nav = DEFAULTCONTROLLER(@"Navigation");
     
     if (isServantMode) {
-        des = DEFAULTCONTROLLER(@"TabBar");
-        [dic_exchange setValue:[NSNumber numberWithInteger:3] forKey:@"index"];
-        [dic_exchange setValue:[NSNumber numberWithInteger:ModeExchangeTypeServantToCommon] forKey:@"type"];
+        
+//        des = DEFAULTCONTROLLER(@"TabBar");
+//        [dic_exchange setValue:[NSNumber numberWithInteger:3] forKey:@"index"];
+//        [dic_exchange setValue:[NSNumber numberWithInteger:ModeExchangeTypeServantToCommon] forKey:@"type"];
+        
         
     } else {
-        des = DEFAULTCONTROLLER(@"TabBarService");
+        
+        //des = DEFAULTCONTROLLER(@"TabBarService");
+        des = DEFAULTCONTROLLER(@"Home");
+        [nav pushViewController:des animated:YES];
+        NSUserDefaults *defaults =  [NSUserDefaults standardUserDefaults];
+        [defaults setInteger:DongDaAppModeServant forKey:kAYDongDaAppMode];
+        [defaults synchronize];
+        
         [dic_exchange setValue:[NSNumber numberWithInteger:3] forKey:@"index"];
         [dic_exchange setValue:[NSNumber numberWithInteger:ModeExchangeTypeCommonToServant] forKey:@"type"];
+        
     }
     
     [dic_show_module setValue:dic_exchange forKey:kAYControllerChangeArgsKey];
-    [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_show_module setValue:nav forKey:kAYControllerActionDestinationControllerKey];
+    
     id<AYCommand> cmd_show_module = EXCHANGEWINDOWS;
     [cmd_show_module performWithResult:&dic_show_module];
     return nil;

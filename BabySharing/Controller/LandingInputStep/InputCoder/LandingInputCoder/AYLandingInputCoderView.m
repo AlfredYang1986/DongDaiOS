@@ -227,7 +227,7 @@
         }
         
         if (inputPhoneNo.text.length >= kPhoneNoLimit) {
-            if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"^1[3,4,5,7,8]\\d{1} \\d{4} \\d{4}$"] evaluateWithObject:inputPhoneNo.text]) {
+            if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"^1[3,4,5,6,7,8]\\d{1} \\d{4} \\d{4}$"] evaluateWithObject:inputPhoneNo.text]) {
                 [inputPhoneNo resignFirstResponder];
                 NSString *title = @"手机号码输入错误";
                 AYShowBtmAlertView(title, BtmAlertViewTypeHideWithAction)

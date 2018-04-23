@@ -15,6 +15,7 @@
 #import "AYFacade.h"
 #import "AYRemoteCallCommand.h"
 #import "AYModelFacade.h"
+#import "AYNavigationController.h"
 
 #define userPhotoInitHeight         250
 
@@ -57,7 +58,7 @@
     obj = (id)cmd_collect;
     kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDelegateMessage, &obj)
 	
-//	NSArray *claa_name_arr = @[@"PersonalInfoHeadCell", @"PersonalDescCell", @"PersonalValidateCell"];
+	//NSArray *claa_name_arr = @[@"AYPersonalInfoHeadCellView", @"AYPersonalDescCellView", @"AYPersonalValidateCellView"];
 	NSArray *claa_name_arr = @[@"AYPersonalDescCellView"];
 	NSString *cell_name;
 	for (NSString *class_name in claa_name_arr) {
@@ -120,15 +121,15 @@
 	}];
 	[closeBtn addTarget:self action:@selector(leftBtnSelected) forControlEvents:UIControlEventTouchUpInside];
 	
-	UIButton *loginOut = [[UIButton alloc] init];
-	[loginOut setImage:IMGRESOURCE(@"profile_icon_loginout") forState:UIControlStateNormal];
-	[self.view addSubview:loginOut];
-	[loginOut mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.right.equalTo(self.view).offset(-5);
-		make.centerY.equalTo(closeBtn);
-		make.size.mas_equalTo(CGSizeMake(90, 36));
-	}];
-	[loginOut addTarget:self action:@selector(loginOutClick) forControlEvents:UIControlEventTouchUpInside];
+//    UIButton *loginOut = [[UIButton alloc] init];
+//    [loginOut setImage:IMGRESOURCE(@"profile_icon_loginout") forState:UIControlStateNormal];
+//    [self.view addSubview:loginOut];
+//    [loginOut mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.right.equalTo(self.view).offset(-5);
+//        make.centerY.equalTo(closeBtn);
+//        make.size.mas_equalTo(CGSizeMake(90, 36));
+//    }];
+//    [loginOut addTarget:self action:@selector(loginOutClick) forControlEvents:UIControlEventTouchUpInside];
 	
 }
 
@@ -284,11 +285,12 @@
 }
 
 - (id)rightBtnSelected {
-//	NSDictionary *user_info = nil;
-//	id<AYFacadeBase> f_login_model = LOGINMODEL;
-//	id<AYCommand> cmd = [f_login_model.commands objectForKey:@"QueryCurrentUserProfile"];
-//	[cmd performWithResult:&user_info];
-	
+    
+    NSDictionary *user_info = nil;
+    id<AYFacadeBase> f_login_model = LOGINMODEL;
+    id<AYCommand> cmd = [f_login_model.commands objectForKey:@"QueryCurrentUserProfile"];
+    [cmd performWithResult:&user_info];
+    
     AYViewController* des = DEFAULTCONTROLLER(@"PersonalSetting");
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
@@ -296,9 +298,11 @@
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
     [dic_push setValue:[personal_info copy] forKey:kAYControllerChangeArgsKey];
 
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
+    id<AYCommand> c = PUSH;
+    [c performWithResult:&dic_push];
     return nil;
+
+    
 }
 
 - (id)scrollOffsetY:(NSNumber*)args {

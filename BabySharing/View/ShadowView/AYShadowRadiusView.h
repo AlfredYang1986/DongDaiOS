@@ -14,4 +14,6 @@
 
 - (instancetype)initWithRadius:(CGFloat)radius;
 
+-(instancetype) initWithRadius:(CGFloat)radius andOffSet:(CGSize)offset color:(UIColor *)color;
+
 @end

@@ -41,5 +41,27 @@
 	return label;
 }
 
++ (UILabel *)creatLabelWithText:(NSString *)text textColor:(UIColor *)color font:(UIFont *)font backgroundColor:(UIColor *)backgroundColor textAlignment:(NSTextAlignment)align {
+    
+    UILabel *label = [UILabel new];
+    if (text){
+        label.text = text;
+    }
+    label.textColor = color;
+    label.textAlignment = align;
+    label.numberOfLines = 0;
+    
+    if (font) {
+        
+        label.font = font;
+        
+    }
+    
+    if (backgroundColor) {
+        label.backgroundColor = backgroundColor;
+    }
+    
+    return label;
+}
 
 @end

@@ -27,6 +27,8 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
+        
+        [self.contentView setBackgroundColor:[UIColor garyBackground]];
 		
 		user_name = [Tools creatLabelWithText:@"User Name" textColor:[Tools black] fontSize:630.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:user_name];
@@ -129,16 +131,12 @@
 	[dic setValue:screen_photo forKey:@"key"];
 	[dic setValue:user_screen forKey:@"imageView"];
 	[dic setValue:@228 forKey:@"wh"];
+    [dic setValue:[NSNumber numberWithBool:YES] forKey:@"headImage"];
 	id tmp = [dic copy];
 	id<AYFacadeBase> oss_f = DEFAULTFACADE(@"AliyunOSS");
 	id<AYCommand> cmd_oss_get = [oss_f.commands objectForKey:@"OSSGet"];
 	[cmd_oss_get performWithResult:&tmp];
 	
-	if (tmp) {
-		user_screen.image = tmp;
-	} else {
-		
-	}
 	
 //	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
 //	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];

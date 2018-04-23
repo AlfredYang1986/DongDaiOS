@@ -77,6 +77,22 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
 	[self addCollectionView];
 }
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        
+        NSDate *current = [[NSDate alloc]init];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+        [formatter setDateFormat:@"yyyy-MM-dd"];
+        currentDate = [formatter stringFromDate:current];
+        
+        [self addCollectionView];
+        
+    }
+    return self;
+}
+
 #pragma mark -- layout
 - (void)addCollectionView {
 	
@@ -105,7 +121,7 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
 	[self addSubview:_calendarContentView];
 	_calendarContentView.delegate = self;
 	_calendarContentView.dataSource = self;
-//	_calendarContentView.allowsMultipleSelection = YES;
+	_calendarContentView.allowsMultipleSelection = YES;
 	_calendarContentView.showsVerticalScrollIndicator = NO;
 //	[_calendarContentView mas_makeConstraints:^(MASConstraintMaker *make) {
 //		make.bottom.equalTo(self);
@@ -334,7 +350,8 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
     if (cell.isGone) {
         return ;
     }
-//	cell.isLightColor = YES;
+    cell.isLightColor = YES;
+    
     NSTimeInterval time_p = cell.timeSpan;
 	NSNumber *tmp = [NSNumber numberWithDouble:time_p];
 	kAYViewSendNotify(self, @"didSelectItemAtIndexPath:", &tmp)
@@ -352,7 +369,8 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
     if (cell.isGone) {
         return ;
     }
-//	cell.isLightColor = NO;
+    cell.isLightColor = NO;
+    
 	NSTimeInterval time_p = cell.timeSpan;
 	NSNumber *tmp = [NSNumber numberWithDouble:time_p];
 	kAYViewSendNotify(self, @"didDeselectItemAtIndexPath:", &tmp)

@@ -117,10 +117,20 @@ typedef void(^queryContentFinish)(void);
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	[defaults setValue:[NSNumber numberWithInt:DongDaAppModeCommon] forKey:kAYDongDaAppMode];
-	[defaults synchronize];
-	
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    if (![defaults stringForKey:@"firstLaunch"]) {
+        
+        [defaults setValue:[NSNumber numberWithInt:DongDaAppModeCommon] forKey:kAYDongDaAppMode];
+        
+        [defaults setValue:@"Yes" forKey:@"firstLaunch"];
+        
+        [defaults synchronize];
+        
+    }
+    
+    
+    
 	serviceData = [[NSMutableArray alloc] init];
 	localityArr = @[@"北京市", @"Beijing"];
 	
@@ -150,6 +160,8 @@ typedef void(^queryContentFinish)(void);
 		[dic setValue:photo_name forKey:@"key"];
 		[dic setValue:profilePhoto forKey:@"imageView"];
 		[dic setValue:@228 forKey:@"wh"];
+        [dic setValue:[NSNumber numberWithBool:YES] forKey:@"headImage"];
+        
 		id brige = [dic copy];
 		id<AYFacadeBase> oss_f = DEFAULTFACADE(@"AliyunOSS");
 		id<AYCommand> cmd_oss_get = [oss_f.commands objectForKey:@"OSSGet"];
@@ -296,7 +308,8 @@ typedef void(^queryContentFinish)(void);
 
 - (void)profilePhotoTap {
 	// 个人信息
-	AYViewController* des = DEFAULTCONTROLLER(@"PersonalInfo");
+	//AYViewController* des = DEFAULTCONTROLLER(@"PersonalInfo");
+    AYViewController* des = DEFAULTCONTROLLER(@"Profile");
 	NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
 	[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 	[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];

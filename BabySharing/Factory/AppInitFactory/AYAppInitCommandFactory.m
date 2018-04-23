@@ -21,6 +21,7 @@
 - (id)createInstance {
     AYAppInitCommand* command = [[AYAppInitCommand alloc]init];
     command.para = self.para;
+    NSLog(@"%@",self.para);
 	[command postPerform];
     return command;
 }

@@ -15,6 +15,7 @@
 #import "AYViewController.h"
 #import "AYSelfSettingCellView.h"
 
+
 @implementation AYSelfSettingDelegate {
     NSDictionary* profile_dic;
     NSArray* titles;

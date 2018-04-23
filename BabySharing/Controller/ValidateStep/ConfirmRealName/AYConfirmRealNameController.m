@@ -16,7 +16,7 @@
 #import "AYRemoteCallCommand.h"
 #import "AYRemoteCallDefines.h"
 #import "AYModelFacade.h"
-
+#import "AYNavigationController.h"
 
 @implementation AYConfirmRealNameController {
     UITextField *nameTextField;
@@ -216,8 +216,13 @@
 				[cmd_profile performWithResult:&dic];
 				
 				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-					id<AYCommand> des = DEFAULTCONTROLLER(@"TabBarService");
-					[self exchangeWindowsWithDest:des];
+//                    id<AYCommand> des = DEFAULTCONTROLLER(@"TabBarService");
+                    
+                    AYViewController *des = DEFAULTCONTROLLER(@"Home");
+                    AYNavigationController *nav = DEFAULTCONTROLLER(@"Navigation");
+                    [nav pushViewController:des animated:NO];
+                    
+					[self exchangeWindowsWithDest:nav];
 				});
 				
 				// go on

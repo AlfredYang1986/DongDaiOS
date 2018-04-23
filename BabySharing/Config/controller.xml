@@ -12,10 +12,11 @@
         <facade type="DefaultFacade" name="LandingRemote" notification="true" />
 
         <facade type="DefaultFacade" name="SNSQQ" notification="true" />
-        <facade type="DefaultFacade" name="SNSWechat" notification="true"/>
+        <!--<facade type="DefaultFacade" name="SNSWechat" notification="true"/>-->
         <facade type="DefaultFacade" name="SNSWeibo" notification="true"/>
         <facade type="DefaultFacade" name="LoginModel" notification="true"/>
         <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
+        <facade type="DefaultFacade" name="Share" notification="true"/>
         
         <model notification="true" />
     </controller>
@@ -94,16 +95,152 @@
     </controller>
     
     <controller type="DefaultController" name="Profile" factory="AYDefaultControllerFactoy" >
-        <facade type="DefaultFacade" name="ProfileRemote" />
-        <facade type="DefaultFacade" name="OwnerQueryModel" />
-        <facade type="DefaultFacade" name="OwnerQueryPushModel" />
+       
         
         <view type="FakeStatusBar"      name="FakeStatusBar" />
         <view type="FakeNavBar"         name="FakeNavBar" />
         <view type="Table"              name="Table" />
+        
+        <facade type="DefaultFacade" name="ProfileRemote" />
+        <facade type="DefaultFacade" name="OwnerQueryModel" />
+        <facade type="DefaultFacade" name="OwnerQueryPushModel" />
 
         <delegate type="TableViewDelegateAndDatasource" name="Profile" />
     </controller>
+    
+    <controller type="DefaultController" name="LocationChoose" factory="AYDefaultControllerFactoy" >
+        
+        <view type="FakeStatusBar"      name="FakeStatusBar" />
+        <view type="FakeNavBar"         name="FakeNavBar" />
+        <view type="Table"              name="Table" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="LocationChoose" />
+        
+        <facade type="DefaultFacade" name="LocationRemote" notification="true"/>
+        
+        
+    </controller>
+    
+    <controller type="DefaultController" name="ServiceChoose" factory="AYDefaultControllerFactoy" >
+        
+        <view type="FakeStatusBar"      name="FakeStatusBar" />
+        <view type="FakeNavBar"         name="FakeNavBar" />
+        <view type="Table"              name="Table" />
+        <delegate type="TableViewDelegateAndDatasource" name="ServiceChoose" />
+        <facade type="DefaultFacade" name="ServiceRemote" notification="true"/>
+        
+    </controller>
+    
+    <controller type="DefaultController" name="PublishStart" factory="AYDefaultControllerFactoy" >
+        
+        <view type="FakeStatusBar"      name="FakeStatusBar" />
+        <view type="FakeNavBar"         name="FakeNavBar" />
+        
+    </controller>
+    
+    <controller type="DefaultController" name="CoursePublishPrepare" factory="AYDefaultControllerFactoy" >
+        
+        <view type="FakeStatusBar"      name="FakeStatusBar" />
+        <view type="FakeNavBar"         name="FakeNavBar" />
+        
+    </controller>
+    
+    <controller type="DefaultController" name="CoursePayByTime" factory="AYDefaultControllerFactoy" >
+        
+        <view type="FakeStatusBar"      name="FakeStatusBar" />
+        <view type="FakeNavBar"         name="FakeNavBar" />
+        
+    </controller>
+    
+    <controller type="DefaultController" name="CoursePayByMember" factory="AYDefaultControllerFactoy" >
+        
+        <view type="FakeStatusBar"      name="FakeStatusBar" />
+        <view type="FakeNavBar"         name="FakeNavBar" />
+        
+    </controller>
+    
+    <controller type="DefaultController" name="CarePublishPrepare" factory="AYDefaultControllerFactoy" >
+        
+        <view type="FakeStatusBar"      name="FakeStatusBar" />
+        <view type="FakeNavBar"         name="FakeNavBar" />
+        
+    </controller>
+    
+    
+    <controller type="DefaultController" name="CarePayFlexible" factory="AYDefaultControllerFactoy" >
+        
+        <view type="FakeStatusBar"      name="FakeStatusBar" />
+        <view type="FakeNavBar"         name="FakeNavBar" />
+        
+    </controller>
+    
+    <controller type="DefaultController" name="CarePayFixed" factory="AYDefaultControllerFactoy" >
+        
+        <view type="FakeStatusBar"      name="FakeStatusBar" />
+        <view type="FakeNavBar"         name="FakeNavBar" />
+        
+    </controller>
+
+    
+    
+    <controller type="DefaultController" name="PublishConfirm" factory="AYDefaultControllerFactoy" >
+        
+        <view type="FakeStatusBar"      name="FakeStatusBar" />
+        <view type="FakeNavBar"         name="FakeNavBar" />
+        <facade type="DefaultFacade" name="PublishRemote" notification="true"/>
+        
+    </controller>
+    
+    <controller type="DefaultController" name="OpenDayChoose" factory="AYDefaultControllerFactoy" >
+        
+        <view type="FakeStatusBar"      name="FakeStatusBar" />
+        <view type="FakeNavBar"         name="FakeNavBar" />
+        
+    </controller>
+    
+    <controller type="DefaultController" name="PublishSuccess" factory="AYDefaultControllerFactoy" >
+        
+        
+    </controller>
+    
+    <controller type="DefaultController" name="SwitchRole" factory="AYDefaultControllerFactoy" >
+        
+        
+    </controller>
+    
+    <controller type="DefaultController" name="Brand" factory="AYDefaultControllerFactoy" >
+        
+        <view type="FakeStatusBar"      name="FakeStatusBar" />
+        <view type="FakeNavBar"         name="FakeNavBar" />
+        
+    </controller>
+    
+    <controller type="DefaultController" name="RegisterServant" factory="AYDefaultControllerFactoy" >
+        
+        
+        
+    </controller>
+    
+    <controller type="DefaultController" name="ApplyPrepare" factory="AYDefaultControllerFactoy" >
+        
+        <view type="FakeStatusBar"      name="FakeStatusBar" />
+        <view type="FakeNavBar"         name="FakeNavBar" />
+        
+        <facade type="DefaultFacade" name="ApplicationRemote" notification="true" />
+        
+    </controller>
+    
+    <controller type="DefaultController" name="Tip" factory="AYDefaultControllerFactoy" >
+        
+        <view type="FakeStatusBar"      name="FakeStatusBar" />
+        
+    </controller>
+    
+    <controller type="DefaultController" name="ApplySuccess" factory="AYDefaultControllerFactoy" >
+        
+        
+    </controller>
+    
     
     <controller type="DefaultController" name="PersonalInfo" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="LandingRemote" />
@@ -129,6 +266,8 @@
 		<delegate type="PickerViewDelegateAndDatasource" name="NapArea" />
 		<delegate type="TableViewDelegateAndDatasource" name="SelfSetting" />
 	</controller>
+    
+    
     
     <controller type="DefaultController" name="PersonalDesc" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
@@ -188,6 +327,7 @@
 		<view type="Table"				name="Table" />
 		
         <delegate type="TableViewDelegateAndDatasource" name="Home" />
+        
     </controller>
 	
 	<controller type="DefaultController" name="NursaryList" factory="AYDefaultControllerFactoy" >

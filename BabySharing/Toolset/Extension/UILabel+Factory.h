@@ -15,4 +15,6 @@
  */
 + (UILabel*)creatLabelWithText:(NSString*)text textColor:(UIColor*)color fontSize:(CGFloat)font backgroundColor:(UIColor*)backgroundColor textAlignment:(NSTextAlignment)align;
 
++ (UILabel*)creatLabelWithText:(NSString*)text textColor:(UIColor*)color font:(UIFont*)font backgroundColor:(UIColor*)backgroundColor textAlignment:(NSTextAlignment)align;
+
 @end

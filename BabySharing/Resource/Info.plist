@@ -52,7 +52,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>weixin</string>
+			<string>wechat</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>wx66d179d99c9ba7d6</string>
@@ -102,9 +102,14 @@
 		<string>weibosdk2.5</string>
 		<string>iosamap</string>
 		<string>weixin</string>
+		<string>wechat</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>MOBAppkey</key>
+	<string>252704f3d1440</string>
+	<key>MOBAppsecret</key>
+	<string>78c9af280d38f79cc137cc87b92a3376</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>

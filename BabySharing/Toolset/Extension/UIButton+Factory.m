@@ -37,4 +37,27 @@
 	return btn;
 }
 
++ (UIButton *)creatBtnWithTitle:(NSString *)title titleColor:(UIColor *)titleColor font:(UIFont *)font backgroundColor:(UIColor *)backgroundColor {
+    
+    UIButton *btn = [UIButton new];
+    
+    if (title) {
+        [btn setTitle:title forState:UIControlStateNormal];
+    }
+    [btn setTitleColor:titleColor forState:UIControlStateNormal];
+    
+    if (font) {
+        
+        [btn.titleLabel setFont:font];
+        
+    }
+    if (backgroundColor) {
+        btn.backgroundColor = backgroundColor;
+    } else
+        btn.backgroundColor = [UIColor clearColor];
+    
+    return btn;
+    
+}
+
 @end

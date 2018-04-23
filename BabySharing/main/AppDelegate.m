@@ -173,7 +173,7 @@ static NSString* const kAYEMAppKey = @"blackmirror#dongda";
         
     } else {
         id<AYCommand> weibo_delegate = DEFAULTFACADE(@"SNSWeibo");
-        id<AYCommand> wechat_delegate = DEFAULTFACADE(@"SNSWechat");
+        id<AYCommand> wechat_delegate = DEFAULTFACADE(@"Share");
         
         return [TencentOAuth HandleOpenURL:url] ||
         [WeiboSDK handleOpenURL:url delegate:(id<WeiboSDKDelegate>)weibo_delegate] ||

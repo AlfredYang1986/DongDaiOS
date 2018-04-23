@@ -32,12 +32,14 @@
     NSLog(@"para is : %@", _para);
     
     if (m == nil) {
+        
         NSDictionary* cmds = [_para objectForKey:@"commands"];
         NSDictionary* facades = [_para objectForKey:@"facades"];
         
         m = [[AYModel alloc]init];
+        
         if (cmds)
-           m.commands = cmds;
+            m.commands = cmds;
             
         if (facades)
            m.facades = facades;
