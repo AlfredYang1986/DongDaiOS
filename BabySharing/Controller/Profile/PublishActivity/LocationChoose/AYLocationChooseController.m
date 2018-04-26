@@ -167,41 +167,76 @@
     
     [had setFont:[UIFont regularFont:15]];
     
+    
     {
         
         NSDictionary *user;
         CURRENUSER(user);
         
-        NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
-        [dic setValue:[user objectForKey:kAYCommArgsToken] forKey:kAYCommArgsToken];
-        [dic setValue:@"5a66fdea59a6270918508f25" forKey:@"brand_id"];
+        NSMutableDictionary *condition = [[NSMutableDictionary alloc] init];
         
-        id<AYFacadeBase> facade = [self.facades objectForKey:@"LocationRemote"];
-        AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"QueryUserLocation"];
+        [condition setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
         
-        [cmd performWithResult:dic andFinishBlack:^(BOOL success, NSDictionary *result) {
-            
-            
-            if (success) {
+        NSMutableDictionary *brand = [[NSMutableDictionary alloc] init];
+        
+        
+        [brand setValue:[user objectForKey:kAYCommArgsToken] forKey:kAYCommArgsToken];
+        [brand setValue:condition forKey:kAYCommArgsCondition];
+        
+        id<AYFacadeBase> brandFacade = [self.facades objectForKey:@"BrandRemote"];
+        AYRemoteCallCommand *cm = [brandFacade.commands objectForKey:@"QueryBrandID"];
+        
+        [cm performWithResult:[brand copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+        
+            if(success) {
                 
-                self -> locationData = [[result objectForKey:@"locations"] mutableCopy];
+                NSString *brand_id = [result objectForKey:@"brand_id"];
                 
-                id tmp = [self -> locationData copy];
+                if (![brand_id isEqual:nil] && ![brand_id isKindOfClass:[NSNull class]]) {
+                    
+                    //5a66fdea59a6270918508f25
+                    NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
+                    [dic setValue:[user objectForKey:kAYCommArgsToken] forKey:kAYCommArgsToken];
+                    [dic setValue:brand_id forKey:@"brand_id"];
+                    
+                    id<AYFacadeBase> facade = [self.facades objectForKey:@"LocationRemote"];
+                    AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"QueryUserLocation"];
+                    
+                    [cmd performWithResult:dic andFinishBlack:^(BOOL success, NSDictionary *result) {
+                        
+                        
+                        if (success) {
+                            
+                            self -> locationData = [[result objectForKey:@"locations"] mutableCopy];
+                            
+                            id tmp = [self -> locationData copy];
+                            
+                            kAYDelegatesSendMessage(@"LocationChoose", kAYDelegateChangeDataMessage, &tmp)
+                            
+                            kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+                            
+                        }
+                        
+                        
+                    }];
+                    
+                    
+                }else {
+                    
+                    NSString *title = @"对不起，您还没有场地~";
+                    AYShowBtmAlertView(title, BtmAlertViewTypeHideWithAction)
+                    
+                }
                 
-                kAYDelegatesSendMessage(@"LocationChoose", kAYDelegateChangeDataMessage, &tmp)
                 
-                kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
-                
-                
-                
-            } else {
+            }else {
                 
                 
                 
             }
-            
-            
         }];
+        
+        
         
     
 //        NSString* owner_id = [[service_info objectForKey:@"owner"] objectForKey:kAYCommArgsUserID];

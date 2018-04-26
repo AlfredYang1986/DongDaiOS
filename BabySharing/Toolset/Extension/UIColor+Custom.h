@@ -44,6 +44,8 @@
 
 + (UIColor *)disableBackground;
 
++ (UIColor *)shadowColor;
+
 + (UIColor *)borderAlpha;
 + (UIColor *)colorWithRED:(CGFloat)RED GREEN:(CGFloat)GREEN BLUE:(CGFloat)BLUE ALPHA:(CGFloat)ALPHA;
 

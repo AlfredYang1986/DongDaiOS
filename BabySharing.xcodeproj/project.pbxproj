@@ -67,6 +67,7 @@
 		3C9A3BCE207B329C00C3F983 /* AYLocationChooseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C9A3BCD207B329C00C3F983 /* AYLocationChooseController.m */; };
 		3C9A3BD7207B3DE600C3F983 /* UIFont+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C9A3BD6207B3DE600C3F983 /* UIFont+Custom.m */; };
 		3C9A3BDC207B5A8D00C3F983 /* AYLocationChooseDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C9A3BDB207B5A8D00C3F983 /* AYLocationChooseDelegate.m */; };
+		3CA1D8AA208ED54F004F2415 /* NSString+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA1D8A9208ED54F004F2415 /* NSString+Custom.m */; };
 		3CD97D92208452020030AF71 /* CustomTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CD97D91208452020030AF71 /* CustomTextField.m */; };
 		3CD97D96208479610030AF71 /* AYCarePaySetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CD97D95208479610030AF71 /* AYCarePaySetView.m */; };
 		3CD97D9920847ABD0030AF71 /* AYPaySetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CD97D9820847ABD0030AF71 /* AYPaySetView.m */; };
@@ -97,6 +98,8 @@
 		3CDEDFFF207202CA006B8A66 /* AYShareFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CDEDFFE207202CA006B8A66 /* AYShareFacade.m */; };
 		3CDEE00920720968006B8A66 /* AYIsInstalledWeChatCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CDEE00820720968006B8A66 /* AYIsInstalledWeChatCommand.m */; };
 		3CDEE01520720E5C006B8A66 /* AYLoginWithWeChatCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CDEE01420720E5C006B8A66 /* AYLoginWithWeChatCommand.m */; };
+		3CDF4BFD20917AE900DEB9AC /* AYQueryBrandIDCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CDF4BFC20917AE900DEB9AC /* AYQueryBrandIDCommand.m */; };
+		3CDF4C0020917D5900DEB9AC /* AYBrandRemoteFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CDF4BFF20917D5900DEB9AC /* AYBrandRemoteFacade.m */; };
 		3CE6B0CE207B5C3000C0B3D9 /* AYLocationChooseCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CE6B0CD207B5C3000C0B3D9 /* AYLocationChooseCellView.m */; };
 		3CE6B0D2207B7B6E00C0B3D9 /* AYServiceChooseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CE6B0D1207B7B6E00C0B3D9 /* AYServiceChooseController.m */; };
 		3CED1A9D208DDDB800D40CFE /* AYBrandView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CED1A9C208DDDB800D40CFE /* AYBrandView.m */; };
@@ -1029,6 +1032,8 @@
 		3C9A3BD6207B3DE600C3F983 /* UIFont+Custom.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIFont+Custom.m"; sourceTree = "<group>"; };
 		3C9A3BDA207B5A8D00C3F983 /* AYLocationChooseDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYLocationChooseDelegate.h; sourceTree = "<group>"; };
 		3C9A3BDB207B5A8D00C3F983 /* AYLocationChooseDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AYLocationChooseDelegate.m; sourceTree = "<group>"; };
+		3CA1D8A8208ED54F004F2415 /* NSString+Custom.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+Custom.h"; sourceTree = "<group>"; };
+		3CA1D8A9208ED54F004F2415 /* NSString+Custom.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Custom.m"; sourceTree = "<group>"; };
 		3CD97D90208452020030AF71 /* CustomTextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomTextField.h; sourceTree = "<group>"; };
 		3CD97D91208452020030AF71 /* CustomTextField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomTextField.m; sourceTree = "<group>"; };
 		3CD97D94208479610030AF71 /* AYCarePaySetView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYCarePaySetView.h; sourceTree = "<group>"; };
@@ -1084,6 +1089,10 @@
 		3CDEE00820720968006B8A66 /* AYIsInstalledWeChatCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AYIsInstalledWeChatCommand.m; sourceTree = "<group>"; };
 		3CDEE01320720E5C006B8A66 /* AYLoginWithWeChatCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYLoginWithWeChatCommand.h; sourceTree = "<group>"; };
 		3CDEE01420720E5C006B8A66 /* AYLoginWithWeChatCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AYLoginWithWeChatCommand.m; sourceTree = "<group>"; };
+		3CDF4BFB20917AE900DEB9AC /* AYQueryBrandIDCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYQueryBrandIDCommand.h; sourceTree = "<group>"; };
+		3CDF4BFC20917AE900DEB9AC /* AYQueryBrandIDCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AYQueryBrandIDCommand.m; sourceTree = "<group>"; };
+		3CDF4BFE20917D5900DEB9AC /* AYBrandRemoteFacade.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYBrandRemoteFacade.h; sourceTree = "<group>"; };
+		3CDF4BFF20917D5900DEB9AC /* AYBrandRemoteFacade.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AYBrandRemoteFacade.m; sourceTree = "<group>"; };
 		3CE6B0CC207B5C3000C0B3D9 /* AYLocationChooseCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYLocationChooseCellView.h; sourceTree = "<group>"; };
 		3CE6B0CD207B5C3000C0B3D9 /* AYLocationChooseCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AYLocationChooseCellView.m; sourceTree = "<group>"; };
 		3CE6B0D0207B7B6E00C0B3D9 /* AYServiceChooseController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYServiceChooseController.h; sourceTree = "<group>"; };
@@ -3549,6 +3558,15 @@
 			path = isInstalledWechat;
 			sourceTree = "<group>";
 		};
+		3CDF4BFA20917AB700DEB9AC /* Brand */ = {
+			isa = PBXGroup;
+			children = (
+				3CDF4BFB20917AE900DEB9AC /* AYQueryBrandIDCommand.h */,
+				3CDF4BFC20917AE900DEB9AC /* AYQueryBrandIDCommand.m */,
+			);
+			path = Brand;
+			sourceTree = "<group>";
+		};
 		3CE6B0CF207B7ADB00C0B3D9 /* ServiceChoose */ = {
 			isa = PBXGroup;
 			children = (
@@ -3865,6 +3883,7 @@
 		700BE5C81CBA6E5800A09B3A /* RemoteCallCommand */ = {
 			isa = PBXGroup;
 			children = (
+				3CDF4BFA20917AB700DEB9AC /* Brand */,
 				3C59537C208DC73300F525E8 /* Application */,
 				3C480BBA207DC70400C089ED /* Publish */,
 				700BE5D61CBA6E5800A09B3A /* AYRemoteCallCommand.h */,
@@ -4040,6 +4059,8 @@
 				3C1BCB632086EC19002397A7 /* AYPublishRemoteFacade.m */,
 				3C595379208DC72200F525E8 /* AYApplicationRemoteFacade.h */,
 				3C59537A208DC72200F525E8 /* AYApplicationRemoteFacade.m */,
+				3CDF4BFE20917D5900DEB9AC /* AYBrandRemoteFacade.h */,
+				3CDF4BFF20917D5900DEB9AC /* AYBrandRemoteFacade.m */,
 			);
 			path = Facades;
 			sourceTree = "<group>";
@@ -5846,6 +5867,8 @@
 				3C9A3BD6207B3DE600C3F983 /* UIFont+Custom.m */,
 				3C26A14D2089CE85001A56DD /* NSDate+Custom.h */,
 				3C26A14E2089CE85001A56DD /* NSDate+Custom.m */,
+				3CA1D8A8208ED54F004F2415 /* NSString+Custom.h */,
+				3CA1D8A9208ED54F004F2415 /* NSString+Custom.m */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -10114,6 +10137,7 @@
 				70C41F151DBA17B800C77B10 /* AYMyServiceController.m in Sources */,
 				7025106E1CC0C64400DADF2B /* AYRefreshLikeDataCommand.m in Sources */,
 				70EC72391D190D6F0012B123 /* SDCycleScrollView.m in Sources */,
+				3CA1D8AA208ED54F004F2415 /* NSString+Custom.m in Sources */,
 				70360B561E56F21400D5332F /* AYVersionNavCellView.m in Sources */,
 				705E71D61FFB7780003E9646 /* MJRefreshBackStateFooter.m in Sources */,
 				80F058E21E5C3D62002B105F /* Order.m in Sources */,
@@ -10242,6 +10266,7 @@
 				702510AB1CC0F67500DADF2B /* AYQueryChatSessionCommand.m in Sources */,
 				7056BA021F1F2BF400386E3A /* AYOPPriceCellView.m in Sources */,
 				3CDEE01520720E5C006B8A66 /* AYLoginWithWeChatCommand.m in Sources */,
+				3CDF4C0020917D5900DEB9AC /* AYBrandRemoteFacade.m in Sources */,
 				3C7247082080C19200E1DA7E /* AYCareAgeChooseView.m in Sources */,
 				70168F4A1E23657C00FD5B6A /* AYBOrderMainPriceCellView.m in Sources */,
 				705EC8841CE4BC1D0008D5EA /* AYAppendTagContentDataCommand.m in Sources */,
@@ -10781,6 +10806,7 @@
 				70CDF6421CBD034000311841 /* AYOwnerQueryModelFacade.m in Sources */,
 				703CCDBB1CC9D57800CF4563 /* AYPushNotificationCommand.m in Sources */,
 				70E94FEB2029961600925AD0 /* MXSRefreshFooter.m in Sources */,
+				3CDF4BFD20917AE900DEB9AC /* AYQueryBrandIDCommand.m in Sources */,
 				3C26A1482089C500001A56DD /* AYApplyPrepareController.m in Sources */,
 				3C595364208D891100F525E8 /* AYTipController.m in Sources */,
 				7056BA081F1F2BF400386E3A /* AYOrderListNewsDelegate.m in Sources */,

@@ -43,7 +43,7 @@
             
         }];
         
-        AYShadowRadiusView *shadowView = [[AYShadowRadiusView alloc] initWithRadius:4.0f andOffSet:CGSizeMake(-1, 10)color:[UIColor gary166]];
+        AYShadowRadiusView *shadowView = [[AYShadowRadiusView alloc] initWithRadius:4 offSet:(CGSizeMake(-1, 10)) blur:3.0f color:[UIColor shadowColor]];
         
         [self addSubview:shadowView];
         
@@ -104,6 +104,7 @@
             make.centerX.equalTo(shadowView).offset(20);
             
         }];
+        [name setIsCopyable:YES];
 
         
     }

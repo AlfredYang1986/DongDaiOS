@@ -57,6 +57,11 @@
 	NSDictionary* dic = (NSDictionary*)*obj;
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         
+        
+        
+        
+        
+        
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
@@ -169,7 +174,24 @@
     UIImage* left = IMGRESOURCE(@"bar_left_black");
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
     
-    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if ([userDefaults valueForKey:@"exchange"]) {
+        
+        NSString *s = [userDefaults valueForKey:@"exchange"];
+        
+        if ([s isEqual:@"switchToService"]) {
+            
+            NSNumber *num = [NSNumber numberWithBool:YES];
+            
+            kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnVisibilityMessage, &num)
+            
+            [userDefaults setObject:@"switchedToService" forKey:@"exchange"];
+            [userDefaults synchronize];
+            
+        }
+        
+        
+    }
     
     return nil;
 }

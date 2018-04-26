@@ -24,6 +24,7 @@
 #import "UIButton+Factory.h"
 #import "UIFont+Custom.h"
 #import "NSDate+Custom.h"
+#import "NSString+Custom.h"
 #import "AYViewController+RunTimeCmd.h"
 
 static NSString* const kAMapApiKey =					@"7d5d988618fd8a707018941f8cd52931";

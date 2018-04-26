@@ -193,69 +193,66 @@
 - (void)publish {
     
     
-    AYViewController *des = DEFAULTCONTROLLER(@"PublishSuccess");
+//    AYViewController *des = DEFAULTCONTROLLER(@"PublishSuccess");
+//    
+//    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+//    [dic setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
+//    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+//    [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+//
+//    id<AYCommand> cmd = SHOWMODULEUP;
+//    [cmd performWithResult:&dic];
     
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-    [dic setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
-    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
     
-    id<AYCommand> cmd = SHOWMODULEUP;
-    [cmd performWithResult:&dic];
-    
-    
-//    NSDictionary *user;
-//    CURRENUSER(user);
-//    NSMutableDictionary * dic = [[NSMutableDictionary alloc] init];
-//    [dic setValue:[user objectForKey:kAYCommArgsToken] forKey:kAYCommArgsToken];
-//
-//    NSMutableDictionary * recruit = [[NSMutableDictionary alloc] init];
-//    [recruit setValue:[[[data objectForKey:@"service"] objectForKey:@"service_data"]objectForKey:@"service_id"] forKey:@"service_id"];
-//
-//    if ([data objectForKey:@"temp"]) {
-//
-//        NSDictionary *temp = [data objectForKey:@"temp"];
-//
-//        for (NSString *key in temp) {
-//
-//            [recruit setValue:temp[key] forKey:key];
-//
-//        }
-//
-//    }
-//    [dic setValue:recruit forKey:@"recruit"];
-//
-//    AYFacade* f = [self.facades objectForKey:@"PublishRemote"];
-//    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"PublishInfomation"];
-//
-//    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-//
-//        if(success) {
-//
-//            AYViewController *des = DEFAULTCONTROLLER(@"PublishSuccess");
-//
-//            NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-//            [dic setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
-//            [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-//            [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-//
-//            id<AYCommand> cmd = SHOWMODULEUP;
-//            [cmd performWithResult:&dic];
-//
-//
-//
-//        }else {
-//
-//
-//            NSLog(@"%@",result);
-//
-//
-//        }
-//
-//
-//
-//
-//    }];
+    NSDictionary *user;
+    CURRENUSER(user);
+    NSMutableDictionary * dic = [[NSMutableDictionary alloc] init];
+    [dic setValue:[user objectForKey:kAYCommArgsToken] forKey:kAYCommArgsToken];
+
+    NSMutableDictionary * recruit = [[NSMutableDictionary alloc] init];
+    [recruit setValue:[[[data objectForKey:@"service"] objectForKey:@"service_data"]objectForKey:@"service_id"] forKey:@"service_id"];
+
+    if ([data objectForKey:@"temp"]) {
+
+        NSDictionary *temp = [data objectForKey:@"temp"];
+
+        for (NSString *key in temp) {
+
+            [recruit setValue:temp[key] forKey:key];
+
+        }
+
+    }
+    [dic setValue:recruit forKey:@"recruit"];
+
+    AYFacade* f = [self.facades objectForKey:@"PublishRemote"];
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"PublishInfomation"];
+
+    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+
+        if(success) {
+
+            AYViewController *des = DEFAULTCONTROLLER(@"PublishSuccess");
+
+            NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+            [dic setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
+            [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+            [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+
+            id<AYCommand> cmd = SHOWMODULEUP;
+            [cmd performWithResult:&dic];
+
+
+
+        }else {
+
+
+            NSLog(@"%@",result);
+
+
+        }
+
+    }];
     
     
         

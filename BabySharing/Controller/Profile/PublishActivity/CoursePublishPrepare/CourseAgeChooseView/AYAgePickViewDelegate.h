@@ -10,7 +10,7 @@
 
 @protocol AYAgePickViewDelegate
 
--(void)AYAgePickViewDidUpdateAge:(NSInteger)l and:(NSInteger) h;
+-(void)AYAgePickViewDidUpdateAge:(double)l and:(double) h;
 
 
 @end

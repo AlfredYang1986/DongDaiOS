@@ -60,4 +60,28 @@
     
 }
 
+- (instancetype)initWithRadius:(CGFloat)radius offSet:(CGSize)offset blur:(CGFloat)blur color:(UIColor *)color {
+    
+    self = [super init];
+    if (self) {
+        
+        self.layer.cornerRadius = radius;
+        self.layer.shadowColor = color.CGColor;
+        self.layer.shadowRadius = blur;
+        self.layer.shadowOpacity = 0.5f;
+        self.layer.shadowOffset = offset;
+        self.backgroundColor = [Tools whiteColor];
+        
+        _radiusBGView = [[UIView alloc] init];
+        [self addSubview:_radiusBGView];
+        [_radiusBGView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self);
+        }];
+        [Tools setViewBorder:_radiusBGView withRadius:radius andBorderWidth:0 andBorderColor:nil andBackground:[Tools whiteColor]];
+        
+    }
+    return  self;
+    
+}
+
 @end

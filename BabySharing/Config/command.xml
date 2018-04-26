@@ -281,6 +281,8 @@
     <command type="Remote" name="UpdateApplication"     route="al/apply/update" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryApplication"      route="al/apply/query" factory="AYRemoteCallFactory" />
     
+    <command type="Remote" name="QueryBrandID"          route="al/brand/from/user" factory="AYRemoteCallFactory" />
+    
     
     
     

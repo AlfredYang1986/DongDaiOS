@@ -190,18 +190,28 @@
         AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"AddApplication"];
         
         
+//        AYViewController *des = DEFAULTCONTROLLER(@"ApplySuccess");
+//
+//        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+//        [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+//        [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+//        [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+//
+//        id<AYCommand> md = PUSH;
+//        [md performWithResult:&dic];
+        
         
         [cmd performWithResult:[data copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 
             if (success) {
-                
+
                 AYViewController *des = DEFAULTCONTROLLER(@"ApplySuccess");
-                
+
                 NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
                 [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
                 [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
                 [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-                
+
                 id<AYCommand> md = PUSH;
                 [md performWithResult:&dic];
 

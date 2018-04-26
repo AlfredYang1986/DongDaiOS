@@ -14,7 +14,7 @@
 @interface AYCourseAgeChooseView : UIView <AYAgePickViewDelegate>
 
 @property(nonatomic, strong) AYAgePickView *pickView;
-@property(nonatomic, readonly) NSInteger ageMin;
-@property(nonatomic, readonly) NSInteger ageMax;
+@property(nonatomic, readonly) double ageMin;
+@property(nonatomic, readonly) double ageMax;
 
 @end

@@ -118,6 +118,8 @@
         
         <facade type="DefaultFacade" name="LocationRemote" notification="true"/>
         
+        <facade type="DefaultFacade" name="BrandRemote" notification="true"/>
+        
         
     </controller>
     

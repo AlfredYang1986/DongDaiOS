@@ -320,4 +320,10 @@
         
     </facade>
     
+    <facade type="DefaultFacade" name="BrandRemote" factory="AYDefaultFacadeFactory" >
+        
+        <command type="Remote" name="QueryBrandID"/>
+    
+    </facade>
+    
 </facades>

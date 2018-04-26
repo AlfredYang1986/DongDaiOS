@@ -36,19 +36,6 @@
         
         [_placeholder setFont:[UIFont regularFont:15.0]];
         
-        _age = [UILabel creatLabelWithText:@"10.5" textColor:[UIColor black] fontSize:22.0f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
-        [self addSubview:_age];
-        
-        [_age mas_makeConstraints:^(MASConstraintMaker *make) {
-            
-            make.centerY.equalTo(self);
-            make.left.mas_equalTo(33);
-            
-        }];
-        
-        [_age setFont:[UIFont boldFont:22.0]];
-        
-        [_age setHidden:YES];
         
         UILabel *unit = [UILabel creatLabelWithText:@"岁" textColor:[UIColor black] fontSize:15.0f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
         [self addSubview:unit];
@@ -61,6 +48,20 @@
         }];
         
         [unit setFont:[UIFont regularFont:15.0f]];
+        
+        _age = [UILabel creatLabelWithText:@"10.5" textColor:[UIColor black] fontSize:22.0f backgroundColor:nil textAlignment:NSTextAlignmentCenter];
+        [self addSubview:_age];
+        
+        [_age mas_makeConstraints:^(MASConstraintMaker *make) {
+            
+            make.centerY.equalTo(self);
+            make.right.equalTo(unit.mas_left).offset(-16);
+            
+        }];
+        
+        [_age setFont:[UIFont boldFont:22.0]];
+        
+        [_age setHidden:YES];
         
         
     }

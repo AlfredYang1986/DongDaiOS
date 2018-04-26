@@ -28,9 +28,6 @@
         
     }
     
-    
-    
-	
 	//cache
 	NSString *img_name_storage = [NSString stringWithFormat:@"%@_%@", img_name, processWH];
 	

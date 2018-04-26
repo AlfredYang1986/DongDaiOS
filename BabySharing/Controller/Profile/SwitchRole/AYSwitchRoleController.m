@@ -32,22 +32,6 @@
         [self switchToService];
         
     }
-   
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
-        AYViewController *des = DEFAULTCONTROLLER(@"Home");
-        AYNavigationController *nav = DEFAULTCONTROLLER(@"Navigation");
-        [nav pushViewController:des animated:YES];
-        
-        NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
-        [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
-        [dic_show_module setValue:nav forKey:kAYControllerActionDestinationControllerKey];
-        [dic_show_module setValue:self forKey:kAYControllerActionSourceControllerKey];
-        
-        id<AYCommand> cmd_exchange = EXCHANGEWINDOWS;
-        [cmd_exchange performWithResult:&dic_show_module];
-        
-    });
     
    
     
@@ -101,6 +85,27 @@
     
     [defaults synchronize];
     
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        AYViewController *des = DEFAULTCONTROLLER(@"Profile");
+        AYNavigationController *nav = DEFAULTCONTROLLER(@"Navigation");
+        [nav pushViewController:des animated:YES];
+        
+        NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
+        [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
+        [dic_show_module setValue:nav forKey:kAYControllerActionDestinationControllerKey];
+        [dic_show_module setValue:self forKey:kAYControllerActionSourceControllerKey];
+        
+    
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setObject:@"switchToService" forKey:@"exchange"];
+        [userDefaults synchronize];
+        
+        id<AYCommand> cmd_exchange = EXCHANGEWINDOWS;
+        [cmd_exchange performWithResult:&dic_show_module];
+        
+    });
+    
 }
 -(void)switchToCommon {
     
@@ -148,6 +153,22 @@
     [defaults setValue:[NSNumber numberWithInt:DongDaAppModeCommon] forKey:kAYDongDaAppMode];
     
     [defaults synchronize];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        AYViewController *des = DEFAULTCONTROLLER(@"Home");
+        AYNavigationController *nav = DEFAULTCONTROLLER(@"Navigation");
+        [nav pushViewController:des animated:YES];
+        
+        NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
+        [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
+        [dic_show_module setValue:nav forKey:kAYControllerActionDestinationControllerKey];
+        [dic_show_module setValue:self forKey:kAYControllerActionSourceControllerKey];
+        
+        id<AYCommand> cmd_exchange = EXCHANGEWINDOWS;
+        [cmd_exchange performWithResult:&dic_show_module];
+        
+    });
     
     
 }

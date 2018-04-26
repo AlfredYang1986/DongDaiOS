@@ -16,9 +16,11 @@ static int flag = 10000;
     
     UIButton *done;
     
-    NSInteger low;
+    NSInteger lowIndex;
     
-    NSInteger high;
+    NSInteger highIndex;
+    
+    NSArray *array;
     
     
 }
@@ -56,8 +58,11 @@ static int flag = 10000;
 
 -(void)initialization {
     
-    low = 0;
-    high = 0;
+    lowIndex = 0;
+    highIndex = 0;
+    
+    array = @[@"0",@"0.5",@"1",@"1.5",@"2",@"2.5",@"3",@"3.5",@"4",@"4.5",@"5",@"5.5",@"6",@"7",@"8",@"9",@"10",
+        @"11",@"12",@"13",@"14",@"15"];
     
     picker = [[UIPickerView alloc] init];
     [self addSubview:picker];
@@ -184,9 +189,6 @@ static int flag = 10000;
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
     
     
-    NSArray *array = @[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"10",
-                      @"11",@"12",@"13",@"14",@"15",@"16",@"17",@"18"];
-    
     return [array objectAtIndex:row];
     
 }
@@ -196,16 +198,16 @@ static int flag = 10000;
     
     if (component == 0) {
         
-        if (low != row) {
+        if (lowIndex != row) {
             
-            low = row;
+            lowIndex = row;
             
         }
         
-        if(low > high) {
+        if(lowIndex > highIndex) {
             
-            [picker selectRow:(low) inComponent:1 animated:true];
-            high = low;
+            [picker selectRow:(lowIndex) inComponent:1 animated:true];
+            highIndex = lowIndex;
             
         }
         
@@ -215,22 +217,25 @@ static int flag = 10000;
     
     if (component == 1) {
         
-        if (high != row) {
+        if (highIndex != row) {
             
-            high = row;
+            highIndex = row;
             
         }
         
-        if(high < low) {
+        if(highIndex < lowIndex) {
             
-            [picker selectRow:(high) inComponent:0 animated:true];
-            low = high;
+            [picker selectRow:(highIndex) inComponent:0 animated:true];
+            lowIndex = highIndex;
             
         }
         
         
         
     }
+    
+    double low = ((NSString *)[array objectAtIndex:lowIndex]).doubleValue;
+    double high = ((NSString *)[array objectAtIndex:highIndex]).doubleValue;
     
     [_delegate AYAgePickViewDidUpdateAge:low and:high];
     

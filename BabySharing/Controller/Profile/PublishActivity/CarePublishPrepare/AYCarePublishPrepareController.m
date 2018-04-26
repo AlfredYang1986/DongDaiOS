@@ -199,8 +199,8 @@
         AYCareAgeChooseView *v = (AYCareAgeChooseView *)[swipeView itemViewAtIndex:index];
         
         NSMutableDictionary *age_boundary = [[NSMutableDictionary alloc] init];
-        [age_boundary setValue: [NSNumber numberWithInteger:v.ageMin] forKey:@"lbl"];
-        [age_boundary setValue: [NSNumber numberWithInteger:v.ageMax] forKey:@"ubl"];
+        [age_boundary setValue: [NSNumber numberWithInt:v.ageMin * 10] forKey:@"lbl"];
+        [age_boundary setValue: [NSNumber numberWithInt:v.ageMax * 10] forKey:@"ubl"];
         
         
         if ([data objectForKey:@"temp"]) {

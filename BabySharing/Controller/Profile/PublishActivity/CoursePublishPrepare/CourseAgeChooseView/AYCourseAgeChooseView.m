@@ -117,15 +117,18 @@
     
 }
 
-- (void)AYAgePickViewDidUpdateAge:(NSInteger)l and:(NSInteger)h {
+- (void)AYAgePickViewDidUpdateAge:(double)l and:(double)h {
     
     _ageMax = h;
     
     _ageMin = l;
     
-    [low setAgeWith:[NSString stringWithFormat:@"%ld.5",l]];
+    NSString *lo = [NSString stringWithFormat:@"%.1f",l];
+    NSString *hi = [NSString stringWithFormat:@"%.1f",h];
     
-    [high setAgeWith:[NSString stringWithFormat:@"%ld.5",h]];
+    [low setAgeWith:[lo deleteEndZero]];
+    
+    [high setAgeWith:[hi deleteEndZero]];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"AYCourseAgePickViewDidUpdateAge" object:nil];
     

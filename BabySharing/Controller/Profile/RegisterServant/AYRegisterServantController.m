@@ -54,7 +54,7 @@
     [title setAttributedText:str];
     
     
-    AYShadowRadiusView *shadowView = [[AYShadowRadiusView alloc] initWithRadius:28 andOffSet:CGSizeMake(-1, 6)color:[UIColor gary166]];
+    AYShadowRadiusView *shadowView = [[AYShadowRadiusView alloc] initWithRadius:28 offSet:(CGSizeMake(0, 9)) blur:3.0f color:[UIColor shadowColor]];
     [imageView addSubview:shadowView];
     
     [shadowView mas_makeConstraints:^(MASConstraintMaker *make) {

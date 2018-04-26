@@ -183,10 +183,12 @@
     
     [cmd_oss_get performWithResult:&tmp];
     
-    NSInteger ageMax = [(NSNumber *)[dic objectForKey:@"ageMax"] integerValue];
-    NSInteger ageMin = [(NSNumber *)[dic objectForKey:@"ageMin"] integerValue];
+    NSDictionary *temp = [[dic objectForKey:@"temp"] objectForKey:@"age_boundary"];
     
-    [age setText:[NSString stringWithFormat:@"%ld岁-%ld岁",(long)ageMin,(long)ageMax]];
+    NSString *ageMax = [NSString stringWithFormat:@"%.1f",[(NSNumber *)[temp objectForKey:@"ubl"] intValue] / 10.0];
+    NSString *ageMin = [NSString stringWithFormat:@"%.1f",[(NSNumber *)[temp objectForKey:@"lbl"] intValue] / 10.0];
+    
+    [age setText:[NSString stringWithFormat:@"%@岁-%@岁",[ageMin deleteEndZero],[ageMax deleteEndZero]]];
     
     NSString *address = [service objectForKey:@"address"];
     
