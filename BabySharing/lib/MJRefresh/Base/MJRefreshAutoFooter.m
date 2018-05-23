@@ -104,8 +104,12 @@
 
 - (void)setState:(MJRefreshState)state
 {
-    MJRefreshCheckState
-    
+//    MJRefreshCheckState
+	
+	MJRefreshState oldState = self.state;
+	if (state == oldState) return;
+	[super setState:state];
+	
     if (state == MJRefreshStateRefreshing) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self executeRefreshingCallback];

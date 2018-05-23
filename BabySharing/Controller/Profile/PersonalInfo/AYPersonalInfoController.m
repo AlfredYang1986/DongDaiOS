@@ -15,6 +15,7 @@
 #import "AYFacade.h"
 #import "AYRemoteCallCommand.h"
 #import "AYModelFacade.h"
+#import "AYNavigationController.h"
 
 #define userPhotoInitHeight         250
 
@@ -57,7 +58,7 @@
     obj = (id)cmd_collect;
     kAYViewsSendMessage(kAYTableView, kAYTCViewRegisterDelegateMessage, &obj)
 	
-//	NSArray *claa_name_arr = @[@"PersonalInfoHeadCell", @"PersonalDescCell", @"PersonalValidateCell"];
+	//NSArray *claa_name_arr = @[@"AYPersonalInfoHeadCellView", @"AYPersonalDescCellView", @"AYPersonalValidateCellView"];
 	NSArray *claa_name_arr = @[@"AYPersonalDescCellView"];
 	NSString *cell_name;
 	for (NSString *class_name in claa_name_arr) {
@@ -120,15 +121,15 @@
 	}];
 	[closeBtn addTarget:self action:@selector(leftBtnSelected) forControlEvents:UIControlEventTouchUpInside];
 	
-	UIButton *loginOut = [[UIButton alloc] init];
-	[loginOut setImage:IMGRESOURCE(@"profile_icon_loginout") forState:UIControlStateNormal];
-	[self.view addSubview:loginOut];
-	[loginOut mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.right.equalTo(self.view).offset(-5);
-		make.centerY.equalTo(closeBtn);
-		make.size.mas_equalTo(CGSizeMake(90, 36));
-	}];
-	[loginOut addTarget:self action:@selector(loginOutClick) forControlEvents:UIControlEventTouchUpInside];
+//    UIButton *loginOut = [[UIButton alloc] init];
+//    [loginOut setImage:IMGRESOURCE(@"profile_icon_loginout") forState:UIControlStateNormal];
+//    [self.view addSubview:loginOut];
+//    [loginOut mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.right.equalTo(self.view).offset(-5);
+//        make.centerY.equalTo(closeBtn);
+//        make.size.mas_equalTo(CGSizeMake(90, 36));
+//    }];
+//    [loginOut addTarget:self action:@selector(loginOutClick) forControlEvents:UIControlEventTouchUpInside];
 	
 }
 
@@ -170,13 +171,36 @@
 	
 	personal_info = user_info;
 	
-	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-	AYRemoteCallCommand* cmd_load = [f.commands objectForKey:@"DownloadUserFiles"];
-	NSString *pre = cmd_load.route;
 	NSString* photo_name = [personal_info objectForKey:@"screen_photo"];
 	if (photo_name) {
-		[coverImg sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"profile_defaultavatar")];
+		
+		NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+		[dic setValue:photo_name forKey:@"key"];
+		[dic setValue:coverImg forKey:@"imageView"];
+		[dic setValue:@750 forKey:@"wh"];
+		id tmp = [dic copy];
+		id<AYFacadeBase> oss_f = DEFAULTFACADE(@"AliyunOSS");
+		id<AYCommand> cmd_oss_get = [oss_f.commands objectForKey:@"OSSGet"];
+		[cmd_oss_get performWithResult:&tmp];
 	}
+	
+//	NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+//	[dic setValue:photo_name forKey:@"key"];
+//	id brige = [dic copy];
+//	id<AYFacadeBase> oss_f = DEFAULTFACADE(@"AliyunOSS");
+//	id<AYCommand> cmd_oss_get = [oss_f.commands objectForKey:@"OSSGet"];
+//	[cmd_oss_get performWithResult:&brige];
+//
+//	if (brige) {
+//		coverImg.image = brige;
+//	}
+	
+//	if (photo_name) {
+//		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+//		AYRemoteCallCommand* cmd_load = [f.commands objectForKey:@"DownloadUserFiles"];
+//		NSString *pre = cmd_load.route;
+//		[coverImg sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"profile_defaultavatar")];
+//	}
 	
 	NSDictionary *tmp = [personal_info copy];
 	kAYDelegatesSendMessage(@"PersonalInfo", @"changeQueryData:", &tmp)
@@ -261,11 +285,12 @@
 }
 
 - (id)rightBtnSelected {
-//	NSDictionary *user_info = nil;
-//	id<AYFacadeBase> f_login_model = LOGINMODEL;
-//	id<AYCommand> cmd = [f_login_model.commands objectForKey:@"QueryCurrentUserProfile"];
-//	[cmd performWithResult:&user_info];
-	
+    
+    NSDictionary *user_info = nil;
+    id<AYFacadeBase> f_login_model = LOGINMODEL;
+    id<AYCommand> cmd = [f_login_model.commands objectForKey:@"QueryCurrentUserProfile"];
+    [cmd performWithResult:&user_info];
+    
     AYViewController* des = DEFAULTCONTROLLER(@"PersonalSetting");
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
@@ -273,9 +298,11 @@
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
     [dic_push setValue:[personal_info copy] forKey:kAYControllerChangeArgsKey];
 
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
+    id<AYCommand> c = PUSH;
+    [c performWithResult:&dic_push];
     return nil;
+
+    
 }
 
 - (id)scrollOffsetY:(NSNumber*)args {

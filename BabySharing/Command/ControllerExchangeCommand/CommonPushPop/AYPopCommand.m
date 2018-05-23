@@ -29,7 +29,7 @@
         @throw [[NSException alloc]initWithName:@"error" reason:@"pop command source controler 必须是一个navigation controller" userInfo:nil];
     }
     
-    [source.navigationController popViewControllerAnimated:YES];
+   [source.navigationController popViewControllerAnimated:YES];
     
     AYViewController* des = source.navigationController.viewControllers.lastObject;
     id tmp = [dic objectForKey:kAYControllerChangeArgsKey];

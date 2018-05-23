@@ -174,6 +174,24 @@
     return nil;
 }
 
+- (id)setRightBtnEnable:(id)args {
+    
+    BOOL bEnable = ((NSNumber*)args).boolValue;
+    rightBtn.enabled = bEnable;
+    
+    if (bEnable) {
+        
+        [rightBtn setTitleColor:[UIColor theme] forState:UIControlStateNormal];
+        
+    }else {
+        
+        [rightBtn setTitleColor:[UIColor gary217] forState:UIControlStateNormal];
+        
+    }
+    
+    return nil;
+}
+
 - (id)setBarBotLine {
 	BotLine.hidden = NO;
     return nil;
@@ -183,6 +201,8 @@
 	BotLine.hidden = YES;
 	return nil;
 }
+
+
 
 #pragma mark -- notify
 - (void)didSelectLeftBtn {

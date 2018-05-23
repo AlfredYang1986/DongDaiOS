@@ -27,6 +27,8 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
+        
+        [self.contentView setBackgroundColor:[UIColor garyBackground]];
 		
 		user_name = [Tools creatLabelWithText:@"User Name" textColor:[Tools black] fontSize:630.f backgroundColor:nil textAlignment:NSTextAlignmentLeft];
 		[self addSubview:user_name];
@@ -124,11 +126,23 @@
 -(id)setCellInfo:(NSDictionary*)args{
 	
 	NSString *screen_photo = [args objectForKey:kAYProfileArgsScreenPhoto];
-	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-	NSString *prefix = cmd.route;
-	[user_screen sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", prefix, screen_photo]] placeholderImage:IMGRESOURCE(@"default_user")];
-    
+	
+	NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+	[dic setValue:screen_photo forKey:@"key"];
+	[dic setValue:user_screen forKey:@"imageView"];
+	[dic setValue:@228 forKey:@"wh"];
+    [dic setValue:[NSNumber numberWithBool:YES] forKey:@"headImage"];
+	id tmp = [dic copy];
+	id<AYFacadeBase> oss_f = DEFAULTFACADE(@"AliyunOSS");
+	id<AYCommand> cmd_oss_get = [oss_f.commands objectForKey:@"OSSGet"];
+	[cmd_oss_get performWithResult:&tmp];
+	
+	
+//	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+//	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+//	NSString *prefix = cmd.route;
+//	[user_screen sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", prefix, screen_photo]] placeholderImage:IMGRESOURCE(@"default_user")];
+	
     NSString *name = [args objectForKey:@"screen_name"];
     if (name && ![name isEqualToString:@""]) {
         user_name.text = name;

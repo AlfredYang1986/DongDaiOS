@@ -232,6 +232,20 @@
         <command type="notify" message="queryModel:" />
     </delegate>
     
+    <delegate type="TableViewDelegateAndDatasource" name="LocationChoose" factory="AYDefaultDelegateFactory" >
+        
+        <command type="notify" message="scrollOffsetY:" />
+        <command type="message" message="changeQueryData:" />
+        
+    </delegate>
+    
+    <delegate type="TableViewDelegateAndDatasource" name="ServiceChoose" factory="AYDefaultDelegateFactory" >
+        
+        <command type="notify" message="scrollOffsetY:" />
+        <command type="message" message="changeQueryData:" />
+        
+    </delegate>
+    
     <delegate type="TableViewDelegateAndDatasource" name="PersonalInfo" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
         <command type="message" message="changeModel:" />

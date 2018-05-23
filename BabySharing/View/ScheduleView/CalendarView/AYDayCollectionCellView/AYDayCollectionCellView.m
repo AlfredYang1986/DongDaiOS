@@ -40,10 +40,16 @@
 
 - (void)setIsLightColor:(BOOL)isLightColor {
 	_isLightColor = isLightColor;
+    
 	if (isLightColor) {
+        
 		self.dayDateLabel.textColor = [Tools theme];
+        
+        
 	} else {
+        
 		self.dayDateLabel.textColor = [Tools black];
+        
 	}
 }
 

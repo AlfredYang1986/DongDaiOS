@@ -21,6 +21,10 @@
     <command type="Module" name="LoginSNSWithQQ" factory="AYDefaultModuleFactory" />
     <command type="Module" name="LoginSNSWithWechat" factory="AYDefaultModuleFactory" />
     <command type="Module" name="IsInstalledWechat" factory="AYDefaultModuleFactory" />
+    
+    <command type="Module" name="LoginWithWeChat" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="IsInstalledWeChat" factory="AYDefaultModuleFactory" />
+    
     <command type="Module" name="LoginSNSWithWeibo" factory="AYDefaultModuleFactory" />
     <command type="Module" name="LandingAreaCode" factory="AYDefaultModuleFactory" />
     <command type="Remote" name="ShareWithQQ" factory="AYDefaultModuleFactory" />
@@ -184,8 +188,13 @@
 	<command type="Module" name="PushServiceTM" factory="AYDefaultModuleFactory" />
 	<command type="Module" name="ParseServiceTM" factory="AYDefaultModuleFactory" />
 	
+	<command type="Module" name="OSSPut" factory="AYDefaultModuleFactory" />
+	<command type="Module" name="OSSGet" factory="AYDefaultModuleFactory" />
+	
     <command type="Remote" name="PostPhotos" factory="AYDefaultModuleFactory" />
     <command type="Remote" name="PostMovie" factory="AYDefaultModuleFactory" />
+	
+	<command type="Remote" name="OSSSTSQuery"			route="al/oss/gst" factory="AYRemoteCallFactory" />
     
     <command type="Remote" name="LandingReqConfirmCode" route="al/code/send" factory="AYRemoteCallFactory" />
 	<command type="Remote" name="AuthPhoneCode"			route="al/auth/code" factory="AYRemoteCallFactory" />
@@ -201,7 +210,7 @@
 
 	<command type="Remote" name="UpdateUserDetail"		route="al/profile/update" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryUserProfile"		route="al/profile/query" factory="AYRemoteCallFactory" />
-
+    
     <command type="Remote" name="UploadUserImage"		route="post/uploadFile" factory="AYRemoteCallFactory" />
     <command type="Remote" name="UploadFile"			route="post/uploadFile" factory="AYRemoteCallFactory" />
     <command type="Remote" name="DownloadUserFiles"		route="query/downloadFile/" factory="AYRemoteCallFactory" />
@@ -220,7 +229,7 @@
     <command type="Remote" name="UnCollectService"      route="al/collections/pop" factory="AYRemoteCallFactory" />
     <command type="Remote" name="AllCollectService"     route="al/user/collected/services" factory="AYRemoteCallFactory" />
 	
-	<command type="Remote" name="HomeQuery"  		   route="al/homepage/service" factory="AYRemoteCallFactory" />
+	<command type="Remote" name="HomeQuery"  		    route="al/homepage/service" factory="AYRemoteCallFactory" />
 	
     <command type="Remote" name="QueryOrders"			route="al/order/search" factory="AYRemoteCallFactory" />
 	<command type="Remote" name="QueryOrderDetail"		route="al/order/detail" factory="AYRemoteCallFactory" />
@@ -258,4 +267,23 @@
 	
     <command type="Remote" name="ExposeUser"			route="expose/user" factory="AYRemoteCallFactory" />
     <command type="Remote" name="ExposeContent"			route="expose/content" factory="AYRemoteCallFactory" />
+    
+    <command type="Remote" name="QueryUserLocation"     route="al/brand/locations" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="QueryUserService"      route="al/location/lst/service" factory="AYRemoteCallFactory" />
+    
+    <command type="Remote" name="PublishInfomation"     route="al/recruit/push" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="QueryPublishedInfomation"       route="al/recruit/query" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="DeletePublishedInfomation"      route="al/recruit/pop" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="ModifyPublishedInfomation"      route="al/recruit/update" factory="AYRemoteCallFactory" />
+    
+    <command type="Remote" name="AddApplication"        route="al/apply/push" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="DeleteApplication"     route="al/apply/pop" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="UpdateApplication"     route="al/apply/update" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="QueryApplication"      route="al/apply/query" factory="AYRemoteCallFactory" />
+    
+    <command type="Remote" name="QueryBrandID"          route="al/brand/from/user" factory="AYRemoteCallFactory" />
+    
+    
+    
+    
 </commands>

@@ -51,7 +51,10 @@
 @end
 
 @implementation AYAppSettingDelegate {
+    
+    BOOL isServantMode;
     NSArray* title;
+    
 }
 
 #pragma mark -- command
@@ -61,7 +64,23 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-    title = @[@"去评分", @"关于咚哒", @"清除缓存"];
+    
+    DongDaAppMode mode = [[[NSUserDefaults standardUserDefaults] valueForKey:kAYDongDaAppMode] intValue];
+    isServantMode = mode == DongDaAppModeServant;
+    
+    if (isServantMode) {
+        
+        title = @[@"切换为预定模式", @"去评分", @"关于咚哒", @"清除缓存"];
+        
+    }else {
+        
+        title = @[@"去评分", @"关于咚哒", @"清除缓存"];
+        
+    }
+    
+    
+    
+    
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -93,7 +112,7 @@
     
     cell.label.text = [title objectAtIndex:indexPath.row];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    if (indexPath.row == 2) {
+    if (indexPath.row == 3) {
         cell.label.text = [cell.label.text stringByAppendingString:[NSString stringWithFormat:@"(%.2fM)", [TmpFileStorageModel tmpFileStorageSize]]];
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
@@ -101,12 +120,29 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     return 68;
+    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if(indexPath.row == 0){
+    
+    if (indexPath.row == 0 && isServantMode) {
+        
+        AYViewController *des = DEFAULTCONTROLLER(@"SwitchRole");
+        
+        NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+        [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+        [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+        [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+        
+        id<AYCommand> cmd = PUSH;
+        [cmd performWithResult:&dic_push];
+
+        
+        
+    }else if((indexPath.row == 0 && !isServantMode) || (indexPath.row == 1 && isServantMode)){
 //		//跳转到应用
 //		NSString *appItuensURL = @"itms-apps://itunes.apple.com/cn/app/dong-da/id1095143390?mt=8";
 //		[[UIApplication sharedApplication]openURL:[NSURL URLWithString:appItuensURL]];
@@ -117,24 +153,24 @@
 //		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlStr]];
 		
 		//APP内置AppStore
-		[self loadAppStoreController];
+            [self loadAppStoreController];
 		
-    } else if(indexPath.row == 1) {
+        } else if((indexPath.row == 1 && !isServantMode) || (indexPath.row == 2 && isServantMode)) {
 		
-        id<AYCommand> AboutDD = DEFAULTCONTROLLER(@"AboutDD");
+            id<AYCommand> AboutDD = DEFAULTCONTROLLER(@"AboutDD");
         
-        NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
-        [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-        [dic setValue:AboutDD forKey:kAYControllerActionDestinationControllerKey];
-        [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-        [_controller performWithResult:&dic];
+            NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
+            [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+            [dic setValue:AboutDD forKey:kAYControllerActionDestinationControllerKey];
+            [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+            [_controller performWithResult:&dic];
         
-    } else {
-        [TmpFileStorageModel deleteBMTmpImageDir];
-        [TmpFileStorageModel deleteBMTmpMovieDir];
-        NSIndexPath *currentIndex = indexPath;
-        [tableView reloadRowsAtIndexPaths:@[currentIndex] withRowAnimation:UITableViewRowAnimationNone];
-    }
+        } else {
+            [TmpFileStorageModel deleteBMTmpImageDir];
+            [TmpFileStorageModel deleteBMTmpMovieDir];
+            NSIndexPath *currentIndex = indexPath;
+            [tableView reloadRowsAtIndexPaths:@[currentIndex] withRowAnimation:UITableViewRowAnimationNone];
+        }
 }
 
 
@@ -151,7 +187,7 @@
 			NSLog(@"error %@ with userInfo %@",error,[error userInfo]);
 			
 		} else{
-			[_controller presentViewController:storeProductViewContorller animated:YES completion:nil];
+            [self -> _controller presentViewController:storeProductViewContorller animated:YES completion:nil];
 			
 		}
 	}];

@@ -32,7 +32,8 @@ static NSString* const kWechatDescription = @"wechat";
 }
 
 - (void)postPerform {
-    [WXApi registerApp:kWechatID withDescription:kWechatDescription];
+    
+    [WXApi registerApp:kWechatID];
     
     NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
     [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
@@ -50,6 +51,7 @@ static NSString* const kWechatDescription = @"wechat";
  * @param req 具体请求内容，是自动释放的
  */
 -(void) onReq:(BaseReq*)req {
+    
     
 }
 

@@ -11,7 +11,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void(^performFinishBlock)(NSDictionary*);
+//typedef void(^performFinishBlock)(NSDictionary*);
 
 @protocol AYFactory <NSObject>
 

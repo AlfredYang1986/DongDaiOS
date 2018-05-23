@@ -47,7 +47,7 @@
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
 	
 	dispatch_async(dispatch_get_main_queue(), ^{
-		[UIApplication sharedApplication].delegate.window = [[UIWindow alloc] initWithFrame:screenBounds];
+		//[UIApplication sharedApplication].delegate.window = [[UIWindow alloc] initWithFrame:screenBounds];
 		UIWindow *des_window = [UIApplication sharedApplication].delegate.window;
 		[des_window makeKeyAndVisible];
 		des_window.rootViewController = des;

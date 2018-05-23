@@ -98,7 +98,7 @@
 		[CollectionView registerClass:NSClassFromString(@"AYNurseryMoreItem") forCellWithReuseIdentifier:@"AYNurseryMoreItem"];
 		[self addSubview:CollectionView];
 		[CollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(subTitleLabel.mas_bottom).offset(24);
+			make.top.equalTo(subTitleLabel.mas_bottom).offset(20);
 			make.left.equalTo(self);
 			make.right.equalTo(self);
 			make.bottom.equalTo(self);

@@ -5,12 +5,21 @@
         <command type="Module" name="LoginSNSWithQQ" />
         <command type="Remote" name="ShareWithQQ" />
     </facade>
+<!--
     <facade type="DefaultFacade" name="SNSWechat" factory="AYDefaultFacadeFactory" >
         <command type="Module" name="LoginSNSWithWechat" />
         <command type="Module" name="IsInstalledWechat" />
         <command type="Remote" name="ShareWithWechat" />
         <command type="Module" name="PayWithWechat" />
     </facade>
+-->
+    <facade type="DefaultFacade" name="Share" factory="AYDefaultFacadeFactory" >
+        
+        <command type="Module" name="LoginWithWeChat" />
+        <command type="Module" name="IsInstalledWeChat" />
+        
+    </facade>
+    
     <facade type="DefaultFacade" name="SNSWeibo" factory="AYDefaultFacadeFactory" >
         <command type="Module" name="LoginSNSWithWeibo" />
         <command type="Remote" name="ShareWithWeibo" />
@@ -151,6 +160,7 @@
         <command type="Remote" name="UploadFile" />
         <command type="Remote" name="DownloadUserFiles" />
         <command type="Remote" name="DownloadMovieFiles" />
+<!--		<command type="Remote" name="DownloadImage" />-->
     </facade>
 	
 	<facade type="DefaultFacade" name="SendRemote" factory="AYDefaultFacadeFactory" >
@@ -271,6 +281,49 @@
 		<command type="Remote" name="ChoiceSearch" />
 		<command type="Remote" name="ChoicePush" />
 		<command type="Remote" name="ChoicePop" />
-        <command type="Remote" name="ChoiceMapSearch" />
+		<command type="Remote" name="ChoiceMapSearch" />
 	</facade>
+	
+	<facade type="DefaultFacade" name="OSSSTSRemote" factory="AYDefaultFacadeFactory" >
+		<command type="Remote" name="OSSSTSQuery" />
+	</facade>
+	
+	<facade type="DefaultFacade" name="AliyunOSS" factory="AYDefaultFacadeFactory" >
+		<command type="Module" name="OSSPut" />
+		<command type="Module" name="OSSGet" />
+	</facade>
+    
+    <facade type="DefaultFacade" name="LocationRemote" factory="AYDefaultFacadeFactory" >
+        <command type="Remote" name="QueryUserLocation" />
+        
+    </facade>
+    
+    <facade type="DefaultFacade" name="ServiceRemote" factory="AYDefaultFacadeFactory" >
+        <command type="Remote" name="QueryUserService" />
+        
+    </facade>
+    
+    <facade type="DefaultFacade" name="PublishRemote" factory="AYDefaultFacadeFactory" >
+        <command type="Remote" name="PublishInfomation" />
+        <command type="Remote" name="QueryPublishedInfomation" />
+        <command type="Remote" name="DeletePublishedInfomation" />
+        <command type="Remote" name="ModifyPublishedInfomation" />
+        
+        
+    </facade>
+    
+    <facade type="DefaultFacade" name="ApplicationRemote" factory="AYDefaultFacadeFactory" >
+        <command type="Remote" name="AddApplication"   />
+        <command type="Remote" name="DeleteApplication"/>
+        <command type="Remote" name="UpdateApplication"/>
+        <command type="Remote" name="QueryApplication" />
+        
+    </facade>
+    
+    <facade type="DefaultFacade" name="BrandRemote" factory="AYDefaultFacadeFactory" >
+        
+        <command type="Remote" name="QueryBrandID"/>
+    
+    </facade>
+    
 </facades>

@@ -15,6 +15,7 @@
 #import "AYRemoteCallCommand.h"
 #import "AYRemoteCallDefines.h"
 #import "AYAlertView.h"
+#import <ShareSDK/ShareSDK.h>
 
 #import "RemoteInstance.h"
 
@@ -171,12 +172,14 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     }];
     [weChatLogin addTarget:self action:@selector(didWeChatLoginBtnClick) forControlEvents:UIControlEventTouchUpInside];
     
-    id<AYFacadeBase> f = [self.facades objectForKey:@"SNSWechat"];
-    id<AYCommand> cmd_login = [f.commands objectForKey:@"IsInstalledWechat"];
+    id<AYFacadeBase> f = [self.facades objectForKey:@"Share"];
+    id<AYCommand> cmd_login = [f.commands objectForKey:@"IsInstalledWeChat"];
     NSNumber *IsInstalledWechat = [NSNumber numberWithBool:NO];
     [cmd_login performWithResult:&IsInstalledWechat];
     isWXInstall = IsInstalledWechat.boolValue;
-    weChatLogin.hidden = !isWXInstall;
+    weChatLogin.hidden = NO;
+    
+    NSLog(@"%@",self.para);
     
 }
 
@@ -209,9 +212,12 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 }
 
 - (void)didWeChatLoginBtnClick{
-    id<AYFacadeBase> f = [self.facades objectForKey:@"SNSWechat"];
-    id<AYCommand> cmd_login = [f.commands objectForKey:@"LoginSNSWithWechat"];
+    
+    id<AYFacadeBase> f = [self.facades objectForKey:@"Share"];
+    id<AYCommand> cmd_login = [f.commands objectForKey:@"LoginWithWeChat"];
     [cmd_login performWithResult:nil];
+    
+    
 }
 
 #pragma mark -- status

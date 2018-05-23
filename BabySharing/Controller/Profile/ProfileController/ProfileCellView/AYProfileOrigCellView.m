@@ -38,8 +38,9 @@
             make.left.equalTo(self).offset(20);
         }];
         
-		[Tools addBtmLineWithMargin:20.f andAlignment:NSTextAlignmentCenter andColor:[Tools garyLineColor] inSuperView:self];
+		[Tools addBtmLineWithMargin:20.f andAlignment:NSTextAlignmentCenter andColor:[UIColor line] inSuperView:self];
 		
+        
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
         }

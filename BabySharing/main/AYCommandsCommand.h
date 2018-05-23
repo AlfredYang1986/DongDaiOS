@@ -29,6 +29,7 @@ static NSString* const kAYNavBarSetRightBtnImgMessage =         @"setRightBtnImg
 static NSString* const kAYNavBarSetRightBtnWithBtnMessage =     @"setRightBtnWithBtn:";
 static NSString* const kAYNavBarSetLeftBtnVisibilityMessage =   @"setLeftBtnVisibility:";
 static NSString* const kAYNavBarSetRightBtnVisibilityMessage =  @"setRightBtnVisibility:";
+static NSString* const kAYNavBarSetRightBtnEnableMessage =      @"setRightBtnEnable:";
 static NSString* const kAYNavBarSetBarBotLineMessage =          @"setBarBotLine";
 static NSString* const kAYNavBarHideBarBotLineMessage =			@"hideBarBotLine";
 

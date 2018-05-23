@@ -138,7 +138,10 @@
 			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 				
 //				kAYViewsSendMessage(kValidatingView, @"hideValidatingView", nil)
-				id<AYCommand> des = DEFAULTCONTROLLER(@"SetServiceType");
+//				id<AYCommand> des = DEFAULTCONTROLLER(@"SetServiceType");
+                
+                AYViewController *des = DEFAULTCONTROLLER(@"LocationChoose");
+                
 				NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
 				[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 				[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];

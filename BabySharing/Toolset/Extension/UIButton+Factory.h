@@ -15,4 +15,6 @@
  */
 + (UIButton*)creatBtnWithTitle:(NSString*)title titleColor:(UIColor*)titleColor fontSize:(CGFloat)font backgroundColor:(UIColor*)backgroundColor;
 
++ (UIButton*)creatBtnWithTitle:(NSString*)title titleColor:(UIColor*)titleColor font:(UIFont*)font backgroundColor:(UIColor*)backgroundColor;
+
 @end

@@ -65,9 +65,12 @@
         SEL selector = NSSelectorFromString([[view_name stringByAppendingString:kAYViewLayoutSuffix] stringByAppendingString:@":"]);
         id (*func)(id, SEL, id) = (id(*)(id, SEL, id))[self methodForSelector:selector];
         UIView* view = [self.views objectForKey:view_name];
+        
+        [self.view addSubview:view];
+        
         func(self, selector, view);
         ((id<AYViewBase>)view).controller = self;
-        [self.view addSubview:view];
+        
     }
     
     for (id<AYDelegateBase> delegate in self.delegates.allValues) {
