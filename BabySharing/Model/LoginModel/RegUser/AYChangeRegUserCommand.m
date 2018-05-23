@@ -30,11 +30,16 @@
     NSLog(@"query tmp user in local db: %@", *obj);
     
     NSDictionary* dic = (NSDictionary*)*obj;
+//    dispatch_async(dispatch_get_main_queue(), ^{
     
-    AYModelFacade* f = LOGINMODEL;
-    LoginToken *user = [LoginToken createTokenInContext:f.doc.managedObjectContext withUserID:[dic objectForKey:@"user_id"] andAttrs:dic];
-	
-    *obj = [RegCurrentToken changeCurrentRegLoginUser:user inContext:f.doc.managedObjectContext];
+        AYModelFacade* f = LOGINMODEL;
+        LoginToken *user = [LoginToken createTokenInContext:f.doc.managedObjectContext withUserID:[dic objectForKey:@"user_id"] andAttrs:dic];
+        
+        [RegCurrentToken changeCurrentRegLoginUser:user inContext:f.doc.managedObjectContext];
+        
+//        RegCurrentToken* tmp = [RegCurrentToken enumCurrentRegLoginUserInContext:f.doc.managedObjectContext];
+        [f.doc.managedObjectContext save:nil];
+//    });
 }
 
 - (NSString*)getCommandType {

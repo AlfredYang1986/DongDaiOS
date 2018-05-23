@@ -119,8 +119,8 @@ static NSString* const kWechatDescription = @"wechat";
             if (data) {
                 NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
                 
-                wechatopenid = [dic objectForKey:@"openid"];
-                wechattoken = [dic objectForKey:@"access_token"];
+                self->wechatopenid = [dic objectForKey:@"openid"];
+                self->wechattoken = [dic objectForKey:@"access_token"];
                 [self getWechatUserInfo];
             }
         });

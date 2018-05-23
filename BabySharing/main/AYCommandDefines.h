@@ -120,6 +120,12 @@ static NSString* const kAYFactoryManagerCommandTypePopFromBot = @"PopFromBot";
 #define CHECKFACADE(CMD)
 #endif
 
+#define CURRENTREGUSER(USER)        do { \
+                                        id<AYFacadeBase> f_login_model = LOGINMODEL; \
+                                        id<AYCommand> cmd = [f_login_model.commands objectForKey:@"QueryRegUser"]; \
+                                        [cmd performWithResult:&USER]; \
+                                    } while(0);
+
 #define CURRENUSER(USER)            do { \
                                         id<AYFacadeBase> f_login_model = LOGINMODEL; \
                                         id<AYCommand> cmd = [f_login_model.commands objectForKey:@"QueryCurrentLoginUser"]; \

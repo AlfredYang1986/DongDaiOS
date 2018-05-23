@@ -41,7 +41,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-   
+    
+    {
+        NSDictionary* args = [login_attr copy];
+        AYFacade* f = LOGINMODEL;
+        
+        id<AYCommand> cmd = [f.commands objectForKey:@"ChangeRegUser"];
+        [cmd performWithResult:&args];
+    }
+    
     NSString* screen_photo = [login_attr objectForKey:@"screen_photo"];
     if (screen_photo && ![screen_photo isEqualToString:@""]) {
         
@@ -219,15 +227,31 @@
 
 - (id)CurrentLoginUserChanged:(id)args {
     
-    NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
-    [dic_pop setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
-    [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
+//    NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
+//    [dic_pop setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
+//    [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
+//
+//    NSString* message_name = @"LoginSuccess";
+//    [dic_pop setValue:message_name forKey:kAYControllerChangeArgsKey];
+//
+//    id<AYCommand> cmd = POPTOROOT;
+//    [cmd performWithResult:&dic_pop];
     
-    NSString* message_name = @"LoginSuccess";
-    [dic_pop setValue:message_name forKey:kAYControllerChangeArgsKey];
+    NSLog(@"Notify args: %@", args);
     
-    id<AYCommand> cmd = POPTOROOT;
-    [cmd performWithResult:&dic_pop];
+    UIViewController* cv = [Tools activityViewController];
+    if (cv == self) {
+        NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
+        [dic_pop setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
+        [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
+        
+        NSString* message_name = @"LoginSuccess";
+        [dic_pop setValue:message_name forKey:kAYControllerChangeArgsKey];
+        
+        id<AYCommand> cmd = POPTOROOT;
+        [cmd performWithResult:&dic_pop];
+    }
+
     return nil;
 }
 

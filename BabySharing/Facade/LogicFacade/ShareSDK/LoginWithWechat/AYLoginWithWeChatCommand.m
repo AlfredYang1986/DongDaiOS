@@ -43,9 +43,9 @@
         
         if (state == SSDKResponseStateSuccess) {
             
-            wechatopenid = user.uid;
+            self->wechatopenid = user.uid;
             
-            wechattoken = user.credential.token;
+            self->wechattoken = user.credential.token;
             
             NSLog(@"uid=%@",user.uid);
             NSLog(@"%@",user.credential);
@@ -106,7 +106,7 @@
                  unionid = oyAaTjsxxxxxxQ42O3xxxxxxs;
                  }
                  */
-                [self loginSuccessWithWeChatAsUser:wechatopenid accessToken:self->wechattoken infoDic:dic];
+                [self loginSuccessWithWeChatAsUser:self->wechatopenid accessToken:self->wechattoken infoDic:dic];
                 
             }
         });
@@ -136,10 +136,15 @@
         NSLog(@"new user info %@", result);
         if (success) {
             
+            AYFacade* f = LOGINMODEL;
             NSMutableDictionary *reVal = [[NSMutableDictionary alloc] initWithDictionary:[result objectForKey:@"user"]];
             [reVal setValue:[result objectForKey:kAYCommArgsAuthToken] forKey:kAYCommArgsToken];
-            
-            id<AYFacadeBase> f = LOGINMODEL;
+//            {
+//                NSDictionary* args = [reVal copy];
+//
+//                id<AYCommand> cmd = [f.commands objectForKey:@"ChangeRegUser"];
+//                [cmd performWithResult:&args];
+//            }
             
             NSString* screen_photo = [reVal objectForKey:kAYProfileArgsScreenPhoto];
             if (!screen_photo || [screen_photo isEqualToString:@""]) {
@@ -170,32 +175,36 @@
                         
                         id<AYFacadeBase> profileRemote = DEFAULTFACADE(@"ProfileRemote");
                         AYRemoteCallCommand* cmd_profile = [profileRemote.commands objectForKey:@"UpdateUserDetail"];
-                        [cmd_profile performWithResult:[dic_update copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-                            if (success) {
-                                [reVal setValue:screen_photo forKey:kAYProfileArgsScreenPhoto];
-                                id tmp = [reVal copy];
-                                id<AYCommand> cmd = [f.commands objectForKey:@"ChangeRegUser"];
-                                [cmd performWithResult:&tmp];
-                                
-                                NSMutableDictionary* dic_result = [[NSMutableDictionary alloc]init];
-                                [dic_result setValue:@"wechat" forKey:@"provide_name"];
-                                [dic_result setValue:whchat_openID forKey:@"provide_user_id"];
-                                [dic_result setValue:accessToken forKey:@"provide_token"];
-                                [dic_result setValue:screen_name forKey:@"provide_screen_name"];
-                                [dic_result setValue:[reVal objectForKey:@"user_id"] forKey:kAYCommArgsUserID];    //user_id by connect
-                                
-                                id<AYCommand> cmd_provider = [f.commands objectForKey:@"ChangeSNSProviders"];
-                                [cmd_provider performWithResult:&dic_result];
-                                
-                                [reVal setValue:[NSNumber numberWithBool:NO] forKey:@"is_registered"];
-                                [self notifyLandingSNSLoginSuccessWithArgs:[reVal copy]];
-                                
-                            } else {
-                                
-                                AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
-                                
-                            }
-                        }];
+                        
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [cmd_profile performWithResult:[dic_update copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+                                if (success) {
+                                    
+                                    [reVal setValue:screen_photo forKey:kAYProfileArgsScreenPhoto];
+                                    id tmp = [reVal copy];
+                                    id<AYCommand> cmd = [f.commands objectForKey:@"ChangeRegUser"];
+                                    [cmd performWithResult:&tmp];
+                                    
+                                    NSMutableDictionary* dic_result = [[NSMutableDictionary alloc]init];
+                                    [dic_result setValue:@"wechat" forKey:@"provide_name"];
+                                    [dic_result setValue:whchat_openID forKey:@"provide_user_id"];
+                                    [dic_result setValue:accessToken forKey:@"provide_token"];
+                                    [dic_result setValue:screen_name forKey:@"provide_screen_name"];
+                                    [dic_result setValue:[reVal objectForKey:@"user_id"] forKey:kAYCommArgsUserID];    //user_id by connect
+                                    
+                                    id<AYCommand> cmd_provider = [f.commands objectForKey:@"ChangeSNSProviders"];
+                                    [cmd_provider performWithResult:&dic_result];
+                                    
+                                    [reVal setValue:[NSNumber numberWithBool:NO] forKey:@"is_registered"];
+                                    [self notifyLandingSNSLoginSuccessWithArgs:[reVal copy]];
+                                    
+                                    
+                                } else {
+                                    AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
+                                }
+                            }];
+                        });
+        
                     } else {
                         
                     }

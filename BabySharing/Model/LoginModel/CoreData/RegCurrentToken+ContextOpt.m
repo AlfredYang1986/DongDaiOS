@@ -38,7 +38,42 @@
         tmp.who = lgt;
         lgt.reglogined = tmp;
         tmp.status = [NSNumber numberWithInt:1]; // 1 => online
+        NSError* error;
+        [context save: &error];
+        
+        return tmp;
+    }
+}
+
++ (RegCurrentToken*)sync_changeCurrentRegLoginUser:(LoginToken*)lgt inContext:(NSManagedObjectContext*)context {
+    NSFetchRequest* request = [NSFetchRequest fetchRequestWithEntityName:@"RegCurrentToken"];
+    
+    NSError* error = nil;
+    NSArray* matches = [context executeFetchRequest:request error:&error];
+    
+    if (!matches || matches.count > 1) {
+        NSLog(@"should have one and only one current user");
+        return nil;
+    } else if (matches.count == 1) {
+        RegCurrentToken* tmp = [matches lastObject];
+        if ([tmp.who.user_id isEqualToString:lgt.user_id]) {
+            tmp.last_login_data = [NSDate date];
+            tmp.status = [NSNumber numberWithInt:1]; // 1 => online
+        } else {
+            tmp.who = lgt;
+            tmp.status = [NSNumber numberWithInt:1]; // 1 => online
+        }
         [context save:nil];
+        return tmp;
+    } else {
+        NSLog(@"nothing need to be delected");
+        RegCurrentToken* tmp = [NSEntityDescription insertNewObjectForEntityForName:@"RegCurrentToken" inManagedObjectContext:context];
+        tmp.last_login_data = [NSDate date];
+        tmp.who = lgt;
+        lgt.reglogined = tmp;
+        tmp.status = [NSNumber numberWithInt:1]; // 1 => online
+        NSError* error;
+        [context save: &error];
         
         return tmp;
     }
@@ -69,19 +104,22 @@
 
 #pragma mark -- enum current user
 + (RegCurrentToken*)enumCurrentRegLoginUserInContext:(NSManagedObjectContext*)context {
-    NSFetchRequest* request = [NSFetchRequest fetchRequestWithEntityName:@"RegCurrentToken"];
     
-    NSError* error = nil;
-    NSArray* matches = [context executeFetchRequest:request error:&error];
-    
-    if (!matches || matches.count > 1) {
-        NSLog(@"should have one and only one current user");
-        return nil;
-    } else if (matches.count == 1) {
-        return [matches lastObject];
-    } else {
-        NSLog(@"nothing need to be delected");
-        return nil;
+    @synchronized (self) {
+        NSFetchRequest* request = [NSFetchRequest fetchRequestWithEntityName:@"RegCurrentToken"];
+        
+        NSError* error = nil;
+        NSArray* matches = [context executeFetchRequest:request error:&error];
+        
+        if (!matches || matches.count > 1) {
+            NSLog(@"should have one and only one current user");
+            return nil;
+        } else if (matches.count == 1) {
+            return [matches lastObject];
+        } else {
+            NSLog(@"nothing need to be delected");
+            return nil;
+        }
     }
 }
 

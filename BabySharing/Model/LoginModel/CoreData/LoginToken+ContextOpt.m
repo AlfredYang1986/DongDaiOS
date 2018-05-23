@@ -181,10 +181,13 @@
 		return tmp;
 	}
     else if ( matches.count > 1) {
-		for (int i = 0; matches.count; ++i) {
+        
+		for (int i = 0; i < matches.count; ++i) {
+        
 			[context deleteObject:[matches objectAtIndex:i]];
 		}
 		[self createTokenInContext:context withUserID:user_id andAttrs:dic];
+        [context save:nil];
         return nil;
     }
 	else

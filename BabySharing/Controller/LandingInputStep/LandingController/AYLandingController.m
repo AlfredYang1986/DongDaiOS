@@ -16,6 +16,7 @@
 #import "AYRemoteCallDefines.h"
 #import "AYAlertView.h"
 #import <ShareSDK/ShareSDK.h>
+#import "RegCurrentToken+ContextOpt.h"
 
 #import "RemoteInstance.h"
 
@@ -292,11 +293,20 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     NSLog(@"SNS Login success with %@", args);
     self.landing_status = RemoteControllerStatusLoading;
     
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
-    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic setValue:[NSNumber numberWithInt:RegisterResultSuccess] forKey:kAYLandingControllerRegisterResultKey];
-    [dic setValue:args forKey:kAYControllerChangeArgsKey];
-    [self performWithResult:&dic];
+    {
+        AYFacade* f = LOGINMODEL;
+        id tmp = [args copy];
+        id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];
+        [cmd performWithResult:&tmp];
+//        [RegCurrentToken sync_changeCurrentRegLoginUser];
+//        Current sync_changeCurrentRegLoginUser
+    }
+
+//    NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
+//    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+//    [dic setValue:[NSNumber numberWithInt:RegisterResultSuccess] forKey:kAYLandingControllerRegisterResultKey];
+//    [dic setValue:args forKey:kAYControllerChangeArgsKey];
+//    [self performWithResult:&dic];
     
     return nil;
 }
@@ -318,7 +328,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     
     UIViewController* controller = [Tools activityViewController];
     if (controller == self) {
-        if ([[((NSDictionary*)args) objectForKey:@"user_id"] isEqualToString:[((NSDictionary*)obj) objectForKey:@"user_id"]]) {
+//        if ([[((NSDictionary*)args) objectForKey:@"user_id"] isEqualToString:[((NSDictionary*)obj) objectForKey:@"user_id"]]) {
             NSLog(@"finally login over success");
             
 //			AYViewController* des;
@@ -365,10 +375,10 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 			id<AYCommand> cmd_exchange = EXCHANGEWINDOWS;
 			[cmd_exchange performWithResult:&dic_show_module];
 			
-        } else {
-            NSLog(@"something wrong with login process");
-            @throw [[NSException alloc]initWithName:@"error" reason:@"something wrong with login process" userInfo:nil];
-        }
+//        } else {
+//            NSLog(@"something wrong with login process");
+//            @throw [[NSException alloc]initWithName:@"error" reason:@"something wrong with login process" userInfo:nil];
+//        }
     }
     
     return nil;
@@ -393,6 +403,10 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     [cmd performWithResult:&obj];
 	
     [self LoginEMSuccess:obj];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setValue:[NSNumber numberWithInt:DongDaAppModeCommon] forKey:@"dongda_app_mode"];
+    [defaults synchronize];
     
 //    AYFacade* xmpp = [self.facades objectForKey:@"EM"];
 //    id<AYCommand> cmd_login_xmpp = [xmpp.commands objectForKey:@"LoginEM"];

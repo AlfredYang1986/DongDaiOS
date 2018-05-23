@@ -15,4 +15,5 @@
 + (RegCurrentToken*)enumCurrentRegLoginUserInContext:(NSManagedObjectContext*)context;
 + (BOOL)deleteCurrentRegUserInContext:(NSManagedObjectContext*)context;
 + (void)updateCurrentRegUserProfileWithAttr:(NSDictionary*)attr inContext:(NSManagedObjectContext*)context;
++ (RegCurrentToken*)sync_changeCurrentRegLoginUser:(LoginToken*)lgt inContext:(NSManagedObjectContext*)context;
 @end

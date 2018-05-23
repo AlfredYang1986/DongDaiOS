@@ -16,6 +16,7 @@
 }
 
 @synthesize para = _para;
+@synthesize client = _client;
 
 #pragma mark -- commands
 - (NSString*)getCommandType {
@@ -32,12 +33,21 @@
 
 - (OSSClient*)client {
 	
-	dispatch_sync(dispatch_get_global_queue(0, 0), ^{
+    dispatch_sync(dispatch_get_global_queue(0, 0), ^{
+//    dispatch_sync(dispatch_get_main_queue(), ^{
+
 		
 		__block BOOL isWaiting = YES;
-		if (!_client) {
+//        __typeof__(self) __weak wself = self;
+		if (!self->_client) {
 			NSDictionary *user;
 			CURRENUSER(user);
+            
+            if ([user count] == 0) {
+//                sleep(10);
+                CURRENTREGUSER(user);
+            }
+            
 			NSDictionary *oss_dic = @{kAYCommArgsToken:[user objectForKey:kAYCommArgsToken]};
 			id<AYFacadeBase> oss_f = DEFAULTFACADE(@"OSSSTSRemote");
 			AYRemoteCallCommand* oss_cmd = [oss_f.commands objectForKey:@"OSSSTSQuery"];
@@ -45,12 +55,14 @@
 				if (success) {
 					NSDictionary *OssConnectInfo = [result objectForKey:@"OssConnectInfo"];
 					
-					stsID = [OssConnectInfo objectForKey:@"accessKeyId"];
-					stsSecretKey = [OssConnectInfo objectForKey:@"accessKeySecret"];
-					stsToken = [OssConnectInfo objectForKey:@"SecurityToken"];
+					self->stsID = [OssConnectInfo objectForKey:@"accessKeyId"];
+					self->stsSecretKey = [OssConnectInfo objectForKey:@"accessKeySecret"];
+					self->stsToken = [OssConnectInfo objectForKey:@"SecurityToken"];
 					
-					id<OSSCredentialProvider> credential = [[OSSStsTokenCredentialProvider alloc] initWithAccessKeyId:stsID secretKeyId:stsSecretKey securityToken:stsToken];
-					_client = [[OSSClient alloc] initWithEndpoint:AYOSSEndPoint credentialProvider:credential];
+					id<OSSCredentialProvider> credential = [[OSSStsTokenCredentialProvider alloc] initWithAccessKeyId:self->stsID
+                                                                                                          secretKeyId:self->stsSecretKey
+                                                                                                        securityToken:self->stsToken];
+					self->_client = [[OSSClient alloc] initWithEndpoint:AYOSSEndPoint credentialProvider:credential];
 					
 					NSUserDefaults *defUser = [NSUserDefaults standardUserDefaults];
 					[defUser setValue:[NSNumber numberWithDouble:([NSDate date].timeIntervalSince1970)] forKey:kAYDongDaOSSSTSTokenAuth];
@@ -73,12 +85,14 @@
 					if (success) {
 						NSDictionary *OssConnectInfo = [result objectForKey:@"OssConnectInfo"];
 						
-						stsID = [OssConnectInfo objectForKey:@"accessKeyId"];
-						stsSecretKey = [OssConnectInfo objectForKey:@"accessKeySecret"];
-						stsToken = [OssConnectInfo objectForKey:@"SecurityToken"];
+						self->stsID = [OssConnectInfo objectForKey:@"accessKeyId"];
+						self->stsSecretKey = [OssConnectInfo objectForKey:@"accessKeySecret"];
+						self->stsToken = [OssConnectInfo objectForKey:@"SecurityToken"];
 						
-						id<OSSCredentialProvider> credential = [[OSSStsTokenCredentialProvider alloc] initWithAccessKeyId:stsID secretKeyId:stsSecretKey securityToken:stsToken];
-						_client = [[OSSClient alloc] initWithEndpoint:AYOSSEndPoint credentialProvider:credential];
+						id<OSSCredentialProvider> credential = [[OSSStsTokenCredentialProvider alloc] initWithAccessKeyId:self->stsID
+                                                                                                              secretKeyId:self->stsSecretKey
+                                                                                                            securityToken:self->stsToken];
+						self->_client = [[OSSClient alloc] initWithEndpoint:AYOSSEndPoint credentialProvider:credential];
 						
 						NSUserDefaults *defUser = [NSUserDefaults standardUserDefaults];
 						[defUser setValue:[NSNumber numberWithDouble:([NSDate date].timeIntervalSince1970)] forKey:kAYDongDaOSSSTSTokenAuth];
@@ -100,7 +114,7 @@
 //		dispatch_sync(dispatch_get_global_queue(0, 0), ^{
 //
 //		});
-	});
+    });
 	
 	return _client;
 }
@@ -123,12 +137,14 @@
 				if (success) {
 					NSDictionary *OssConnectInfo = [result objectForKey:@"OssConnectInfo"];
 					
-					stsID = [OssConnectInfo objectForKey:@"accessKeyId"];
-					stsSecretKey = [OssConnectInfo objectForKey:@"accessKeySecret"];
-					stsToken = [OssConnectInfo objectForKey:@"SecurityToken"];
+					self->stsID = [OssConnectInfo objectForKey:@"accessKeyId"];
+					self->stsSecretKey = [OssConnectInfo objectForKey:@"accessKeySecret"];
+					self->stsToken = [OssConnectInfo objectForKey:@"SecurityToken"];
 					
-					id<OSSCredentialProvider> credential = [[OSSStsTokenCredentialProvider alloc] initWithAccessKeyId:stsID secretKeyId:stsSecretKey securityToken:stsToken];
-					_client = [[OSSClient alloc] initWithEndpoint:AYOSSEndPoint credentialProvider:credential];
+					id<OSSCredentialProvider> credential = [[OSSStsTokenCredentialProvider alloc] initWithAccessKeyId:self->stsID
+                                                                                                          secretKeyId:self->stsSecretKey
+                                                                                                        securityToken:self->stsToken];
+					self->_client = [[OSSClient alloc] initWithEndpoint:AYOSSEndPoint credentialProvider:credential];
 					
 					NSUserDefaults *defUser = [NSUserDefaults standardUserDefaults];
 					[defUser setValue:[NSNumber numberWithDouble:([NSDate date].timeIntervalSince1970)] forKey:kAYDongDaOSSSTSTokenAuth];
@@ -157,12 +173,12 @@
 					NSLog(@"michauxs:%@", result);
 					if (success) {
 						
-						stsID = [result objectForKey:@"accessKeyId"];
-						stsSecretKey = [result objectForKey:@"accessKeySecret"];
-						stsToken = [result objectForKey:@"SecurityToken"];
+						self->stsID = [result objectForKey:@"accessKeyId"];
+						self->stsSecretKey = [result objectForKey:@"accessKeySecret"];
+						self->stsToken = [result objectForKey:@"SecurityToken"];
 						
-						id<OSSCredentialProvider> credential = [[OSSStsTokenCredentialProvider alloc] initWithAccessKeyId:stsID secretKeyId:stsSecretKey securityToken:stsToken];
-						_client = [[OSSClient alloc] initWithEndpoint:AYOSSEndPoint credentialProvider:credential];
+						id<OSSCredentialProvider> credential = [[OSSStsTokenCredentialProvider alloc] initWithAccessKeyId:self->stsID secretKeyId:stsSecretKey securityToken:stsToken];
+						self->_client = [[OSSClient alloc] initWithEndpoint:AYOSSEndPoint credentialProvider:credential];
 						
 						NSUserDefaults *defUser = [NSUserDefaults standardUserDefaults];
 						[defUser setValue:[NSNumber numberWithDouble:([NSDate date].timeIntervalSince1970)] forKey:kAYDongDaOSSSTSTokenAuth];
@@ -202,12 +218,12 @@
 			[oss_cmd performWithResult:[oss_dic copy] andFinishBlack:^(BOOL success, NSDictionary* result) {
 				NSLog(@"michauxs:%@", result);
 				
-				stsID = [result objectForKey:@"accessKeyId"];
-				stsSecretKey = [result objectForKey:@"accessKeySecret"];
-				stsToken = [result objectForKey:@"SecurityToken"];
+				self->stsID = [result objectForKey:@"accessKeyId"];
+				self->stsSecretKey = [result objectForKey:@"accessKeySecret"];
+				self->stsToken = [result objectForKey:@"SecurityToken"];
 				
-				id<OSSCredentialProvider> credential = [[OSSStsTokenCredentialProvider alloc] initWithAccessKeyId:stsID secretKeyId:stsSecretKey securityToken:stsToken];
-				_client = [[OSSClient alloc] initWithEndpoint:AYOSSEndPoint credentialProvider:credential];
+				id<OSSCredentialProvider> credential = [[OSSStsTokenCredentialProvider alloc] initWithAccessKeyId:self->stsID secretKeyId:stsSecretKey securityToken:stsToken];
+				self->_client = [[OSSClient alloc] initWithEndpoint:AYOSSEndPoint credentialProvider:credential];
 				
 				NSUserDefaults *defUser = [NSUserDefaults standardUserDefaults];
 				[defUser setValue:[NSNumber numberWithDouble:([NSDate date].timeIntervalSince1970)] forKey:kAYDongDaOSSSTSTokenAuth];
