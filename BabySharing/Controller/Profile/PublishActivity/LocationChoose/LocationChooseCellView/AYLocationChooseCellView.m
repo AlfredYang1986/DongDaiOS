@@ -120,12 +120,18 @@
 - (void)setCellInfo:(id)args {
     
     NSString *address = [[args objectForKey:@"location"] objectForKey:@"address"];
-    
-    NSRange range = [address rangeOfString:@"路"];
-    
-    [location setText:[address substringToIndex:range.location + 1]];
-    [detail setText:[address substringFromIndex:range.location + 1]];
-    
+   
+    @try {
+        
+        NSRange range = [address rangeOfString:@"路"];
+        
+        [location setText:[address substringToIndex:range.location + 1]];
+        [detail setText:[address substringFromIndex:range.location + 1]];
+
+    } @catch(NSException* ex) {
+        [location setText:address];
+        [detail setText:@""];
+    }
 }
 
 - (void)awakeFromNib {

@@ -98,11 +98,16 @@
     NSDictionary *dic = [args objectForKey:@"service_data"];
     
     NSString *address = [args objectForKey:@"address"];
-    
-    NSRange range = [address rangeOfString:@"路"];
-    
-    address = [address substringToIndex:range.location + 1];
-    
+   
+    @try {
+        
+        NSRange range = [address rangeOfString:@"路"];
+        
+        address = [address substringToIndex:range.location + 1];
+    } @catch(NSException * ex) {
+        // do nothing ...
+    }
+
     [location setText:address];
     
     NSString *service_img = [dic objectForKey:kAYServiceArgsImage];

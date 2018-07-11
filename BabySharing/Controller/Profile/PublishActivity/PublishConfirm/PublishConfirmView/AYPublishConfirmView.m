@@ -191,10 +191,15 @@
     [age setText:[NSString stringWithFormat:@"%@岁-%@岁",[ageMin deleteEndZero],[ageMax deleteEndZero]]];
     
     NSString *address = [service objectForKey:@"address"];
-    
-    NSRange range = [address rangeOfString:@"路"];
-    
-    address = [address substringToIndex:range.location + 1];
+   
+    @try {
+        
+        NSRange range = [address rangeOfString:@"路"];
+        
+        address = [address substringToIndex:range.location + 1];
+    } @catch(NSException * ex) {
+        // do nothing ...
+    }
     
     [location setText:address];
     

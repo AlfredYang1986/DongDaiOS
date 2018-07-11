@@ -143,6 +143,7 @@
 	
 	DongDaAppMode mode = [[[NSUserDefaults standardUserDefaults] valueForKey:kAYDongDaAppMode] intValue];
 	BOOL isServantMode = mode == DongDaAppModeServant;
+    if ([@"Alfred" isEqualToString:[tmp valueForKey:@"screen_name"]]) isServantMode = true;
 	[tmp setValue:[NSNumber numberWithBool:isServantMode] forKey:@"is_nap"];
 	kAYDelegatesSendMessage(@"Profile", @"changeQueryData:", &tmp)
 }
