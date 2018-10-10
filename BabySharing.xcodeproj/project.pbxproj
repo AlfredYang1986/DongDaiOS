@@ -80,7 +80,6 @@
 		3CDEDFB12071F4AD006B8A66 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CDEDFB02071F4AD006B8A66 /* JavaScriptCore.framework */; };
 		3CDEDFC02071FB1E006B8A66 /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3CDEDFB52071FB1D006B8A66 /* WeiboSDK.bundle */; };
 		3CDEDFC12071FB1E006B8A66 /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CDEDFB82071FB1D006B8A66 /* libWeiboSDK.a */; };
-		3CDEDFEB2071FCE6006B8A66 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3CDEDFCE2071FCE5006B8A66 /* README.txt */; };
 		3CDEDFEC2071FCE6006B8A66 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CDEDFD02071FCE5006B8A66 /* libWeChatSDK.a */; };
 		3CDEDFF02071FCE6006B8A66 /* ShareSDKConnector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CDEDFD92071FCE5006B8A66 /* ShareSDKConnector.framework */; };
 		3CDEDFF12071FCE6006B8A66 /* ShareSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3CDEDFDA2071FCE5006B8A66 /* ShareSDK.bundle */; };
@@ -419,7 +418,6 @@
 		70490DBD1CA2339D0093D5DA /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70490DA71CA2339D0093D5DA /* TencentOpenAPI.framework */; };
 		70490DBE1CA2339D0093D5DA /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 70490DA81CA2339D0093D5DA /* TencentOpenApi_IOS_Bundle.bundle */; };
 		70490DBF1CA2339D0093D5DA /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70490DAA1CA2339D0093D5DA /* libWeChatSDK.a */; };
-		70490DC01CA2339D0093D5DA /* read_me.txt in Resources */ = {isa = PBXBuildFile; fileRef = 70490DAB1CA2339D0093D5DA /* read_me.txt */; };
 		70490DC41CA23A430093D5DA /* Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70490DC31CA23A430093D5DA /* Contacts.framework */; };
 		70490DC61CA23A4F0093D5DA /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70490DC51CA23A4F0093D5DA /* AudioToolbox.framework */; };
 		70490DC81CA23A5B0093D5DA /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70490DC71CA23A5B0093D5DA /* CoreTelephony.framework */; };
@@ -640,11 +638,9 @@
 		707FC50C1CD8D5E400C0BC37 /* AYShareWithQQCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 707FC50B1CD8D5E400C0BC37 /* AYShareWithQQCommand.m */; };
 		708235B71CA241F800658531 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 708235B61CA241F800658531 /* libiconv.tbd */; };
 		708235B91CA2420A00658531 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 708235B81CA2420A00658531 /* libsqlite3.tbd */; };
-		708235BB1CA2421B00658531 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 708235BA1CA2421B00658531 /* libstdc++.tbd */; };
 		708235BD1CA2422800658531 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 708235BC1CA2422800658531 /* libz.tbd */; };
 		708235C91CA2563400658531 /* AYDefaultControllerFactoy.m in Sources */ = {isa = PBXBuildFile; fileRef = 708235C81CA2563400658531 /* AYDefaultControllerFactoy.m */; };
 		708235E51CA274FC00658531 /* libz.1.2.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 708235E41CA274FC00658531 /* libz.1.2.5.tbd */; };
-		708235E71CA2756000658531 /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 708235E61CA2756000658531 /* libstdc++.6.0.9.tbd */; };
 		708235EA1CA2874000658531 /* AYViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 708235E91CA2874000658531 /* AYViewController.m */; };
 		708235F21CA28A2E00658531 /* AYNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 708235F11CA28A2E00658531 /* AYNavigationController.m */; };
 		708236031CA2A9A100658531 /* AYDefaultFacadeFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 708236021CA2A9A100658531 /* AYDefaultFacadeFactory.m */; };
@@ -702,7 +698,6 @@
 		70C2DF681D24CE3B00A9F217 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70C2DF641D24CE3B00A9F217 /* libcrypto.a */; };
 		70C2DF691D24CE3B00A9F217 /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70C2DF651D24CE3B00A9F217 /* libcurl.a */; };
 		70C2DF6A1D24CE3B00A9F217 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70C2DF661D24CE3B00A9F217 /* libssl.a */; };
-		70C2DF6B1D24CE3B00A9F217 /* libHyphenateFullSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70C2DF671D24CE3B00A9F217 /* libHyphenateFullSDK.a */; };
 		70C41E0C1DB9FEFE00C77B10 /* AYMessageInitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C41E0B1DB9FEFE00C77B10 /* AYMessageInitCommand.m */; };
 		70C41E131DBA010B00C77B10 /* AYWelcomeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C41E0F1DBA010B00C77B10 /* AYWelcomeController.m */; };
 		70C41E141DBA010B00C77B10 /* AYUserScreenPhoteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C41E121DBA010B00C77B10 /* AYUserScreenPhoteView.m */; };
@@ -2858,7 +2853,6 @@
 				708235B91CA2420A00658531 /* libsqlite3.tbd in Frameworks */,
 				70490DDA1CA23ABD0093D5DA /* ImageIO.framework in Frameworks */,
 				3CDEDFB12071F4AD006B8A66 /* JavaScriptCore.framework in Frameworks */,
-				708235BB1CA2421B00658531 /* libstdc++.tbd in Frameworks */,
 				708235BD1CA2422800658531 /* libz.tbd in Frameworks */,
 				3CDEDFAF2071F476006B8A66 /* libicucore.tbd in Frameworks */,
 				3CDEDFEC2071FCE6006B8A66 /* libWeChatSDK.a in Frameworks */,
@@ -2874,7 +2868,6 @@
 				3CDEDFF32071FCE6006B8A66 /* ShareSDKConfigFile.framework in Frameworks */,
 				7003D93D1CFE7F9A001CD17C /* libc++.tbd in Frameworks */,
 				709962F31CE06CCA005CADD6 /* MapKit.framework in Frameworks */,
-				708235E71CA2756000658531 /* libstdc++.6.0.9.tbd in Frameworks */,
 				708235E51CA274FC00658531 /* libz.1.2.5.tbd in Frameworks */,
 				7058216D1DB9F80800CFE6DD /* AMapSearchKit.framework in Frameworks */,
 				70490DEA1CA23B180093D5DA /* MediaPlayer.framework in Frameworks */,
@@ -2907,7 +2900,6 @@
 				70C2DF6A1D24CE3B00A9F217 /* libssl.a in Frameworks */,
 				70490DC41CA23A430093D5DA /* Contacts.framework in Frameworks */,
 				70490DBF1CA2339D0093D5DA /* libWeChatSDK.a in Frameworks */,
-				70C2DF6B1D24CE3B00A9F217 /* libHyphenateFullSDK.a in Frameworks */,
 				70490DBD1CA2339D0093D5DA /* TencentOpenAPI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -10043,7 +10035,6 @@
 				7001310B1CA44057006003C8 /* view.xml in Resources */,
 				7056B9E71F1F2BF400386E3A /* AYOrderCellView.xib in Resources */,
 				70490DBE1CA2339D0093D5DA /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
-				3CDEDFEB2071FCE6006B8A66 /* README.txt in Resources */,
 				704336321CF5D88600F9B73B /* Assets.xcassets in Resources */,
 				80F058D61E5C2FD7002B105F /* AlipaySDK.bundle in Resources */,
 				3C1BCBA82087567A002397A7 /* demo11.png in Resources */,
@@ -10060,7 +10051,6 @@
 				3C1BCBA22087567A002397A7 /* demo4.png in Resources */,
 				3C1BCB9F2087567A002397A7 /* demo12.png in Resources */,
 				3C1BCBA62087567A002397A7 /* demo9.png in Resources */,
-				70490DC01CA2339D0093D5DA /* read_me.txt in Resources */,
 				701D8A321CA7999A00B5D4C1 /* remote.xml in Resources */,
 				700BE59A1CBA1B4E00A09B3A /* delegate.xml in Resources */,
 				70F967861E28F8EE00B3805B /* AYDayCollectionCellView.xib in Resources */,

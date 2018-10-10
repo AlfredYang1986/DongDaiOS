@@ -19,8 +19,8 @@
 #import "WeiboSDK.h"
 #import <AlipaySDK/AlipaySDK.h>
 
-#import "EMSDK.h"
-#import "EMError.h"
+//#import "EMSDK.h"
+//#import "EMError.h"
 
 #import "RemoteInstance.h"
 #import "AYViewController.h"
@@ -40,13 +40,13 @@ static NSString* const kAYEMAppKey = @"blackmirror#dongda";
     NSLog(@"项目路径 ======= %@", [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject]);
 //    [NSThread sleepForTimeInterval:2.f];
 	
-    EMOptions *options = [EMOptions optionsWithAppkey:kAYEMAppKey];
+//    EMOptions *options = [EMOptions optionsWithAppkey:kAYEMAppKey];
     //    options.apnsCertName = @"istore_dev";
-    EMError* error = [[EMClient sharedClient] initializeSDKWithOptions:options];
-    if (error) {
-        NSLog(@"error is : %d", error.code);
-        @throw [[NSException alloc]initWithName:@"error" reason:@"register EM Error" userInfo:nil];
-    }
+//    EMError* error = [[EMClient sharedClient] initializeSDKWithOptions:options];
+//    if (error) {
+//        NSLog(@"error is : %d", error.code);
+//        @throw [[NSException alloc]initWithName:@"error" reason:@"register EM Error" userInfo:nil];
+//    }
 	
 	id<AYCommand> model = MODEL;
 	[model postPerform];
